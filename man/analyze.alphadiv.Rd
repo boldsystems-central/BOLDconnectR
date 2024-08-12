@@ -28,11 +28,11 @@ analyze.alphadiv(
 }
 \value{
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
-richness = A richness profile
-output$Shannon_div = shannon_div
-output$richness_plot =
-output$preston.res = preston.res
-output$preston.plot = preston.plot
+richness = A richness profile matrix
+output$Shannon_div = shannon diversity values for the given sites/grids
+output$richness_plot = A ggplot2 visualization
+output$preston.res = a preston plot numerical data output
+output$preston.plot = a ggplot2 visualization of the preston.plot
 }
 \description{
 Function analyzes the output from the \code{gen.comm.mat} to provide a richness and alpha diversity profile of the downloaded data
