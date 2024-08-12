@@ -23,6 +23,8 @@ analyze.betadiv(
 
 \item{heatmap}{A logical value specifying whether a heatmap of the beta diversity values should be plotted.Default is FALSE.}
 
+\item{component}{A character value specifying which beta diversity component should be used for the heatmap. Default is NULL.}
+
 \item{grids}{A logical value specifying Whether the community matrix is generated using grids. Default is FALSE.}
 
 \item{grids.df}{If grids = TRUE, a 'sf' grid data frame generated along with the community matrix using the\code{gen.comm.mat} function.Default is NULL}
