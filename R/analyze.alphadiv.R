@@ -1,0 +1,225 @@
+#' Create a alpha diversity profile of the retrieved data
+#'
+#' @description
+#' Function analyzes the output from the `gen.comm.mat` to provide a richness and alpha diversity profile of the downloaded data
+#'
+#' @param bin.comm the site X species like output from the `gen.comm.mat` function.Default is FALSE
+#' @param plot.curve A logical value specifying whether a accummulation curve should be plotted
+#' @param curve.index A character value specifying which index should be used for the `curve.index` argument. Default is NULL.
+#' @param curve.xval A character value specifying whether sample or individuals should be used against the `curve.index`.Default is NULL
+#' @param preston.res A logical value specifying if preston results should be generated. Default is FALSE.
+#' @param pres.plot.y.label A character value specifying the taxonomic category which was used  to generate the matrix using the `gen.comm.mat` function
+#'
+
+#' @details analyze.alphadiv generates a alpha diversity profile along with richness estimations from the `gen.comm.mat` output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat`function. The function also offers Shannon diversity values and Preston plots and the associated numerical results. Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences). A richness profile is created using the 'alpha.accum' function from the BAT package while the preston and shannon diversity results are obtained using the 'prestondistr' and 'diversity' functions from vegan. Preston plots are created using the data from the 'prestondistr' results in 'ggplot2'
+#'
+#' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
+#'  richness = A richness profile
+#'  output$Shannon_div = shannon_div
+#'  output$richness_plot =
+#'  output$preston.res = preston.res
+#'  output$preston.plot = preston.plot
+#'
+#' @importFrom BAT alpha.accum
+#' @importFrom vegan diversity
+#' @importFrom vegan prestondistr
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggplot2 sym
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom ggplot2 element_blank
+#' @importFrom stats fitted
+#'
+#' @export
+#'
+#'
+#'
+
+analyze.alphadiv <- function(bin.comm,
+                            plot.curve=FALSE,
+                            curve.index=NULL,
+                            curve.xval=NULL,
+                            preston.res=FALSE,
+                            pres.plot.y.label=NULL)
+
+{
+
+  # Check if data is a data frame object
+
+  if(is.data.frame(bin.comm)==FALSE)
+
+  {
+
+    stop("Input is not a data frame")
+
+    return(FALSE)
+
+  }
+
+
+  # Check whether the data frame is empty
+
+  if(nrow(bin.comm)==0)
+
+  {
+
+    stop("Dataframe is empty")
+
+    return(FALSE)
+
+  }
+
+
+  # Empty output list
+
+  output = list()
+
+
+  # species richness estimation
+
+  richness=alpha.accum(bin.comm,
+                        runs=100)%>%
+    data.frame(.)%>%
+    dplyr::mutate(across(where(is.numeric), ~ round(., 2)))
+
+  output$richness = richness
+
+
+  warning("Shannon values are based on the assumption that the BIN community data have counts (or abundances)")
+
+  # Shannon diversity
+
+
+  shannon_div=vegan::diversity(bin.comm)%>%
+    data.frame(.)%>%
+    dplyr::rename("Shannon_values"=".")
+
+  output$Shannon_div = shannon_div
+
+  # Estimation curves
+
+  if(plot.curve)
+
+  {
+
+    if(is.null(curve.index)|is.null(curve.xval))
+
+    {
+
+      stop("If plot.curve=TRUE, curve.index and curve.xval must be specified")
+
+    }
+
+    else
+
+      {
+
+        x_data = ggplot2::sym(curve.xval)
+
+
+        y_data = ggplot2::sym(curve.index)
+
+
+        richness = richness
+
+
+        richness_plot=richness%>%
+        dplyr::select(!!x_data,
+                    !!y_data)%>%
+        ggplot(aes(x=!!x_data,
+                 y=!!y_data)) +
+        geom_line(linewidth=1.5)+
+        theme_classic(base_size = 16) +
+        theme(panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank())
+
+
+        output$richness_plot = richness_plot
+
+      }
+
+  }
+
+
+  # Preston plots
+
+
+  if(preston.res)
+
+  {
+
+    tryCatch({
+
+      preston.res = vegan::prestondistr(bin.comm)
+
+      pres_res=data.frame(observed=as.matrix(preston.res$freq),
+                          fitted=round(preston.res$fitted,2))
+
+      pres_res$rownum = rownames(pres_res)
+
+      pres_res=pres_res%>%
+        dplyr::mutate(rownum=as.numeric(rownum))%>%
+        dplyr::mutate(Octaves=as.factor(2^rownum))
+
+
+      preston.plot=pres_res%>%
+        ggplot(aes(x=Octaves,
+                   y=observed))+
+        geom_bar(stat = "identity",
+                 position = 'dodge',
+                 fill="darkcyan",
+                 col="black",
+                 width = 1) +
+        geom_point(data = pres_res,
+                   aes(x = Octaves,
+                       y = fitted,
+                       group=1),
+                   pch=21,
+                   color = "black",
+                   fill="orangered",
+                   size=4) +
+        geom_line(data = pres_res,
+                  aes(x = Octaves,
+                      y = fitted,group=1),
+                  color = "black",
+                  lty=2,
+                  linewidth=1) +
+        theme_bw(base_size = 16) +
+        theme(panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank())+
+        ylab("Species")+
+        xlab("Frequency") +
+        scale_y_continuous(limits = c(0,max(pres_res$observed)+1),
+                           expand = c(0,0),
+                           breaks=seq(0,max(pres_res$observed),5)) +
+        ylab(pres.plot.y.label)+
+        ggtitle("Preston plot")
+
+
+      output$preston.plot = preston.plot
+
+      output$preston.res = preston.res
+
+
+    },
+
+    error = function (e)
+
+    {
+
+      message("The following error is for the preston results due to an issue with the input data. Values need to be abundances: ",e$message)
+
+
+
+    }
+    )
+
+
+
+  }
+
+  invisible(output)
+
+
+}
