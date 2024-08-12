@@ -1,0 +1,25 @@
+Package: BOLDconnectR
+Type: Package
+Title: Data retrieval, transformation and analysis of the Barcode of Life Data Systems data
+Version: 0.1.0
+Author: Sameer M. Padhye, Claudia-Liliana Ballesteros Mejia, Sujeevan Ratnasingham 
+Maintainer: Sameer M. Padhye <spadhye@uoguelph.ca>
+Description: 'BOLDconnectR' is a package designed for the for data retrieval, transformation and analysis of the data available on the Barcode of Life Data Systems (BOLD) database. 
+    Both publicly available as well as private user data can be retrieved with the connectr functions.
+    Data transformation functions provide objects and/or files commonly used in phylogenetic and biodiversity analyses to the users.    
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 3.2.0)
+Imports: 
+    data.table,
+    dplyr,
+    httr,
+    jsonlite,
+    methods,
+    sf,
+    tidyr,
+    utils
+RoxygenNote: 7.3.1
+Roxygen: list(markdown = TRUE)
