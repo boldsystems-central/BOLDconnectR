@@ -3,7 +3,7 @@
 #'@description
 #'The function is used to obtain a detailed summary of the data obtained by `bold.fetch.data`
 #'
-#' @param bold.df the data.frame retrieved from the bold.fetch.data function
+#' @param bold.df the data.frame retrieved from the connectr functions
 #' @param cols Logical value indicating whether the names of (all) the columns currently available in the database be printed in the console
 #' @details
 #' ‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the 'skim' function from 'skimr' to generate a list of data frames, one for every data type available. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.

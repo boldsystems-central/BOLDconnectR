@@ -7,7 +7,7 @@
 data.summary(bold.df, cols = NULL)
 }
 \arguments{
-\item{bold.df}{the data.frame retrieved from the bold.fetch.data function}
+\item{bold.df}{the data.frame retrieved from the connectr functions}
 
 \item{cols}{Logical value indicating whether the names of (all) the columns currently available in the database be printed in the console}
 }
