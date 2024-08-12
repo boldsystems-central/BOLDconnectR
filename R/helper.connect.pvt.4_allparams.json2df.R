@@ -18,12 +18,12 @@ fetch.data<-function(result)
 
   #1. Obtain the JSON strings object from the POST result
 
-  suppressWarnings(suppressMessages(json_content<-content(result,"text")))
+  suppressWarnings(suppressMessages(json_content<-httr::content(result,"text")))
 
   #2. Convert JSON strings to a list
 
   suppressWarnings(json_data <- lapply(strsplit(json_content, "\n")[[1]], # split the content (here each processid)
-                                       function(x) fromJSON(x))) # convert to JSON string and lapply converts that into a list
+                                       function(x) jsonlite::fromJSON(x))) # convert to JSON string and lapply converts that into a list
 
 
   # #3. Using the helper function 'bold.multirecords.set.csv' on the edited json data to convert multirecord fields into a single comma separated character
@@ -33,7 +33,7 @@ fetch.data<-function(result)
 
   #4. Convert the cleaned list to data.frame. Records have differences in the information that is available and filled for the different fields. This would result in rows having varying number of elements. To ensure a consistency, 'fill' argument has a default TRUE value here so that all such empty cells will be converted to NA's
 
-  suppressWarnings(json.df<-rbindlist(edited.json.w.multi.entries,
+  suppressWarnings(json.df<-data.table::rbindlist(edited.json.w.multi.entries,
                                       fill=TRUE)%>%
                      data.frame())
 

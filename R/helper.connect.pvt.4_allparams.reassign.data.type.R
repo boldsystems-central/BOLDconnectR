@@ -2,10 +2,13 @@
 #' @param x Data frame
 
 
-reassign.data.type<-function (x) {
+reassign.data.type<-function (x)
+
+  {
 
   bold_field_data = bold.fields.info(print.output = F)%>%
-    dplyr::select(field,R_field_types)
+    dplyr::select(field,
+                  R_field_types)
 
   # Selecting out (by column index) the necessary fields of each type of data
 

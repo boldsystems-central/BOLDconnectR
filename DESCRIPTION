@@ -13,11 +13,16 @@ LazyData: true
 Depends: 
     R (>= 3.2.0)
 Imports: 
+    ape,
+    Biostrings,
     data.table,
     dplyr,
     httr,
     jsonlite,
+    methods,
+    msa,
     sf,
+    skimr,
     tidyr,
     utils
 RoxygenNote: 7.3.1
