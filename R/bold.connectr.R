@@ -57,6 +57,11 @@
 #' @importFrom dplyr rowwise
 #' @importFrom sf st_crs
 #' @importFrom sf st_intersection
+#' @importFrom utils write.table
+#' @importFrom httr content
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr http_error
+#' @importFrom httr http_status
 #'
 #' @export
 #'
@@ -280,27 +285,27 @@ bold.connectr<-function(input.data,
 
   # For filtering the data, a vector is created of any/all filters for the internal filter function
 
-  filter_list<-c(taxon.name=taxonomy,
-                 location.name=geography,
-                 latitude=latitude,
-                 longitude=longitude,
-                 shapefile=shapefile,
-                 institutes=institutes,
-                 identified.by=identified.by,
-                 seq.source=seq.source,
-                 marker=marker,
-                 collection.period=collection.period,
-                 basecount=basecount,
-                 altitude=altitude,
-                 depth=depth)
+  # filter_list<-c(taxon.name=taxonomy,
+  #                location.name=geography,
+  #                latitude=latitude,
+  #                longitude=longitude,
+  #                shapefile=shapefile,
+  #                institutes=institutes,
+  #                identified.by=identified.by,
+  #                seq.source=seq.source,
+  #                marker=marker,
+  #                collection.period=collection.period,
+  #                basecount=basecount,
+  #                altitude=altitude,
+  #                depth=depth)
 
 
   # Use the filter_list only if the condition is met
 
-  if (length(filter_list)>=1)
+  # if (length(filter_list)>=1)
 
 
-  {
+  # {
     # a separate filter function is used to filter the retrieved data
 
     json.df = bold.connectr.filters(bold.df = json.df,
@@ -318,7 +323,7 @@ bold.connectr<-function(input.data,
                                           altitude=altitude,
                                           depth=depth)
 
-  }
+  # }
 
 
 
@@ -366,7 +371,7 @@ bold.connectr<-function(input.data,
       tryCatch(
 
         {
-          write.table(json.df,
+          utils::write.table(json.df,
                       paste(file.path,
                             "/",
                             file.name,
