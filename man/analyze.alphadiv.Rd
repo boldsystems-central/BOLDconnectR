@@ -30,7 +30,7 @@ analyze.alphadiv(
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
 richness = A richness profile matrix
 output$Shannon_div = shannon diversity values for the given sites/grids
-output$richness_plot = A ggplot2 visualization
+output$richness_plot = A ggplot2 visualization of the richness curve
 output$preston.res = a preston plot numerical data output
 output$preston.plot = a ggplot2 visualization of the preston.plot
 }

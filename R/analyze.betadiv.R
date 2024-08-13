@@ -11,7 +11,6 @@
 #' @param grids A logical value specifying Whether the community matrix is generated using grids. Default is FALSE.
 #' @param grids.df If grids = TRUE, a 'sf' grid data frame generated along with the community matrix using the`gen.comm.mat` function.Default is NULL
 #'
-
 #' @details analyze.betadiv calculates a sorenson or jaccard beta dissimilarity matrix using the `gen.comm.mat` output.
 #'
 #' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
@@ -35,13 +34,9 @@
 #' @importFrom tidyr pivot_longer
 #' @importFrom sf st_distance
 #' @importFrom stats reorder
+#'
 #' @export
 #'
-#'
-#'
-
-
-############################################## beta diversity of bold.df ###########################################
 analyze.betadiv <- function (bin.comm,
                             index,
                             pre.abs=FALSE,

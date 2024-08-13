@@ -30,7 +30,7 @@ analyze.seq(
 
 \item{plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE}
 
-\item{...}{additional arguments that can be provided to the \code{dist.dna} function from ape}
+\item{...}{additional arguments that can be provided to the \code{dist.dna} function from ape. Passed on to \code{\link[ape:dist.dna]{ape::dist.dna()}}}
 }
 \value{
 dist_mat = A distance matrix based on the model selected

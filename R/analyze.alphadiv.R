@@ -10,13 +10,12 @@
 #' @param preston.res A logical value specifying if preston results should be generated. Default is FALSE.
 #' @param pres.plot.y.label A character value specifying the taxonomic category which was used  to generate the matrix using the `gen.comm.mat` function
 #'
-
 #' @details analyze.alphadiv generates a alpha diversity profile along with richness estimations from the `gen.comm.mat` output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat`function. The function also offers Shannon diversity values and Preston plots and the associated numerical results. Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences). A richness profile is created using the 'alpha.accum' function from the BAT package while the preston and shannon diversity results are obtained using the 'prestondistr' and 'diversity' functions from vegan. Preston plots are created using the data from the 'prestondistr' results in 'ggplot2'
 #'
 #' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
 #'  richness = A richness profile matrix
 #'  output$Shannon_div = shannon diversity values for the given sites/grids
-#'  output$richness_plot = A ggplot2 visualization
+#'  output$richness_plot = A ggplot2 visualization of the richness curve
 #'  output$preston.res = a preston plot numerical data output
 #'  output$preston.plot = a ggplot2 visualization of the preston.plot
 #'
@@ -33,9 +32,6 @@
 #'
 #' @export
 #'
-#'
-#'
-
 analyze.alphadiv <- function(bin.comm,
                             plot.curve=FALSE,
                             curve.index=NULL,
@@ -84,7 +80,6 @@ analyze.alphadiv <- function(bin.comm,
     dplyr::mutate(across(where(is.numeric), ~ round(., 2)))
 
   output$richness = richness
-
 
   warning("Shannon values are based on the assumption that the BIN community data have counts (or abundances)")
 

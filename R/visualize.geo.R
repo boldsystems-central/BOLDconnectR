@@ -15,11 +15,10 @@
 #'
 #' @details ‘visualize.geo’ extracts out the geographic information from the ‘connectr’ output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format. Default view includes data mapped on a world shapefile downloaded using the ‘rnaturalearth’ library. If the ‘country’ is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box can be defined for a specific region to be visualized. If export = TRUE, an image file will be saved based on the type (jpg, tiff), and file path. The function also provides a ‘sf’ data frame of the GIS data which can be used for any other application/s
 #'
-#'
 #' @returns
 #' geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
 #' map_plot = A visualization of the occurrences
-
+#'
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify
 #' @importFrom rnaturalearth ne_countries
@@ -39,9 +38,8 @@
 #' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 ylab
 #'
-
 #' @export
-
+#'
 visualize.geo<-function(bold.df,
                        country=NULL,
                        bbox=NULL,
@@ -264,4 +262,3 @@ visualize.geo<-function(bold.df,
   invisible(output)
 
 }
-

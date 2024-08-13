@@ -1,8 +1,7 @@
 #' Fetch data from BOLD database
 #'
 #' @description
-#' Retrieves data based on process or sample ids from the Barcode of Life DataSystems database
-#'
+#' Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input
 #'
 #' @param input.data A file path pointing to either a CSV/TSV/txt file with the ids or a named data frame where ids are stored
 #' @param param A character string specifying either “processed”, “sampleid”, "bin_uri" or "dataset_codes"
@@ -64,11 +63,6 @@
 #' @importFrom httr http_status
 #'
 #' @export
-#'
-#'
-#'
-#'
-
 
 bold.connectr<-function(input.data,
                       param,
@@ -283,29 +277,6 @@ bold.connectr<-function(input.data,
       }
 
 
-  # For filtering the data, a vector is created of any/all filters for the internal filter function
-
-  # filter_list<-c(taxon.name=taxonomy,
-  #                location.name=geography,
-  #                latitude=latitude,
-  #                longitude=longitude,
-  #                shapefile=shapefile,
-  #                institutes=institutes,
-  #                identified.by=identified.by,
-  #                seq.source=seq.source,
-  #                marker=marker,
-  #                collection.period=collection.period,
-  #                basecount=basecount,
-  #                altitude=altitude,
-  #                depth=depth)
-
-
-  # Use the filter_list only if the condition is met
-
-  # if (length(filter_list)>=1)
-
-
-  # {
     # a separate filter function is used to filter the retrieved data
 
     json.df = bold.connectr.filters(bold.df = json.df,

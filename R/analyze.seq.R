@@ -12,7 +12,7 @@
 #' @param file.path A character value specifying the folder path where the file should be saved
 #' @param file.name A character value specifying the name of the exported file.
 #' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE
-#' @param ... additional arguments that can be provided to the `dist.dna` function from ape
+#' @param ... additional arguments that can be provided to the `dist.dna` function from ape. Passed on to [ape::dist.dna()]
 #'
 #' @details ‘analyze.seq’ analyzes the output of the `align.seq` function to generate a distance matrix using the models available in the `dist.dna` function of the ape library. The function also has an option to plot the distances as a basic Neighbour joining cluster. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 #'
@@ -165,20 +165,6 @@ analyze.seq<-function(aligned.seq,
   if(plot)
 
   {
-
-    # Store the original margins
-
-    # original_mar <- par("mar")
-    #
-    # par(mar = c(0.1, 0.1, 0.1, 0.1))
-    #
-    # plot(for_plot,
-    #      type=plot.type,
-    #      cex=0.8)
-    #
-    # # Reset margins to original values
-    #
-    # par(mar = original_mar)
 
 
     options(ignore.negative.edge=TRUE)

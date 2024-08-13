@@ -10,9 +10,7 @@
 #' @param grids A logical value specifying Whether the community matrix should be based on grids as ‘sites’. Default is NULL.
 #' @param gridsize A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default is NULL
 #' @param view.grids A logical value specifying viewing the grids overlaid on a map with respective cell ids
-
-
-
+#'
 #' @details The function generates a site X species like matrix from the data obtained by the ‘connectr’ functions using BINs instead of species for counts. Values in each cell are the counts of a specific BIN from a specific site category (site.cat) or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for BINs). site.cat can be any of the 'geography' fields which include 'country.ocean', 'region', or 'site'. Alternatively, grids can be generated based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.) ‘grids’ converts the CRS to a ‘Mollweide' projection by which a distance based grid can be correctly specified. A cell id is also given to each grid. This can be visualized with the ‘view.grids’ argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for either latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with ‘view.grids’ can get difficult. The function also provides a ‘sf’ dataframe of the grids with their respective cell.ids. The argument ‘pre.abs’ will convert the counts to 1 and 0 with the latter implying no BINs reported in a ‘site’ given the data. This dataset can then directly be used as input data for functions from packages like ‘vegan’ or ‘betapart’ for biodiversity analyses. Please note that all rows with no coordinate data/BIN ids are removed by default.
 #'
 #' @returns
@@ -46,7 +44,6 @@
 #'
 #' @export
 #'
-
 gen.comm.mat<-function(bold.df,
                             taxon.rank,
                             taxon.name=NULL,

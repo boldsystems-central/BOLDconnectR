@@ -10,10 +10,8 @@
 #' @param file.name A character value specifying the name of the exported file.
 #' @param raw.fas A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default is FALSE
 #'
-#'
 #' @details
 #' ‘align.seq’ fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using the ‘msa’ function from ‘msa’ package with the default settings. There is no current functionality to detect any STOP codons and indels in the data. In addition, the function also provides a a)  ‘ape’ ‘DNAbin’ object , b) a data frame with sequence name and sequence data and c) an unaligned (unaligned.fas) ‘fasta’ file. File path and file name need to be provided for the unaligned.fas file. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.
-#'
 #'
 #' @returns
 #' ‘Biostrings’ DNAStringSet object of the multiple sequence alignment
@@ -26,7 +24,6 @@
 #' @importFrom ape read.dna
 #' @importFrom ape write.FASTA
 #' @importFrom methods as
-#'
 #'
 #' @export
 
