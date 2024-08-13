@@ -153,7 +153,7 @@ bold.connectr.public <- function(taxonomy = NULL,
 
       result = lapply(generate.batch.ids,
                       function(x) fetch.public.data(x))%>%
-        data.table::rbindlist(.,fill = TRUE)%>%
+        rbindlist(.,fill = TRUE)%>%
         data.frame()
 
 
@@ -185,17 +185,17 @@ bold.connectr.public <- function(taxonomy = NULL,
   {
 
     result = bold.connectr.filters(bold.df = result,
-                                          latitude=latitude,
-                                          longitude=longitude,
-                                          shapefile=shapefile,
-                                          institutes=institutes,
-                                          identified.by=identified.by,
-                                          seq.source=seq.source,
-                                          marker=marker,
-                                          collection.period=collection.period,
-                                          basecount=basecount,
-                                          altitude=altitude,
-                                          depth=depth)
+                                   latitude=latitude,
+                                   longitude=longitude,
+                                   shapefile=shapefile,
+                                   institutes=institutes,
+                                   identified.by=identified.by,
+                                   seq.source=seq.source,
+                                   marker=marker,
+                                   collection.period=collection.period,
+                                   basecount=basecount,
+                                   altitude=altitude,
+                                   depth=depth)
 
   }
 

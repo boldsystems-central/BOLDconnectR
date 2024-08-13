@@ -7,11 +7,11 @@ fetch.public.data<-function (query)
 
   # URLs
 
-  base_url_parse<- "https://portal.boldsystems.org:8000/api/query/parse?query="
+  base_url_parse<- "https://portal.boldsystems.org/api/query/parse?query="
 
-  base_url_preprocess<-'https://portal.boldsystems.org:8000/api/query/preprocessor?query='
+  base_url_preprocess<-'https://portal.boldsystems.org/api/query/preprocessor?query='
 
-  base_url_query<-'https://portal.boldsystems.org:8000/api/query?query='
+  base_url_query<-'https://portal.boldsystems.org/api/query?query='
 
 
   #1.trial_query parse
@@ -40,7 +40,6 @@ fetch.public.data<-function (query)
          '%20',
          .)
 
-
   # Full url parse
 
   full_url_parse <- URLencode(paste0(base_url_parse,
@@ -59,8 +58,8 @@ fetch.public.data<-function (query)
                          "%2C",
                          get.data_parse$terms)%>%
     gsub(":","%3A",.)%>%
-    gsub(" ","%20",.)
-
+    gsub(";","%3B",.)%>%
+    gsub(' ','%20',.)
 
   full_url_preprocess<-URLencode(paste0(base_url_preprocess,
                                         query_preprocess,
@@ -100,9 +99,12 @@ fetch.public.data<-function (query)
   query_url_part1<-gsub(",",
                         "%2C",
                         paste(json_preprocess_data_final$matched,
-                              collapse = ","))%>%
+                              collapse = ";"))%>%
+    gsub(";","%3B",.)%>%
     gsub(":","%3A",.)%>%
-    gsub(" ","%20",.)
+    gsub(" ","%20",.)%>%
+    gsub('/','%2F',.)
+
 
 
   full_query<-paste0(base_url_query,
@@ -136,7 +138,7 @@ fetch.public.data<-function (query)
 
   #4. Obtain the data based on the query
 
-  url_download_data<-paste("https://portal.boldsystems.org:8000/api/documents/",
+  url_download_data<-paste("https://portal.boldsystems.org/api/documents/",
                            gsub("=",
                                 "%3D",
                                 json_query_data[[1]][1]),
@@ -162,14 +164,15 @@ fetch.public.data<-function (query)
 
   final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
 
-  final_data$collection_date<-as.Date(final_data$collection_date,format("%Y-%m-%d"))
+  final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
+
+  final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
 
   final_data$collection_time<-as.character(final_data$collection_time)
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
   final_data$coord <- gsub('\\[|\\]','',final_data$coord)
-
 
   final_data = suppressWarnings(final_data%>%
                                   tidyr::separate(coord,
