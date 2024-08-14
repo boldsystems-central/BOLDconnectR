@@ -25,9 +25,20 @@
 #' @param file.path A character value specifying the folder path where the file should be saved
 #' @param file.name A character value specifying the name of the exported file.
 #'
-#' @details Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of taxonomy, geography, bins and/or ids. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl limit exceeding (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as institutes, identifiers, altitude, depth etc). Using the ‘fields’ argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.
+#' @details Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of `taxonomy`, `geography`, `bins`, `ids` or `datasets` codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as `institutes`, `identifiers`, `altitude`, `depth` etc.). Using the `fields` argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
 #'
 #' @returns A data frame containing all the information related to the query search
+#'
+#' @examples
+#'
+#' # Taxonomy argument
+#' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
+#' head(bold.data,10)
+#'
+#'
+#' # Taxonomy and Geography
+#' bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
+#' head(bold.data.taxo_geo,10)
 #'
 #' @importFrom utils URLencode
 #'

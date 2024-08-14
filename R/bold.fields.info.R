@@ -1,16 +1,18 @@
 #' Helper function to obtain the BOLD.fields.data
-
+#'
+#' @param print.output Whether the output should be printed in the console. Default is FALSE.
+#'
+#' @details The function downloads the latest field (column) names and its meta data (file type and brief description) which is currently available for download from BOLD
+#'
+#' @returns A data frame containing information on all fields (columns)
 #' @importFrom dplyr matches
 #' @importFrom dplyr case_when
 #' @importFrom dplyr select
 #' @importFrom dplyr mutate
 #' @importFrom data.table fread
 #'
-#' @param print.output Whether the output should be printed in the console. Default is FALSE.
-
-# The function downloads the latest field names and its meta data which is used by the package to match field names and data types
-
-
+#' @export
+#'
 bold.fields.info<-function (print.output=FALSE) {
 
 

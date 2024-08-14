@@ -7,12 +7,13 @@ fetch.public.data<-function (query)
 
   # URLs
 
-  base_url_parse<- "https://portal.boldsystems.org/api/query/parse?query="
+  base_url_parse<- "https://portal.boldsystems.org:444/api/query/parse?query="
 
-  base_url_preprocess<-'https://portal.boldsystems.org/api/query/preprocessor?query='
+  base_url_preprocess<-'https://portal.boldsystems.org:444/api/query/preprocessor?query='
 
-  base_url_query<-'https://portal.boldsystems.org/api/query?query='
+  base_url_query<-'https://portal.boldsystems.org:444/api/query?query='
 
+  options(timeout = 1800)
 
   #1.trial_query parse
 
@@ -138,7 +139,7 @@ fetch.public.data<-function (query)
 
   #4. Obtain the data based on the query
 
-  url_download_data<-paste("https://portal.boldsystems.org/api/documents/",
+  url_download_data<-paste("https://portal.boldsystems.org:444/api/documents/",
                            gsub("=",
                                 "%3D",
                                 json_query_data[[1]][1]),

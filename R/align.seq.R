@@ -3,7 +3,7 @@
 #' @description
 #' Transforms and aligns the data retrieved from the `bold.connectr` and `bold.connectr.public` functions
 #'
-#' @param bold.df A data frame obtained from the connectr functions
+#' @param bold.df A data frame obtained from [bold.connectr()] or [bold.connectr.public()]
 #' @param marker A character string or a vector specifying the gene marker for which the output is generated. Default is NULL (all data is used)
 #' @param name.fields A character string or a vector specifying the column headers which should be used to name each sequence in the fasta file. Default is NULL in which case, only the BIN id is used as a name.
 #' @param file.path A character value specifying the folder path where the file should be saved
@@ -11,13 +11,13 @@
 #' @param raw.fas A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default is FALSE
 #'
 #' @details
-#' ‘align.seq’ fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using the ‘msa’ function from ‘msa’ package with the default settings. There is no current functionality to detect any STOP codons and indels in the data. In addition, the function also provides a a)  ‘ape’ ‘DNAbin’ object , b) a data frame with sequence name and sequence data and c) an unaligned (unaligned.fas) ‘fasta’ file. File path and file name need to be provided for the unaligned.fas file. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.
+#' ‘align.seq’ fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using [msa::msa()] function with method = "ClustalOmega" & default settings. In addition, the function also provides a a)  ‘ape’ ‘DNAbin’ object , b) a data frame of the sequence data and the respective names and c) a raw (unaligned.fas) ‘fasta’ file. File path and file name need to be provided for if raw.fas=TRUE. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the function does not detect any STOP codons and indels in the data.
 #'
-#' @returns
-#' ‘Biostrings’ DNAStringSet object of the multiple sequence alignment
-#' ‘ape’: a ‘DNAbin’ object
-#' seq.df: a data frame with sequences as one column and its name in the other (unaligned)
-#' raw.fas = TRUE: a ‘.fas’ file of unaligned sequences
+#' @returns A list containing:
+#' * ‘Biostrings’ DNAStringSet object of the multiple sequence alignment
+#' * ‘ape’: a ‘DNAbin’ object
+#' * seq.df: a data frame with sequences as one column and its name in the other (unaligned)
+#' * raw.fas = TRUE: a ‘.fas’ file of unaligned sequences
 #'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa

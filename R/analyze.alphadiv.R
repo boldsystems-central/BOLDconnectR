@@ -10,14 +10,14 @@
 #' @param preston.res A logical value specifying if preston results should be generated. Default is FALSE.
 #' @param pres.plot.y.label A character value specifying the taxonomic category which was used  to generate the matrix using the `gen.comm.mat` function
 #'
-#' @details analyze.alphadiv generates a alpha diversity profile along with richness estimations from the `gen.comm.mat` output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat`function. The function also offers Shannon diversity values and Preston plots and the associated numerical results. Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences). A richness profile is created using the 'alpha.accum' function from the BAT package while the preston and shannon diversity results are obtained using the 'prestondistr' and 'diversity' functions from vegan. Preston plots are created using the data from the 'prestondistr' results in 'ggplot2'
+#' @details The function calculated richness and alpha diversity values using the `gen.comm.mat` output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates  Preston plots and the associated numerical results. A richness profile is created using the [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences)
 #'
-#' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
-#'  richness = A richness profile matrix
-#'  output$Shannon_div = shannon diversity values for the given sites/grids
-#'  output$richness_plot = A ggplot2 visualization of the richness curve
-#'  output$preston.res = a preston plot numerical data output
-#'  output$preston.plot = a ggplot2 visualization of the preston.plot
+#' @returns A list containing containing:
+#' * richness = A richness profile matrix
+#' * output$Shannon_div = Shannon diversity values for the given sites/grids
+#' * output$richness_plot = A ggplot2 visualization of the richness curve
+#' * output$preston.res = a Preston plot numerical data output
+#' * output$preston.plot = a ggplot2 visualization of the preston.plot
 #'
 #' @importFrom BAT alpha.accum
 #' @importFrom vegan diversity
@@ -146,7 +146,7 @@ analyze.alphadiv <- function(bin.comm,
 
     tryCatch({
 
-      preston.res = vegan::prestondistr(bin.comm)
+      preston.res = vegan::prestondistr(colSums(bin.comm))
 
       pres_res=data.frame(observed=as.matrix(preston.res$freq),
                           fitted=round(preston.res$fitted,2))
@@ -185,9 +185,7 @@ analyze.alphadiv <- function(bin.comm,
               panel.grid.minor = element_blank())+
         ylab("Species")+
         xlab("Frequency") +
-        scale_y_continuous(limits = c(0,max(pres_res$observed)+1),
-                           expand = c(0,0),
-                           breaks=seq(0,max(pres_res$observed),5)) +
+        scale_y_continuous(expand = c(0,0)) +
         ylab(pres.plot.y.label)+
         ggtitle("Preston plot")
 

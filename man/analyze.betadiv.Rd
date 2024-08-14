@@ -30,15 +30,17 @@ analyze.betadiv(
 \item{grids.df}{If grids = TRUE, a 'sf' grid data frame generated along with the community matrix using the\code{gen.comm.mat} function.Default is NULL}
 }
 \value{
-A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
-output$total.beta = beta.total
-output$replace = beta.replace
-output$richnessd = beta.richnessd
-output$heatmap.viz = heatmap_final
+A list containing:
+\itemize{
+\item output$total.beta = beta.total
+\item output$replace = beta.replace (replacement)
+\item output$richnessd = beta.richnessd (richness difference)
+\item output$heatmap.viz = heatmap_final
+}
 }
 \description{
 Function analyzes the output from the \code{gen.comm.mat} to provide a beta diversity (and its partitions) profile of the downloaded data
 }
 \details{
-analyze.betadiv calculates a sorenson or jaccard beta dissimilarity matrix using the \code{gen.comm.mat} output.
+The function calculates a sorenson or jaccard beta dissimilarity matrix using the \code{gen.comm.mat} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
 }

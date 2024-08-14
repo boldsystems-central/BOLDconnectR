@@ -81,5 +81,27 @@ A data frame containing all the information related to the processids/sampleids 
 Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input
 }
 \details{
-This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search parameters. There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file (‘.csv/.tsv/.txt’) or a R ‘data.frame’ object. Import assumes a header present for the data to be used for obtaining the data. The function provides post download (optional) filters on various fields like ‘taxonomy’, ‘geography’, ‘institutions’ etc with the default being NULL for all. Using the ‘fields’ argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. API key is a UUID v4 hexadecimal string obtained by requesting BOLD.
+This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file \code{.csv/.tsv/.txt} or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after.
+}
+\examples{
+#1. Using the function with processids (the 'processid' param is assumed to be in the first column (param.index=1))
+
+bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key")
+head(bold.data,10)
+
+#2. Using the function with sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
+
+bold.data<-bold.connectr(input.data = test.data, param = 'sampleid',param.index = 2,api_key = "your api_key")
+head(bold.data,10)
+
+## Using filters
+# Geography
+bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",geography="India")
+
+# Sequence length
+bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
+
+# Combination of filters
+bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
+
 }

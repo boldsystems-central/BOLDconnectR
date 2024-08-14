@@ -20,7 +20,7 @@ analyze.seq(
 
 \item{dist.model}{A character string specifying the model to generate the distances}
 
-\item{clus}{A character vector specifying either"nj" (neighbour joining) or "njs" (neighbour joining with NAs) clustering algorithm}
+\item{clus}{A character vector specifying either \code{\link[ape:nj]{ape::nj()}} (neighbour joining) or \code{\link[ape:njs]{ape::njs()}} (neighbour joining with NAs) clustering algorithm}
 
 \item{tree.export}{Logical value specifying whether newick tree should be generated and exported. Default value is FALSE,}
 
@@ -30,17 +30,20 @@ analyze.seq(
 
 \item{plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE}
 
-\item{...}{additional arguments that can be provided to the \code{dist.dna} function from ape. Passed on to \code{\link[ape:dist.dna]{ape::dist.dna()}}}
+\item{...}{additional arguments from \code{\link[ape:dist.dna]{ape::dist.dna()}}}
 }
 \value{
-dist_mat = A distance matrix based on the model selected
-base_freq = Overall base frequencies of the 'align.seq' result
-newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
-plot = Neighbour Joining clustering visualization (if plot=TRUE)
+A list containing:
+\itemize{
+\item dist_mat = A distance matrix based on the model selected
+\item base_freq = Overall base frequencies of the 'align.seq' result
+\item Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
+\item plot = Neighbor Joining clustering visualization (if plot=TRUE)
+}
 }
 \description{
 This function provides a distance matrix and a NJ clustering of the multiple sequence alignment output of the \code{align.seq}.
 }
 \details{
-‘analyze.seq’ analyzes the output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{dist.dna} function of the ape library. The function also has an option to plot the distances as a basic Neighbour joining cluster. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+‘analyze.seq’ analyzes the output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{dist.dna} function of the ape library. The function also has an option to plot the distances as a basic Neighbor joining cluster using the \link{ggtree} package. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 }

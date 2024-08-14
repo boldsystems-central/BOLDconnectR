@@ -7,9 +7,9 @@
 #' @param cols Logical value indicating whether the names of (all) the columns currently available in the database be printed in the console
 #'
 #' @details
-#' ‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the 'skim' function from 'skimr' to generate a list of data frames, one for every data type available. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.
+#' ‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the [skimr::skim()] function  to generate a list of data frames followed by the [skimr::partition()] which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.
 #'
-#' @returns a list of data frames. Each data frame is a data summary of a specific data type.
+#' @returns A list of data frames. Each data frame is a data summary of a specific data type.
 #'
 #' @importFrom skimr skim
 #' @importFrom skimr partition

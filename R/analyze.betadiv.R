@@ -11,13 +11,13 @@
 #' @param grids A logical value specifying Whether the community matrix is generated using grids. Default is FALSE.
 #' @param grids.df If grids = TRUE, a 'sf' grid data frame generated along with the community matrix using the`gen.comm.mat` function.Default is NULL
 #'
-#' @details analyze.betadiv calculates a sorenson or jaccard beta dissimilarity matrix using the `gen.comm.mat` output.
+#' @details The function calculates a sorenson or jaccard beta dissimilarity matrix using the `gen.comm.mat` output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
-#' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
-#'   output$total.beta = beta.total
-#'   output$replace = beta.replace
-#'   output$richnessd = beta.richnessd
-#'   output$heatmap.viz = heatmap_final
+#' @returns A list containing:
+#' * output$total.beta = beta.total
+#' * output$replace = beta.replace (replacement)
+#' * output$richnessd = beta.richnessd (richness difference)
+#' * output$heatmap.viz = heatmap_final
 #'
 #' @importFrom BAT beta
 #' @importFrom dplyr left_join

@@ -7,21 +7,21 @@
 #'
 #' @param aligned.seq A DNAStringset multiple sequence alignment object returned by `align.seq` function
 #' @param dist.model A character string specifying the model to generate the distances
-#' @param clus A character vector specifying either"nj" (neighbour joining) or "njs" (neighbour joining with NAs) clustering algorithm
+#' @param clus A character vector specifying either [ape::nj()] (neighbour joining) or [ape::njs()] (neighbour joining with NAs) clustering algorithm
 #' @param tree.export Logical value specifying whether newick tree should be generated and exported. Default value is FALSE,
 #' @param file.path A character value specifying the folder path where the file should be saved
 #' @param file.name A character value specifying the name of the exported file.
 #' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE
-#' @param ... additional arguments that can be provided to the `dist.dna` function from ape. Passed on to [ape::dist.dna()]
+#' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details ‘analyze.seq’ analyzes the output of the `align.seq` function to generate a distance matrix using the models available in the `dist.dna` function of the ape library. The function also has an option to plot the distances as a basic Neighbour joining cluster. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+#' @details ‘analyze.seq’ analyzes the output of the `align.seq` function to generate a distance matrix using the models available in the `dist.dna` function of the ape library. The function also has an option to plot the distances as a basic Neighbor joining cluster using the [ggtree] package. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 #'
 #'
-#' @returns
-#' dist_mat = A distance matrix based on the model selected
-#' base_freq = Overall base frequencies of the 'align.seq' result
-#' newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
-#' plot = Neighbour Joining clustering visualization (if plot=TRUE)
+#' @returns A list containing:
+#' * dist_mat = A distance matrix based on the model selected
+#' * base_freq = Overall base frequencies of the 'align.seq' result
+#' * Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
+#' * plot = Neighbor Joining clustering visualization (if plot=TRUE)
 
 #' @importFrom msa msaConvert
 #' @importFrom ape dist.dna
@@ -176,8 +176,8 @@ analyze.seq<-function(aligned.seq,
       geom_tiplab(size=3,
                   color="darkblue") +
       geom_treescale(x=1,
-      y=20,
-      fontsize=6,
+      y=2,
+      fontsize=4,
       linesize=2,
       offset=1)+
       geom_nodepoint(color="forestgreen",
