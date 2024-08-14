@@ -78,17 +78,19 @@ A data frame containing all the information related to the query search
 Retrieves publicly available data based on taxonomy,geography or ids (processid,sampleid, dataset codes & bin_uri) input
 }
 \details{
-Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of \code{taxonomy}, \code{geography}, \code{bins}, \code{ids} or \code{datasets} codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as \code{institutes}, \code{identifiers}, \code{altitude}, \code{depth} etc.). Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.
+Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of \code{taxonomy}, \code{geography}, \code{bins}, \code{ids} or \code{datasets} codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as \code{institutes}, \code{identifiers}, \code{altitude}, \code{depth} etc.). Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
 }
 \examples{
 
-# Taxonomy argument
+# Taxonomy
 bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
-head(bold.data,10)
-
+head(bold.data,10)#'
 
 # Taxonomy and Geography
 bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
 head(bold.data.taxo_geo,10)
+
+# Taxonomy, Geography and BINs
+bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India",bins=c(""))
 
 }

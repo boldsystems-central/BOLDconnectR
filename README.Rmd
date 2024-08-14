@@ -24,9 +24,12 @@ BOLDconnectR is a package designed for retrieval, transformation and analysis of
 
 You can install the development version of BOLDconnectR from [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("sameerpadhye/BOLDconnectR")
+
+``` {r,include=FALSE}
+
+devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
+auth_token = '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')
+
 ```
 
 ## Note on API key

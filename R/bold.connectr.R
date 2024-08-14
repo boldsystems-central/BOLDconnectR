@@ -48,8 +48,12 @@
 #' # Sequence length
 #' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
 #'
-#' # Combination of filters
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
+#' # Institutes
+#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",institutes = c("University of Delhi", "Universite Laval"))
+#'
+#' # Gene marker
+#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",marker="COI-5P")
+#'
 #'
 #' @importFrom dplyr %>%
 #' @importFrom dplyr select

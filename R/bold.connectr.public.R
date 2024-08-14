@@ -31,14 +31,16 @@
 #'
 #' @examples
 #'
-#' # Taxonomy argument
+#' # Taxonomy
 #' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
-#' head(bold.data,10)
-#'
+#' head(bold.data,10)#'
 #'
 #' # Taxonomy and Geography
 #' bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
 #' head(bold.data.taxo_geo,10)
+#'
+#' # Taxonomy, Geography and BINs
+#' bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India",bins=c(""))
 #'
 #' @importFrom utils URLencode
 #'
