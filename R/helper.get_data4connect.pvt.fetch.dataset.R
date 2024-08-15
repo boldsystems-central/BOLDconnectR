@@ -2,6 +2,7 @@
 #'
 #' @param data_for_datasets input data containing dataset codes information
 #' @param api.key API key required to fetch the data
+#' @keywords internal
 
 
 get_data_datasets<-function (data_for_datasets,

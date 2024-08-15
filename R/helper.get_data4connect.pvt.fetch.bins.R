@@ -2,6 +2,7 @@
 #'
 #' @param data_for_bins input data containing BIN information
 #' @param api.key API key required to fetch the data
+#' @keywords internal
 #'
 #'
 #'

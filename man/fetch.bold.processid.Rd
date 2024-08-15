@@ -16,3 +16,4 @@ fetch.bold.processid(data.input, param.index, api_key)
 \description{
 bold.fetch.data processid
 }
+\keyword{internal}

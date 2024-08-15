@@ -13,11 +13,11 @@
 #'
 #' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the [gen.comm.mat()] output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
-#' @returns A list containing:
-#' * output$total.beta = beta.total
-#' * output$replace = beta.replace (replacement)
-#' * output$richnessd = beta.richnessd (richness difference)
-#' * output$heatmap.viz = heatmap_final
+#' @returns An 'output' list containing:
+#' * total.beta = beta.total
+#' * replace = beta.replace (replacement)
+#' * richnessd = beta.richnessd (richness difference)
+#' * heatmap.viz = heatmap_final
 #'
 
 #' @examples

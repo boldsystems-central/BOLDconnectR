@@ -13,7 +13,6 @@ bold.fields.info(print.output = FALSE)
 A data frame containing information on all fields (columns)
 }
 \description{
-#' @description
 This function provides information on the field (column) names and their respective data type
 }
 \details{

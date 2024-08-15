@@ -30,12 +30,12 @@ analyze.betadiv(
 \item{grids.df}{If \code{grids} = TRUE, a \link{sf} grid data frame generated along with the community matrix using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} function.Default value is NULL.}
 }
 \value{
-A list containing:
+An 'output' list containing:
 \itemize{
-\item output$total.beta = beta.total
-\item output$replace = beta.replace (replacement)
-\item output$richnessd = beta.richnessd (richness difference)
-\item output$heatmap.viz = heatmap_final
+\item total.beta = beta.total
+\item replace = beta.replace (replacement)
+\item richnessd = beta.richnessd (richness difference)
+\item heatmap.viz = heatmap_final
 }
 }
 \description{

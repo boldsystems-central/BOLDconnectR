@@ -14,7 +14,7 @@
 #'
 #' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the [ggtree] package. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 #'
-#' @returns A list containing:
+#' @returns An 'output' list containing:
 #' * dist_mat = A distance matrix based on the model selected
 #' * base_freq = Overall base frequencies of the 'align.seq' result
 #' * Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)

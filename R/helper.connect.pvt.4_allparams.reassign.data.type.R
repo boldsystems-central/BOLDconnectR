@@ -1,5 +1,6 @@
 #' Helper function reassign.data.type
 #' @param x Data frame
+#' @keywords internal
 
 
 reassign.data.type<-function (x)

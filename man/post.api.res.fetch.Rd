@@ -19,3 +19,4 @@ post.api.res.fetch(base.url, query.params, api.key, temp.file)
 \description{
 Helper function to fetch the data using POST API
 }
+\keyword{internal}

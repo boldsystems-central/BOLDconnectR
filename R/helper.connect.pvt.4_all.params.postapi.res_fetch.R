@@ -4,6 +4,7 @@
 #' @param query.params the query parameters for the POST API
 #' @param api.key the API key needed to access the data
 #' @param temp.file the tempfile on which data is written for the POST API
+#' @keywords internal
 
 
 post.api.res.fetch<-function (base.url,

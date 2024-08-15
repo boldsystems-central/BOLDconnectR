@@ -13,3 +13,4 @@ reassign.data.type(x)
 \description{
 Helper function reassign.data.type
 }
+\keyword{internal}

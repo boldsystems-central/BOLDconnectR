@@ -16,3 +16,4 @@ get_data_processid(input_data, param.index, api.key)
 \description{
 GET_data helper functions for single records of processids and sampleids
 }
+\keyword{internal}

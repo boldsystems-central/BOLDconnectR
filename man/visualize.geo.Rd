@@ -30,11 +30,13 @@ visualize.geo(
 \item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available}
 }
 \value{
-geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
-map_plot = A visualization of the occurrences
+An 'output' list containing:
+\itemize{
+\item geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
+\item map_plot = A visualization of the occurrences
+}
 }
 \description{
-#' @description
 This function creates basic maps of organism occurrence data on different scales
 }
 \details{

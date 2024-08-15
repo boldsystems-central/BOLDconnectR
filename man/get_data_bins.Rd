@@ -14,3 +14,4 @@ get_data_bins(data_for_bins, api.key)
 \description{
 Helper function using GET to get the processids from bin ids
 }
+\keyword{internal}

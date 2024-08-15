@@ -3,9 +3,8 @@
 #' @param input_data input data
 #' @param param.index the column number in the data which has bin_uri data
 #' @param api.key API key required to fetch the data
-
-################################## get_data_processid helper function ######################################################
-
+#' @keywords internal
+#'
 get_data_processid<-function (input_data,
                              param.index,
                              api.key)

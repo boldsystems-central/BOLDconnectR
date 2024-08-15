@@ -12,3 +12,4 @@ fetch.public.data(query)
 \description{
 Helper function to retrieve public data
 }
+\keyword{internal}

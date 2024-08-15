@@ -5,7 +5,7 @@
 \alias{test.data}
 \title{A data frame with 2101 processids and sampleids}
 \format{
-\subsection{\code{test.data}}{
+\subsection{}{
 
 A data frame with 2205 rows and 2 columns:
 \describe{
@@ -18,7 +18,6 @@ A data frame with 2205 rows and 2 columns:
 test.data
 }
 \description{
-A data frame containing proccessids and sampleids for data retrieval from BOLD
-Report ...
+A data frame containing proccessids and sampleids for data retrieval from BOLD database
 }
 \keyword{datasets}

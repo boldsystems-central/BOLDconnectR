@@ -16,3 +16,4 @@ fetch.bold.sampleid(data.input, param.index, api_key)
 \description{
 bold.fetch.data sampleid
 }
+\keyword{internal}

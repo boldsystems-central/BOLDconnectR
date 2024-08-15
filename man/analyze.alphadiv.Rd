@@ -27,13 +27,13 @@ analyze.alphadiv(
 \item{pres.plot.y.label}{A character value specifying the taxonomic category (\code{taxon.rank} in \code{\link[=gen.comm.mat]{gen.comm.mat()}}) which was used to generate the matrix.}
 }
 \value{
-A list containing containing:
+An 'output' list containing containing:
 \itemize{
 \item richness = A richness profile matrix
-\item output$Shannon_div = Shannon diversity values for the given sites/grids
-\item output$richness_plot = A ggplot2 visualization of the richness curve
-\item output$preston.res = a Preston plot numerical data output
-\item output$preston.plot = a ggplot2 visualization of the preston.plot
+\item Shannon_div = Shannon diversity values for the given sites/grids
+\item richness_plot = A ggplot2 visualization of the richness curve
+\item preston.res = a Preston plot numerical data output
+\item preston.plot = a ggplot2 visualization of the preston.plot
 }
 }
 \description{
@@ -46,6 +46,7 @@ This function analyzes the output from the \code{gen.comm.mat} to provide a rich
 # Download data from BOLD (removing species with blanks)
 comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
 
+# Remove rows which have no species data
 comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
 
 # Generate the community matrix based on grids

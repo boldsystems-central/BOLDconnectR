@@ -4,6 +4,7 @@
 #' @param data.input input data
 #' @param param.index the column number in the data which has the dataset_codes
 #' @param api_key API key required to fetch the data
+#' @keywords internal
 
 fetch.bold.datasets<-function(data.input,
                           param.index,

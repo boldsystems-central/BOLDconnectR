@@ -3,6 +3,7 @@
 #' @param data.input input data
 #' @param param.index the column number in the data which has bin_uri data
 #' @param api_key API key required to fetch the data
+#' @keywords internal
 #'
 
 fetch.bold.bins<-function(data.input,

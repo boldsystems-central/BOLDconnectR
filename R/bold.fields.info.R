@@ -1,7 +1,6 @@
 #' Retrieve metadata of the BOLD data fields
 #'
-#'#' @description
-#' This function provides information on the field (column) names and their respective data type
+#' @description This function provides information on the field (column) names and their respective data type
 #'
 #' @param print.output Whether the output should be printed in the console. Default is FALSE.
 #'

@@ -1,6 +1,7 @@
 #' Helper Function id.files
 #'
 #' @param ids Character string which are converted to temp file/s which then are used by the POST function
+#' @keywords internal
 
 
 

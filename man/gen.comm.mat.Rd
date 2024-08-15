@@ -33,7 +33,7 @@ gen.comm.mat(
 \item{view.grids}{A logical value specifying viewing the grids overlaid on a map with respective cell ids. Default value is FALSE.}
 }
 \value{
-a list containing
+An 'output' list containing
 \itemize{
 \item comm.matrix = A site X species like matrix based on BINs
 \item grids = A \link{sf} data frame containing the grid geometry and corresponding cell id

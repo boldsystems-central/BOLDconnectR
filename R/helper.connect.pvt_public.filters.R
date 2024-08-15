@@ -14,7 +14,7 @@
 #' @param basecount A number or a vector of two numbers indicating the base pairs number range. Values separated by a comma. Default value is NULL.
 #' @param altitude A number or a vector of two numbers indicating the altitude range. Values separated by a comma. Default value is NULL.
 #' @param depth A number or a vector of two numbers indicating the depth range. Values separated by a comma. Default value is NULL.
-#'
+#' @keywords internal
 
 bold.connectr.filters<-function (bold.df,
                                  taxon.name=NULL,

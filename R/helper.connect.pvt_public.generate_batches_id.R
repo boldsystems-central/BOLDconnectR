@@ -3,6 +3,7 @@
 #' @param data input data
 #' @param param.index the column number in the data which has bin_uri data
 #' @param batch.size Number specifying the number of batches to be created
+#' @keywords internal
 
 generate.batches<-function (data,
                             param.index,

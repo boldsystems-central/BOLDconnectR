@@ -33,7 +33,7 @@ analyze.seq(
 \item{...}{additional arguments from \code{\link[ape:dist.dna]{ape::dist.dna()}}}
 }
 \value{
-A list containing:
+An 'output' list containing:
 \itemize{
 \item dist_mat = A distance matrix based on the model selected
 \item base_freq = Overall base frequencies of the 'align.seq' result

@@ -9,16 +9,16 @@ data.summary(bold.df, cols = NULL)
 \arguments{
 \item{bold.df}{the data.frame retrieved from the connectr functions}
 
-\item{cols}{Logical value indicating whether the names of (all) the columns currently available in the database be printed in the console}
+\item{cols}{A single or multiple character vector specifying the columns for which a data summary is sought. Default value is NULL}
 }
 \value{
 A list of data frames. Each data frame is a data summary of a specific data type.
 }
 \description{
-The function is used to obtain a detailed summary of the data obtained by \code{bold.fetch.data}
+The function is used to obtain a detailed summary of the data obtained by \code{bold.connectr} and \code{bold.connectr.public} functions.
 }
 \details{
-‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the \code{\link[skimr:skim]{skimr::skim()}} function  to generate a list of data frames followed by the \code{\link[skimr:partition]{skimr::partition()}} which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.
+‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the \code{\link[skimr:skim]{skimr::skim()}} function  to generate a list of data frames followed by the \code{\link[skimr:partition]{skimr::partition()}} which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required.The default NULL will generate a summary of all columns. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.
 }
 \examples{
 # Download data

@@ -16,3 +16,4 @@ fetch.bold.bins(data.input, param.index, api_key)
 \description{
 fetch processid data using bin ids
 }
+\keyword{internal}

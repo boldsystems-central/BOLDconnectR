@@ -16,3 +16,4 @@ generate.batches(data, param.index, batch.size)
 \description{
 Helper function to generate batches
 }
+\keyword{internal}

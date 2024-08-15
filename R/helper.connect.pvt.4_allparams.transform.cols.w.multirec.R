@@ -1,5 +1,6 @@
 #' Helper function bold.multirecords.set.csv
 #' @param edited.json edited json file obtained after the fetch functions for any of the id types
+#' @keywords internal
 
 #. Function to convert the multirecord fields into a single character. These columns in the downloaded data are arrays which are converted into a comma separated value
 

@@ -53,3 +53,4 @@ bold.connectr.filters(
 \description{
 Filters for specific parameters to customize the search for private data
 }
+\keyword{internal}

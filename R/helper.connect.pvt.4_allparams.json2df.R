@@ -1,5 +1,6 @@
 #' Helper Function: Fetching the data based on the temp file
 #' @param result the output of any of the id fetch functions
+#' @keywords internal
 
 fetch.data<-function(result)
 
