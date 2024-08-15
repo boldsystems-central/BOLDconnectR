@@ -19,10 +19,22 @@
 #' * seq.df: a data frame with sequences as one column and its name in the other (unaligned)
 #' * raw.fas = TRUE: a ‘.fas’ file of unaligned sequences
 #'
+#' @examples
 #'
+#' # Download the data
+#' seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae","Oreochromis angolensis"))
 #'
+#' # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
+#' seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
 #'
+#' # Dataframe of the sequences (not aligned) with their corresponding names
+#' head(test.data.align$seq.df)
 #'
+#' #ape DNAbin object
+#' test.data.align$ape_obj
+#'
+#' #A DNAStringSet object of the Multiple sequence alignment
+#' test.data.align$msa.result
 #'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa

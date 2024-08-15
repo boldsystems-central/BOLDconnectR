@@ -41,3 +41,21 @@ Transforms and aligns the data retrieved from the \code{bold.connectr} and \code
 \details{
 ‘align.seq’ fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using \code{\link[msa:msa]{msa::msa()}} function with method = "ClustalOmega" & default settings. In addition, the function also provides a a)  ‘ape’ ‘DNAbin’ object , b) a data frame of the sequence data and the respective names and c) a raw (unaligned.fas) ‘fasta’ file. File path and file name need to be provided for if raw.fas=TRUE. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the function does not detect any STOP codons and indels in the data.
 }
+\examples{
+
+# Download the data
+seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae","Oreochromis angolensis"))
+
+# Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
+seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+
+# Dataframe of the sequences (not aligned) with their corresponding names
+head(test.data.align$seq.df)
+
+#ape DNAbin object
+test.data.align$ape_obj
+
+#A DNAStringSet object of the Multiple sequence alignment
+test.data.align$msa.result
+
+}
