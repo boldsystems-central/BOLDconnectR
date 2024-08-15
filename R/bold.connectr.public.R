@@ -33,7 +33,7 @@
 #'
 #' # Taxonomy
 #' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
-#' head(bold.data,10)#'
+#' head(bold.data,10)
 #'
 #' # Taxonomy and Geography
 #' bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
