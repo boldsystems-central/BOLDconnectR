@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen.comm.mat.R
 \name{gen.comm.mat}
 \alias{gen.comm.mat}
-\title{Creates a community matrix based on BINs abundances/incidences}
+\title{Create a community matrix based on BINs abundances/incidences}
 \usage{
 gen.comm.mat(
   bold.df,
@@ -17,28 +17,29 @@ gen.comm.mat(
 \arguments{
 \item{bold.df}{the bold ‘data.frame’ generated from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}}
 
-\item{taxon.rank}{A single character value specifying the taxonomic hierarchical rank. Needs to be provided by default}
+\item{taxon.rank}{A single character value specifying the taxonomic hierarchical rank. Needs to be provided by default.}
 
-\item{taxon.name}{A single or multiple character vector of the taxonomic names associated with the specific ‘taxon.rank’. Default value is NULL.}
+\item{taxon.name}{A single or multiple character vector specifying the taxonomic names associated with the ‘taxon.rank’. Default value is NULL.}
 
-\item{site.cat}{A single or multiple character vector specifying countries for which a community matrix should be created. Default is NULL.}
+\item{site.cat}{A single or multiple character vector specifying the countries for which a community matrix should be created. Default value is NULL.}
 
-\item{grids}{A logical value specifying Whether the community matrix should be based on grids as ‘sites’. Default is NULL.}
+\item{grids}{A logical value specifying Whether the community matrix should be based on grids as ‘sites’. Default value is NULL.}
 
-\item{gridsize}{A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default is NULL}
+\item{gridsize}{A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default value is NULL.}
 
-\item{view.grids}{A logical value specifying viewing the grids overlaid on a map with respective cell ids}
+\item{view.grids}{A logical value specifying viewing the grids overlaid on a map with respective cell ids. Default value is FALSE.}
 }
 \value{
 a list containing
 \itemize{
 \item grid_df = A site X species like matrix based on BINs
+\item grids_final = A \link{sf} data frame containing the grid geometry and corresponding cell id
 \item grid_plot = A grid_plot overlaid on a world map with cell ids
 }
 }
 \description{
-This function is used to generate a community matrix using the data retrieved from the 'connectr' functions based on BIN abundances/incidences
+This function generates a community matrix (~site X species) using the data retrieved \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} based on BIN abundances/incidences
 }
 \details{
-The function generates a site X species like matrix from the data obtained by the \link{bold.connectr} or \link{bold.connectr.public} functions using BINs instead of species. Values in each cell are the counts of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for BINs). \code{site.cat} can be any of the \code{geography} fields which include 'country.ocean', 'region', or 'site'. Alternatively, grids can be generated based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.) ‘grids’ converts the CRS to a ‘Mollweide' CRS by which distance based grid can be correctly specified. A cell id is also given to each grid. This can be visualized with the \code{view.grids} argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for either latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with \code{view.grids} can get difficult. The function also provides a \link{sf} data frame of the grids with their respective cell.ids. The argument \code{pre.abs} will convert the counts to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \link{vegan} for biodiversity analyses. Please note that all rows with no coordinate data/BIN ids are removed by default.
+The function transforms the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} downloaded data into a site X species like matrix using BINs instead of species. Values in each cell are the counts of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for bin_uri though, in that case, the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or 'grid'). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.bold.fields.info]{bold.bold.fields.info()}}). Alternatively, \code{grids} = TRUE will generate grids based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.).\code{grids} converts the Coordinate Reference System (CRS) of the data to ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per user requirement using the \code{grids_final} \link{sf} data frame stored in the output. This can be visualized with the \code{view.grids} argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for bin_uri, latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with \code{view.grids} can get difficult. The argument \code{pre.abs} will convert the counts to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \link{vegan} for biodiversity analyses.
 }

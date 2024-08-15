@@ -1,31 +1,31 @@
-#' Fetch publicly available data from the BOLD database
+#' Retrieve publicly available data from the BOLD database
 #'
 #' @description
-#' Retrieves publicly available data based on taxonomy,geography or ids (processid,sampleid, dataset codes & bin_uri) input
+#' Retrieves publicly available data based on taxonomy,geography or ids (processid,sampleid, dataset codes & bin_uri) input.
 #'
-#' @param taxonomy A single character string or a vector of taxonomic names at any hierarchical level. Default value is NULL
-#' @param geography A single character string or a vector of country/province/state/region/sector/site names/codes. Default value is NULL.
-#' @param bins A single character string or a vector of BIN ids. Default value is NULL.
-#' @param ids A single character string or a vector of either processids or sampleids. Default value is NULL.
-#' @param datasets A single character string or a vector of dataset codes. Default value is NULL.
-#' @param latitude A number or a vector of two numbers indicating the latitudinal range. Values separated by a comma. Default value is NULL.
-#' @param longitude A number or a vector of two numbers indicating the longitudinal range. Values separated by a comma. Default value is NULL.
-#' @param shapefile A file path pointing to a shapefile or name of the shapefile imported in the session. Default value is NULL.
-#' @param institutes A character string or a vector specifying names of institutes. Default value is NULL.
-#' @param identified.by A character string or a vector specifying names of people responsible for identifying the organism. Default value is NULL.
-#' @param seq.source A character string or a vector specifying data portals from where the (sequence) data was mined. Default value is NULL.
-#' @param marker A character string or a vector specifying  of gene names. Default value is NULL.
-#' @param collection.period A Date or a vector of two values specifying the collection period range (start, end). Values separated by comma. Default value is NULL.
-#' @param basecount A number or a vector of two numbers indicating the base pairs number range. Values separated by a comma. Default value is NULL.
-#' @param altitude A number or a vector of two numbers indicating the altitude range. Values separated by a comma. Default value is NULL.
-#' @param depth A number or a vector of two numbers indicating the depth range. Values separated by a comma. Default value is NULL.
-#' @param fields A character string or a vector specifying columns needed in the final dataframe. Default value is NULL.
-#' @param export A logical value asking if the output should be exported locally
+#' @param taxonomy A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.
+#' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
+#' @param bins A single or multiple character vector specifying the BIN ids. Default value is NULL.
+#' @param ids A single or multiple character vector specifying either processids or sampleids. Default value is NULL.
+#' @param datasets A single or multiple character vector specifying dataset codes. Default value is NULL.
+#' @param latitude A single or a vector of two numbers specifying the latitudinal range. Values should be separated by a comma. Default value is NULL.
+#' @param longitude A single or a vector of two numbers specifying the longitudinal range. Values should be separated by a comma. Default value is NULL.
+#' @param shapefile A file path pointing to a shapefile or name of the shapefile imported in the R session. Default value is NULL.
+#' @param institutes A single or multiple character vector specifying names of institutes. Default value is NULL.
+#' @param identified.by A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.
+#' @param seq.source A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.
+#' @param marker A single or multiple character vector specifying  of gene names. Default value is NULL.
+#' @param collection.period A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.
+#' @param basecount A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.
+#' @param altitude A single or a vector of two numbers specifying the altitude range. Values should be separated by a comma. Default value is NULL.
+#' @param depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
+#' @param fields A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.
+#' @param export A logical value specifying whether the output should be exported locally. Default value is FALSE.
 #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available
-#' @param file.path A character value specifying the folder path where the file should be saved
+#' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
 #'
-#' @details Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of `taxonomy`, `geography`, `bins`, `ids` or `datasets` codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as `institutes`, `identifiers`, `altitude`, `depth` etc.). Using the `fields` argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
+#' @details Function downloads publicly available data on BOLD. Data can be retrieved by providing either one or a combination of `taxonomy`, `geography`, `bins`, `ids` or `datasets` codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as `institutes`, `identifiers`, `altitude`, `depth` etc.). Using the `fields` argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
 #'
 #' @returns A data frame containing all the information related to the query search
 #'

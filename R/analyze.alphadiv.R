@@ -1,16 +1,16 @@
-#' Create a alpha diversity profile of the retrieved data
+#' Create an alpha diversity profile of the retrieved data
 #'
 #' @description
-#' Function analyzes the output from the `gen.comm.mat` to provide a richness and alpha diversity profile of the downloaded data
+#' This function analyzes the output from the `gen.comm.mat` to provide a richness and alpha diversity profile of the downloaded data.
 #'
-#' @param bin.comm the site X species like output from the `gen.comm.mat` function.Default is FALSE
-#' @param plot.curve A logical value specifying whether a accummulation curve should be plotted
-#' @param curve.index A character value specifying which index should be used for the `curve.index` argument. Default is NULL.
-#' @param curve.xval A character value specifying whether sample or individuals should be used against the `curve.index`.Default is NULL
-#' @param preston.res A logical value specifying if preston results should be generated. Default is FALSE.
-#' @param pres.plot.y.label A character value specifying the taxonomic category which was used  to generate the matrix using the `gen.comm.mat` function
+#' @param bin.comm the site X species like output from the `gen.comm.mat` function.
+#' @param plot.curve A logical value specifying whether an accumulation curve should be plotted.Default value is FALSE.
+#' @param curve.index A character value specifying which index should be used for the `curve.index` argument. Default value is NULL.
+#' @param curve.xval A character value specifying whether sample or individuals should be used against the `curve.index`.Default value is NULL.
+#' @param preston.res A logical value specifying whether the Preston results should be generated. Default value is FALSE.
+#' @param pres.plot.y.label A character value specifying the taxonomic category (`taxon.rank` in [bold.gen.comm.mat()]) which was used to generate the matrix.
 #'
-#' @details The function calculated richness and alpha diversity values using the `gen.comm.mat` output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates  Preston plots and the associated numerical results. A richness profile is created using the [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences)
+#' @details `analyze.alphadiv` estimates the richness and calculates the shannon diversity values using the [bold.gen.comm.mat()] output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates Preston plots and the associated numerical results. The richness profile is created using [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] functions respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences).
 #'
 #' @returns A list containing containing:
 #' * richness = A richness profile matrix

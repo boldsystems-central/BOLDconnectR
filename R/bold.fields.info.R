@@ -1,10 +1,11 @@
-#' Helper function to obtain the BOLD.fields.data
+#' Retrieve metadata of the BOLD data fields
 #'
 #' @param print.output Whether the output should be printed in the console. Default is FALSE.
 #'
-#' @details The function downloads the latest field (column) names and its meta data (file type and brief description) which is currently available for download from BOLD
+#' @details The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.
 #'
 #' @returns A data frame containing information on all fields (columns)
+#'
 #' @importFrom dplyr matches
 #' @importFrom dplyr case_when
 #' @importFrom dplyr select

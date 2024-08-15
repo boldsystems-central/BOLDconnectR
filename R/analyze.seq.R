@@ -1,7 +1,7 @@
 #' Analyze and visualize the output from the `align.seq`
 #'
 #' @description
-#' This function provides a distance matrix and a NJ clustering of the multiple sequence alignment output of the `align.seq`.
+#' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `align.seq`.
 #'
 #' @export
 #'
@@ -14,8 +14,7 @@
 #' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details ‘analyze.seq’ analyzes the output of the `align.seq` function to generate a distance matrix using the models available in the `dist.dna` function of the ape library. The function also has an option to plot the distances as a basic Neighbor joining cluster using the [ggtree] package. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
-#'
+#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the [ggtree] package. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 #'
 #' @returns A list containing:
 #' * dist_mat = A distance matrix based on the model selected
@@ -35,9 +34,7 @@
 #' @importFrom ggtree geom_nodepoint
 #' @importFrom ggplot2 ggtitle
 #' @export
-
-
-
+#'
 analyze.seq<-function(aligned.seq,
                        dist.model,
                        clus=c("nj",

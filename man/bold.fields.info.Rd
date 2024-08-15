@@ -2,7 +2,7 @@
 % Please edit documentation in R/bold.fields.info.R
 \name{bold.fields.info}
 \alias{bold.fields.info}
-\title{Helper function to obtain the BOLD.fields.data}
+\title{Retrieve metadata of the BOLD data fields}
 \usage{
 bold.fields.info(print.output = FALSE)
 }
@@ -13,8 +13,8 @@ bold.fields.info(print.output = FALSE)
 A data frame containing information on all fields (columns)
 }
 \description{
-Helper function to obtain the BOLD.fields.data
+Retrieve metadata of the BOLD data fields
 }
 \details{
-The function downloads the latest field (column) names and its meta data (file type and brief description) which is currently available for download from BOLD
+The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.
 }

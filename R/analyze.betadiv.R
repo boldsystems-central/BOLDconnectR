@@ -1,17 +1,17 @@
 #' Create a beta diversity profile of the retrieved data
 #'
 #' @description
-#' Function analyzes the output from the `gen.comm.mat` to provide a beta diversity (and its partitions) profile of the downloaded data
+#' This function analyzes the output from the `gen.comm.mat` to provide a beta diversity (and its partitions) profile of the downloaded data.
 #'
-#' @param bin.comm the site X species like output from the `gen.comm.mat` function.Default is FALSE
-#' @param index A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' currently available)
-#' @param pre.abs A logical value specifying if input data is presence-absence. Default is FALSE.
-#' @param heatmap A logical value specifying whether a heatmap of the beta diversity values should be plotted.Default is FALSE.
-#' @param component A character value specifying which beta diversity component should be used for the heatmap. Default is NULL.
-#' @param grids A logical value specifying Whether the community matrix is generated using grids. Default is FALSE.
-#' @param grids.df If grids = TRUE, a 'sf' grid data frame generated along with the community matrix using the`gen.comm.mat` function.Default is NULL
+#' @param bin.comm the site X species like output from the `gen.comm.mat` function.Default value is FALSE.
+#' @param index A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' currently available).
+#' @param pre.abs A logical value specifying whether the input data is presence-absence. Default value is FALSE.
+#' @param heatmap A logical value specifying whether a heatmap of the beta diversity values should be plotted.Default value is FALSE.
+#' @param component A character value specifying which beta diversity component should be used for the heatmap. Default value is NULL.
+#' @param grids A logical value specifying Whether the community matrix is generated using grids. Default value is FALSE.
+#' @param grids.df If `grids` = TRUE, a [sf] grid data frame generated along with the community matrix using the [bold.gen.comm.mat()] function.Default value is NULL.
 #'
-#' @details The function calculates a sorenson or jaccard beta dissimilarity matrix using the `gen.comm.mat` output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
+#' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the `gen.comm.mat` output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
 #' @returns A list containing:
 #' * output$total.beta = beta.total

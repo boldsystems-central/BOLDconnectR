@@ -42,8 +42,8 @@ A list containing:
 }
 }
 \description{
-This function provides a distance matrix and a NJ clustering of the multiple sequence alignment output of the \code{align.seq}.
+Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{align.seq}.
 }
 \details{
-‘analyze.seq’ analyzes the output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{dist.dna} function of the ape library. The function also has an option to plot the distances as a basic Neighbor joining cluster using the \link{ggtree} package. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the \link{ggtree} package. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
 }

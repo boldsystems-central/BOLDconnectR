@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # BOLDconnectR
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/sameerpadhye/BOLDconnectR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sameerpadhye/BOLDconnectR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 BOLDconnectR is a package designed for retrieval, transformation and analysis of the data available in the Barcode Of Life Data Systems (BOLD) database. This package provides the functionality to obtain public as well as private user data available in the database.

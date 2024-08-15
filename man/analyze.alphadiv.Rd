@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyze.alphadiv.R
 \name{analyze.alphadiv}
 \alias{analyze.alphadiv}
-\title{Create a alpha diversity profile of the retrieved data}
+\title{Create an alpha diversity profile of the retrieved data}
 \usage{
 analyze.alphadiv(
   bin.comm,
@@ -14,17 +14,17 @@ analyze.alphadiv(
 )
 }
 \arguments{
-\item{bin.comm}{the site X species like output from the \code{gen.comm.mat} function.Default is FALSE}
+\item{bin.comm}{the site X species like output from the \code{gen.comm.mat} function.}
 
-\item{plot.curve}{A logical value specifying whether a accummulation curve should be plotted}
+\item{plot.curve}{A logical value specifying whether an accumulation curve should be plotted.Default value is FALSE.}
 
-\item{curve.index}{A character value specifying which index should be used for the \code{curve.index} argument. Default is NULL.}
+\item{curve.index}{A character value specifying which index should be used for the \code{curve.index} argument. Default value is NULL.}
 
-\item{curve.xval}{A character value specifying whether sample or individuals should be used against the \code{curve.index}.Default is NULL}
+\item{curve.xval}{A character value specifying whether sample or individuals should be used against the \code{curve.index}.Default value is NULL.}
 
-\item{preston.res}{A logical value specifying if preston results should be generated. Default is FALSE.}
+\item{preston.res}{A logical value specifying whether the Preston results should be generated. Default value is FALSE.}
 
-\item{pres.plot.y.label}{A character value specifying the taxonomic category which was used  to generate the matrix using the \code{gen.comm.mat} function}
+\item{pres.plot.y.label}{A character value specifying the taxonomic category (\code{taxon.rank} in \code{\link[=bold.gen.comm.mat]{bold.gen.comm.mat()}}) which was used to generate the matrix.}
 }
 \value{
 A list containing containing:
@@ -37,8 +37,8 @@ A list containing containing:
 }
 }
 \description{
-Function analyzes the output from the \code{gen.comm.mat} to provide a richness and alpha diversity profile of the downloaded data
+This function analyzes the output from the \code{gen.comm.mat} to provide a richness and alpha diversity profile of the downloaded data.
 }
 \details{
-The function calculated richness and alpha diversity values using the \code{gen.comm.mat} output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the \code{gen.comm.mat} function. The function also generates  Preston plots and the associated numerical results. A richness profile is created using the \code{\link[BAT:alpha.accum]{BAT::alpha.accum()}} while the preston and shannon diversity results are obtained using the \code{\link[vegan:fisherfit]{vegan::prestondistr()}} and \code{\link[vegan:diversity]{vegan::diversity()}} respectively. Preston plots are created using the data from the \code{prestondistr} results in \link{ggplot2}.Please note that the user should consider using some of the results (like Shannon/Preston) based on the input data (true abundances vs counts vs incidences)
+\code{analyze.alphadiv} estimates the richness and calculates the shannon diversity values using the \code{\link[=bold.gen.comm.mat]{bold.gen.comm.mat()}} output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the \code{gen.comm.mat} function. The function also generates Preston plots and the associated numerical results. The richness profile is created using \code{\link[BAT:alpha.accum]{BAT::alpha.accum()}} while the preston and shannon diversity results are obtained using the \code{\link[vegan:fisherfit]{vegan::prestondistr()}} and \code{\link[vegan:diversity]{vegan::diversity()}} functions respectively. Preston plots are created using the data from the \code{prestondistr} results in \link{ggplot2}.Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences).
 }

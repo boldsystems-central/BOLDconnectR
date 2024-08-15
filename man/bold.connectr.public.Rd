@@ -2,7 +2,7 @@
 % Please edit documentation in R/bold.connectr.public.R
 \name{bold.connectr.public}
 \alias{bold.connectr.public}
-\title{Fetch publicly available data from the BOLD database}
+\title{Retrieve publicly available data from the BOLD database}
 \usage{
 bold.connectr.public(
   taxonomy = NULL,
@@ -29,45 +29,45 @@ bold.connectr.public(
 )
 }
 \arguments{
-\item{taxonomy}{A single character string or a vector of taxonomic names at any hierarchical level. Default value is NULL}
+\item{taxonomy}{A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.}
 
-\item{geography}{A single character string or a vector of country/province/state/region/sector/site names/codes. Default value is NULL.}
+\item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 
-\item{bins}{A single character string or a vector of BIN ids. Default value is NULL.}
+\item{bins}{A single or multiple character vector specifying the BIN ids. Default value is NULL.}
 
-\item{ids}{A single character string or a vector of either processids or sampleids. Default value is NULL.}
+\item{ids}{A single or multiple character vector specifying either processids or sampleids. Default value is NULL.}
 
-\item{datasets}{A single character string or a vector of dataset codes. Default value is NULL.}
+\item{datasets}{A single or multiple character vector specifying dataset codes. Default value is NULL.}
 
-\item{latitude}{A number or a vector of two numbers indicating the latitudinal range. Values separated by a comma. Default value is NULL.}
+\item{latitude}{A single or a vector of two numbers specifying the latitudinal range. Values should be separated by a comma. Default value is NULL.}
 
-\item{longitude}{A number or a vector of two numbers indicating the longitudinal range. Values separated by a comma. Default value is NULL.}
+\item{longitude}{A single or a vector of two numbers specifying the longitudinal range. Values should be separated by a comma. Default value is NULL.}
 
-\item{shapefile}{A file path pointing to a shapefile or name of the shapefile imported in the session. Default value is NULL.}
+\item{shapefile}{A file path pointing to a shapefile or name of the shapefile imported in the R session. Default value is NULL.}
 
-\item{institutes}{A character string or a vector specifying names of institutes. Default value is NULL.}
+\item{institutes}{A single or multiple character vector specifying names of institutes. Default value is NULL.}
 
-\item{identified.by}{A character string or a vector specifying names of people responsible for identifying the organism. Default value is NULL.}
+\item{identified.by}{A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.}
 
-\item{seq.source}{A character string or a vector specifying data portals from where the (sequence) data was mined. Default value is NULL.}
+\item{seq.source}{A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.}
 
-\item{marker}{A character string or a vector specifying  of gene names. Default value is NULL.}
+\item{marker}{A single or multiple character vector specifying  of gene names. Default value is NULL.}
 
-\item{collection.period}{A Date or a vector of two values specifying the collection period range (start, end). Values separated by comma. Default value is NULL.}
+\item{collection.period}{A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.}
 
-\item{basecount}{A number or a vector of two numbers indicating the base pairs number range. Values separated by a comma. Default value is NULL.}
+\item{basecount}{A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.}
 
-\item{altitude}{A number or a vector of two numbers indicating the altitude range. Values separated by a comma. Default value is NULL.}
+\item{altitude}{A single or a vector of two numbers specifying the altitude range. Values should be separated by a comma. Default value is NULL.}
 
-\item{depth}{A number or a vector of two numbers indicating the depth range. Values separated by a comma. Default value is NULL.}
+\item{depth}{A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.}
 
-\item{fields}{A character string or a vector specifying columns needed in the final dataframe. Default value is NULL.}
+\item{fields}{A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.}
 
-\item{export}{A logical value asking if the output should be exported locally}
+\item{export}{A logical value specifying whether the output should be exported locally. Default value is FALSE.}
 
 \item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved}
+\item{file.path}{A character value specifying the folder path where the file should be saved.}
 
 \item{file.name}{A character value specifying the name of the exported file.}
 }
@@ -75,10 +75,10 @@ bold.connectr.public(
 A data frame containing all the information related to the query search
 }
 \description{
-Retrieves publicly available data based on taxonomy,geography or ids (processid,sampleid, dataset codes & bin_uri) input
+Retrieves publicly available data based on taxonomy,geography or ids (processid,sampleid, dataset codes & bin_uri) input.
 }
 \details{
-Function to retrieve publicly available data on BOLD. Data can be retrieved by providing either one or a combination of \code{taxonomy}, \code{geography}, \code{bins}, \code{ids} or \code{datasets} codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as \code{institutes}, \code{identifiers}, \code{altitude}, \code{depth} etc.). Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
+Function downloads publicly available data on BOLD. Data can be retrieved by providing either one or a combination of \code{taxonomy}, \code{geography}, \code{bins}, \code{ids} or \code{datasets} codes. There is no limit on the data that can be downloaded but complex combinations of the search parameters can lead to weburl character length exceeding the predetermined limit (2048 characters). Downloaded data can then be filtered on either one or a combination of arguments (such as \code{institutes}, \code{identifiers}, \code{altitude}, \code{depth} etc.). Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data. The default NULL value will result in all data being acquired.Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future.
 }
 \examples{
 

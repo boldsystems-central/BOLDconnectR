@@ -2,7 +2,7 @@
 % Please edit documentation in R/bold.connectr.R
 \name{bold.connectr}
 \alias{bold.connectr}
-\title{Fetch data from BOLD database}
+\title{Retrieve data from the BOLD database}
 \usage{
 bold.connectr(
   input.data,
@@ -30,47 +30,47 @@ bold.connectr(
 )
 }
 \arguments{
-\item{input.data}{A file path pointing to either a CSV/TSV/txt file with the ids or a named data frame where ids are stored}
+\item{input.data}{A file path pointing to either a CSV/TSV/txt file with the ids or a data frame where ids are stored}
 
-\item{param}{A character string specifying either “processed”, “sampleid”, "bin_uri" or "dataset_codes"}
+\item{param}{A character string specifying one of “processid”, “sampleid”, "bin_uri" or "dataset_codes"}
 
-\item{param.index}{A number indicating the column index of the "params" in the dataset.}
+\item{param.index}{A number indicating the column index of the \code{params} in the dataset.}
 
 \item{api_key}{A character string required for authentication and data access.}
 
-\item{taxonomy}{A single character string or a vector of taxonomic names at any hierarchical level. Default value is NULL}
+\item{taxonomy}{A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.}
 
-\item{geography}{A single character string or a vector of  country/province/state/region/sector/site names/codes. Default value is NULL.}
+\item{geography}{A single or multiple character vector of any of country/province/state/region/sector/site names/codes. Default value is NULL.}
 
-\item{latitude}{A number or a vector of two numbers indicating the latitudinal range. Values separated by a comma. Default value is NULL.}
+\item{latitude}{A single or a vector of two numbers specifying the latitudinal range. Values should be separated by a comma. Default value is NULL.}
 
-\item{longitude}{A number or a vector of two numbers indicating the longitudinal range. Values separated by a comma. Default value is NULL.}
+\item{longitude}{A single or a vector of two numbers specifying the longitudinal range. Values should be separated by a comma. Default value is NULL.}
 
-\item{shapefile}{A file path pointing to a shapefile or name of the shapefile imported in the session. Default value is NULL.}
+\item{shapefile}{A file path pointing to a shapefile or name of the shapefile imported in the R session. Default value is NULL.}
 
-\item{institutes}{A character string or a vector specifying names of institutes. Default value is NULL.}
+\item{institutes}{A single or multiple character vector specifying names of institutes. Default value is NULL.}
 
-\item{identified.by}{A character string or a vector specifying names of people responsible for identifying the organism. Default value is NULL.}
+\item{identified.by}{A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.}
 
-\item{seq.source}{A character string or a vector specifying data portals from where the (sequence) data was mined. Default value is NULL.}
+\item{seq.source}{A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.}
 
-\item{marker}{A character string or a vector specifying  of gene names. Default value is NULL.}
+\item{marker}{A single or multiple character vector specifying  of gene names. Default value is NULL.}
 
-\item{collection.period}{A Date or a vector of two values specifying the collection period range (start, end). Values separated by comma. Default value is NULL.}
+\item{collection.period}{A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.}
 
-\item{basecount}{A number or a vector of two numbers indicating the base pairs number range. Values separated by a comma. Default value is NULL.}
+\item{basecount}{A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.}
 
-\item{altitude}{A number or a vector of two numbers indicating the altitude range. Values separated by a comma. Default value is NULL.}
+\item{altitude}{A single or a vector of two numbers specifying the altitude range. Values should be separated by a comma. Default value is NULL.}
 
-\item{depth}{A number or a vector of two numbers indicating the depth range. Values separated by a comma. Default value is NULL.}
+\item{depth}{A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.}
 
-\item{fields}{A character string or a vector specifying columns needed in the final dataframe. Default value is NULL.}
+\item{fields}{A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.}
 
-\item{export}{A logical value asking if the output should be exported locally}
+\item{export}{A logical value specifying whether the output should be exported locally. Default value is FALSE.}
 
 \item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved}
+\item{file.path}{A character value specifying the folder path where the file should be saved.}
 
 \item{file.name}{A character value specifying the name of the exported file.}
 }
@@ -78,34 +78,8 @@ bold.connectr(
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
 }
 \description{
-Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input
+Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input.
 }
 \details{
-This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having \code{.csv/.tsv/.txt} extensions or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Please note that for every request, it could be likely that certain values/fields are not currently available and will be so in the near future. Please note that the \code{param} and \code{param.index} must be correctly matched to avoid getting any errors
-}
-\examples{
-#1. Using the function with processids (the 'processid' param is assumed to be in the first column (param.index=1))
-
-bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key")
-head(bold.data,10)
-
-#2. Using the function with sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
-
-bold.data<-bold.connectr(input.data = test.data, param = 'sampleid',param.index = 2,api_key = "your api_key")
-head(bold.data,10)
-
-## Using filters
-# Geography
-bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",geography="India")
-
-# Sequence length
-bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
-
-# Institutes
-bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",institutes = c("University of Delhi", "Universite Laval"))
-
-# Gene marker
-bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",marker="COI-5P")
-
-
+This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having \code{.csv/.tsv/.txt} extensions or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Please note that the \code{param} and \code{param.index} must be correctly matched to avoid getting any errors.Also, it could be likely that certain values/fields are not currently available and will be so in the near future.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/align.seq.R
 \name{align.seq}
 \alias{align.seq}
-\title{Transform and align the retrieve data from BOLD for downstream processing or analysis}
+\title{Transform and align the sequence data retrieved from BOLD}
 \usage{
 align.seq(
   bold.df,
@@ -14,17 +14,17 @@ align.seq(
 )
 }
 \arguments{
-\item{bold.df}{A data frame obtained from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}}
+\item{bold.df}{A data frame obtained from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}.}
 
-\item{marker}{A character string or a vector specifying the gene marker for which the output is generated. Default is NULL (all data is used)}
+\item{marker}{A single or multiple character vector specifying the gene marker for which the output is generated. Default is NULL (all data is used).}
 
-\item{name.fields}{A character string or a vector specifying the column headers which should be used to name each sequence in the fasta file. Default is NULL in which case, only the BIN id is used as a name.}
+\item{name.fields}{A single or multiple character vector specifying column headers which should be used to name each sequence in the fasta file. Default is NULL in which case, only the BIN id is used as a name.}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved}
+\item{file.path}{A character value specifying the folder path where the file should be saved.Default value is NULL.}
 
-\item{file.name}{A character value specifying the name of the exported file.}
+\item{file.name}{A character value specifying the name of the exported file.Default value is NULL.}
 
-\item{raw.fas}{A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default is FALSE}
+\item{raw.fas}{A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.}
 }
 \value{
 A list containing:
@@ -36,7 +36,7 @@ A list containing:
 }
 }
 \description{
-Transforms and aligns the data retrieved from the \code{bold.connectr} and \code{bold.connectr.public} functions
+Transforms and aligns the data retrieved from the \code{bold.connectr} and \code{bold.connectr.public} functions for various downstream analyses
 }
 \details{
 ‘align.seq’ fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using \code{\link[msa:msa]{msa::msa()}} function with method = "ClustalOmega" & default settings. In addition, the function also provides a a)  ‘ape’ ‘DNAbin’ object , b) a data frame of the sequence data and the respective names and c) a raw (unaligned.fas) ‘fasta’ file. File path and file name need to be provided for if raw.fas=TRUE. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the function does not detect any STOP codons and indels in the data.
