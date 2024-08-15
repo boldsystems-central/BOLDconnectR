@@ -40,3 +40,17 @@ This function creates basic maps of organism occurrence data on different scales
 \details{
 \code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format. Default view includes data mapped on a world shape file downloaded using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale. If the ‘country’ is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box can be defined for a specific region to be visualized. If export = TRUE, an image file will be saved based on the type (jpg, tiff), and the file path. The function also provides a \link{sf} data frame of the GIS data which can be used for any other application/s.
 }
+\examples{
+
+#Download data
+geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+
+geo.viz<-visualize.geo(geo.data,export = FALSE)
+
+#The [sf] dataframe of the downloaded data
+geo.viz$geo.df
+
+# Visualization
+geo.viz$plot
+
+}

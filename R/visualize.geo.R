@@ -19,6 +19,19 @@
 #' geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
 #' map_plot = A visualization of the occurrences
 #'
+#' @examples
+#'
+#' #Download data
+#' geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+#'
+#' geo.viz<-visualize.geo(geo.data,export = FALSE)
+#'
+#' #The [sf] dataframe of the downloaded data
+#' geo.viz$geo.df
+#'
+#' # Visualization
+#' geo.viz$plot
+#'
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify
 #' @importFrom rnaturalearth ne_countries

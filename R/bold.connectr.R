@@ -28,33 +28,28 @@
 #'
 #' @details This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search `param`.There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having `.csv/.tsv/.txt` extensions or a R `data.frame` object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like `taxonomy`, `geography`, `institutions` etc. with the default being NULL for all. Using the `fields` argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. `api_key` is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Please note that the `param` and `param.index` must be correctly matched to avoid getting any errors.Also, it could be likely that certain values/fields are not currently available and will be so in the near future.
 #'
-#' Usage
+#' @examples
+#' \dontrun{
+#' #1. Using the function with processids (the 'processid' param is assumed to be in the first column (param.index=1))
 #'
-#' Using the function with processids (the 'processid' param is assumed to be in the first column (param.index=1))
+#' data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key")
+#' head(data,10)
 #'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key")
+#' #2. Using the function with sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
 #'
-#' Using the function with sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
+#' data<-bold.connectr(input.data = test.data, param = 'sampleid',param.index = 2,api_key = "api_key")
+#' head(data,10)
 #'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'sampleid',param.index = 2,api_key = "your api_key")
+#' ## Using filters
+#' # Geography
+#' data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key",geography="India")
 #'
-#' Using filters
+#' # Sequence length
+#' data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key",nuc_basecount=c(500,600))
 #'
-#' Geography
-#'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",geography="India")
-#'
-#' Sequence length
-#'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",nuc_basecount=c(500,600))
-#'
-#' Institutes
-#'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",institutes = c("University of Delhi", "Universite Laval"))
-#'
-#' Gene marker
-#'
-#' bold.data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",marker="COI-5P")
+#' # Gene marker
+#'data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",marker="COI-5P")
+#'}
 #'
 #' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
 #'
