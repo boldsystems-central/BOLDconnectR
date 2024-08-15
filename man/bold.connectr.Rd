@@ -32,9 +32,9 @@ bold.connectr(
 \arguments{
 \item{input.data}{A file path pointing to either a CSV/TSV/txt file with the ids or a data frame where ids are stored}
 
-\item{param}{A character string specifying one of “processid”, “sampleid”, "bin_uri" or "dataset_codes"}
+\item{param}{A data path, character vector or a \code{data.frame}having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes"}
 
-\item{param.index}{A number indicating the column index of the \code{params} in the dataset.}
+\item{param.index}{A number indicating the column index (position) of the \code{params} in the dataset.}
 
 \item{api_key}{A character string required for authentication and data access.}
 
@@ -81,7 +81,7 @@ A data frame containing all the information related to the processids/sampleids 
 Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input.
 }
 \details{
-This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having \code{.csv/.tsv/.txt} extensions or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Column names of the downloaded data are as per the \code{fields} column from the \code{bold.fields.info}. Please note that the \code{param} and \code{param.index} must be correctly matched to avoid getting any errors.Also, it could be likely that certain values/fields are not currently available and will be so in the near future.
+This function retrieves both public as well as private user data and can effectively download data in bulk. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.Data is retrieved by specifying only one of the \code{params} at a time (Multi param search such as ‘processids’+ ‘sampleids’ + ‘bin_uri’  is not available) even if the \code{input.data} has all the \code{params} available. There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having \code{.csv/.tsv/.txt} extensions or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Column names of the downloaded data are as per the \code{fields} column from the \code{bold.fields.info}. Please note that the \code{param} and \code{param.index} must be correctly matched to avoid getting any errors.Also, it could be likely that certain values/fields are not currently available and will be so in the near future.
 }
 \examples{
 \dontrun{
