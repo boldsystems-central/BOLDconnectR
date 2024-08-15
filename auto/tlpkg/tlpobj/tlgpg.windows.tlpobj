@@ -1,9 +1,0 @@
-name tlgpg.windows
-category Package
-revision 10
-shortdesc windows files of tlgpg
-containersize 1802264
-containerchecksum 1e52de84a843a16e363d9923f3c56822bd93a39114073937557b3b02bfa44e799fab48a7b81a360e79a35112b3e4880d68f839a036f312e8671c8cec1184cc43
-binfiles arch=windows size=1361
- tlpkg/installer/gpg/gpg.exe
- tlpkg/installer/gpg/iconv.dll

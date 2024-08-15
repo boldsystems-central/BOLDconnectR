@@ -1,9 +1,0 @@
-name luahbtex.windows
-category TLCore
-revision 71006
-shortdesc windows files of luahbtex
-containersize 1929616
-containerchecksum daa23fd05c7973f6c0db8b4ded91974b0c913c9a2d04492f51825eab86a303eb94c9a10c6e194e7085e1c990c666eb2aa72c13ff752baa35011729a5ff0ad429
-binfiles arch=windows size=1736
- bin/windows/luahbtex.dll
- bin/windows/luahbtex.exe

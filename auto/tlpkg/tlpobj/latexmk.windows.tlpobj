@@ -1,8 +1,0 @@
-name latexmk.windows
-category Package
-revision 65891
-shortdesc windows files of latexmk
-containersize 2300
-containerchecksum dbdcbba6c94b305ee1ffa04db6b3beaabce7c50c4dd50b57bba84e8124152ff6839730360e459433c38fe3476da793647ce5c403ff206037518d292c1b398849
-binfiles arch=windows size=2
- bin/windows/latexmk.exe
