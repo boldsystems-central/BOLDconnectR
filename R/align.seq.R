@@ -26,6 +26,7 @@
 #'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa
+#' @importFrom msa msaClustalOmega
 #' @importFrom ape read.dna
 #' @importFrom ape write.FASTA
 #' @importFrom methods as
