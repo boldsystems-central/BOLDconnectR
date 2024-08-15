@@ -1,10 +1,18 @@
 #' Retrieve metadata of the BOLD data fields
 #'
+#'#' @description
+#' This function provides information on the field (column) names and their respective data type
+#'
 #' @param print.output Whether the output should be printed in the console. Default is FALSE.
 #'
-#' @details The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.
+#' @details The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.`print,output` = TRUE will print the information in the console.
 #'
 #' @returns A data frame containing information on all fields (columns)
+#'
+#' @examples
+#'
+#' bold.field.data<-bold.fields.info()
+#' head(bold.field.data,10)
 #'
 #' @importFrom dplyr matches
 #' @importFrom dplyr case_when

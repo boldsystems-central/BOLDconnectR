@@ -13,8 +13,15 @@ bold.fields.info(print.output = FALSE)
 A data frame containing information on all fields (columns)
 }
 \description{
-Retrieve metadata of the BOLD data fields
+#' @description
+This function provides information on the field (column) names and their respective data type
 }
 \details{
-The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.
+The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.\verb{print,output} = TRUE will print the information in the console.
+}
+\examples{
+
+bold.field.data<-bold.fields.info()
+head(bold.field.data,10)
+
 }

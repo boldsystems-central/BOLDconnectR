@@ -9,7 +9,7 @@
 #' @param heatmap A logical value specifying whether a heatmap of the beta diversity values should be plotted.Default value is FALSE.
 #' @param component A character value specifying which beta diversity component should be used for the heatmap. Default value is NULL.
 #' @param grids A logical value specifying Whether the community matrix is generated using grids. Default value is FALSE.
-#' @param grids.df If `grids` = TRUE, a [sf] grid data frame generated along with the community matrix using the [bold.gen.comm.mat()] function.Default value is NULL.
+#' @param grids.df If `grids` = TRUE, a [sf] grid data frame generated along with the community matrix using the [gen.comm.mat()] function.Default value is NULL.
 #'
 #' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the `gen.comm.mat` output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
