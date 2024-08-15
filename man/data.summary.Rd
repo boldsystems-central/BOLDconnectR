@@ -20,3 +20,17 @@ The function is used to obtain a detailed summary of the data obtained by \code{
 \details{
 ‘data.summary’ provides summaries for each data type available in the fetched dataset. The function uses the \code{\link[skimr:skim]{skimr::skim()}} function  to generate a list of data frames followed by the \code{\link[skimr:partition]{skimr::partition()}} which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The 'columns' argument will select any specific field required. The output is printed on the console and can be saved as well. Please note that if the 'fields' argument from the 'bold.fetch.data' has been used to filter certain columns, summaries of only those columns will be available by default.
 }
+\examples{
+# Download data
+bold_data<-bold.connectr.public(taxonomy = "Oreochromis")
+
+# Generate summary for specific fields (cols)
+test.data.summary<-data.summary(bold_data,cols = c("country.ocean","nuc_basecount","inst","elev"))
+
+# Character data fields summary
+test.data.summary$character
+
+# Numerical data fields summary
+test.data.summary$numeric
+
+}

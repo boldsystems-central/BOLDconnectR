@@ -19,6 +19,11 @@
 #' * seq.df: a data frame with sequences as one column and its name in the other (unaligned)
 #' * raw.fas = TRUE: a ‘.fas’ file of unaligned sequences
 #'
+#'
+#'
+#'
+#'
+#'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa
 #' @importFrom ape read.dna
@@ -215,8 +220,7 @@ align.seq<-function (bold.df,
 
 
   alignment_seq<-Biostrings::DNAStringSet(seq.from.data)%>%
-    msa::msa(.,
-             method = "ClustalOmega")
+    msa::msa(.,method = "ClustalOmega")
 
 
   # alignment_seq<-Biostrings::DNAStringSet(seq.from.data)

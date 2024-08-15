@@ -11,13 +11,52 @@
 #' @param grids A logical value specifying Whether the community matrix is generated using grids. Default value is FALSE.
 #' @param grids.df If `grids` = TRUE, a [sf] grid data frame generated along with the community matrix using the [gen.comm.mat()] function.Default value is NULL.
 #'
-#' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the `gen.comm.mat` output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
+#' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the [gen.comm.mat()] output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
 #' @returns A list containing:
 #' * output$total.beta = beta.total
 #' * output$replace = beta.replace (replacement)
 #' * output$richnessd = beta.richnessd (richness difference)
 #' * output$heatmap.viz = heatmap_final
+#'
+
+#' @examples
+#'
+#' #Download data from BOLD (removing species with blanks)
+#' comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+#'
+#' #Generate the community matrix based on grids
+#' comm.data.beta<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+#'
+#' beta.data<-comm.data.beta$comm.matrix
+#'
+#' #beta diversity without the heatmaps
+#' beta.div.res<-analyze.betadiv(beta.data,index="sorenson")
+#'
+#' #Total diversity
+#' beta.div.res$total.beta
+#'
+#' #Replacement
+#' beta.div.res$replace
+#'
+#' #Richness difference
+#' beta.div.res$richnessd
+#'
+#'
+#' #beta diversity with the heatmaps
+#' beta.div.res2<-analyze.betadiv(beta.data,index="sorenson",heatmap = TRUE,component = "total")
+#'
+#' #Total diversity
+#' beta.div.res2$total.beta
+#'
+#' #Replacement
+#' beta.div.res2$replace
+#'
+#' #Richness difference
+#' beta.div.res2$richnessd
+#'
+#' #Visualize the heatmap
+#' beta.div.res$heatmap.viz
 #'
 #' @importFrom BAT beta
 #' @importFrom dplyr left_join

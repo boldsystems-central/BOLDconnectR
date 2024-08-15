@@ -32,8 +32,8 @@ gen.comm.mat(
 \value{
 a list containing
 \itemize{
-\item grid_df = A site X species like matrix based on BINs
-\item grids_final = A \link{sf} data frame containing the grid geometry and corresponding cell id
+\item comm.matrix = A site X species like matrix based on BINs
+\item grids = A \link{sf} data frame containing the grid geometry and corresponding cell id
 \item grid_plot = A grid_plot overlaid on a world map with cell ids
 }
 }
@@ -42,4 +42,29 @@ This function generates a community matrix (~site X species) using the data retr
 }
 \details{
 The function transforms the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} downloaded data into a site X species like matrix using BINs instead of species. Values in each cell are the counts of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for bin_uri though, in that case, the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or 'grid'). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.fields.info]{bold.fields.info()}}). Alternatively, \code{grids} = TRUE will generate grids based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.).\code{grids} converts the Coordinate Reference System (CRS) of the data to ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per user requirement using the \code{grids_final} \link{sf} data frame stored in the output. This can be visualized with the \code{view.grids} argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for bin_uri, latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with \code{view.grids} can get difficult. The argument \code{pre.abs} will convert the counts to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \link{vegan} for biodiversity analyses.
+}
+\examples{
+
+# Using countries as a site.cat
+# Download data from BOLD
+comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
+
+# Generate the community matrix based on countries
+comm.matrix<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+
+# View the community matrix
+head(comm.matrix$comm.matrix)
+
+# Using grids instead of site.cat
+
+# Generate the community matrix based on grids
+comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
+
+# View the community matrix
+head(comm.data.grid$comm.matrix)
+
+# View the sf dataframe of the grids
+head(comm.data.grid$grids)
+
+
 }

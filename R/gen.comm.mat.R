@@ -14,9 +14,33 @@
 #' @details The function transforms the [bold.connectr()] or [bold.connectr.public()] downloaded data into a site X species like matrix using BINs instead of species. Values in each cell are the counts of a specific BIN from a `site.cat` site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for bin_uri though, in that case, the numbers in each cell would be the number of times that respective BIN is found at a particular `site.cat` or 'grid'). `site.cat` can be any of the `geography` fields (Meta data on fields can be checked using the [bold.fields.info()]). Alternatively, `grids` = TRUE will generate grids based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.).`grids` converts the Coordinate Reference System (CRS) of the data to ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per user requirement using the `grids_final` [sf] data frame stored in the output. This can be visualized with the `view.grids` argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for bin_uri, latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with `view.grids` can get difficult. The argument `pre.abs` will convert the counts to 1 and 0. This dataset can then directly be used as the input data for functions from packages like [vegan] for biodiversity analyses.
 #'
 #' @returns a list containing
-#' * grid_df = A site X species like matrix based on BINs
-#' * grids_final = A [sf] data frame containing the grid geometry and corresponding cell id
+#' * comm.matrix = A site X species like matrix based on BINs
+#' * grids = A [sf] data frame containing the grid geometry and corresponding cell id
 #' * grid_plot = A grid_plot overlaid on a world map with cell ids
+#'
+#' @examples
+#'
+#' # Using countries as a site.cat
+#' # Download data from BOLD
+#' comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
+#'
+#' # Generate the community matrix based on countries
+#' comm.matrix<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+#'
+#' # View the community matrix
+#' head(comm.matrix$comm.matrix)
+#'
+#' # Using grids instead of site.cat
+#'
+#' # Generate the community matrix based on grids
+#' comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
+#'
+#' # View the community matrix
+#' head(comm.data.grid$comm.matrix)
+#'
+#' # View the sf dataframe of the grids
+#' head(comm.data.grid$grids)
+#'
 #'
 #' @importFrom reshape2 dcast
 #' @importFrom httr POST

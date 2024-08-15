@@ -11,6 +11,19 @@
 #'
 #' @returns A list of data frames. Each data frame is a data summary of a specific data type.
 #'
+#' @examples
+#' # Download data
+#' bold_data<-bold.connectr.public(taxonomy = "Oreochromis")
+#'
+#' # Generate summary for specific fields (cols)
+#' test.data.summary<-data.summary(bold_data,cols = c("country.ocean","nuc_basecount","inst","elev"))
+#'
+#' # Character data fields summary
+#' test.data.summary$character
+#'
+#' # Numerical data fields summary
+#' test.data.summary$numeric
+#'
 #' @importFrom skimr skim
 #' @importFrom skimr partition
 #' @importFrom skimr skim_with

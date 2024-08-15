@@ -42,5 +42,44 @@ A list containing:
 This function analyzes the output from the \code{gen.comm.mat} to provide a beta diversity (and its partitions) profile of the downloaded data.
 }
 \details{
-\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{gen.comm.mat} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
+\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
+}
+\examples{
+
+#Download data from BOLD (removing species with blanks)
+comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+#Generate the community matrix based on grids
+comm.data.beta<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+
+beta.data<-comm.data.beta$comm.matrix
+
+#beta diversity without the heatmaps
+beta.div.res<-analyze.betadiv(beta.data,index="sorenson")
+
+#Total diversity
+beta.div.res$total.beta
+
+#Replacement
+beta.div.res$replace
+
+#Richness difference
+beta.div.res$richnessd
+
+
+#beta diversity with the heatmaps
+beta.div.res2<-analyze.betadiv(beta.data,index="sorenson",heatmap = TRUE,component = "total")
+
+#Total diversity
+beta.div.res2$total.beta
+
+#Replacement
+beta.div.res2$replace
+
+#Richness difference
+beta.div.res2$richnessd
+
+#Visualize the heatmap
+beta.div.res$heatmap.viz
+
 }

@@ -8,9 +8,9 @@
 #' @param curve.index A character value specifying which index should be used for the `curve.index` argument. Default value is NULL.
 #' @param curve.xval A character value specifying whether sample or individuals should be used against the `curve.index`.Default value is NULL.
 #' @param preston.res A logical value specifying whether the Preston results should be generated. Default value is FALSE.
-#' @param pres.plot.y.label A character value specifying the taxonomic category (`taxon.rank` in [bold.gen.comm.mat()]) which was used to generate the matrix.
+#' @param pres.plot.y.label A character value specifying the taxonomic category (`taxon.rank` in [gen.comm.mat()]) which was used to generate the matrix.
 #'
-#' @details `analyze.alphadiv` estimates the richness and calculates the shannon diversity values using the [gen.comm.mat()] output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates Preston plots and the associated numerical results. The richness profile is created using [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] functions respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences).
+#' @details `analyze.alphadiv` estimates the richness and calculates the shannon diversity values using the [gen.comm.mat()] output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates Preston plots and the associated numerical results. The richness profile is created using [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] functions respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].The cyan bars in the preston plot represent the observed species (or equivalent taxonomic group) while the orange dots represent the expected number of the same. Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences). Additionally, Preston result's output gives a number of species by default. If another taxonomic rank is used in the [gen.comm.mat()] function, the 'species' number in the results would be the number of that taxonomic rank (even though the output would still print 'species').
 #'
 #' @returns A list containing containing:
 #' * richness = A richness profile matrix
@@ -18,6 +18,39 @@
 #' * output$richness_plot = A ggplot2 visualization of the richness curve
 #' * output$preston.res = a Preston plot numerical data output
 #' * output$preston.plot = a ggplot2 visualization of the preston.plot
+#'
+#' @examples
+#' # Download data from BOLD (removing species with blanks)
+#' comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+#'
+#' comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
+#'
+#' # Generate the community matrix based on grids
+#' comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
+#'
+#' grid.data<-comm.data.grid$comm.matrix
+#'
+#' # Diversity results with estimation curve and without preston results
+#' div.res1<-analyze.alphadiv(grid.data,plot.curve=TRUE,curve.index="Jack1ab",curve.xval = "Sampl")
+#'
+#' # Richness estimations
+#' head(div.res1$richness)
+#'
+#' # Richness plot
+#' div.res1$richness_plot
+#'
+#' # Shannon diversity
+#' head(div.res1$Shannon_div)
+#'
+#'
+#' # Diversity results without estimation curve and with preston results
+#' div.res2<-analyze.alphadiv(grid.data,preston.res = TRUE,pres.plot.y.label = "species")
+#'
+#' # Preston results
+#' div.res2$preston.res
+#'
+#' # Preston plot
+#' div.res2$preston.plot
 #'
 #' @importFrom BAT alpha.accum
 #' @importFrom vegan diversity
