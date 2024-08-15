@@ -11,6 +11,7 @@ gen.comm.mat(
   site.cat = NULL,
   grids = FALSE,
   gridsize = NULL,
+  pre.abs = FALSE,
   view.grids = FALSE
 )
 }
@@ -26,6 +27,8 @@ gen.comm.mat(
 \item{grids}{A logical value specifying Whether the community matrix should be based on grids as ‘sites’. Default value is NULL.}
 
 \item{gridsize}{A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default value is NULL.}
+
+\item{pre.abs}{A logical value specifying whether the generated matrix should be converted into a 'presence-absence' matrix}
 
 \item{view.grids}{A logical value specifying viewing the grids overlaid on a map with respective cell ids. Default value is FALSE.}
 }
