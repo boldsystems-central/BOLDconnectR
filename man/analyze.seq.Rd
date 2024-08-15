@@ -39,6 +39,7 @@ A list containing:
 \item base_freq = Overall base frequencies of the 'align.seq' result
 \item Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
 \item plot = Neighbor Joining clustering visualization (if plot=TRUE)
+\item data_for_plot = A 'phylo' object used for the plot
 }
 }
 \description{
@@ -46,4 +47,29 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \details{
 \code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the \link{ggtree} package. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+}
+\examples{
+
+#Download the data
+seq.data<-bold.connectr.public(taxonomy = c("Eulimnadia"),marker = "COI-5P")
+seq<-seq.data[!seq.data$species=="",]
+
+# Align the data (using species" and bin_uri  as a composite name for each sequence)
+seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+
+#Analyze the data
+seq.analysis<-analyze.seq(seq.align$msa.result,"K80",clus="njs",plot=TRUE)
+
+#Visualize the plot
+seq.analysis$plot
+
+#A 'phylo' object of the plot
+seq.analysis$data_for_plot
+
+#A distance matrix based on the distance model selected
+seq.analysis$dist_matrix
+
+# Base frequencies of the sequences
+seq.analysis$base_freq
+
 }

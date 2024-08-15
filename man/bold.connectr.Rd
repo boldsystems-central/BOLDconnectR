@@ -85,25 +85,26 @@ This function retrieves both public as well as private user data and can effecti
 }
 \examples{
 \dontrun{
-#1. Using the function with processids (the 'processid' param is assumed to be in the first column (param.index=1))
-
-data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key")
+data(test.data)
+#With processids ('processid' param is assumed to be in the first column (param.index=1))
+res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
 head(data,10)
 
-#2. Using the function with sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
-
-data<-bold.connectr(input.data = test.data, param = 'sampleid',param.index = 2,api_key = "api_key")
+#With sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
+res<-bold.connectr(test.data,'sampleid',2,api_key = "key")
 head(data,10)
 
 ## Using filters
-# Geography
-data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key",geography="India")
 
-# Sequence length
-data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "api_key",nuc_basecount=c(500,600))
+#Geography
+res<-bold.connectr(test.data, param = 'processid',param.index = 1,api_key = "key",geography="India")
 
-# Gene marker
-data<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "your api_key",marker="COI-5P")
+#Sequence length
+res<-bold.connectr(test.data, 'processid',1,api_key = "key",nuc_basecount=c(500,600))
+
+#Gene marker
+res<-bold.connectr(test.data, 'processid',1,api_key = "key",marker="COI-5P")
+
 }
 
 }

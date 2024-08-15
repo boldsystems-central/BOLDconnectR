@@ -3,8 +3,6 @@
 #' @description
 #' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `align.seq`.
 #'
-#' @export
-#'
 #' @param aligned.seq A DNAStringset multiple sequence alignment object returned by `align.seq` function
 #' @param dist.model A character string specifying the model to generate the distances
 #' @param clus A character vector specifying either [ape::nj()] (neighbour joining) or [ape::njs()] (neighbour joining with NAs) clustering algorithm
@@ -21,7 +19,32 @@
 #' * base_freq = Overall base frequencies of the 'align.seq' result
 #' * Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
 #' * plot = Neighbor Joining clustering visualization (if plot=TRUE)
-
+#' * data_for_plot = A 'phylo' object used for the plot
+#'
+#' @examples
+#'
+#' #Download the data
+#' seq.data<-bold.connectr.public(taxonomy = c("Eulimnadia"),marker = "COI-5P")
+#' seq<-seq.data[!seq.data$species=="",]
+#'
+#' # Align the data (using species" and bin_uri  as a composite name for each sequence)
+#' seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+#'
+#' #Analyze the data
+#' seq.analysis<-analyze.seq(seq.align$msa.result,"K80",clus="njs",plot=TRUE)
+#'
+#' #Visualize the plot
+#' seq.analysis$plot
+#'
+#' #A 'phylo' object of the plot
+#' seq.analysis$data_for_plot
+#'
+#' #A distance matrix based on the distance model selected
+#' seq.analysis$dist_matrix
+#'
+#' # Base frequencies of the sequences
+#' seq.analysis$base_freq
+#'
 #' @importFrom msa msaConvert
 #' @importFrom ape dist.dna
 #' @importFrom ape base.freq
@@ -33,6 +56,7 @@
 #' @importFrom ggtree geom_treescale
 #' @importFrom ggtree geom_nodepoint
 #' @importFrom ggplot2 ggtitle
+#'
 #' @export
 #'
 analyze.seq<-function(aligned.seq,
