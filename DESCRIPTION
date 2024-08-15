@@ -13,6 +13,7 @@ Depends:
     R (>= 3.2.0)
 Imports: 
     ape,
+    cli,
     BAT,
     Biostrings,
     data.table,

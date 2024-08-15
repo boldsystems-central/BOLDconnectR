@@ -1,0 +1,33 @@
+name tex-ini-files
+category Package
+revision 68920
+shortdesc Model TeX format creation files
+longdesc This bundle provides a collection of model .ini files for
+longdesc creating TeX formats. These files are commonly used to
+longdesc introduce distribution-dependent variations in formats. They
+longdesc are also used to allow existing format source files to be used
+longdesc with newer engines, for example to adapt the plain e-TeX source
+longdesc file to work with XeTeX and LuaTeX.
+containersize 4400
+containerchecksum 58f8b1dd44be6ea67dfaaa67a4f7c6d27d222ccc7c7898c31ade4f23ae39a9a5aace902f05ff48bb3f6d63eae38f9db93b75c4d2efeacd394230694eebc33fa3
+doccontainersize 1376
+doccontainerchecksum 9caf187a5589e49f946a7fc5ad332073dd2a90d82f71587a57ee9d62e365321fbf14e69e3e3448d85302cf5418a2eb7d94a114f95c575867b52579f6c35d5e48
+runfiles size=15
+ texmf-dist/tex/generic/tex-ini-files/dviluatex.ini
+ texmf-dist/tex/generic/tex-ini-files/luatex.ini
+ texmf-dist/tex/generic/tex-ini-files/luatexconfig.tex
+ texmf-dist/tex/generic/tex-ini-files/luatexiniconfig.tex
+ texmf-dist/tex/generic/tex-ini-files/pdftexconfig.tex
+ texmf-dist/tex/generic/tex-ini-files/pdfxmltex.ini
+ texmf-dist/tex/generic/tex-ini-files/xetex.ini
+ texmf-dist/tex/generic/tex-ini-files/xmltex.ini
+ texmf-dist/tex/latex/tex-ini-files/dvilualatex.ini
+ texmf-dist/tex/latex/tex-ini-files/latex.ini
+ texmf-dist/tex/latex/tex-ini-files/lualatex.ini
+ texmf-dist/tex/latex/tex-ini-files/lualatexquotejobname.lua
+ texmf-dist/tex/latex/tex-ini-files/mllatex.ini
+ texmf-dist/tex/latex/tex-ini-files/pdflatex.ini
+ texmf-dist/tex/latex/tex-ini-files/xelatex.ini
+catalogue-ctan /macros/generic/tex-ini-files
+catalogue-license pd
+catalogue-topics latex3

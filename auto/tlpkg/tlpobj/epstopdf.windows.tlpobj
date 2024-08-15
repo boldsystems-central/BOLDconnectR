@@ -1,0 +1,9 @@
+name epstopdf.windows
+category Package
+revision 65891
+shortdesc windows files of epstopdf
+containersize 2356
+containerchecksum bb21ec7803b89f878e4d334b8dc66d437064d381025a095818a3727f16ef9269147777695eeec12f1f7edd9b57aeea7dc6217636f2d077a5b5d38d900b8cbfb6
+binfiles arch=windows size=4
+ bin/windows/epstopdf.exe
+ bin/windows/repstopdf.exe

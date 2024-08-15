@@ -1,0 +1,24 @@
+name makeindex
+category Package
+revision 62517
+catalogue makeindexk
+shortdesc Makeindex development sources
+longdesc The package contains the development sources of makeindex, as
+longdesc derived from the texlive subversion repository.
+depend makeindex.ARCH
+containersize 4608
+containerchecksum 5967ba4123fd4c708ce841d29211fdb66c28518f4b418903be0ddf2a49964f706af96b250eec814c547e0703460c1273ce72a7acf3ea9fe28cc1c7073af29d3c
+doccontainersize 466380
+doccontainerchecksum 40b9ee1ebf7dba9a4bb4bb3077cdb1e88b07f276a9d0ae9c2817bd76a2f742ec9237d1b6d9658694fc5fc4e8f82591194862637bd83ea8e106c0541591d343ee
+runfiles size=9
+ texmf-dist/makeindex/base/din.ist
+ texmf-dist/makeindex/base/icase.ist
+ texmf-dist/makeindex/base/latex.ist
+ texmf-dist/makeindex/base/math.ist
+ texmf-dist/makeindex/base/mkind.ist
+ texmf-dist/makeindex/base/puncts.ist
+ texmf-dist/makeindex/base/tex.ist
+ texmf-dist/tex/plain/makeindex/idxmac.tex
+catalogue-ctan /indexing/makeindexk
+catalogue-license other-free
+catalogue-topics index

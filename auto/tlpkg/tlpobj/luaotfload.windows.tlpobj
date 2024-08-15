@@ -1,0 +1,8 @@
+name luaotfload.windows
+category Package
+revision 65891
+shortdesc windows files of luaotfload
+containersize 2316
+containerchecksum 5d4f16b6cb9702155b3174ff8ec4b7f6188ae9868e5ec0411499ac61edbfbb193b2aba4e4614f050c9a49e6b7bc577b924cd51d88f732cf8ecdceae463296cbb
+binfiles arch=windows size=2
+ bin/windows/luaotfload-tool.exe

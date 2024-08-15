@@ -1,0 +1,9 @@
+name tlgpg
+category Package
+revision 23
+shortdesc gpg for TeX Live
+depend tlgpg.ARCH
+containersize 568
+containerchecksum e2e777a18d3056c40276be0780f1ff3fbff4bb685274df6e90ae4d052f71618ecd88cd8d1955265587f20e7d797ac579461afb3b47cc55258fad91a427845f76
+runfiles size=1
+ tlpkg/installer/gpg/README

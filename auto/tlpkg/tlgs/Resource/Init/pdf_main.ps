@@ -1,0 +1,1324 @@
+% Copyright (C) 2001-2023 Artifex Software, Inc.
+% All Rights Reserved.
+%
+% This software is provided AS-IS with no warranty, either express or
+% implied.
+%
+% This software is distributed under license and may not be copied,
+% modified or distributed except as expressly authorized under the terms
+% of the license contained in the file LICENSE in this distribution.
+%
+% Refer to licensing information at http://www.artifex.com or contact
+% Artifex Software, Inc.,  39 Mesa Street, Suite 108A, San Francisco,
+% CA 94129, USA, for further information.
+%
+
+% pdf_main.ps
+% PDF file- and page-level operations.
+
+/.setlanguagelevel where { pop 2 .setlanguagelevel } if
+.currentglobal //true .setglobal
+
+% ======================== Main program ======================== %
+
+userdict begin
+
+% Redefine 'run' so it recognizes PDF files.
+systemdict begin
+
+systemdict /OLDPDF known {
+  systemdict /OLDPDF get {
+    (   **** WARNING ****\n) print
+    (The old, written in PostScript, PDF interpreter has been removed entirely.\n) print
+    (You should cease using -dOLDPF as it has no effect now.\n) print
+    (Continuing to process PDF file using the new, written in C, PDF interpreter.\n\n) print
+  } if
+} if
+
+systemdict /NEWPDF known {
+  systemdict /NEWPDF get not {
+    (The old, written in PostScript, PDF interpreter has been removed entirely.\n) print
+    (You should cease using -dNEWDPF as it has no effect now.\n) print
+    (Continuing to process PDF file using the new, written in C, PDF interpreter.\n) print
+  } if
+} if
+
+
+% PostScript interface to the ghostpdf C-based interpreter
+%
+% Promised or documented as used by customers
+% ===========================================
+% runpdf            <file> runpdf -
+%     Called from the modified run operator (which copies stdin to a temp
+%     file if required). Calls runpdfbegin, check for PDF collections. Then
+%     calls process_trailer_attrs, runpdfpagerange, dopdfpages and runpdfend
+%     to process all the required pages.
+%
+% runpdfbegin        <file> runpdfbegin -
+%     creates /pdfdict in userdict set userparmas (ProcessDSCComment
+%     setobjectformat to 0 /Page# /Page to null DSCPageCount to 0
+%     /PDFSave /null.
+%     calls pdfopen and then 'begin's the returned dictionary.
+%     Also disables page handler device.
+%
+% pdfgetpage        <int> pdfgetpage <pagedict> | <null>
+%     int is a number from 1 to N indicating the desired page number from
+%     the PDF file. Returns a dictionary, apparently the /Page dictionary. Probably
+%     we only need the Boxes and Rotate key ? If this fails, returns a null object.
+%
+% pdfshowpage_init    <int> pdfshowpage_init <dict>
+%     This simply adds 1 to the /DSCPageCount value in the supplied dictioanry
+%
+% pdfshowpage_setpage    <pagedict> pdfshowpage_setpage <pagedict>
+%     Takes a dictionary as returned from pdfgetpage, extracts various
+%     parameters from it, and sets the media size for the page, taking into
+%     account the boxes, and requested Box, Rotate value and PDFFitPage.
+%
+% pdfshowpage_finish    <pagedict> pdfshowpage_finish -
+%     Takes a dictionary as returned from pdfgetpage, renders the page content
+%     executes showpage to transfer the rendered content to the device.
+%
+% runpdfend        -
+%     Uses currentdict as an argument to pdfclose, which closes /PDFfile. Also
+%     executes restore and various cleanup activities.
+%
+% pdfavailable     - pdfavailable <bool>
+%     Determines if there is a PDF interpreter available
+%
+% Also Used by gsview 5
+% =====================
+% pdfopen            <file> pdfopen <dict>
+%     According to the comments; open a PDF file and read the header, trailer
+%     and cross-reference. Calls pdfopenfile and 'begin's the returned dictionary
+%     calls pdfopencache and then closes the current dictionary.
+%     pdfopenfile appears to create a dictionary containing a load of stuff but
+%     most importantly, sets /PDFfile to the passed-in file. Probably also contains
+%     the Trailer dictionary.
+%
+% pdfclose        <dict> pdfclose -
+%     The supplied dictionary contains /PDFfile and it executes closefile on that
+%     supplied file.
+%
+% Supplied by Ray to customer
+% ============================
+% pdfshowpage        <pagedict> pdfshowpage
+%     Takes a dictionary returned from pdfgetpage and calls the pdfshowpage_init
+%     pdfshowpage_setpage, pdfshowpage_finish trio to start the page, set up the
+%     media and render the page.
+%
+% dopdfpages        <int> <int> dopdfpages -
+%     The integers are the first and last pages to be run from the file. Runs a loop from
+%     the fist integer to the last. NOTE! If the current dictionary contains a PDFPageList
+%     array then we 'get' the entry from the array corresponding to the current loop
+%     index, and use that to determine whether we should draw the page. Otherwise we
+%     simply draw the page. Uses pdfshowpage to actually render the page.
+%
+% Additionallly useful ?
+% =======================
+% runpdfpagerange        - runpdfpagerange <int> <int>
+%     Processes the PostScript /FirstPage, /LastPage and /PageList parameters to build an array
+%     of page numbers to run (if PageList is present) and a FirstPage and LastPage value.
+%     There seems no point in rewriting this, may as well use it to control page processing.
+%
+% Normal operation
+% =================
+% runpdf    -    runpdfbegin     -    pdfopen
+%     -    process_trailer_attrs
+%     -    runpdfpagerange
+%     -    dopdfpages     -    pdfgetpage
+%                 -    pdfshowpage    -    pdfshowpage_init
+%                             -    pdfshowpage_setpage
+%                             -    pdfshowpage_finish
+%     -    runpdfend    -    pdfclose
+%
+
+/DisablePageHandlerDevice
+{
+  systemdict /FirstPage known
+  systemdict /LastPage known or
+  systemdict /PageList known or
+  {
+      <</DisablePageHandler //true>> setpagedevice
+  } if
+} .internalbind def
+
+/EnablePageHandlerDevice
+{
+  systemdict /FirstPage known
+  systemdict /LastPage known or
+  systemdict /PageList known or
+  {
+      <</DisablePageHandler //false>> setpagedevice
+  } if
+} .internalbind def
+
+/newpdf_pdfformaterror {    % <string> pdfformaterror -
+  (%stdout) (w) file
+  dup 3 -1 roll writestring flushfile
+} .internalbind def
+
+% This routine sets up the transparency compositor requirement, and
+% number of spot channels required (if any) in the device. This needs
+% to be done before we set the media size, so that the erasepage is
+% correct. Called with the dictionary returned from .PDFPageInfo
+/newpdf_device_setup
+{
+  2 dict exch                           % <<page dict>> << >>
+  dup /UsesTransparency get             % << >> <<page dict>> bool
+  /PageUsesTransparency exch            % << >> <<page dict>> /PageUsesTransparency bool
+  3 index 3 1 roll                      % << >> <<page dict>> <<info dict>> << >> /PageUsesTransparency bool
+  put                                   % <</PageUsesTransparency bool>> <<page dict>>
+  currentpagedevice /PageSpotColors known {
+    /NumSpots get                       % <</PageUsesTransparency bool>> int
+    /PageSpotColors exch                % <</PageUsesTransparency bool>> /PageSpotColors int
+    2 index 3 1 roll                    % <</PageUsesTransparency bool>> <<page dict>> /PageSpotColors int
+    put                                 % <</PageUsesTransparency bool /PageSpotColors int >>
+  }{
+    pop
+  } ifelse
+  setpagedevice
+}.internalbind def
+
+% Takes the selected Box as a parameter and scales it to fit the current media.
+% If the amount of scaling would be reduced by rotating the content, then
+% rotate the content.
+% Caters for the box non-zero lower left x and y (ie cropping)
+/NewPDF_FitPage
+{
+    dup 2 get 1 index 0 get sub                 %urx -llx = width
+    1 index 3 get 2 index 1 get sub             %ury - lly = height
+
+    currentpagedevice /PageSize get aload pop   % Stack - box boxwidth boxheight mediawidth mediaheight
+
+    % Start by deciding if we should rotate the page to better fit the media.
+    4 copy eq
+    3 1 roll eq
+    or                   % square media or square page, no point in rotating
+    {
+      pop pop pop pop
+      //false
+    }
+    {
+      gt
+      {                                           % landscape media
+        ge
+        {                                         % landscape media, landscape box, no rotation
+          //false
+        }
+        {                                         % landscape media, portrait box, rotate it to landscape
+          //true
+        } ifelse
+      }
+      {                                           % portrait media
+        ge
+        {                                         % portrait media, landscape box, rotate it to portrait
+          //true
+        }
+        {                                         % portrait media, portrait box, no rotation
+          //false
+        } ifelse
+      }ifelse
+    } ifelse
+
+    % Store values for calculating scale, we do this here because we want to
+    % swap the media width and height (for the scale calculation) if we are
+    % rotating the page
+    1 index 2 get 2 index 0 get sub             % urx -llx = width
+    2 index 3 get 3 index 1 get sub             % ury - lly = height
+    currentpagedevice /PageSize get aload pop   % Stack - box rotate boxwidth boxheight mediawidth mediaheight
+    5 -1 roll                                   % Stack - box boxwidth boxheight mediawidth mediaheight rotate
+
+    % If we need to rotate, recalculate the box
+    {
+      % We take any existing /Rotate key in the dictionary into account as well, because
+      % that way we will preserve the orientation which would be used when displaying
+      % the original, un-modified page. Note that PostScript's rotate operator works
+      % counter-clockwise, while PDF works clockwise....
+      %
+      7 index dup /Rotate known {/Rotate get}{90}ifelse
+      270 eq {
+        90 rotate
+        0 2 index neg translate                 % move 0,0 to bottom right of media to account for rotation
+        exch                                    % swap media width/height for scaling calculation
+      }
+      {
+        270 rotate
+        dup neg 0 translate                     % move 0,0 to bottom right of media to account for rotation
+        exch                                    % swap media width/height for scaling calculation
+      } ifelse
+    }if
+
+    % Now use the box and media values to calculate the required x/y scale factors
+    4 copy                              % Stack - box boxwidth boxheight mediawidth mediaheight boxwidth boxheight mediawidth mediaheight
+    3 -1 roll div                       % box boxwidth boxheight mediawidth mediaheight boxwidth mediawidth (mediaheight / boxheight)
+    3 1 roll                            % box boxwidth boxheight mediawidth mediaheight (mediaheight / boxheight) boxwidth mediawidth
+    exch                                % box boxwidth boxheight mediawidth mediaheight (mediaheight / boxheight) mediawidth boxwidth
+    div                                 % box boxwidth boxheight mediawidth mediaheight (mediaheight / boxheight) (mediawidth / boxwidth)
+
+    % Stack - box boxwidth boxheight mediawidth mediaheight Yscale Xscale
+
+    % Centre the output on the media
+    2 copy                              % box boxwidth boxheight mediawidth mediaheight Yscale Xscale Yscale Xscale
+    gt {
+      exch pop                          % box boxwidth boxheight mediawidth mediaheight Xscale
+      dup 4 index mul                   % box boxwidth boxheight mediawidth mediaheight Xscale (boxheight * Xscale)
+      3 -1 roll sub dup
+      0 lt {-1 mul} if                  % box boxwidth boxheight mediawidth Xscale ((boxheight * Xscale) - mediaheight)
+      dup 0 ne {2 div} if               % box boxwidth boxheight mediawidth Xscale (heightdiff / 2)
+      0 exch translate                  % box boxwidth boxheight mediawidth Xscale
+    } {
+      pop                               % box boxwidth boxheight mediawidth mediaheight Yscale
+      dup 5 index mul                   % box boxwidth boxheight mediawidth mediaheight Yscale (boxwidth * Yscale)
+      4 -1 roll sub dup
+      0 lt {-1 mul} if                  % box boxwidth boxheight mediaheight Yscale ((boxwidth * Yscale) - mediawidth)
+      dup 0 ne {2 div} if               % box boxwidth boxheight mediawidth Yscale (widthdiff / 2)
+      0 translate                       % box boxwidth boxheight mediawidth Yscale
+    } ifelse
+
+    % Apply any 'offset' in the Box. Tht is, if the llx and lly are not 0, then we need to
+    % shift the origin of the content so that they become 0,0. We need to take into
+    % account the scaling from above.
+    4 index aload pop pop pop
+    neg 2 index mul exch neg 2 index mul exch
+    translate
+
+    dup scale                           % scale both axes the same
+    pop pop pop                         % remove the leftover boxwidth, boxheight and mediawidth/height
+} .internalbind def
+
+/newpdf_get_media_box { % <pagedict> get_media_box <box> <bool>
+  dup /MediaBox known {
+    /MediaBox get
+    dup length 4 eq {
+      //true
+    }
+    {
+      pop
+      (   **** Error: Page has an invalid /MediaBox attribute. Using the current page size.\n)
+      newpdf_pdfformaterror
+      (               Output may be incorrect.\n) pdfformaterror
+      [ 0 0 currentpagedevice /PageSize get aload pop ]
+      //false
+    }ifelse
+  }
+  {
+    pop
+    (   **** Error: Page has no /MediaBox attribute. Using the current page size.\n)
+    newpdf_pdfformaterror
+    (               Output may be incorrect.\n) newpdf_pdfformaterror
+    [ 0 0 currentpagedevice /PageSize get aload pop ] //false
+  } ifelse
+} .internalbind def
+
+% [llx lly urx ury] newpdf_check_empty_box [llx lly urx ury] true | false
+% rturns true and the original array if its valid, otherwise returns false
+/newpdf_check_empty_box
+{
+  dup type /arraytype eq
+  {
+    dup aload pop
+    dup 3 index eq
+    {
+      //true
+    }
+    {
+      1 index 4 index eq
+    } ifelse
+    {
+      pop pop pop pop
+     (   **** Warning:  File has an empty Box parameter.\n) print
+     (                  Using the MediaBox instead.\n) print
+     (                  Output may be incorrect.\n) print flush
+     pop //false
+    }
+    {
+      pop pop pop pop
+      //true
+    } ifelse
+  }
+  {
+     (   **** Warning:  File has an invalid Box parameter.\n) print
+     (                  Using the MediaBox instead.\n) print
+     (                  Output may be incorrect.\n) print flush
+    pop //false
+  } ifelse
+} .internalbind def
+
+/newpdf_get_any_box { % <pagedict> get_any_box <box name> <box>
+  //systemdict /UseBleedBox .knownget dup { and } if {
+    dup /BleedBox .knownget {
+        newpdf_check_empty_box
+        {
+          /BleedBox exch
+        } if
+    } if
+  } if
+  dup type /arraytype ne {
+    //systemdict /UseTrimBox .knownget dup { and } if {
+      dup /TrimBox .knownget {
+        newpdf_check_empty_box
+        {
+            /TrimBox exch
+        } if
+      } if
+    } if
+  } if
+  dup type /arraytype ne {
+    //systemdict /UseArtBox .knownget dup { and } if {
+      dup /ArtBox .knownget {
+        newpdf_check_empty_box
+        {
+            /ArtBox exch
+        } if
+      } if
+    } if
+  } if
+  dup type /arraytype ne {
+    //systemdict /UseCropBox .knownget dup { and } if {
+      dup /CropBox .knownget {
+        newpdf_check_empty_box
+        {
+          /CropBox exch
+        } if
+      } if
+    } if
+  } if
+  dup type /arraytype ne {
+    /MediaBox exch newpdf_get_media_box pop
+  } {
+    %% Complicated stuff. We need to use the 'Box' we identified (if any), but we
+    %% need to clamp the boundaries of the 'Box' to the MediaBox. This appears to
+    %% be what Acrobat does. The complication arises because the Box values don't
+    %% have to be sensibly positive, its permissible to have the MediaBox set up
+    %% so that it extends down and left instead of up and right. We take care of the
+    %% content when we st up the CTM, but we do need to make sure that we clamp
+    %% the BoundingBox, and that means we need to take direcitonality into account...
+
+    aload pop
+    6 -1 roll newpdf_get_media_box { % /SomeBox x0 y0 x1 y1 [MediaBox]
+      aload pop               % /SomeBox x0 y0 x1 y1 X0 Y0 X1 Y1
+
+      %% Start with the width, get the X0 and X1 values of the MediaBox
+      3 index                 % /SomeBox x0 y0 x1 y1 X0 Y0 X1 Y1 X0
+      2 index                 % /SomeBox x0 y0 x1 y1 X0 Y0 X1 Y1 X0 X1
+      gt {
+        %% Media extends to left
+        4 -1 roll             % /SomeBox x0 y0 x1 y1 Y0 X1 Y1 X0
+        8 -1 roll             % /SomeBox y0 x1 y1 Y0 X1 Y1 X0 x0
+        .min                  % /SomeBox y0 x1 y1 Y0 X1 Y1 mX0
+        7 1 roll              % /SomeBox mX0 y0 x1 y1 Y0 X1 Y1
+        exch                  % /SomeBox mX0 y0 x1 y1 Y0 Y1 X1
+        5 -1 roll             % /SomeBox mX0 y0 y1 Y0 Y1 X1 x1
+        .max                  % /SomeBox mX0 y0 y1 Y0 Y1 mX1
+        5 1 roll              % /SomeBox mX0 mX1 y0 y1 Y0 Y1
+      }{
+        %% Media extends to right
+        4 -1 roll             % /SomeBox x0 y0 x1 y1 Y0 X1 Y1 X0
+        8 -1 roll             % /SomeBox y0 x1 y1 Y0 X1 Y1 X0 x0
+        .max                  % /SomeBox y0 x1 y1 Y0 X1 Y1 mX0
+        7 1 roll              % /SomeBox mX0 y0 x1 y1 Y0 X1 Y1
+        exch                  % /SomeBox mX0 y0 x1 y1 Y0 Y1 X1
+        5 -1 roll             % /SomeBox mX0 y0 y1 Y0 Y1 X1 x1
+        .min                  % /SomeBox mX0 y0 y1 Y0 Y1 mX1
+        5 1 roll              % /SomeBox mX0 mX1 y0 y1 Y0 Y1
+      } ifelse
+
+      %% Now deal with the height
+      2 copy                  % /SomeBox mX0 mX1 y0 y1 Y0 Y1 Y0 Y1
+      gt {
+        %% Media extends down
+        exch                  % /SomeBox mX0 mX1 y0 y1 Y1 Y0
+        4 -1 roll             % /SomeBox mX0 mX1 y1 Y1 Y0 y0
+        .min                  % /SomeBox mX0 mX1 y1 Y1 mY0
+        3 1 roll              % /SomeBox mX0 mX1 mY0 y1 Y1
+        .max                  % /SomeBox mX0 mX1 mY0 mY1
+      }{
+        %% Media extends up
+        exch                  % /SomeBox mX0 mX1 y0 y1 Y1 Y0
+        4 -1 roll             % /SomeBox mX0 mX1 y1 Y1 Y0 y0
+        .max                  % /SomeBox mX0 mX1 y1 Y1 mY0
+        3 1 roll              % /SomeBox mX0 mX1 mY0 y1 Y1
+        .min                  % /SomeBox mX0 mX1 mY0 mY1
+      } ifelse
+      exch                    % /SomeBox mX0 mX1 mY1 mY0
+      3 1 roll                % /SomeBox mX0 mY0 mX1 mY1
+    } {
+      pop
+    } ifelse
+    4 array astore            % /SomeBox [mX0 mY0 mX1 mY1]
+  } ifelse
+} .internalbind def
+
+% This routine is used to set the PostScript /PageSize from the requested Box of the
+% PDF file. Much of this is copied from the old pdfshowpage_setpage routine which
+% is used for the PDF interpreter written in PostScript.
+%
+% Called with a dictionary containing the PDF page information.
+%
+/newpdf_set_pagesize
+{
+  % Stack: pdfpagedict
+
+  % Don't understand this at all, removed for now replace if we ever figure out
+  % what it's for.
+  % Only lock in Orientation if we need to for pdfmarks
+%  .writepdfmarks { /Orientation 0 def } if
+
+  dup
+  dup newpdf_get_any_box       % Stack: pdfpagedict pdfpagedict /BoxName [box]
+
+  % Check that the box is 'normal' and make it so if not
+  % Also check the array is 4 elements and if it isn't then use the
+  % current PageSize. The normalise arithmetic assumes the array is a 4
+  % element array.
+  dup length 4 ne {
+    % Invalid size of mediabox
+    pop currentpagedevice /PageSize get
+  } {
+    aload 5 1 roll  % array x1 y1 x2 y2
+    exch            % array x1 y1 y2 x2
+    4 -1 roll       % array y1 y2 x2 x1
+    2 copy gt {
+      exch          % array y1 y2 xmin xmax
+    } if
+    4 -2 roll       % array xmin xmax y1 y2
+    2 copy gt {
+      exch          % array xmin xmax ymin ymax
+    } if
+    4 1 roll
+    exch 4 -1 roll
+    5 -1 roll
+    astore
+  } ifelse
+
+  //systemdict /PDFFitPage known {
+    NewPDF_FitPage
+  } {
+    6 dict begin        % for setpagedevice
+
+    % Set the page size.
+    2 index /UserUnit known
+    {
+      systemdict /NoUserUnit .knownget not {//false} if
+      {
+        2 index /UserUnit undef
+        % No scaling required, calculate PageSize as the width and height of the box
+        aload 5 1 roll      % box llx lly urx ury
+        2 index sub         % box llx lly urx (ury - lly)
+        exch 3 index sub    % box llx lly (ury - lly) (urx - llx)
+        exch
+      }
+      {
+        2 index /UserUnit get
+        /PassUserUnit /GetDeviceParam .special_op {exch pop} {//false} ifelse {
+          [ /UserUnit 3 -1 roll .pdfputparams pop pop
+          % No media scaling required, calculate PageSize as the width and height of the box
+          aload 5 1 roll      % box llx lly urx ury
+          2 index sub         % box llx lly urx (ury - lly)
+          exch 3 index sub    % box llx lly (ury - lly) (urx - llx)
+          exch
+        }{
+          % The PageSize needs to be multiplied too
+          exch aload 5 1 roll % UserUnit box llx lly urx ury
+          2 index sub exch    % UserUnit box llx lly (ury - lly) urx
+          3 index sub         % UserUnit box llx lly boxheight boxwidth
+          5 index mul         % UserUnit box llx lly boxheight (Boxwidth*UserUnit)
+          exch
+          5 index mul         % UserUnit box llx lly (Boxwidth*UserUnit) (boxheight*UserUnit)
+          4 -2 roll
+          5 index mul exch    % UserUnit box (Boxwidth*UserUnit) (boxheight*UserUnit) (lly*UserUnit) llx
+          5 index mul exch    % UserUnit box (Boxwidth*UserUnit) (boxheight*UserUnit) (llx*UserUnit) (lly*UserUnit)
+          4 2 roll            % UserUnit box (llx*UserUnit) (lly*UserUnit) (Boxwidth*UserUnit) (boxheight*UserUnit)
+          6 -1 roll pop       % box (llx*UserUnit) (lly*UserUnit) (Boxwidth*UserUnit) (boxheight*UserUnit)
+        } ifelse
+      } ifelse
+    }
+    {
+      /PassUserUnit /GetDeviceParam .special_op {
+        exch pop {
+          [ /UserUnit 1 .pdfputparams pop pop
+        } if
+      }if
+      % No scaling required, calculate PageSize as the width and height of the box
+      aload 5 1 roll      % box llx lly urx ury
+      2 index sub         % box llx lly urx (ury - lly)
+      exch 3 index sub    % box llx lly (ury - lly) (urx - llx)
+      exch
+    } ifelse
+
+    % handle page rotation here
+    6 index /Rotate known {
+      % PDF page rotation runs clockwise and must be a multiple of 90, unlike PostScript.....
+      % convert Rotate into a quadrant number
+      6 index /Rotate get 90 div cvi
+      % Make sure quadrant is 0-3
+      dup 0 lt {
+        % Negative rotation... Turn it into a positive rotation
+        % Again, limit the quadrant to -0 to -3
+        dup -4 lt {4 mod} if
+        % Adding 360 degrees results in the same positive rotation
+        4 add
+      } if
+      dup 3 gt {4 mod} if
+      dup 0 eq
+      {
+        pop
+        2 array astore /PageSize exch def
+        currentdict end setpagedevice
+        neg exch neg exch
+        translate
+      }
+      {
+        dup 1 eq
+        {
+          pop
+          exch 4 2 roll exch 4 2 roll
+          2 array astore dup /PageSize exch def
+          currentdict end setpagedevice
+          270 rotate
+          1 get add neg exch neg
+          translate
+        }
+        {
+          2 eq
+          {
+            2 array astore dup /PageSize exch def
+            currentdict end setpagedevice
+            180 rotate
+            aload pop 3 -1 roll add neg 3 1 roll add neg exch
+            translate
+          }
+          {
+            exch 4 2 roll exch 4 2 roll
+            2 array astore dup /PageSize exch def
+            currentdict end setpagedevice
+            90 rotate
+            0 get 3 -1 roll add
+            neg exch neg exch
+            translate
+          } ifelse
+        } ifelse
+      } ifelse
+    }
+    {
+      2 array astore /PageSize exch def
+      currentdict end setpagedevice
+      neg exch neg exch
+      translate
+    }ifelse
+
+    % scale the co-ordinate system by the UserUnit
+    % We have to do this after setting the PageSize, because
+    % setpagedevice does an implicit initgraphics, resetting the CTM.
+    %
+    //systemdict /NoUserUnit .knownget not { //false } if not
+    {
+      2 index /UserUnit known {
+        /PassUserUnit /GetDeviceParam .special_op {
+          exch pop not
+        } {
+          true
+        }ifelse
+
+        % If PassUserUnit isn't handled by the device, or it returns 'false'
+        % then scale the content by the UserUnit. Otherwise do not scale.
+        {
+          2 index /UserUnit get
+          dup scale
+        } if
+      } if
+    } if
+  } ifelse
+
+  pop % The box
+
+  % If we are using the MediaBox (and only the MediaBox) then we
+  % want to clip to the CropBox, if there is one present
+
+  /MediaBox eq {
+    dup /CropBox known {
+      /CropBox get
+      aload pop 2 index sub exch 3 index sub exch rectclip
+    } {
+      pop
+    } ifelse
+  } {
+    pop
+  }ifelse
+
+  pop
+} .internalbind def
+
+% This routine checks a list of known/implemented command line switches to see if they
+% have been defined in the PostScript environment. If they have we construct a dictionary
+% containing the names and their values, and return it. That dictionary can then be
+% passed to a custom PostScript operator and used to configure the PDF interpreter.
+%
+% NB device parameters will already have been sent to the device and used to configure it
+% so here we should only handle parameters which control the behaviour of the interpreter.
+%
+/PDFSwitches [ /QUIET /PDFPassword /PDFDEBUG /PDFSTOPONERROR /PDFSTOPONWARNING /NOTRANSPARENCY /FirstPage /LastPage
+               /PDFNOCIDFALLBACK /NO_PDFMARK_OUTLINES /NO_PDFMARK_DESTS /PDFFitPage /Printed /UsePDFX3Profile
+               /UseBleedBox /UseCropBox /UseArtBox /UseTrimBox /ShowAcroForm /ShowAnnots /PreserveAnnots
+               /NoUserUnit /RENDERTTNOTDEF /DOPDFMARKS /PDFINFO /ShowAnnotTypes /PreserveAnnotTypes
+               /CIDFSubstPath /CIDFSubstFont /SUBSTFONT /IgnoreToUnicode /NONATIVEFONTMAP /PreserveMarkedContent /OutputFile
+               /PreserveDocView /PreserveEmbeddedFiles ] def
+
+/newpdf_gather_parameters
+{
+  10 dict begin
+
+  //PDFSwitches {
+    dup where
+    { exch dup 3 1 roll get def }
+    { pop } ifelse
+  } forall
+
+  % This isn't a command line parameter, we track it internally, but we need to
+  % send it to the interpreter. It is used to 'offset' the page Dest for Link
+  % annotations and Outlines by the numebr of pages processed so far.
+  /PageCount /CumulativePageCount where { /CumulativePageCount get }{currentpagedevice /PageCount get} ifelse def
+
+  currentdict end
+} .internalbind def
+
+currentdict /PDFSwitches undef
+
+/pdfpagecount
+{
+  currentdict /PDFInfo known
+  {
+    PDFInfo
+  }
+  {
+    PDFFile //null eq not
+    {
+      PDFSTOPONERROR
+      {
+        PDFFile .PDFInfo //false
+      }
+      {
+        PDFFile {.PDFInfo} stopped
+      } ifelse
+    }
+    {
+      //true
+    }ifelse
+
+    {
+      <</NumPages 0>>
+    } if
+  } ifelse
+
+  dup /NumPages known
+  {
+    /NumPages get
+  }
+  {
+    pop 0
+  } ifelse
+}.internalbind def
+
+/runpdfpagerange
+{
+  /PageList where {
+    pop
+    PageList pdfpagecount .PDFparsePageList
+    dup 0 eq {	% No ranges, error
+      (\n   **** Error: Invalid PageList: ) print
+      PageList  print
+      (\n   No pages will be processed.) = flush
+      /runpdfpagerange cvx /syntaxerror signalerror
+    } if
+    array astore	% move integer triples from the stack to the array
+    % newpdf PDFPageList is an array of 3 elements per range: even/odd flag, start, end
+    /PDFPageList exch def
+    QUIET not {
+      (Processing pages ) print PageList =only (.) = flush
+    } if
+    1 pdfpagecount	% dummy parameters for newpdf_dopages
+  }{
+    /FirstPage where {
+      pop FirstPage dup pdfpagecount gt {
+        (\nRequested FirstPage is greater than the number of pages in the file: ) print
+         pdfpagecount = flush
+      } if
+    } {
+       1
+    } ifelse
+    /LastPage where {pop LastPage pdfpagecount .min } { pdfpagecount } ifelse
+    1 index 1 index gt {
+      (   No pages will be processed \(FirstPage > LastPage\).) = flush
+    } {
+      QUIET not {
+        (Processing pages ) print 1 index =only ( through ) print dup =only
+        (.) = flush
+      } if
+    } ifelse
+  } ifelse
+} .internalbind def
+
+
+/runpdf_collection_entry
+{
+  <</PreserveDocView false>> runpdfbegin_with_params                       % <file> runpdfbegin -
+  PDFInfo type /dicttype eq
+  {
+    PDFInfo /Collection known
+    {
+      PDFInfo /Collection get
+      pdfclose
+      dup length 1 sub 0 2 3 -1 roll
+      {
+        1 index exch get (r) file runpdf_collection_entry
+      } for
+      pop
+    }
+    {
+      process_trailer_attrs             % - process_trailer_attrs -
+      runpdfpagerange                   % - runpdfpagerange <int> <int>
+      dopdfpages                        % <int> <int> dopdfpages -
+      runpdfend                         % - runpdfend -
+    } ifelse
+  } {
+    pop pop
+  }ifelse
+} .internalbind def
+
+% <file> runpdf -
+/newpdf_runpdf
+{
+  runpdfbegin                       % <file> runpdfbegin -
+  PDFInfo type /dicttype eq
+  {
+    PDFInfo /Collection known
+    {
+      PDFInfo /Collection get
+      pdfclose
+      dup length 1 sub 0 2 3 -1 roll
+      {
+        1 index exch get (r) file runpdf_collection_entry
+      } for
+      pop
+      % We need to do this, even though we called pdfclose above, in order to clean
+      % up our dictionary and restore the state. We can't use runpdfend above because
+      % if we do then we will delete all the temporary files containing the embedded
+      % PDF files.
+      runpdfend
+    }
+    {
+      process_trailer_attrs             % - process_trailer_attrs -
+      runpdfpagerange                   % - runpdfpagerange <int> <int>
+      dopdfpages                        % <int> <int> dopdfpages -
+      runpdfend                         % - runpdfend -
+    } ifelse
+  } {
+    pop pop
+  }ifelse
+} .internalbind def
+
+% start a PDF file, and specify interpreter parameters to be used
+% to override any command line ones.
+% Mostly for the benefit of PDF Collections where we want to disable
+%preserving DocView information for pdfwrite.
+%
+% file <dict> runpdfbegin_with_params -
+/runpdfbegin_with_params
+{
+  /pdfdict 10 dict def
+  pdfdict begin
+
+  currentpagedevice /PageCount get
+  /CumulativePageCount exch def
+  % This is for the benefit of pdf2dsc which assumes it will be present
+  /Trailer << >> def
+  /PDFSave save def
+  % Define these in the current dictionary, if anyone uses
+  % systemdict then this will be defeated so we'll add extra
+  % code to the systemdict definitions as well.
+%  /pdfpagecount /newpdf_pagecount load def
+%  /pdfgetpage /newpdf_pdfgetpage load def
+%  /pdfshowpage /newpdf_pdfshowpage load def
+%  /pdfshowpage_init /newpdf_pdfshowpage_init load def
+%  /pdfshowpage_setpage /newpdf_pdfshowpage_setpage load def
+%  /pdfshowpage_finish /newpdf_pdfshowpage_finish load def
+%  /pdfopen /newpdf_pdfopen load def
+%  /pdfclose /newpdf_pdfclose load def
+%  /dopdfpages /newpdf_dopdfpages load def
+%  /runpdfend /newpdf_runpdfend load def
+%  /runpdfpagerange /newpdf_runpdfpagerange load def
+%  /process_trailer_attrs /newpdf_process_trailer_attrs load def
+
+  % These are also for the benefit of pdf2dsc, which assumes they
+  % are available.
+  /knownoget {2 copy known {get //true}{pop pop //false}ifelse} bind def
+  /pget {2 copy known {get //true}{pop pop //false}ifelse}bind def
+
+  newpdf_gather_parameters          % <parameter overrides dict> <parameter dict>
+  exch {2 index 3 1 roll put} forall
+  PDFSTOPONERROR
+  {
+    .PDFInit
+    /PDFFile exch def
+    pdfopen
+    /PDFInfo exch def
+    pop
+  }
+  {
+    {.PDFInit} stopped
+    {
+      (   **** Error: Failed to initialise PDF interpreter.\n) newpdf_pdfformaterror
+      /PDFFile //null def
+      /PDFInfo //null def
+    }
+    {
+      /PDFFile exch def
+      pdfopen
+      /PDFInfo exch def
+      pop
+    }ifelse
+  }ifelse
+} .internalbind def
+
+% -file- runpdfbegin -
+/runpdfbegin
+{
+  <<>> runpdfbegin_with_params
+} .internalbind def
+
+/pdfgetpage
+{
+  dup 1 sub
+  PDFSTOPONERROR
+  {
+    PDFFile exch .PDFPageInfo
+    dup 3 -1 roll
+    /Page# exch put
+  }
+  {
+    PDFFile exch {.PDFPageInfo} stopped
+    {
+      pop pop
+      (   **** Error: Couldn't get page info.\n) newpdf_pdfformaterror
+      (               Output may be incorrect.\n) newpdf_pdfformaterror
+      //null
+    }{
+      dup 3 -1 roll
+      /Page# exch put
+    } ifelse
+  }ifelse
+} .internalbind def
+
+/process_trailer_attrs
+{
+}.internalbind def
+
+/pdfshowpage_init
+{
+} .internalbind def
+
+/pdfshowpage_setpage
+{
+  dup newpdf_device_setup
+  dup newpdf_set_pagesize
+} .internalbind def
+
+/pdfshowpage_finish
+{
+  PDFSTOPONERROR
+  {
+    /Page# get PDFFile exch 1 sub .PDFDrawPage
+    showpage
+  }
+  {
+    /Page# get PDFFile exch 1 sub {.PDFDrawPage} stopped
+    {
+      pop pop
+      (   **** Error: Page drawing error occurred.\n) newpdf_pdfformaterror
+      (               Output may be incorrect.\n) newpdf_pdfformaterror
+    } if
+    {showpage} stopped
+    {
+      (   **** Error: Page drawing error occurred.\n) newpdf_pdfformaterror
+      (               Could not draw this page at all, page will be missing in the output.\n) newpdf_pdfformaterror
+    } if
+  }ifelse
+} .internalbind def
+
+/pdfshowpage
+{
+  /PDFINFO where {/PDFINFO get}{//false}ifelse
+  {
+    /Page# get PDFFile exch 1 sub {.PDFDrawPage} stopped pop
+  }
+  {
+    pdfshowpage_init
+    pdfshowpage_setpage
+    pdfshowpage_finish
+  }ifelse
+} .internalbind def
+
+/runpdfend
+{
+  % Get the accumulated count of pages processed so far
+  % and the number of pages in this file. Do this before
+  % we close the file and restore the state. Save the values
+  % on the stack.
+  pdfpagecount
+  CumulativePageCount
+
+  pdfclose
+  PDFSave restore
+
+  end   % pdfdict
+
+  % add the number of pages in this file to the accumulated count,
+  % and store that in the device for later reuse. This allows us to
+  % add the number of pages already in the output to the 'Dest' of
+  % Outlines and Link annotations.
+  add <</PageCount 3 -1 roll >> setpagedevice
+} .internalbind def
+
+/pdfopen
+{
+  dup PDFFile //null ne
+  {
+    PDFSTOPONERROR
+    {
+      PDFFile .PDFStream
+      PDFFile .PDFInfo
+    }
+    {
+      PDFFile {.PDFStream} stopped
+      {
+        pop pop
+        (   **** Error: Couldn't initialise file.\n) newpdf_pdfformaterror
+        (               Output may be incorrect.\n) newpdf_pdfformaterror
+        <</NumPages 0>>
+      }
+      {
+        PDFFile {.PDFInfo} stopped
+        {
+          pop
+          (   **** Error: Couldn't get page information.\n) newpdf_pdfformaterror
+          (               Output may be incorrect.\n) newpdf_pdfformaterror
+          <</NumPages 0>>
+        } if
+      } ifelse
+    }ifelse
+  }
+  {
+    pop
+    <</NumPages 0>>
+  } ifelse
+} .internalbind def
+
+/pdfclose
+{
+  PDFSTOPONERROR
+  {
+    PDFFile .PDFClose
+  }
+  {
+    PDFFile {.PDFClose} stopped
+    {
+      pop
+    } if
+  }ifelse
+} .internalbind def
+
+/pdfavailable
+{
+  .PDFAvailable
+} .internalbind def
+
+% <int> <int> dopdfpages -
+% First Page and then LastPage
+% If PDFPageList array exists, the parameters are 1 pdfpagecount and are ignored.
+/dopdfpages
+{
+  //DisablePageHandlerDevice exec
+  %% If we have a array of page ranges to render, use it.
+  /PDFPageList where {
+    pop
+    pop pop		% don't use dummy parameters
+    PDFPageList
+    % process the ranges (3 elements per range)
+    0 3 2 index length 1 sub {
+      1 index 1 index get		% even = 2, odd = 1 any = 0
+      2 index 2 index 1 add get		% start of range
+      exch
+      3 index 3 index 2 add get		% end of range
+      exch
+      % stack: start end even/odd
+      0 eq { 1 } { 2 } ifelse
+      2 index 2 index gt { neg } if	% negate increment for reverse range
+      exch
+      {
+        pdfgetpage
+        dup //null ne {
+          pdfshowpage
+        } {
+          PDFSTOPONERROR {
+            /dopdfpages cvx /syntaxerror signalerror
+          } {
+            pop pop
+            (   **** Error: page) newpdf_pdfformaterror
+            ( not found.\n) newpdf_pdfformaterror
+          } ifelse
+        } ifelse
+      } for
+      pop		% for loop index
+    } for
+    pop		% done with array
+  } {
+    % else, Process the pages given by the FirstPage, LastPage
+    1 exch
+    {
+      pdfgetpage
+      dup //null ne {
+        pdfshowpage
+      } {
+        PDFSTOPONERROR {
+          /dopdfpages cvx /syntaxerror signalerror
+        } {
+          pop pop
+          (   **** Error: page) newpdf_pdfformaterror
+          ( not found.\n) newpdf_pdfformaterror
+        } ifelse
+      } ifelse
+    } for
+  } ifelse
+  //EnablePageHandlerDevice exec
+} .internalbind def
+
+/.runps /run load def
+/run {
+  dup type /filetype ne { (r) file } if
+  % skip leading whitespace characters (actually anything less than or equal to <sp>)
+  { dup ( ) .peekstring not { //false exit } if
+    dup 0 get 32 le { pop dup read pop pop } { //true exit } ifelse
+  } loop
+  exch pop
+  {
+    % Appletalk PAP sends short strings with %! header expecting a response.
+    % 'gv' swallows the %!PS line, then sends DSC comments beginning with %%
+    % and also waits for a response. The following avoids those hangs.
+    dup 2 string .peekstring pop dup (%!) eq exch (%%) eq or {
+      cvx .runps
+    } {
+      dup 1023 string .peekstring pop
+      % "1024 string" exceeds current %stdin buffer
+      % Valid PDF file cannot be smaller than 400 bytes.
+      (%PDF-) search {
+        3 1 roll pop pop
+        dup (%!PS) search not {
+          length 0 ne {
+            1 index exch readstring pop pop
+            (%stderr) (w) file dup
+            (   **** Warning: File has some garbage before %PDF- .\n)
+            writestring flushfile
+            PDFSTOPONWARNING {
+              /run cvx /unregistered signalerror
+            } if
+          } {
+            pop
+          } ifelse
+          dup (%stdin) (r) file eq {
+            % Copy PDF from stdin to temporary file then run it.
+            //null (w+) /.tempfile .systemvar exec exch 3 1 roll
+            % stack: tempname stdin tempfile
+            64000 string
+            {
+              % stack: tempname stdin tempfile string
+              2 index 1 index readstring
+              exch 3 index exch writestring
+              not { exit } if
+            }
+            loop
+            pop exch closefile
+            % stack: tempname tempfile
+            dup 0 setfileposition
+            dup
+              pdfavailable {
+                runpdf
+              }{
+                closefile
+                (%stderr) (w) file (   **** ERROR: No PDF interpreter available, unable to process PDF files as input.\n)writestring
+              } ifelse
+            closefile deletefile
+          } {
+              pdfavailable {
+                runpdf
+              }{
+                closefile
+                (%stderr) (w) file (   **** ERROR: No PDF interpreter available, unable to process PDF files as input.\n)writestring
+              } ifelse
+          } ifelse
+        } {
+          pop pop pop pop cvx .runps % (%!PS) found first
+        } ifelse
+      } {
+        pop cvx .runps % (%PDF-) not found
+      } ifelse
+    } ifelse
+  } {
+    closefile % file was empty
+  } ifelse
+} .internalbind odef
+currentdict /runpdfstring .undef
+
+currentdict /DisablePageHandlerDevice undef
+currentdict /EnablePageHandlerDevice undef
+
+% Copy stream to an external temporary file and
+% return the file name as PS name.
+/copy_embedded_file {
+  //true resolvestream      % strm
+  dup 1023 string .peekstring pop % "1024 string" exceeds current %stdin buffer
+  dup length 400 ge {             % Valid PDF file cannot be smaller than 400 bytes.
+     (%PDF-) search {
+       pop pop pop //true
+     } {
+       pop //false
+     } ifelse
+   } {
+     pop //false
+   } ifelse {
+    //null (w) /.tempfile   % strm (name) null (w) /.tempfile
+    .systemvar exec         % strm (name) file
+    3 -1 roll               % (name) file strm
+    32768 string            % (name) file strm (buf)
+    { 3 copy readstring     % (name) file strm (buf) file (data) bool
+      3 1 roll              % (name) file strm (buf) bool file (data)
+      writestring           % (name) file strm (buf) bool
+      not { exit } if
+    } loop
+    pop closefile           % (name) file
+    closefile               % (name)
+    cvn                     % /name
+  } {
+    closefile
+  } ifelse
+} .internalbind def
+
+% Recursively enumerate /Names entries
+% <node> pdf_collection_names /temp_file_name ...
+/pdf_collection_names {
+  dup /Names knownoget {
+    exch pop
+    { oforce
+      dup type /dicttype eq {
+        /EF knownoget {
+          /F knownoget {
+            copy_embedded_file
+          } if
+        } if
+      } {
+        pop
+      } ifelse
+    } forall
+  } {
+    /Kids knownoget {
+      { oforce
+        dup //null ne {
+          pdf_collection_names
+        } {
+          pop
+        } ifelse
+      } forall
+    } if
+  } ifelse
+} .internalbind def
+
+/runpdf {        % <file> runpdf -
+    dup type /filetype eq
+    {
+      dup
+      PDFSTOPONERROR
+      {
+        newpdf_runpdf
+      }
+      {
+        {newpdf_runpdf} stopped
+        {
+          (   **** Error: PDF interpreter encountered an error processing the file.\n) pdfformaterror
+        } if
+      }ifelse
+      closefile
+    }
+    {
+      (   **** Error: Attempt to process something other than a file object in runpdf.\n) pdfformaterror
+    } ifelse
+} .internalbind odef
+
+end            % systemdict
+
+% Redefine the procedure that the C code uses for running piped input.
+% It is OK to use { (%stdin) run } here, because a startjob cannot occur.
+/.runstdin {
+  { (%stdin) run } execute0
+} .internalbind def
+
+end            % userdict
+
+% ------ Transparency support ------ %
+
+systemdict /ALLOWPSTRANSPARENCY get
+{
+  /.setopacityalpha
+  {
+    /.setfillconstantalpha where
+    {
+      pop
+      (   **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will be removed in a future release\n) print
+      (   **** See .setfillconstantalpha/.setalphaisshape for the improved solution\n) print flush
+      false .setalphaisshape
+      dup .setfillconstantalpha
+      .setstrokeconstantalpha
+    }
+    {
+      /.setopacityalpha /undefined cvx signalerror
+    } ifelse
+  } .internalbind def
+
+  /.setshapealpha
+  {
+    /.setfillconstantalpha where
+    {
+      pop
+      (   **** WARNING: .setshapealpha is deprecated (as of 9.53.0) and will be removed in a future release.\n) print
+      (   **** See .setfillconstantalpha/.setalphaisshape for the improved solution\n) print flush
+      true .setalphaisshape
+      dup .setfillconstantalpha
+      .setstrokeconstantalpha
+    }
+    {
+      /.setshapealpha /undefined cvx signalerror
+    } ifelse
+  } .internalbind def
+} if
+
+.setglobal
+
+%% This list of operators are used internally by various parts of the Ghostscript PDF interpreter.
+%% Since each operator is a potential security vulnerability, and any operator listed here
+%% is not required once the initislisation is complete and functions are bound, we undefine
+%% the ones that aren't needed at runtime.
+[
+/.setdistillerparams
+] systemdict .undefinternalnames
+
+% The following are split out allowing control via ALLOWPSTRANSPARENCY command line param
+% The examples/transparency_example.ps uses some of these (on the first line).
+[
+  /.pushpdf14devicefilter /.poppdf14devicefilter /.setstrokeconstantalpha /.setfillconstantalpha /.endtransparencygroup
+  /.currentblendmode /.currenttextknockout /.begintransparencytextgroup
+  /.endtransparencytextgroup /.begintransparencymaskgroup /.begintransparencymaskimage /.begintransparencypagegroup
+  /.endtransparencymask /.image3x /.abortpdf14devicefilter /.setstrokeconstantalpha /.setfillconstantalpha /.setalphaisshape /.currentalphaisshape
+  % undefining these causes errors/incorrect output
+  %/.setblendmode /.begintransparencygroup /.settextknockout /.setstrokeoverprint /.setfilloverprint
+  %/.currentstrokeoverprint /.currentfilloverprint /.currentfillconstantalpha /.currentstrokeconstantalpha
+  %/.setSMask /.currentSMask
+
+] systemdict dup /ALLOWPSTRANSPARENCY get {pop pop}{.undefinternalnames}ifelse

@@ -1,0 +1,323 @@
+%!PS
+% Copyright (C) 2001-2023 Artifex Software, Inc.
+% All Rights Reserved.
+%
+% This software is provided AS-IS with no warranty, either express or
+% implied.
+%
+% This software is distributed under license and may not be copied,
+% modified or distributed except as expressly authorized under the terms
+% of the license contained in the file LICENSE in this distribution.
+%
+% Refer to licensing information at http://www.artifex.com or contact
+% Artifex Software, Inc.,  39 Mesa Street, Suite 108A, San Francisco,
+% CA 94129, USA, for further information.
+%
+%
+% $Id: pdf_info.ps 6300 2005-12-28 19:56:24Z alexcher $
+
+% Dump some info from a PDF file
+
+% usage: gs -dNODISPLAY -q -sFile=____.pdf [-dDumpMediaSizes=false] [-dDumpFontsNeeded=false] [-dDumpXML]
+%                                          [-dDumpFontsUsed [-dShowEmbeddedFonts] ] lib/pdf_info.ps
+
+128 dict begin
+
+/QUIET true def		% in case they forgot
+
+/showoptions {
+  (           where "options" are:) =
+  (           -dDumpMediaSizes=false    (default true) MediaBox and CropBox for each page) =
+  (           -dDumpFontsNeeded=false   (default true)Fonts used, but not embedded) =
+  (           -dDumpXML                 print the XML Metadata from the PDF, if present) =
+  (           -dDumpFontsUsed           List all fonts used) =
+  (           -dShowEmbeddedFonts       only meaningful with -dDumpFontsUsed) =
+  (\n          If no options are given, the default is -dDumpMediaSizes -dDumpFontsNeeded) =
+  () =
+  flush
+} bind def
+
+/DumpMediaSizes where { pop } { /DumpMediaSizes true def } ifelse
+/DumpFontsNeeded where { pop } { /DumpFontsNeeded true def } ifelse
+
+[ {.shellarguments} stopped not
+  {
+    { counttomark 1 eq {
+        dup 0 get (-) 0 get ne {
+          % File specified on the command line using:  -- lib/pdf_info.ps infile.pdf
+          /File exch def
+          false   % don't show usage
+        } {
+          true    % show usage and quit
+        } ifelse
+      } { true } ifelse
+      {
+        (\n*** Usage: gs [options] -- lib/pdf_info.ps infile.pdf  ***\n\n) print
+        showoptions
+        quit
+      } if
+    } if
+  } if
+/File where not {
+  (\n   *** Missing input file name \(use -sFile=____.pdf\)\n) =
+  (    usage: gs -dNODISPLAY -q -sFile=____.pdf [ options ] lib/pdf_info.ps\n) =
+  showoptions
+  quit
+} if
+cleartomark		% discard the dict from --where--
+
+% ---- No more executable code on the top level after this line -----
+% ---- except 2 lines at the very end                           -----
+
+% Write a character to the standard output.
+/putchar [ % int -> -
+  (%stdout) (w) file
+  /exch cvx /write cvx
+] cvx bind def
+
+% Write U+xxxx to the standard output as UTF-8.
+/put-ucode { % int -> -
+  dup 16#80 ge {
+    dup 16#800 ge {
+      dup 16#10000 ge {
+        dup -18 bitshift 16#f0 or putchar
+        dup -12 bitshift 16#3f and 16#80 or putchar
+      } {
+        dup -12 bitshift 16#e0 or putchar
+      } ifelse
+      dup -6  bitshift 16#3f and 16#80 or putchar
+    } {
+      dup -6 bitshift 16#C0 or putchar
+    } ifelse
+    16#3f and 16#80 or
+  } if
+  putchar
+} bind def
+
+% PDFDocEncoding to U+xxxx decoding table.
+/doc-to-ucode [
+  0 1 23 {} for
+  16#2d8 16#2c7 16#2c6 16#2d9 16#2dd 16#2db 16#2da 16#2dc
+  32 1 127 {} for
+  16#2022 16#2020 16#2021 16#2026 16#2014 16#2013 16#192
+  16#2044 16#2039 16#203a 16#2212 16#2030 16#201e 16#201c 
+  16#201d 16#2018 16#2019 16#201a 16#2122 16#fb01 16#fb02
+  16#141 16#152 16#160 16#178 16#17d 16#131 16#142 16#153
+  16#161 16#17e 0 16#20ac
+  161 1 255 {} for
+] readonly def
+
+% Convert a doc string from PDFDocEncoding or UTF-16BE to UTF-8
+% and write it to standard output. 
+/write-doc-string { % (string) -> -
+  1024 string cvs <feff> anchorsearch {
+    pop
+    0 exch                 % hi16 (str) 
+    0 2 2 index length 2 sub {
+      2 copy 2 copy        % hi16 (str) i (str) i (str) i
+      get 256 mul 3 1 roll % hi16 (str) i hi*256 (str) i
+      1 add get add        % hi16 (str) i 256*hi+lo
+      dup 16#fc00 and dup  % hi16 (str) i 256*hi+lo tag tag
+      16#d800 eq { % High surrogate
+        pop
+        16#3ff and
+        10 bitshift
+        16#10000 add       % hi16  (str) i hi16'
+        4 1 roll           % hi16' hi16 (str) i
+        pop exch pop       % hi16' (str)
+      } {
+        16#dc00 eq { % Low surrogate
+          16#3ff and       % hi16 (str) i (256*hi+lo)&0x3ff
+          4 -1 roll add    % (str) i (256*hi+lo)&0x3ff+hi16
+          put-ucode        % (str) i
+          pop 0 exch       % 0 (str)
+        } { % BMP plane
+          put-ucode        % hi16 (str) i
+          pop              % hi16 (str)
+        } ifelse
+      } ifelse
+    } for
+    pop pop                % -
+  } {
+    { //doc-to-ucode exch get put-ucode 
+    } forall
+  } ifelse
+} bind def
+
+% If running with -dSAFER, .sort may not be present. Define a (slower) PS alternative
+systemdict /.sort known not {
+% <array> <lt-proc> .sort <array>
+ /.sort
+   { 1 index length 1 sub -1 1
+       { 2 index exch 2 copy get 3 copy % arr proc arr i arr[i] arr i arr[i]
+         0 1 3 index 1 sub
+           { 3 index 1 index get        % arr proc arr i arr[i] arr imax amax j arr[j]
+             2 index 1 index 10 index exec
+               {                        % ... amax < arr[j]
+                 4 2 roll
+               }
+             if pop pop
+           }
+         for                            % arr proc arr i arr[i] arr imax amax
+         4 -1 roll exch 4 1 roll put put
+       }
+     for
+     pop
+   } bind def
+} if
+
+/knownoget
+{
+  2 copy known {
+    get
+    true
+  }{
+    pop pop false
+  } ifelse
+}bind def
+
+/PDFContext << >> .PDFInit def
+{File (r) file PDFContext .PDFStream} stopped not
+{
+  PDFContext .PDFInfo
+  File
+  () = (        ) print print ( has ) print
+  dup /NumPages get dup =print 10 mod 1 eq { ( page.\n) } { ( pages\n) } ifelse = flush
+
+  /DumpXML where {/DumpXML get}{//false}ifelse
+  {
+    (\n*** DumpXML is no longer supported. ***\n\n) print
+  }if
+
+  dup /Title knownoget { (Title: ) print write-doc-string () = flush } if
+  dup /Author knownoget { (Author: ) print write-doc-string () = flush } if
+  dup /Subject knownoget { (Subject: ) print write-doc-string () = flush } if
+  dup /Keywords knownoget { (Keywords: ) print write-doc-string () = flush } if
+  dup /Creator knownoget { (Creator: ) print write-doc-string () = flush } if
+  dup /Producer knownoget { (Producer: ) print write-doc-string () = flush } if
+  dup /CreationDate knownoget { (CreationDate: ) print write-doc-string () = flush } if
+  dup /ModDate knownoget { (ModDate: ) print write-doc-string () = flush } if
+  dup /Trapped knownoget { (Trapped: ) print write-doc-string () = flush } if
+  (\n) print flush
+
+  /EmbeddedFonts 10 dict def
+  /UnEmbeddedFonts 10 dict def
+  /FontNumbers 10 dict def
+
+  /NumPages get 0 1 3 -1 roll 1 sub
+  {
+    dup
+    PDFContext exch .PDFPageInfoExt exch
+    DumpMediaSizes {
+      (Page ) print 1 add =print
+      dup /UserUnit knownoget {( UserUnit: ) print =print} if
+      dup /MediaBox knownoget {( MediaBox: ) print ==only} if
+      dup /CropBox knownoget  {( CropBox: )  print ==only} if
+      dup /BleedBox knownoget {( BleedBox: ) print ==only} if
+      dup /TrimBox knownoget  {( TrimBox: )  print ==only} if
+      dup /ArtBox knownoget   {( ArtBox: )   print ==only} if
+      dup /Rotate knownoget not {0}if ( Rotate = ) print =print
+      dup /Annots knownoget {{(     Page contains Annotations) print} if} if
+      dup /UsesTransparency knownoget {{(     Page uses transparency features) print} if} if
+      dup /Spots knownoget {
+        (\n    Page Spot colors: ) =
+        {(        ) print (') print 256 string cvs print (') =} forall
+      } if
+      (\n) print flush
+      (\n) print flush
+    }
+    {
+      pop
+    } ifelse
+
+    /Fonts knownoget
+    {
+      {
+        dup /ObjectNum known
+        {
+          %% Fonts with an ObjectNumber may have been previously referenced on another page
+          dup /ObjectNum get
+          dup FontNumbers exch known
+          {
+            pop
+            %% found the ObjectNumber in the FontNumbers dictionary so we've seen this one.
+            //false
+          }
+          {
+            %% Not seen before, add the number to the array and process this font
+            FontNumbers exch dup put
+            //true
+          }ifelse
+        }{
+          %% Fonts without an ObjectNumber are defined inline and so must be unique
+          //true
+        } ifelse
+        {
+          % First time we've seen the font
+          dup /Descendants known
+          {
+            dup /BaseFont get
+            EmbeddedFonts exch dup put    % We class the Type 0 font as 'embedded', but it's really the descendant which is embedded or not.
+            dup /Descendants get
+            1 index /BaseFont get
+            2 index /Embedded get
+            {
+              EmbeddedFonts exch dup put
+            }
+            {
+              UnEmbeddedFonts exch dup put
+            }ifelse
+            pop
+          }
+          {
+            dup /BaseFont get
+            1 index /Embedded get
+            {
+              EmbeddedFonts exch dup put
+            }
+            {
+              UnEmbeddedFonts exch dup put
+            } ifelse
+          }ifelse
+          pop
+        }
+        {
+          pop
+        } ifelse
+      }forall
+    } if
+  } for
+
+  /DumpFontsUsed where {/DumpFontsUsed get}{//false}ifelse
+  {
+    [
+    UnEmbeddedFonts {pop} forall
+    /ShowEmbeddedFonts where {/ShowEmbeddedFonts get}{//false}ifelse
+    {
+      EmbeddedFonts {pop} forall
+    } if
+    ]
+    dup length 0 gt {
+      { 100 string cvs exch 100 string cvs exch lt } .sort
+      (\nFont or CIDFont resources used (plain name and ASCIIHEX string representation):) =
+      { 128 string cvs dup print (    ) print (<) print 128 string cvs {16 8 string cvrs print} forall (>) print (\n) print} forall
+    } if
+  }
+  {
+    [
+    DumpFontsNeeded
+    {
+      UnEmbeddedFonts {pop} forall
+    } if
+    ]
+    dup length 0 gt {
+      { 100 string cvs exch 100 string cvs exch lt } .sort
+      (\nFonts Needed that are not embedded \(system fonts required\):) =
+      { (    ) print 128 string cvs dup print (    ) print (<) print {16 8 string cvrs print} forall (>) print (\n) print} forall
+    } if
+  }ifelse
+} if
+PDFContext .PDFClose
+
+end
+quit

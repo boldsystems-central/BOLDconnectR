@@ -1,0 +1,34 @@
+name lua-uni-algos
+category Package
+revision 62204
+shortdesc Unicode algorithms for LuaTeX
+longdesc Lua code working with Unicode data has to deal with quite some
+longdesc challenges. For example there are many canonically equivalent
+longdesc sequences which should be treated in the same way, and even
+longdesc identifying a single character becomes quite different once you
+longdesc have to deal with all kinds of combining characters, emoji
+longdesc sequences and syllables in different scripts. Therefore
+longdesc lua-uni-algos wants to build a collection of small libraries
+longdesc implementing algorithms to deal with lots of the details in
+longdesc Unicode, such that authors of LuaTeX packages can focus on
+longdesc their actual functionality instead of having to fight against
+longdesc the peculiarities of Unicode. Given that this package provides
+longdesc Lua modules, it is only useful in Lua(HB)TeX. Additionally, it
+longdesc expects an up-to-date version of the unicode-data package to be
+longdesc present. This package is intended for package authors only; no
+longdesc user-level functionality provided.
+containersize 7684
+containerchecksum 01307963a88c4507a7864272f321580898e107601fc3784ef46122dd3361f4a272285836e186df8a5454a9825c608071caf79976323e84102eae6f59296f3a9f
+doccontainersize 73912
+doccontainerchecksum 5f667cebc56682225d8a68668bf7e02545e6239b6fba3f8f6ab49bc34d50d537d39484b060d8239631bc4a0de42b63824af04e5e3cc33c528c0925de8419b5c5
+runfiles size=11
+ texmf-dist/tex/luatex/lua-uni-algos/lua-uni-algos.lua
+ texmf-dist/tex/luatex/lua-uni-algos/lua-uni-case.lua
+ texmf-dist/tex/luatex/lua-uni-algos/lua-uni-graphemes.lua
+ texmf-dist/tex/luatex/lua-uni-algos/lua-uni-normalize.lua
+ texmf-dist/tex/luatex/lua-uni-algos/lua-uni-parse.lua
+catalogue-contact-repository https://github.com/latex3/lua-uni-algos
+catalogue-ctan /macros/luatex/generic/lua-uni-algos
+catalogue-license lppl1.3
+catalogue-topics luatex unicode
+catalogue-version 0.4.1

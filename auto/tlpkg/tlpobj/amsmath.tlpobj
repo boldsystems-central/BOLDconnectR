@@ -1,0 +1,38 @@
+name amsmath
+category Package
+revision 71408
+catalogue latex-amsmath
+shortdesc AMS mathematical facilities for LaTeX
+longdesc The package provides the principal packages in the AMS-LaTeX
+longdesc distribution. It adapts for use in LaTeX most of the
+longdesc mathematical features found in AMS-TeX; it is highly
+longdesc recommended as an adjunct to serious mathematical typesetting
+longdesc in LaTeX. When amsmath is loaded, AMS-LaTeX packages amsbsy
+longdesc (for bold symbols), amsopn (for operator names) and amstext
+longdesc (for text embedded in mathematics) are also loaded. amsmath is
+longdesc part of the LaTeX required distribution; however, several
+longdesc contributed packages add still further to its appeal; examples
+longdesc are empheq, which provides functions for decorating and
+longdesc highlighting mathematics, and ntheorem, for specifying theorem
+longdesc (and similar) definitions.
+containersize 31312
+containerchecksum 443fb13e0aa80a73510166fce72e3f6b885ad743796c6509f1752ae070d65f909c6fae412096c740b84244aba958c6202956b2cddc4fefe5a5f591f91d6e6767
+doccontainersize 2421884
+doccontainerchecksum 4e826da3394194259ef9a9dabd4ce2743b6187ded19e56884e027ade7a6f5576e8668719c1290a2aa6f6e28513af6d6550aead947a7704140926f22187575a74
+srccontainersize 66444
+srccontainerchecksum 85b545ca6c2d9ad08d7edc3af668b2e9e05d363cf1ab50e16d7be22a3010e8cbf23b02c3f98698f020dbb1253ff12185d1b5bd9c16b47c06072846299f383d65
+runfiles size=70
+ texmf-dist/tex/latex/amsmath/amsbsy.sty
+ texmf-dist/tex/latex/amsmath/amscd.sty
+ texmf-dist/tex/latex/amsmath/amsgen.sty
+ texmf-dist/tex/latex/amsmath/amsmath-2018-12-01.sty
+ texmf-dist/tex/latex/amsmath/amsmath.sty
+ texmf-dist/tex/latex/amsmath/amsopn.sty
+ texmf-dist/tex/latex/amsmath/amstex.sty
+ texmf-dist/tex/latex/amsmath/amstext.sty
+ texmf-dist/tex/latex/amsmath/amsxtra.sty
+catalogue-also nath mathtools
+catalogue-contact-home http://www.ams.org/tex/amslatex.html
+catalogue-ctan /macros/latex/required/amsmath
+catalogue-license lppl1.3c
+catalogue-topics maths

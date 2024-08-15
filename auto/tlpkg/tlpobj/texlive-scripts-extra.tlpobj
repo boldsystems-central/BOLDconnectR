@@ -1,0 +1,32 @@
+name texlive-scripts-extra
+category TLCore
+revision 71746
+shortdesc TeX Live scripts
+longdesc Miscellaneous scripts maintained as part of TeX Live, but not
+longdesc important for the infrastructure. Thus, this is not part of
+longdesc scheme-infraonly or tlcritical, just a normal package.
+depend texlive-scripts-extra.ARCH
+containersize 22016
+containerchecksum d012f6368700cada41eb39da92ecc57fb67b14ed6f962b7858b52700ba6c31f0b88430c39515f0c560af2024038328dfe4df742ee7adc01a9942ea775986a60f
+doccontainersize 197200
+doccontainerchecksum 5f2a1802f99e067d4633e750a6d2a9819428ecaa24b39acafb09aba820feaa963f64ebd841f141a4d33bb0398b531b25dcfb0f5e4d83174860b373815dfd339b
+runfiles size=34
+ texmf-dist/scripts/texlive-extra/allcm.sh
+ texmf-dist/scripts/texlive-extra/allneeded.sh
+ texmf-dist/scripts/texlive-extra/dvi2fax.sh
+ texmf-dist/scripts/texlive-extra/dvired.sh
+ texmf-dist/scripts/texlive-extra/e2pall.pl
+ texmf-dist/scripts/texlive-extra/kpsetool.sh
+ texmf-dist/scripts/texlive-extra/kpsewhere.sh
+ texmf-dist/scripts/texlive-extra/ps2frag.sh
+ texmf-dist/scripts/texlive-extra/pslatex.sh
+ texmf-dist/scripts/texlive-extra/texconfig-dialog.sh
+ texmf-dist/scripts/texlive-extra/texconfig-sys.sh
+ texmf-dist/scripts/texlive-extra/texconfig.sh
+ texmf-dist/scripts/texlive-extra/texlinks.sh
+ texmf-dist/texconfig/README
+ texmf-dist/texconfig/g/generic
+ texmf-dist/texconfig/tcfmgr
+ texmf-dist/texconfig/tcfmgr.map
+ texmf-dist/texconfig/v/vt100
+ texmf-dist/texconfig/x/xterm

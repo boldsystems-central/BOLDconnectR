@@ -1,0 +1,31 @@
+name l3backend
+category Package
+revision 71991
+shortdesc LaTeX3 backend drivers
+longdesc This package forms parts of expl3, and contains the code used
+longdesc to interface with backends (drivers) across the expl3 codebase.
+longdesc The functions here are defined differently depending on the
+longdesc engine in use. As such, these are distributed separately from
+longdesc l3kernel to allow this code to be updated on an independent
+longdesc schedule.
+containersize 16256
+containerchecksum 57efe82dbb8ba599b3f68b256715a0fe530e7125a34ed18038015a60fa11b39d0d2b6820c104b77ad64ca50dea63486d73c2d8adb28338de59a80c0f2a390257
+doccontainersize 862344
+doccontainerchecksum 0f8693303f10d804a045595e9bcc0c3c19cb4a959e25843779ca3d9b248f7173bda259a2c0d95fcd34ed0cb2d5b4557b8064ce3d00364a34a713a93d9cde1035
+srccontainersize 33800
+srccontainerchecksum 4167135d9eb71ca97ed3eb270ba6185b4d745cc8b780db925976303a5b646896f1d3d54dc882e1d79cca5a20e1fc6df122bab2d68fc02c804718775242aa89f4
+runfiles size=51
+ texmf-dist/dvips/l3backend/l3backend-dvips.pro
+ texmf-dist/tex/latex/l3backend/l3backend-dvipdfmx.def
+ texmf-dist/tex/latex/l3backend/l3backend-dvips.def
+ texmf-dist/tex/latex/l3backend/l3backend-dvisvgm.def
+ texmf-dist/tex/latex/l3backend/l3backend-luatex.def
+ texmf-dist/tex/latex/l3backend/l3backend-luatex.lua
+ texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+ texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+catalogue-contact-bugs https://github.com/latex3/latex3/issues
+catalogue-contact-home https://www.latex-project.org
+catalogue-contact-repository https://github.com/latex3/latex3/
+catalogue-ctan /macros/latex/required/l3backend
+catalogue-license lppl1.3c
+catalogue-topics latex3 expl3 macro-supp pre-release
