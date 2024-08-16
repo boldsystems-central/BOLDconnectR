@@ -16,7 +16,7 @@
 #'
 #' @returns An 'output' list containing:
 #' * comm.matrix = A site X species like matrix based on BINs.
-#' * grids = A [sf] data frame containing the grid geometry and corresponding cell id.
+#' * grids = A `sf` data frame containing the grid geometry and corresponding cell id.
 #' * grid_plot = A grid_plot overlaid on a world map with cell ids.
 #'
 #' @examples
