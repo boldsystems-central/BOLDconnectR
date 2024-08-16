@@ -43,6 +43,7 @@
 #' bold.data.taxo_geo<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
 #'
 #' @importFrom utils URLencode
+#' @importFrom dplyr %>%
 #'
 #' @export
 #'

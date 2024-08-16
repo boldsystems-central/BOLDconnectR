@@ -49,6 +49,7 @@ The function transforms the \code{\link[=bold.connectr]{bold.connectr()}} or \co
 \examples{
 
 # Using countries as a site.cat
+
 # Download data from BOLD
 comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
 
