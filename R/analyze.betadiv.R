@@ -4,14 +4,14 @@
 #' This function analyzes the output from the `gen.comm.mat` to provide a beta diversity (and its partitions) profile of the downloaded data.
 #'
 #' @param bin.comm the site X species like output from the `gen.comm.mat` function.Default value is FALSE.
-#' @param index A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' currently available).
+#' @param index A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' available).
 #' @param pre.abs A logical value specifying whether the input data is presence-absence. Default value is FALSE.
 #' @param heatmap A logical value specifying whether a heatmap of the beta diversity values should be plotted.Default value is FALSE.
 #' @param component A character value specifying which beta diversity component should be used for the heatmap. Default value is NULL.
 #' @param grids A logical value specifying Whether the community matrix is generated using grids. Default value is FALSE.
 #' @param grids.df If `grids` = TRUE, a [sf] grid data frame generated along with the community matrix using the [gen.comm.mat()] function.Default value is NULL.
 #'
-#' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the [gen.comm.mat()] output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
+#' @details `analyze.betadiv` calculates either a sorenson or jaccard beta dissimilarity using the [gen.comm.mat()] output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using [BAT::beta()] function which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. A corresponding 'heatmap' can also be obtained when `heatmap`=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when `grids` = TRUE and a [sf] 'grid.df' which is generated from the `gen.comm.mat` function is provided to the function.
 #'
 #' @returns An 'output' list containing:
 #' * total.beta = beta.total
@@ -19,7 +19,11 @@
 #' * richnessd = beta.richnessd (richness difference)
 #' * heatmap.viz = heatmap_final
 #'
-
+#' @references
+#' Carvalho, J.C., Cardoso, P. & Gomes, P. (2012) Determining the relative roles of species replacement and species richness differences in generating beta-diversity patterns. Global Ecology and Biogeography, 21, 760-771.
+#'
+#' Podani, J. & Schmera, D. (2011) A new conceptual and methodological framework for exploring and explaining pattern in presence-absence data. Oikos, 120, 1625-1638.#'
+#'
 #' @examples
 #'
 #' #Download data from BOLD (removing species with blanks)

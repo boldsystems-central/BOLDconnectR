@@ -2,7 +2,7 @@
 % Please edit documentation in R/bold.connectr.R
 \name{bold.connectr}
 \alias{bold.connectr}
-\title{Retrieve data from the BOLD database}
+\title{Retrieve all data from the BOLD database}
 \usage{
 bold.connectr(
   input.data,
@@ -30,9 +30,9 @@ bold.connectr(
 )
 }
 \arguments{
-\item{input.data}{A file path pointing to either a CSV/TSV/txt file with the ids or a data frame where ids are stored}
+\item{input.data}{A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.}
 
-\item{param}{A data path, character vector or a \code{data.frame}having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes"}
+\item{param}{A data path, character vector or a \code{data.frame}having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes".}
 
 \item{param.index}{A number indicating the column index (position) of the \code{params} in the dataset.}
 
@@ -68,7 +68,7 @@ bold.connectr(
 
 \item{export}{A logical value specifying whether the output should be exported locally. Default value is FALSE.}
 
-\item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available}
+\item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available.}
 
 \item{file.path}{A character value specifying the folder path where the file should be saved.}
 
@@ -86,13 +86,15 @@ This function retrieves both public as well as private user data and can effecti
 \examples{
 \dontrun{
 data(test.data)
-#With processids ('processid' param is assumed to be in the first column (param.index=1))
-res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
-head(data,10)
 
-#With sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
+#'key' would the 'api_key' provided to the user
+#With processids ('processid' param is the first column in the data (param.index=1))
+res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
+
+
+#With sampleids ('sampleid' param is the second column in the data (param.index=2))
 res<-bold.connectr(test.data,'sampleid',2,api_key = "key")
-head(data,10)
+
 
 ## Using filters
 
@@ -102,8 +104,8 @@ res<-bold.connectr(test.data, param = 'processid',param.index = 1,api_key = "key
 #Sequence length
 res<-bold.connectr(test.data, 'processid',1,api_key = "key",nuc_basecount=c(500,600))
 
-#Gene marker
-res<-bold.connectr(test.data, 'processid',1,api_key = "key",marker="COI-5P")
+#Gene marker & sequence length
+res<-bold.connectr(test.data,'processid',1,api_key = "key",marker="COI-5P",nuc_basecount=c(500,600))
 
 }
 

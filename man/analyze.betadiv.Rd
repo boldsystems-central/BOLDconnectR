@@ -17,7 +17,7 @@ analyze.betadiv(
 \arguments{
 \item{bin.comm}{the site X species like output from the \code{gen.comm.mat} function.Default value is FALSE.}
 
-\item{index}{A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' currently available).}
+\item{index}{A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' available).}
 
 \item{pre.abs}{A logical value specifying whether the input data is presence-absence. Default value is FALSE.}
 
@@ -42,7 +42,7 @@ An 'output' list containing:
 This function analyzes the output from the \code{gen.comm.mat} to provide a beta diversity (and its partitions) profile of the downloaded data.
 }
 \details{
-\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
+\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
 }
 \examples{
 
@@ -82,4 +82,9 @@ beta.div.res2$richnessd
 #Visualize the heatmap
 beta.div.res$heatmap.viz
 
+}
+\references{
+Carvalho, J.C., Cardoso, P. & Gomes, P. (2012) Determining the relative roles of species replacement and species richness differences in generating beta-diversity patterns. Global Ecology and Biogeography, 21, 760-771.
+
+Podani, J. & Schmera, D. (2011) A new conceptual and methodological framework for exploring and explaining pattern in presence-absence data. Oikos, 120, 1625-1638.#'
 }

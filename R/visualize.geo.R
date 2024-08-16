@@ -1,23 +1,23 @@
-#' Visualize organism occurrence data on maps
+#' Visualize BIN occurrence data on maps
 #'
 #' @description
-#' This function creates basic maps of organism occurrence data on different scales
+#' This function creates basic maps of BIN occurrence data at different scales.
 #'
 #' @export
 #'
-#' @param bold.df the data.frame retrieved from [bold.connectr()] or [bold.connectr.public()]
-#' @param country A single or multiple character vector of country names. Default is NULL
-#' @param bbox  A numeric vector specifying the min,max values of the latitude and longitude. Default is NULL
-#' @param export A logical value asking if the output should be exported locally
-#' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available
-#' @param file.path A character value specifying the folder path where the file should be saved
-#' @param file.name A character value specifying the name of the exported file.
+#' @param bold.df the data.frame retrieved from [bold.connectr()] or [bold.connectr.public()].
+#' @param country A single or multiple character vector of country names. Default value is NULL.
+#' @param bbox  A numeric vector specifying the min,max values of the latitude and longitude. Default value is NULL.
+#' @param export A logical value asking if the output should be exported locally.Default value is FALSE.
+#' @param file.path A character value specifying the folder path where the file should be saved. #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.
+#' @param file.name A character value specifying the name of the exported file. Default value is NULL.
+#' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.
 #'
-#' @details `visualize.geo` extracts out the geographic information from the [bold.connectr()] or [bold.connectr.public()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format. Default view includes data mapped on a world shape file downloaded using the [rnaturalearth::ne_countries()] at a 110 scale. If the ‘country’ is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box can be defined for a specific region to be visualized. If export = TRUE, an image file will be saved based on the type (jpg, tiff), and the file path. The function also provides a [sf] data frame of the GIS data which can be used for any other application/s.
+#' @details `visualize.geo` extracts out the geographic information from the [bold.connectr()] or [bold.connectr.public()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. If `export` = TRUE, an image file will be saved based on the `file.type` (.jpg, .tiff),`file.path` and the `file.name`. The function also provides a [sf] data frame of the GIS data which can be used for any other application/s.
 #'
 #' @returns An 'output' list containing:
-#' * geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
-#' * map_plot = A visualization of the occurrences
+#' * geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
+#' * map_plot = A visualization of the occurrences.
 #'
 #' @examples
 #'

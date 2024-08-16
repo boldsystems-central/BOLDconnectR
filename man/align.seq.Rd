@@ -20,26 +20,26 @@ align.seq(
 
 \item{name.fields}{A single or multiple character vector specifying column headers which should be used to name each sequence in the fasta file. Default is NULL in which case, only the BIN id is used as a name.}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved.Default value is NULL.}
+\item{file.path}{A character value specifying the folder path where the file should be saved. Default value is NULL.}
 
-\item{file.name}{A character value specifying the name of the exported file.Default value is NULL.}
+\item{file.name}{A character value specifying the name of the exported file. Default value is NULL.}
 
 \item{raw.fas}{A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.}
 }
 \value{
 An 'output' list containing:
 \itemize{
-\item ‘Biostrings’ DNAStringSet object of the multiple sequence alignment
-\item ‘ape’: a ‘DNAbin’ object
-\item seq.df: a data frame with sequences as one column and its name in the other (unaligned)
-\item raw.fas = TRUE: a ‘.fas’ file of unaligned sequences
+\item msa.result = A \code{DNAStringSet} object of the multiple sequence alignment.
+\item ape_obj = A \code{DNAbin} object of the unaligned sequences.
+\item seq.df = a data frame with sequences as one column and its name in the other (unaligned).
+\item raw.fas = TRUE: a \code{.fas} file of unaligned sequences.
 }
 }
 \description{
-Transforms and aligns the data retrieved from the \code{bold.connectr} and \code{bold.connectr.public} functions for various downstream analyses
+Transforms and aligns the data retrieved from the \code{bold.connectr} and \code{bold.connectr.public} functions for various downstream analyses.
 }
 \details{
-\code{align.seq} fetches the sequence information obtained using the connectr functions and performs a ClustalOmega multiple sequence alignment on it.  This is done using \code{\link[msa:msa]{msa::msa()}} function with method = "ClustalOmega" & default settings (uses\code{\link[msa:msaClustalOmega]{msa::msaClustalOmega()}}). In addition, the function also provides a a)  \link{ape} ‘DNAbin’ object , b) a data frame of the sequence data and the respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if raw.fas=TRUE. ‘marker’ name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the names.field argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the function does not detect any STOP codons and indels in the data.
+\code{align.seq} fetches the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a ClustalOmega multiple sequence alignment on it. This is done using \code{\link[msa:msa]{msa::msa()}} function with the method = "ClustalOmega" & default settings (uses\code{\link[msa:msaClustalOmega]{msa::msaClustalOmega()}}). In addition, the function also provides a a)  \link{ape} ‘DNAbin’ object , b) a data frame of the sequences and their respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if \code{raw.fas}=TRUE. \code{marker} name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the \code{name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the veracity of the sequence quality is left up to the user as the function does not provide any checks on issues like STOP codons and indels in the data.
 }
 \examples{
 

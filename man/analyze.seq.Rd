@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyze.seq.R
 \name{analyze.seq}
 \alias{analyze.seq}
-\title{Analyze and visualize the output from the \code{align.seq}}
+\title{Analyze and visualize the output from \code{align.seq}}
 \usage{
 analyze.seq(
   aligned.seq,
@@ -16,37 +16,37 @@ analyze.seq(
 )
 }
 \arguments{
-\item{aligned.seq}{A DNAStringset multiple sequence alignment object returned by \code{align.seq} function}
+\item{aligned.seq}{A DNAStringSet multiple sequence alignment object returned by \code{align.seq} function.}
 
-\item{dist.model}{A character string specifying the model to generate the distances}
+\item{dist.model}{A character string specifying the model to generate the distances.}
 
-\item{clus}{A character vector specifying either \code{\link[ape:nj]{ape::nj()}} (neighbour joining) or \code{\link[ape:njs]{ape::njs()}} (neighbour joining with NAs) clustering algorithm}
+\item{clus}{A character vector specifying either \code{\link[ape:nj]{ape::nj()}} (neighbour joining) or \code{\link[ape:njs]{ape::njs()}} (neighbour joining with NAs) clustering algorithm.}
 
-\item{tree.export}{Logical value specifying whether newick tree should be generated and exported. Default value is FALSE,}
+\item{tree.export}{Logical value specifying whether newick tree should be generated and exported. Default value is FALSE.}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved}
+\item{file.path}{A character value specifying the folder path where the file should be saved.}
 
 \item{file.name}{A character value specifying the name of the exported file.}
 
-\item{plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE}
+\item{plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.}
 
 \item{...}{additional arguments from \code{\link[ape:dist.dna]{ape::dist.dna()}}}
 }
 \value{
 An 'output' list containing:
 \itemize{
-\item dist_mat = A distance matrix based on the model selected
-\item base_freq = Overall base frequencies of the 'align.seq' result
-\item Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
-\item plot = Neighbor Joining clustering visualization (if plot=TRUE)
-\item data_for_plot = A 'phylo' object used for the plot
+\item dist_mat = A distance matrix based on the model selected.
+\item base_freq = Overall base frequencies of the \code{align.seq} result.
+\item Newick_tree = NJ/NJS tree in a newick format (only if \code{tree.export}=TRUE).
+\item plot = Neighbor Joining clustering visualization (if \code{plot}=TRUE).
+\item data_for_plot = A \code{phylo} object used for the plot.
 }
 }
 \description{
 Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{align.seq}.
 }
 \details{
-\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the \link{ggtree} package. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the \link{ggtree} package. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a \code{newick} format.
 }
 \examples{
 

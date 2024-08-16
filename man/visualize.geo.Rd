@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualize.geo.R
 \name{visualize.geo}
 \alias{visualize.geo}
-\title{Visualize organism occurrence data on maps}
+\title{Visualize BIN occurrence data on maps}
 \usage{
 visualize.geo(
   bold.df,
@@ -15,32 +15,32 @@ visualize.geo(
 )
 }
 \arguments{
-\item{bold.df}{the data.frame retrieved from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}}
+\item{bold.df}{the data.frame retrieved from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}.}
 
-\item{country}{A single or multiple character vector of country names. Default is NULL}
+\item{country}{A single or multiple character vector of country names. Default value is NULL.}
 
-\item{bbox}{A numeric vector specifying the min,max values of the latitude and longitude. Default is NULL}
+\item{bbox}{A numeric vector specifying the min,max values of the latitude and longitude. Default value is NULL.}
 
-\item{export}{A logical value asking if the output should be exported locally}
+\item{export}{A logical value asking if the output should be exported locally.Default value is FALSE.}
 
-\item{file.path}{A character value specifying the folder path where the file should be saved}
+\item{file.path}{A character value specifying the folder path where the file should be saved. #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.}
 
-\item{file.name}{A character value specifying the name of the exported file.}
+\item{file.name}{A character value specifying the name of the exported file. Default value is NULL.}
 
-\item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available}
+\item{file.type}{A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.}
 }
 \value{
 An 'output' list containing:
 \itemize{
-\item geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data
-\item map_plot = A visualization of the occurrences
+\item geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
+\item map_plot = A visualization of the occurrences.
 }
 }
 \description{
-This function creates basic maps of organism occurrence data on different scales
+This function creates basic maps of BIN occurrence data at different scales.
 }
 \details{
-\code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format. Default view includes data mapped on a world shape file downloaded using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale. If the ‘country’ is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box can be defined for a specific region to be visualized. If export = TRUE, an image file will be saved based on the type (jpg, tiff), and the file path. The function also provides a \link{sf} data frame of the GIS data which can be used for any other application/s.
+\code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale (low resolution). If the \code{country} is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (\code{bbox}) can be defined for a specific region to be visualized. If \code{export} = TRUE, an image file will be saved based on the \code{file.type} (.jpg, .tiff),\code{file.path} and the \code{file.name}. The function also provides a \link{sf} data frame of the GIS data which can be used for any other application/s.
 }
 \examples{
 

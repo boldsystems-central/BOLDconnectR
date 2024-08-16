@@ -1,25 +1,25 @@
-#' Analyze and visualize the output from the `align.seq`
+#' Analyze and visualize the output from `align.seq`
 #'
 #' @description
 #' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `align.seq`.
 #'
-#' @param aligned.seq A DNAStringset multiple sequence alignment object returned by `align.seq` function
-#' @param dist.model A character string specifying the model to generate the distances
-#' @param clus A character vector specifying either [ape::nj()] (neighbour joining) or [ape::njs()] (neighbour joining with NAs) clustering algorithm
-#' @param tree.export Logical value specifying whether newick tree should be generated and exported. Default value is FALSE,
-#' @param file.path A character value specifying the folder path where the file should be saved
+#' @param aligned.seq A DNAStringSet multiple sequence alignment object returned by `align.seq` function.
+#' @param dist.model A character string specifying the model to generate the distances.
+#' @param clus A character vector specifying either [ape::nj()] (neighbour joining) or [ape::njs()] (neighbour joining with NAs) clustering algorithm.
+#' @param tree.export Logical value specifying whether newick tree should be generated and exported. Default value is FALSE.
+#' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
-#' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE
+#' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the [ggtree] package. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and a option to export the trees in 'newick' format.
+#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the [ggtree] package. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a `newick` format.
 #'
 #' @returns An 'output' list containing:
-#' * dist_mat = A distance matrix based on the model selected
-#' * base_freq = Overall base frequencies of the 'align.seq' result
-#' * Newick_tree = NJ/NJS tree in a newick format (only if tree.export=TRUE)
-#' * plot = Neighbor Joining clustering visualization (if plot=TRUE)
-#' * data_for_plot = A 'phylo' object used for the plot
+#' * dist_mat = A distance matrix based on the model selected.
+#' * base_freq = Overall base frequencies of the `align.seq` result.
+#' * Newick_tree = NJ/NJS tree in a newick format (only if `tree.export`=TRUE).
+#' * plot = Neighbor Joining clustering visualization (if `plot`=TRUE).
+#' * data_for_plot = A `phylo` object used for the plot.
 #'
 #' @examples
 #'

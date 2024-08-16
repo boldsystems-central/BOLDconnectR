@@ -40,7 +40,7 @@
 #' head(bold.data.taxo_geo,10)
 #'
 #' # Taxonomy, Geography and BINs
-#' bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India",bins=c(""))
+#' bold.data.taxo_geo<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
 #'
 #' @importFrom utils URLencode
 #'

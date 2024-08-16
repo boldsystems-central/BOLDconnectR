@@ -1,10 +1,10 @@
-#' Retrieve data from the BOLD database
+#' Retrieve all data from the BOLD database
 #'
 #' @description
 #' Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input.
 #'
-#' @param input.data A file path pointing to either a CSV/TSV/txt file with the ids or a data frame where ids are stored
-#' @param param A data path, character vector or a `data.frame`having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes"
+#' @param input.data A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.
+#' @param param A data path, character vector or a `data.frame`having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes".
 #' @param param.index A number indicating the column index (position) of the `params` in the dataset.
 #' @param api_key A character string required for authentication and data access.
 #' @param taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
@@ -22,7 +22,7 @@
 #' @param depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
 #' @param fields A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.
 #' @param export A logical value specifying whether the output should be exported locally. Default value is FALSE.
-#' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available
+#' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available.
 #' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
 #'
@@ -31,13 +31,15 @@
 #' @examples
 #' \dontrun{
 #' data(test.data)
-#' #With processids ('processid' param is assumed to be in the first column (param.index=1))
-#' res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
-#' head(data,10)
 #'
-#' #With sampleids (the 'sampleid' param is assumed to be in the second column (param.index=2))
+#' #'key' would the 'api_key' provided to the user
+#' #With processids ('processid' param is the first column in the data (param.index=1))
+#' res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
+#'
+#'
+#' #With sampleids ('sampleid' param is the second column in the data (param.index=2))
 #' res<-bold.connectr(test.data,'sampleid',2,api_key = "key")
-#' head(data,10)
+#'
 #'
 #' ## Using filters
 #'
@@ -47,8 +49,8 @@
 #' #Sequence length
 #' res<-bold.connectr(test.data, 'processid',1,api_key = "key",nuc_basecount=c(500,600))
 #'
-#' #Gene marker
-#' res<-bold.connectr(test.data, 'processid',1,api_key = "key",marker="COI-5P")
+#' #Gene marker & sequence length
+#' res<-bold.connectr(test.data,'processid',1,api_key = "key",marker="COI-5P",nuc_basecount=c(500,600))
 #'
 #'}
 #'

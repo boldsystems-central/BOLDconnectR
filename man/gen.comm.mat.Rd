@@ -16,7 +16,7 @@ gen.comm.mat(
 )
 }
 \arguments{
-\item{bold.df}{the bold ‘data.frame’ generated from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}}
+\item{bold.df}{the bold ‘data.frame’ generated from \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}}.}
 
 \item{taxon.rank}{A single character value specifying the taxonomic hierarchical rank. Needs to be provided by default.}
 
@@ -28,23 +28,23 @@ gen.comm.mat(
 
 \item{gridsize}{A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default value is NULL.}
 
-\item{pre.abs}{A logical value specifying whether the generated matrix should be converted into a 'presence-absence' matrix}
+\item{pre.abs}{A logical value specifying whether the generated matrix should be converted into a 'presence-absence' matrix.}
 
 \item{view.grids}{A logical value specifying viewing the grids overlaid on a map with respective cell ids. Default value is FALSE.}
 }
 \value{
-An 'output' list containing
+An 'output' list containing:
 \itemize{
-\item comm.matrix = A site X species like matrix based on BINs
-\item grids = A \link{sf} data frame containing the grid geometry and corresponding cell id
-\item grid_plot = A grid_plot overlaid on a world map with cell ids
+\item comm.matrix = A site X species like matrix based on BINs.
+\item grids = A \link{sf} data frame containing the grid geometry and corresponding cell id.
+\item grid_plot = A grid_plot overlaid on a world map with cell ids.
 }
 }
 \description{
-This function generates a community matrix (~site X species) using the data retrieved \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} based on BIN abundances/incidences
+This function generates a community matrix (~site X species) using the data retrieved \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} based on BIN abundances/incidences.
 }
 \details{
-The function transforms the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} downloaded data into a site X species like matrix using BINs instead of species. Values in each cell are the counts of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (even for bin_uri though, in that case, the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or 'grid'). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.fields.info]{bold.fields.info()}}). Alternatively, \code{grids} = TRUE will generate grids based on the BIN occurrences with the size of the grid being determined by the user (in sq.m.). For \code{grids} generation, rows with no latitude and longitude data are removed (even if a corresponding \code{site.cat} name is available) while null entries for \code{site.cat} are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).\code{grids} converts the Coordinate Reference System (CRS) of the data to ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per user requirement using the \code{grids_final} \link{sf} data frame stored in the output. This can be visualized with the \code{view.grids} argument. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) data points having NA values for bin_uri, latitude or longitude or both are removed, b) if the data has many closely located grids, visualization with \code{view.grids} can get difficult. The argument \code{pre.abs} will convert the counts to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \link{vegan} for biodiversity analyses.
+The function transforms the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or 'grid'). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.fields.info]{bold.fields.info()}}). Alternatively, \code{grids} = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For \code{grids} generation, rows with no latitude and longitude data are removed (even if a corresponding \code{site.cat} information is available) while NULL entries for \code{site.cat} are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).\code{grids} converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the \code{grids_final} \link{sf} data frame stored in the output. The grids can be visualized with \code{view.grids}=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) if the data has many closely located grids, visualization with \code{view.grids} can get confusing. The argument \code{pre.abs} will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \link{vegan} for biodiversity analyses.
 }
 \examples{
 
