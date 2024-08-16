@@ -20,7 +20,7 @@
 #' * grid_plot = A grid_plot overlaid on a world map with cell ids.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Using countries as a site.cat
 #'
 #' # Download data from BOLD
@@ -42,7 +42,7 @@
 #'
 #' # View the sf dataframe of the grids
 #' head(comm.data.grid$grids)
-#'
+#'}
 #'
 #' @importFrom reshape2 dcast
 #' @importFrom httr POST
