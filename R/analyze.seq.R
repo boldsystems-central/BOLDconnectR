@@ -13,7 +13,7 @@
 #' @param plot.type The layout of the tree. Based on [ape::plot.phylo()] `type`.Default value is 'c' (for cladogram).
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using [ape::plot.phylo()] function. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a `newick` format.
+#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()] `model` argument. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using [ape::plot.phylo()] function `type` argument. Additional edits such as rooting the tree can be done to the plot using the `data_for_plot` result of the output list which stores the `phylo` object used for plotting. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a `newick` format.
 #'
 #' @returns An 'output' list containing:
 #' * dist_mat = A distance matrix based on the model selected.
@@ -65,7 +65,7 @@ analyze.seq<-function(aligned.seq,
                        file.path=NULL,
                        file.name=NULL,
                        plot=FALSE,
-                       plot.type='c',
+                       plot.type,
                       ...)
 
 {
@@ -94,6 +94,18 @@ analyze.seq<-function(aligned.seq,
 
   # Based on the type of clus, clustering is carried out on the dist object
 
+  if (length(clus)!=1)
+
+  {
+
+    stop("clus argument empty. Please select either 'nj' or 'njs'")
+
+  }
+
+  else
+
+  {
+
   switch(clus,
 
 
@@ -117,6 +129,7 @@ analyze.seq<-function(aligned.seq,
 
   )
 
+  }
 
   # Save a newick tree format for output
 
@@ -190,8 +203,6 @@ analyze.seq<-function(aligned.seq,
     tree_plot<-plot.phylo(for_plot,
                           type=plot.type,
                           cex=0.8,
-                          adj=0.5,
-                          node.pos=1,
                           font=1,
                           tip.color = "darkblue",
                           edge.color = "orangered2",

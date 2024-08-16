@@ -177,6 +177,15 @@ bold.connectr.public <- function(taxonomy = NULL,
   }
 
 
+  if(nrow(result)==0)
+
+  {
+
+    stop("Data could not be retrieved. Please re-check the parameters.")
+
+  }
+
+
 
   # For filtering the data
 
