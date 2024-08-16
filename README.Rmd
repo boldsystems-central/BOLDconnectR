@@ -71,7 +71,7 @@ head(test.data)
 ### default (all data retrieved)
 The arguments provided below need to be specified by default for every request
 
-```{r bold.fetch.data}
+```{r bold.connectr}
 
 library(BOLDconnectR)
 
@@ -94,7 +94,7 @@ knitr::kable(head(result,5))
 
 ### default (all data retrieved)
 
-```{r bold.fetch.data}
+```{r bold.connectr.public}
 
 library(BOLDconnectR)
 
@@ -108,7 +108,7 @@ knitr::kable(head(result,5))
 
 ### using some filters
 
-```{r bold.fetch.data2}
+```{r bold.connectr.w.filters}
 
 library(BOLDconnectR)
 
@@ -132,11 +132,11 @@ knitr::kable(head(result2,5))
 
 ```
 
-## bold.data.profile
+## bold.data.summary
 
 Result of the `bold.connectr` or `bold.connectr.public` needs to be provided here
 
-```{r bold.data.profile}
+```{r data.summary}
 
 data.profile<-data.summary(result,
                                 cols = c("species","marker_code","nuc_basecount","inst"))
