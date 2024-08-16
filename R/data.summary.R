@@ -12,6 +12,7 @@
 #' @returns A list of data frames. Each data frame is a data summary of a specific data type.
 #'
 #' @examples
+#' \dontrun{
 #' # Download data
 #' bold_data<-bold.connectr.public(taxonomy = "Oreochromis")
 #'
@@ -23,6 +24,7 @@
 #'
 #' # Numerical data fields summary
 #' test.data.summary$numeric
+#' }
 #'
 #' @importFrom skimr skim
 #' @importFrom skimr partition
