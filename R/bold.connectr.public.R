@@ -30,6 +30,7 @@
 #' @returns A data frame containing all the information related to the query search
 #'
 #' @examples
+#'
 #' \dontrun{
 #' # Taxonomy
 #' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")

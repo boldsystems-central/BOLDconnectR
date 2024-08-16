@@ -36,7 +36,7 @@ gen.comm.mat(
 An 'output' list containing:
 \itemize{
 \item comm.matrix = A site X species like matrix based on BINs.
-\item grids = A \link{sf} data frame containing the grid geometry and corresponding cell id.
+\item grids = A \code{sf} data frame containing the grid geometry and corresponding cell id.
 \item grid_plot = A grid_plot overlaid on a world map with cell ids.
 }
 }

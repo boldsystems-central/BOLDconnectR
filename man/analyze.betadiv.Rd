@@ -27,7 +27,7 @@ analyze.betadiv(
 
 \item{grids}{A logical value specifying Whether the community matrix is generated using grids. Default value is FALSE.}
 
-\item{grids.df}{If \code{grids} = TRUE, a \link{sf} grid data frame generated along with the community matrix using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} function.Default value is NULL.}
+\item{grids.df}{If \code{grids} = TRUE, a \code{sf} grid data frame generated along with the community matrix using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} function.Default value is NULL.}
 }
 \value{
 An 'output' list containing:
