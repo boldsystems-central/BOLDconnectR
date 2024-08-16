@@ -10,9 +10,10 @@
 #' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
 #' @param plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.
+#' @param plot.type The layout of the tree. Based on [ape::plot.phylo()] `type`.Default value is 'c' (for cladogram).
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the [ggtree] package. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a `newick` format.
+#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using [ape::plot.phylo()] function. Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a `newick` format.
 #'
 #' @returns An 'output' list containing:
 #' * dist_mat = A distance matrix based on the model selected.
@@ -51,11 +52,7 @@
 #' @importFrom ape nj
 #' @importFrom ape njs
 #' @importFrom ape write.tree
-#' @importFrom ggtree ggtree
-#' @importFrom ggtree geom_tiplab
-#' @importFrom ggtree geom_treescale
-#' @importFrom ggtree geom_nodepoint
-#' @importFrom ggplot2 ggtitle
+#' @importFrom ape plot.phylo
 #'
 #' @export
 #'
@@ -67,6 +64,7 @@ analyze.seq<-function(aligned.seq,
                        file.path=NULL,
                        file.name=NULL,
                        plot=FALSE,
+                       plot.type='c',
                       ...)
 
 {
@@ -188,25 +186,18 @@ analyze.seq<-function(aligned.seq,
   {
 
 
-    options(ignore.negative.edge=TRUE)
+    tree_plot<-plot.phylo(for_plot,
+                          type=plot.type,
+                          cex=0.8,
+                          adj=0.5,
+                          node.pos=1,
+                          font=1,
+                          tip.color = "darkblue",
+                          edge.color = "orangered2",
+                          edge.width=1.5)
 
-    tree_plot<-ggtree(for_plot,
-           ladderize = T,
-           col="orangered",
-           size=0.6) +
-      geom_tiplab(size=3,
-                  color="darkblue") +
-      geom_treescale(x=1,
-      y=2,
-      fontsize=4,
-      linesize=2,
-      offset=1)+
-      geom_nodepoint(color="forestgreen",
-                     alpha=0.5,
-                     size=1.5) +
-      # geom_rootedge(rootedge = 0.001,
-      #               col="orangered")+
-      ggtitle("Neighbour Joining clustering of the data")
+    # Reset margins to original values
+
 
 
 

@@ -12,6 +12,7 @@ analyze.seq(
   file.path = NULL,
   file.name = NULL,
   plot = FALSE,
+  plot.type = "c",
   ...
 )
 }
@@ -30,6 +31,8 @@ analyze.seq(
 
 \item{plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.}
 
+\item{plot.type}{The layout of the tree. Based on \code{\link[ape:plot.phylo]{ape::plot.phylo()}} \code{type}.Default value is 'c' (for cladogram).}
+
 \item{...}{additional arguments from \code{\link[ape:dist.dna]{ape::dist.dna()}}}
 }
 \value{
@@ -46,7 +49,7 @@ An 'output' list containing:
 Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{align.seq}.
 }
 \details{
-\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using the \link{ggtree} package. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a \code{newick} format.
+\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using \code{\link[ape:plot.phylo]{ape::plot.phylo()}} function. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a \code{newick} format.
 }
 \examples{
 
