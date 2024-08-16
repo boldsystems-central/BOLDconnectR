@@ -42,5 +42,3 @@ storing it as another variable.
 api.key <- Sys.getenv('api_key')
 ```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
