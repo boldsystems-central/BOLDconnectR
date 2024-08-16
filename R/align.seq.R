@@ -11,7 +11,7 @@
 #' @param raw.fas A logical input to specify whether a unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.
 #'
 #' @details
-#' `align.seq` fetches the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a ClustalOmega multiple sequence alignment on it. This is done using [msa::msa()] function with the method = "ClustalOmega" & default settings (uses[msa::msaClustalOmega()]). In addition, the function also provides a a)  [ape] ‘DNAbin’ object , b) a data frame of the sequences and their respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if `raw.fas`=TRUE. `marker` name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the `name.fields` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the veracity of the sequence quality is left up to the user as the function does not provide any checks on issues like STOP codons and indels in the data.
+#' `align.seq` fetches the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a ClustalOmega multiple sequence alignment on it. This is done using [msa::msa()] function with the method = "ClustalOmega" & default settings (uses[msa::msaClustalOmega()]). In addition, the function also provides a a)  `ape` ‘DNAbin’ object , b) a data frame of the sequences and their respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if `raw.fas`=TRUE. `marker` name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the `name.fields` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the veracity of the sequence quality is left up to the user as the function does not provide any checks on issues like STOP codons and indels in the data.
 #'
 #' @returns An 'output' list containing:
 #' * msa.result = A `DNAStringSet` object of the multiple sequence alignment.
@@ -20,7 +20,7 @@
 #' * raw.fas = TRUE: a `.fas` file of unaligned sequences.
 #'
 #' @examples
-#'
+#' \dontrun {
 #' # Download the data
 #' seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 #'
@@ -35,6 +35,7 @@
 #'
 #' #A DNAStringSet object of the Multiple sequence alignment
 #' seq.align$msa.result
+#'}
 #'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa

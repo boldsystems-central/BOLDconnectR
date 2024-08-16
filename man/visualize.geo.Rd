@@ -40,19 +40,19 @@ An 'output' list containing:
 This function creates basic maps of BIN occurrence data at different scales.
 }
 \details{
-\code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale (low resolution). If the \code{country} is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (\code{bbox}) can be defined for a specific region to be visualized. If \code{export} = TRUE, an image file will be saved based on the \code{file.type} (.jpg, .tiff),\code{file.path} and the \code{file.name}. The function also provides a \link{sf} data frame of the GIS data which can be used for any other application/s.
+\code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.connectr]{bold.connectr()}} or \code{\link[=bold.connectr.public]{bold.connectr.public()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale (low resolution). If the \code{country} is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (\code{bbox}) can be defined for a specific region to be visualized. If \code{export} = TRUE, an image file will be saved based on the \code{file.type} (.jpg, .tiff),\code{file.path} and the \code{file.name}. The function also provides a \code{sf} data frame of the GIS data which can be used for any other application/s.
 }
 \examples{
-
+\dontrun{
 #Download data
 geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
 
 geo.viz<-visualize.geo(geo.data,export = FALSE)
 
-#The [sf] dataframe of the downloaded data
+#The `sf` dataframe of the downloaded data
 geo.viz$geo.df
 
 # Visualization
 geo.viz$plot
-
+}
 }

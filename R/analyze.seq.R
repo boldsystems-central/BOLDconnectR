@@ -23,7 +23,7 @@
 #' * data_for_plot = A `phylo` object used for the plot.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' #Download the data
 #' seq.data<-bold.connectr.public(taxonomy = c("Eulimnadia"),marker = "COI-5P")
 #' seq<-seq.data[!seq.data$species=="",]
@@ -45,6 +45,7 @@
 #'
 #' # Base frequencies of the sequences
 #' seq.analysis$base_freq
+#'}
 #'
 #' @importFrom msa msaConvert
 #' @importFrom ape dist.dna

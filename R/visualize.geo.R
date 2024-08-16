@@ -13,25 +13,25 @@
 #' @param file.name A character value specifying the name of the exported file. Default value is NULL.
 #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.
 #'
-#' @details `visualize.geo` extracts out the geographic information from the [bold.connectr()] or [bold.connectr.public()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. If `export` = TRUE, an image file will be saved based on the `file.type` (.jpg, .tiff),`file.path` and the `file.name`. The function also provides a [sf] data frame of the GIS data which can be used for any other application/s.
+#' @details `visualize.geo` extracts out the geographic information from the [bold.connectr()] or [bold.connectr.public()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. If `export` = TRUE, an image file will be saved based on the `file.type` (.jpg, .tiff),`file.path` and the `file.name`. The function also provides a `sf` data frame of the GIS data which can be used for any other application/s.
 #'
 #' @returns An 'output' list containing:
 #' * geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
 #' * map_plot = A visualization of the occurrences.
 #'
 #' @examples
-#'
+#' \dontrun{
 #' #Download data
 #' geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
 #'
 #' geo.viz<-visualize.geo(geo.data,export = FALSE)
 #'
-#' #The [sf] dataframe of the downloaded data
+#' #The `sf` dataframe of the downloaded data
 #' geo.viz$geo.df
 #'
 #' # Visualization
 #' geo.viz$plot
-#'
+#'}
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify
 #' @importFrom rnaturalearth ne_countries

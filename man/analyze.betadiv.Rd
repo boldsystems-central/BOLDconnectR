@@ -42,10 +42,10 @@ An 'output' list containing:
 This function analyzes the output from the \code{gen.comm.mat} to provide a beta diversity (and its partitions) profile of the downloaded data.
 }
 \details{
-\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \link{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
+\code{analyze.betadiv} calculates either a sorenson or jaccard beta dissimilarity using the \code{\link[=gen.comm.mat]{gen.comm.mat()}} output. It also generates matrices of 'species replacement' and 'richness difference' components of the total beta diversity. The values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. A corresponding 'heatmap' can also be obtained when \code{heatmap}=TRUE. In case of grid based heatmaps, grids are arranged on the heatmap based on their centroid distances (i.e. nearest grids are placed closest). For site categories, the heatmap labels are arranged alphabetically. Grid based heatmaps can only be generated when \code{grids} = TRUE and a \code{sf} 'grid.df' which is generated from the \code{gen.comm.mat} function is provided to the function.
 }
 \examples{
-
+\dontrun{
 #Download data from BOLD (removing species with blanks)
 comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
 
@@ -81,6 +81,7 @@ beta.div.res2$richnessd
 
 #Visualize the heatmap
 beta.div.res$heatmap.viz
+}
 
 }
 \references{

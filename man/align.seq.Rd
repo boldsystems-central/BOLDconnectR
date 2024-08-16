@@ -39,10 +39,10 @@ An 'output' list containing:
 Transforms and aligns the data retrieved from the \code{bold.connectr} and \code{bold.connectr.public} functions for various downstream analyses.
 }
 \details{
-\code{align.seq} fetches the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a ClustalOmega multiple sequence alignment on it. This is done using \code{\link[msa:msa]{msa::msa()}} function with the method = "ClustalOmega" & default settings (uses\code{\link[msa:msaClustalOmega]{msa::msaClustalOmega()}}). In addition, the function also provides a a)  \link{ape} ‘DNAbin’ object , b) a data frame of the sequences and their respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if \code{raw.fas}=TRUE. \code{marker} name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the \code{name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the veracity of the sequence quality is left up to the user as the function does not provide any checks on issues like STOP codons and indels in the data.
+\code{align.seq} fetches the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a ClustalOmega multiple sequence alignment on it. This is done using \code{\link[msa:msa]{msa::msa()}} function with the method = "ClustalOmega" & default settings (uses\code{\link[msa:msaClustalOmega]{msa::msaClustalOmega()}}). In addition, the function also provides a a)  \code{ape} ‘DNAbin’ object , b) a data frame of the sequences and their respective names and c) a raw (unaligned '.fas') fasta file. File path and file name need to be provided for if \code{raw.fas}=TRUE. \code{marker} name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the \code{name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Please note that a multiple sequence alignment on large sequence data might slow the machine.Also note that the veracity of the sequence quality is left up to the user as the function does not provide any checks on issues like STOP codons and indels in the data.
 }
 \examples{
-
+\dontrun {
 # Download the data
 seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 
@@ -57,5 +57,6 @@ seq.align$ape_obj
 
 #A DNAStringSet object of the Multiple sequence alignment
 seq.align$msa.result
+}
 
 }

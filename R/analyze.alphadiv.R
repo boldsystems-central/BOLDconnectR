@@ -10,7 +10,7 @@
 #' @param preston.res A logical value specifying whether the Preston results should be generated. Default value is FALSE.
 #' @param pres.plot.y.label A character value specifying the taxonomic category (`taxon.rank` in [gen.comm.mat()]) which was used to generate the matrix.
 #'
-#' @details `analyze.alphadiv` estimates the richness and calculates the shannon diversity values using the [gen.comm.mat()] output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates Preston plots and the associated numerical results. The richness profile is created using [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] functions respectively. Preston plots are created using the data from the `prestondistr` results in [ggplot2].The cyan bars in the preston plot represent the observed species (or equivalent taxonomic group) while the orange dots represent the expected number of the same. Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences). Additionally, Preston result's output gives a number of species by default. If another taxonomic rank is used in the [gen.comm.mat()] function, the 'species' number in the results would be the number of that taxonomic rank (even though the output would still print 'species').
+#' @details `analyze.alphadiv` estimates the richness and calculates the shannon diversity values using the [gen.comm.mat()] output. The estimations are based on BIN counts or presence absence data at the taxonomic level specified by the user in the `gen.comm.mat` function. The function also generates Preston plots and the associated numerical results. The richness profile is created using [BAT::alpha.accum()] while the preston and shannon diversity results are obtained using the [vegan::prestondistr()] and [vegan::diversity()] functions respectively. Preston plots are created using the data from the `prestondistr` results in `ggplot2`.The cyan bars in the preston plot represent the observed species (or equivalent taxonomic group) while the orange dots represent the expected number of the same. Please note that some of the results (like Shannon/Preston) would depend on the input data (true abundances vs counts vs incidences). Additionally, Preston result's output gives a number of species by default. If another taxonomic rank is used in the [gen.comm.mat()] function, the 'species' number in the results would be the number of that taxonomic rank (even though the output would still print 'species').
 #'
 #' @returns An 'output' list containing containing:
 #' * richness = A richness profile matrix
@@ -20,6 +20,7 @@
 #' * preston.plot = a ggplot2 visualization of the preston.plot
 #'
 #' @examples
+#' \dontrun{
 #' # Download data from BOLD (removing species with blanks)
 #' comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
 #'
@@ -52,6 +53,7 @@
 #'
 #' # Preston plot
 #' div.res2$preston.plot
+#'}
 #'
 #' @importFrom BAT alpha.accum
 #' @importFrom vegan diversity

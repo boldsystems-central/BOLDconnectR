@@ -30,7 +30,7 @@
 #' @returns A data frame containing all the information related to the query search
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Taxonomy
 #' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
 #' head(bold.data,10)
@@ -41,6 +41,7 @@
 #'
 #' # Taxonomy, Geography and BINs
 #' bold.data.taxo_geo<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
+#'}
 #'
 #' @importFrom utils URLencode
 #' @importFrom dplyr %>%
