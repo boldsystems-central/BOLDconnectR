@@ -22,6 +22,7 @@
 #' @examples
 #'
 #' # Using countries as a site.cat
+#'
 #' # Download data from BOLD
 #' comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
 #'
