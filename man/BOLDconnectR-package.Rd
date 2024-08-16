@@ -6,6 +6,16 @@
 \alias{BOLDconnectR-package}
 \title{BOLDconnectR: Retrieve, Transform and Analyze the Barcode of Life Data Systems Data in R}
 \description{
-This package is designed for the for data retrieval, transformation and analysis of the data available on the Barcode of Life Data Systems (BOLD) database. Both publicly available as well as private user data can be downloaded easily into the R environment based on variety of inputs including processids, sampleids, taxonomy, geography etc. Data transformation functions convert the imported data into objects and/or files commonly used in other R packages and third party tools while data analysis functions offer basic biodiversity, clustering and mapping analyses for the downloaded data.
+Functions for the for retrieval, transformation and analysis of the data available on the Barcode of Life Data Systems (BOLD) database. Both publicly available as well as private user data can be downloaded easily into the R environment based on variety of inputs including ids (process and sample ids), taxonomy, geography etc. Data transformation functions convert the imported data into objects and/or files commonly used in other R packages and third party tools while data analysis functions offer basic biodiversity, clustering and mapping analyses for the downloaded data.
+}
+\author{
+\strong{Maintainer}: Sameer M. Padhye \email{spadhye@uoguelph.ca}
+
+Authors:
+\itemize{
+  \item Claudia-Liliana Ballesteros Mejia \email{cballest@uoguelph.ca}
+  \item Sujeevan Ratnasingham \email{sratnasi@uoguelph.ca}
+}
+
 }
 \keyword{internal}
