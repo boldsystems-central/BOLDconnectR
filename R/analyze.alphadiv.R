@@ -28,7 +28,7 @@
 #' comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
 #'
 #' # Generate the community matrix based on grids
-#' comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
+#' comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat='country.ocean')
 #'
 #' grid.data<-comm.data.grid$comm.matrix
 #'

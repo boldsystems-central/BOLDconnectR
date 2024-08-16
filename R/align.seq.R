@@ -20,7 +20,7 @@
 #' * raw.fas = TRUE: a `.fas` file of unaligned sequences.
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' # Download the data
 #' seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 #'
@@ -35,7 +35,7 @@
 #'
 #' #A DNAStringSet object of the Multiple sequence alignment
 #' seq.align$msa.result
-#'}
+#'  }
 #'
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom msa msa
