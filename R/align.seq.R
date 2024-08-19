@@ -11,7 +11,7 @@
 #' @param raw.fas A logical input to specify whether an unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.
 #'
 #' @details
-#' `align.seq` retrieves the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the[msa::msa()] function with default settings, specifically calling [msa::msaClustalOmega()].File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.
+#' `align.seq` retrieves the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.
 #' Note: Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
 #'
 #' @returns An 'output' list containing:
@@ -19,6 +19,8 @@
 #' * ape_obj = A `DNAbin` object of the unaligned sequences.
 #' * seq.df = A two-column data frame with unaligned sequences in one column and its name in the other.
 #' * raw.fas = TRUE: a `.fas` file of unaligned sequences.
+#'
+#' @importFrom utils install.packages
 #'
 #' @examples
 #' \dontrun{
@@ -38,21 +40,29 @@
 #' seq.align$msa.result
 #'  }
 #'
-#' @importFrom Biostrings DNAStringSet
-#' @importFrom msa msa
-#' @importFrom msa msaClustalOmega
-#' @importFrom ape read.dna
-#' @importFrom ape write.FASTA
-#' @importFrom methods as
+#' #importFrom Biostrings DNAStringSet
+#' #importFrom msa msa
+#' #importFrom msa msaClustalOmega
+#' #importFrom ape read.dna
+#' #importFrom ape write.FASTA
+#' #importFrom methods as
 #'
 #' @keywords internal
 #'
+#'
 align.seq<-function (bold.df,
-                            marker=NULL,
-                            name.fields=NULL,
-                            file.path=NULL,
-                            file.name=NULL,
-                            raw.fas=FALSE) {
+                     marker=NULL,
+                     name.fields=NULL,
+                     file.path=NULL,
+                     file.name=NULL,
+                     raw.fas=FALSE) {
+
+  if (!requireNamespace("msa", quietly = TRUE))
+  {
+
+    stop("msa package required for the function")
+
+  }
 
 
   # Check if data is a data frame object
@@ -181,7 +191,7 @@ align.seq<-function (bold.df,
     obtain.seq.from.data<-obtain.data%>%
       dplyr::rowwise()%>%
       dplyr::mutate(across(all_of(name.fields),
-                    as.character))%>%
+                           as.character))%>%
       dplyr::select(nuc,
                     all_of(name.fields))%>%
       dplyr::mutate(seq.name=paste0(paste(as.character(c_across(all_of(name.fields))),
@@ -234,7 +244,7 @@ align.seq<-function (bold.df,
   #3. Performing a ClustalOmega/Muscle alignment of the sequence
 
 
-  alignment_seq<-Biostrings::DNAStringSet(seq.from.data)%>%
+  alignment_seq<-DNAStringSet(seq.from.data)%>%
     msa::msa(.,method = "ClustalOmega")
 
 
@@ -247,8 +257,8 @@ align.seq<-function (bold.df,
   #4. Converting the output into a DNAstringset object
 
   msa_dna_string_obj<-methods::as(alignment_seq,
-                         "DNAMultipleAlignment")%>%
-    DNAStringSet(.)
+                                  "DNAMultipleAlignment")%>%
+    Biostrings::DNAStringSet(.)
 
 
 
@@ -268,11 +278,11 @@ align.seq<-function (bold.df,
 
     #5. Writing the above result to local machine as per the path and name provided
 
-  Biostrings::writeXStringSet(msa_dna_string_obj,
-                  filepath=paste(file.path,
-                                 "/",
-                                 file.name,sep=""),
-                  format="fasta")
+    Biostrings::writeXStringSet(msa_dna_string_obj,
+                                filepath=paste(file.path,
+                                               "/",
+                                               file.name,sep=""),
+                                format="fasta")
   }
 
 
@@ -318,13 +328,13 @@ align.seq<-function (bold.df,
 
 
     ape::write.FASTA(result,
-                file=paste(file.path,
-                           "/",
-                           file.name,
-                           "_raw",
-                           sep=""))
+                     file=paste(file.path,
+                                "/",
+                                file.name,
+                                "_raw",
+                                sep=""))
 
-   }
+  }
 
 
   # Multiple sequence alignment result

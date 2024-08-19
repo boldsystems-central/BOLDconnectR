@@ -14,7 +14,6 @@ biocViews:
 Imports: 
     ape,
     BAT,
-    Biostrings,
     data.table,
     dplyr,
     ggplot2,
@@ -23,7 +22,6 @@ Imports:
     jsonlite,
     lifecycle,
     methods,
-    msa,
     reshape2,
     rlang,
     rnaturalearth,
@@ -31,6 +29,9 @@ Imports:
     skimr,
     tidyr,
     utils,
-    vegan    
+    vegan
+Suggests:
+    Biostrings,
+    msa    
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)

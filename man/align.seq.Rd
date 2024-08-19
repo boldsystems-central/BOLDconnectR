@@ -39,7 +39,7 @@ An 'output' list containing:
 Function designed to transform and align the data retrieved from the functions \code{bold.connectr} and \code{bold.connectr.public}
 }
 \details{
-\code{align.seq} retrieves the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the\code{\link[msa:msa]{msa::msa()}} function with default settings, specifically calling \code{\link[msa:msaClustalOmega]{msa::msaClustalOmega()}}.File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.
+\code{align.seq} retrieves the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.
 Note: Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
 }
 \examples{
@@ -59,6 +59,13 @@ seq.align$ape_obj
 #A DNAStringSet object of the Multiple sequence alignment
 seq.align$msa.result
  }
+
+#importFrom Biostrings DNAStringSet
+#importFrom msa msa
+#importFrom msa msaClustalOmega
+#importFrom ape read.dna
+#importFrom ape write.FASTA
+#importFrom methods as
 
 }
 \keyword{internal}

@@ -76,5 +76,6 @@ seq.analysis$dist_matrix
 seq.analysis$base_freq
 }
 
+#importFrom msa msaConvert
 }
 \keyword{internal}

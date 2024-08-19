@@ -47,7 +47,7 @@
 #' seq.analysis$base_freq
 #'}
 #'
-#' @importFrom msa msaConvert
+#' #importFrom msa msaConvert
 #' @importFrom ape dist.dna
 #' @importFrom ape base.freq
 #' @importFrom ape nj
@@ -58,17 +58,19 @@
 #' @keywords internal
 #'
 analyze.seq<-function(aligned.seq,
-                       dist.model,
-                       clus=c("nj",
-                              "njs"),
-                       tree.export=FALSE,
-                       file.path=NULL,
-                       file.name=NULL,
-                       plot=FALSE,
-                       plot.type,
+                      dist.model,
+                      clus=c("nj",
+                             "njs"),
+                      tree.export=FALSE,
+                      file.path=NULL,
+                      file.name=NULL,
+                      plot=FALSE,
+                      plot.type,
                       ...)
 
 {
+
+
 
   # Empty output list defined
 
@@ -106,28 +108,28 @@ analyze.seq<-function(aligned.seq,
 
   {
 
-  switch(clus,
+    switch(clus,
 
 
-         # nj (when there are no NAs)
+           # nj (when there are no NAs)
 
-         "nj" = {
-
-
-           for_plot=ape::nj(dnabin.dist)
-
-         },
-
-         # when there could be potential NAs
-
-         "njs" = {
+           "nj" = {
 
 
-           for_plot=ape::njs(dnabin.dist)
+             for_plot=ape::nj(dnabin.dist)
 
-         }
+           },
 
-  )
+           # when there could be potential NAs
+
+           "njs" = {
+
+
+             for_plot=ape::njs(dnabin.dist)
+
+           }
+
+    )
 
   }
 
@@ -217,7 +219,7 @@ analyze.seq<-function(aligned.seq,
 
     output$data_for_plot=for_plot
 
-    }
+  }
 
 
 
