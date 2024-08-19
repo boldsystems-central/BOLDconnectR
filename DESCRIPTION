@@ -9,8 +9,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.2.0),
-biocViews:
+    R (>= 3.2.0)
+    
+biocViews:msa
 Imports: 
     ape,
     BAT,
