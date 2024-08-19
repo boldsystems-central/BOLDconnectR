@@ -9,7 +9,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.2.0)
+    R (>= 3.2.0),
+    msa
 biocViews:
 Imports: 
     ape,
@@ -23,7 +24,6 @@ Imports:
     jsonlite,
     lifecycle,
     methods,
-    msa,
     reshape2,
     rlang,
     rnaturalearth,
