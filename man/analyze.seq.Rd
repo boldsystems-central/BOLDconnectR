@@ -17,7 +17,7 @@ analyze.seq(
 )
 }
 \arguments{
-\item{aligned.seq}{A DNAStringSet multiple sequence alignment object returned by \code{align.seq} function.}
+\item{aligned.seq}{A DNAStringSet multiple sequence alignment object returned by the \code{align.seq} function.}
 
 \item{dist.model}{A character string specifying the model to generate the distances.}
 
@@ -46,10 +46,10 @@ An 'output' list containing:
 }
 }
 \description{
-Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{align.seq}.
+Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple see- quence alignment output obtained from \code{align.seq}.
 }
 \details{
-\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}} \code{model} argument. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using \code{\link[ape:plot.phylo]{ape::plot.phylo()}} function \code{type} argument. Additional edits such as rooting the tree can be done to the plot using the \code{data_for_plot} result of the output list which stores the \code{phylo} object used for plotting. Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a \code{newick} format.
+\code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using \code{\link[ape:plot.phylo]{ape::plot.phylo()}}. Both \code{ape::nj()} and \code{ape::njs()} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a newick format.
 }
 \examples{
 \dontrun{

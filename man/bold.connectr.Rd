@@ -42,11 +42,11 @@ bold.connectr(
 
 \item{geography}{A single or multiple character vector of any of country/province/state/region/sector/site names/codes. Default value is NULL.}
 
-\item{latitude}{A single or a vector of two numbers specifying the latitudinal range. Values should be separated by a comma. Default value is NULL.}
+\item{latitude}{A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
 
-\item{longitude}{A single or a vector of two numbers specifying the longitudinal range. Values should be separated by a comma. Default value is NULL.}
+\item{longitude}{A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
 
-\item{shapefile}{A file path pointing to a shapefile or name of the shapefile imported in the R session. Default value is NULL.}
+\item{shapefile}{A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.}
 
 \item{institutes}{A single or multiple character vector specifying names of institutes. Default value is NULL.}
 
@@ -60,7 +60,7 @@ bold.connectr(
 
 \item{basecount}{A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.}
 
-\item{altitude}{A single or a vector of two numbers specifying the altitude range. Values should be separated by a comma. Default value is NULL.}
+\item{altitude}{A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.}
 
 \item{depth}{A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.}
 
@@ -81,7 +81,9 @@ A data frame containing all the information related to the processids/sampleids 
 Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input.
 }
 \details{
-Users will be able be able to access their own private data as well as all public data using this function. Currently ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’ are available as search \code{param}.Data is retrieved by specifying only one of the \code{params} at a time (Multi param search such as ‘processids’+ ‘sampleids’ + ‘bin_uri’  is not available) even if the \code{input.data} has all the \code{params} available. There is no cap on the upper limit of the data that can be retrieved though, that depends on the net connection and the machine specs. Data input is either as a data path to a flat file having \code{.csv/.tsv/.txt} extensions or a R \code{data.frame} object. Import assumes a header present for the input data. The function provides post download (optional) filters on various fields like \code{taxonomy}, \code{geography}, \code{institutions} etc. with the default being NULL for all. Using the \code{fields} argument will let the user select any specific columns that need to be in the final data frame instead of the whole data though, processids and sampleids will be present in the data by default. The default NULL value of the argument will result in all columns being downloaded. \code{api_key} is a UUID v4 hexadecimal string obtained by requesting BOLD. The validity of the key will be for one year and would need to be renewed after. Column names of the downloaded data are as per the \code{fields} column from the \code{bold.fields.info}. Please note that the \code{param} and \code{param.index} must be correctly matched to avoid getting any errors.Also, it could be likely that certain values/fields are not currently available and will be so in the near future.
+This function retrieves both public as well as private user data, where private data refers to data that the user has permission to access. It supports effective download data in bulk using search parameters (param) such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Users must specify only one of the params at a time for retrieval -- multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless  of  the parameters available. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications.
+Data input can be either through a path to a flat file with extensions like \code{.csv/.tsv/.txt} or a R data.frame object. The import process assumes that the input data includes a header. Post download, users can apply optional filters on various fields like taxonomy, geography, institutions etc. with the default setting for all fields being  NULL. Using the fields argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default.
+If the “fields’ argument is left as NULL all columns will be downloaded. api_key is a UUID v4 hexadecimal string, is obtained upon request from  BOLD to \code{support@boldsystems.org} and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data are those specified in the the \code{bold.fields.info}. It is important to correctly match the \code{param} and \code{param.index} to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.
 }
 \examples{
 \dontrun{

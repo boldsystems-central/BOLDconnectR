@@ -30,7 +30,7 @@ analyze.alphadiv(
 An 'output' list containing containing:
 \itemize{
 \item richness = A richness profile matrix
-\item Shannon_div = Shannon diversity values for the given sites/grids
+\item Shannon_div = Shannon diversity values for the given sites/grids(from \code{gen.comm.mat})
 \item richness_plot = A ggplot2 visualization of the richness curve
 \item preston.res = a Preston plot numerical data output
 \item preston.plot = a ggplot2 visualization of the preston.plot
