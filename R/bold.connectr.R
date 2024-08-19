@@ -143,7 +143,7 @@ bold.connectr<-function(input.data,
 
         }
 
-        else if (grepl("\\.(txt|tsv)$"))
+        else if (grepl("\\.(txt|tsv)$",input.data))
 
         {
 
