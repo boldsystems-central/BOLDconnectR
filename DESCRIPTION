@@ -13,11 +13,11 @@ Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 3.2.0)
+biocViews:
 Imports: 
     ape,
     BAT,
     Biostrings,
-    BiocManager,
     data.table,
     dplyr,
     ggplot2,
