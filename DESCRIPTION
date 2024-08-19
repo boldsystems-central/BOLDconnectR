@@ -10,7 +10,6 @@ Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 3.2.0),
-devtools::install_github('UBod/msa')
 biocViews:
 Imports: 
     ape,
