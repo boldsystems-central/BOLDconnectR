@@ -11,7 +11,8 @@ LazyData: true
 Depends: 
     R (>= 3.2.0)
     
-biocViews:msa
+biocViews:
+    msa
 Imports: 
     ape,
     BAT,
