@@ -2,8 +2,7 @@ Package: BOLDconnectR
 Type: Package
 Title: Retrieve, Transform and Analyze the Barcode of Life Data Systems Data in R
 Version: 0.1.0
-Authors@R:
-	c(person(given = c("Sameer", "M."),family = "Padhye",role = c("aut", "cre"),email = "spadhye@uoguelph.ca"),
+Authors@R: c(person(given = c("Sameer", "M."),family = "Padhye",role = c("aut", "cre"),email = "spadhye@uoguelph.ca"),
         person(given = c("Claudia-Liliana", "Ballesteros"),family = "Mejia",role = "aut",email = "cballest@uoguelph.ca"),
         person(given = "Sujeevan",family = "Ratnasingham",role = "aut",email = "sratnasi@uoguelph.ca"))
 Maintainer: Sameer M. Padhye <spadhye@uoguelph.ca>
@@ -18,6 +17,7 @@ Imports:
     ape,
     BAT,
     Biostrings,
+    BiocManager,
     data.table,
     dplyr,
     ggplot2,
