@@ -31,7 +31,7 @@ An 'output' list containing:
 \itemize{
 \item msa.result = A \code{DNAStringSet} object of the multiple sequence alignment.
 \item ape_obj = A \code{DNAbin} object of the unaligned sequences.
-\item seq.df = a data frame with sequences as one column and its name in the other (unaligned).
+\item seq.df = A two-column data frame with unaligned sequences in one column and its name in the other.
 \item raw.fas = TRUE: a \code{.fas} file of unaligned sequences.
 }
 }

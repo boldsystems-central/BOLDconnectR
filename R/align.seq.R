@@ -17,7 +17,7 @@
 #' @returns An 'output' list containing:
 #' * msa.result = A `DNAStringSet` object of the multiple sequence alignment.
 #' * ape_obj = A `DNAbin` object of the unaligned sequences.
-#' * seq.df = a data frame with sequences as one column and its name in the other (unaligned).
+#' * seq.df = A two-column data frame with unaligned sequences in one column and its name in the other.
 #' * raw.fas = TRUE: a `.fas` file of unaligned sequences.
 #'
 #' @examples

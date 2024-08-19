@@ -24,6 +24,7 @@ Imports:
     jsonlite,
     lifecycle,
     methods,
+    msa,
     reshape2,
     rlang,
     rnaturalearth,
