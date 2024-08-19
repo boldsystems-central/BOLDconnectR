@@ -4,7 +4,7 @@ Title: Retrieve, Transform and Analyze the Barcode of Life Data Systems Data in 
 Version: 0.1.0
 Authors@R: c(person(given = c("Sameer", "M."),family = "Padhye",role = c("aut", "cre"),email = "spadhye@uoguelph.ca"),person(given = "Liliana", family = "Ballesteros-Mejia",role = "aut",email = "cballest@uoguelph.ca"),person(given = "Sujeevan",family = "Ratnasingham",role = "aut",email = "sratnasi@uoguelph.ca"))
 Maintainer: Sameer M. Padhye <spadhye@uoguelph.ca>
-Description:  Facilitate retrieval, transformation and analysis of the data from the Barcode of Life Data Systems (BOLD) database. It allows both public and private user data to be easily downloaded easily into the R environment using a variety of inputs such as:  processids, sampleids, taxonomy, geography etc. The package provides data transformation functions to convert data into formats compatible with other R-packages and third party tools, as well as analysis functions for biodiversity, clustering and mapping.
+Description:  Facilitate retrieval, transformation and analysis of the data from the Barcode of Life Data Systems (BOLD) database. It allows both public and private user data to be easily downloaded easily into the R environment using a variety of inputs such as:  processids, sampleids, taxonomy, geography etc. The package provides data transformation functions to convert data into formats compatible with other R-packages and third party tools, as well as analysis functions for biodiversity, clustering and mapping. This package requires 'msa' and 'Biostrings' to be installed beforehand. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
