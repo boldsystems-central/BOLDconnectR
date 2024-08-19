@@ -77,3 +77,4 @@ seq.analysis$base_freq
 }
 
 }
+\keyword{internal}

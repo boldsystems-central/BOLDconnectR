@@ -61,3 +61,4 @@ seq.align$msa.result
  }
 
 }
+\keyword{internal}

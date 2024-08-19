@@ -55,7 +55,7 @@
 #' @importFrom ape write.tree
 #' @importFrom ape plot.phylo
 #'
-#' @export
+#' @keywords internal
 #'
 analyze.seq<-function(aligned.seq,
                        dist.model,
