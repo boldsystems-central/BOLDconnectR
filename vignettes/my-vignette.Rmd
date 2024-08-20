@@ -18,6 +18,15 @@ knitr::opts_chunk$set(
 
 BOLDconnectR is a package designed for retrieval, transformation and analysis of the data available in the Barcode Of Life Data Systems (BOLD) database. This package provides the functionality to obtain public and private user data available in the database. Its currently available as a devtools installation and can be downloaded with a 'auth_token'.
 
+```{r necessary packages install,include=FALSE}
+
+library(devtools)
+library(msa)
+library(Biostrings)
+devtools::install_deps(dependencies = TRUE)
+
+```
+
 ```{r setup}
 
 devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
