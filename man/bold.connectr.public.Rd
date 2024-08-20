@@ -88,11 +88,11 @@ bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
 head(bold.data,10)
 
 # Taxonomy and Geography
-bold.data.taxo_geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
+bold.data.taxo.geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
 head(bold.data.taxo_geo,10)
 
 # Taxonomy, Geography and BINs
-bold.data.taxo_geo<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
+bold.data.taxo.geo.bin<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
 }
 
 }
