@@ -40,7 +40,7 @@ Function designed to transform and align the data retrieved from the functions \
 }
 \details{
 \code{align.seq} retrieves the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
-\verb{\\emph\{Note: \}} This function is currently an internal function with documentation. sers are required to install and load the \code{Biostrings} and \code{msa} packages before running this function that are maintained by \code{Bioconductor}.
+\emph{Note: } This function is currently an internal function with documentation. sers are required to install and load the \code{Biostrings} and \code{msa} packages before running this function that are maintained by \code{Bioconductor}.
 }
 \examples{
 \dontrun{
