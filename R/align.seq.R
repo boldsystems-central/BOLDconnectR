@@ -11,8 +11,8 @@
 #' @param raw.fas A logical input to specify whether an unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.
 #'
 #' @details
-#' `align.seq` retrieves the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.
-#' Note: Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
+#' `align.seq` retrieves the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
+#' `\emph{Note: }` This function is currently an internal function with documentation. sers are required to install and load the `Biostrings` and `msa` packages before running this function that are maintained by `Bioconductor`.
 #'
 #' @returns An 'output' list containing:
 #' * msa.result = A `DNAStringSet` object of the multiple sequence alignment.
@@ -40,6 +40,7 @@
 #' seq.align$msa.result
 #'  }
 #'
+#' # Functions used by `align.seq` (for which the users need to install `Biostrings` & `msa`).
 #' #importFrom Biostrings DNAStringSet
 #' #importFrom msa msa
 #' #importFrom msa msaClustalOmega
@@ -56,13 +57,6 @@ align.seq<-function (bold.df,
                      file.path=NULL,
                      file.name=NULL,
                      raw.fas=FALSE) {
-
-  if (!requireNamespace("msa", quietly = TRUE))
-  {
-
-    stop("msa package required for the function")
-
-  }
 
 
   # Check if data is a data frame object
@@ -243,9 +237,10 @@ align.seq<-function (bold.df,
 
   #3. Performing a ClustalOmega/Muscle alignment of the sequence
 
+ # A try catch here to check if the users have 'msa' installed or not
 
   alignment_seq<-DNAStringSet(seq.from.data)%>%
-    msa::msa(.,method = "ClustalOmega")
+    msa(.,method = "ClustalOmega")
 
 
   # alignment_seq<-Biostrings::DNAStringSet(seq.from.data)
