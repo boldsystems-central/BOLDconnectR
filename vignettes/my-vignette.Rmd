@@ -88,9 +88,7 @@ DT::datatable(test.data,class = 'cell-border stripe')
 ### default (all data retrieved)
 The arguments provided below need to be specified by default for every request. Default settings retrieve data for all available fields for those ids. Certain ids might not have information for certain fields in which case the number of columns could be different
 
-```{r bold.connectr}
-
-library(BOLDconnectR)
+```{r bold.connectr,echo=FALSE}
 
 data("test.data")
 
@@ -102,10 +100,10 @@ result<-bold.connectr(input.data = to_download,
                                   param = 'processid',
                                   param.index = 1,
                                   api_key = api.key)
-
+result
 # Output showing the first 5 rows
 
-DT::datatable(result,class = 'cell-border stripe')
+#DT::datatable(result,class = 'cell-border stripe')
 
 ```
 
@@ -128,7 +126,7 @@ result_institutes<-bold.connectr(input.data = to_download,
 
 # Output showing the first 10 columns
 
-DT::datatable(result_institutes,class = 'cell-border stripe')
+#DT::datatable(result_institutes,class = 'cell-border stripe')
 
 ```
 
@@ -150,7 +148,7 @@ result_geography<-bold.connectr(input.data = to_download,
 
 # Output showing the first 10 columns
 
-DT::datatable(result_geography,class = 'cell-border stripe')
+#DT::datatable(result_geography,class = 'cell-border stripe')
 
 ```
 
@@ -171,7 +169,7 @@ result_altitude<-bold.connectr(input.data = test.data,
 
 # Output showing the first 10 columns
 
-DT::datatable(result_altitude,class = 'cell-border stripe')
+#DT::datatable(result_altitude,class = 'cell-border stripe')
 
 ```
 ### Collection period
@@ -189,7 +187,7 @@ result_collection.per<-bold.connectr(input.data = test.data,
 
 # Output showing the first 10 columns
 
-DT::datatable(result_collection.per,class = 'cell-border stripe')
+#DT::datatable(result_collection.per,class = 'cell-border stripe')
 ```
 
 
