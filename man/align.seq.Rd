@@ -68,5 +68,5 @@ seq.align$msa.result
 #importFrom ape write.FASTA
 #importFrom methods as
 
+
 }
-\keyword{internal}
