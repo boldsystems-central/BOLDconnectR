@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r default knitr options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -21,9 +21,12 @@ BOLDconnectR is a package designed for retrieval, transformation and analysis of
 ```{r necessary packages install,include=FALSE}
 
 library(devtools)
+library(utils)
+library(base)
 library(msa)
 library(Biostrings)
 devtools::install_deps(dependencies = TRUE)
+if (!require("DT")) install.packages('DT')
 
 ```
 
@@ -43,7 +46,7 @@ library(BOLDconnectR)
 
 bold.field.info<-bold.fields.info(print.output = FALSE)
 
-head(bold.field.info,10)
+DT::datatable(bold.field.info,class = 'cell-border stripe')
 
 ```
 
@@ -74,11 +77,11 @@ This function retrieves public and private user data on BOLD using the`api key`
 
 Test data is a data frame having 2 columns and 2100 unique ids. First column has 'processids' while second has 'sampleids'. Either one can be used to retrieve data from BOLD
 
-```{r}
+```{r test data}
 
 data("test.data")
 
-test.data
+DT::datatable(test.data,class = 'cell-border stripe')
 
 ```
 
@@ -89,9 +92,9 @@ The arguments provided below need to be specified by default for every request. 
 
 library(BOLDconnectR)
 
-data("ids_for_test")
+data("test.data")
 
-api.key=Sys.getenv("api_key")
+api.key <- Sys.getenv('api_key')
 
 to_download=test.data[1:100,]
 
@@ -102,7 +105,7 @@ result<-bold.connectr(input.data = to_download,
 
 # Output showing the first 5 rows
 
-result
+DT::datatable(result,class = 'cell-border stripe')
 
 ```
 
@@ -125,7 +128,7 @@ result_institutes<-bold.connectr(input.data = to_download,
 
 # Output showing the first 10 columns
 
-result_institutes
+DT::datatable(result_institutes,class = 'cell-border stripe')
 
 ```
 
@@ -147,7 +150,7 @@ result_geography<-bold.connectr(input.data = to_download,
 
 # Output showing the first 10 columns
 
-result_geography
+DT::datatable(result_geography,class = 'cell-border stripe')
 
 ```
 
@@ -168,7 +171,7 @@ result_altitude<-bold.connectr(input.data = test.data,
 
 # Output showing the first 10 columns
 
-result_altitude
+DT::datatable(result_altitude,class = 'cell-border stripe')
 
 ```
 ### Collection period
@@ -186,7 +189,7 @@ result_collection.per<-bold.connectr(input.data = test.data,
 
 # Output showing the first 10 columns
 
-result_collection.per
+DT::datatable(result_collection.per,class = 'cell-border stripe')
 ```
 
 
@@ -202,7 +205,7 @@ result.public<-bold.connectr.public(taxonomy = c("Panthera leo"),fields = c("bin
 
 # Output showing the first 10 columns
 
-result.public
+DT::datatable(result.public,class = 'cell-border stripe')
 
 ```
 
@@ -215,7 +218,7 @@ result.public.geo<-bold.connectr.public(taxonomy = c("Panthera leo"),geography =
 
 # Output showing the first 10 columns
 
-result.public.geo
+DT::datatable(result.public.geo,class = 'cell-border stripe')
 
 ```
 
@@ -229,7 +232,7 @@ result.public.geo.bin<-bold.connectr.public(taxonomy = c("Panthera leo"),geograp
 
 # Output showing the first 10 columns
 
-result.public.geo.bin
+DT::datatable(result.public.geo.bin,class = 'cell-border stripe')
 
 ```
 
@@ -243,7 +246,7 @@ The search parameters of `bold.connectr.public` should be used carefully if a fi
 
 This function is currently an internal function of the package (with documentation). This function acts as a wrapper around the `msa` and `Biostrings` package functions for users of `BOLDconnectR` by which they can carry out multiple sequence alignment on the downloaded data by `bold.connectr` and `bold.connectr.public` functions. In order to use this function following notation needs to be used `BOLDconnectR:::align.seq`. In addition, the users need to install and load `msa` and `Biostrings` separately before using this function to avoid any errors. A function performs alignment using the 'ClustalOmega' algorithm by default, though, more refined alignments  can be done by passing additional arguments of the `msa` function to `align.seq`. 
 
-```{r align.seq}
+```{r align.seq,echo=FALSE,warning=FALSE}
 
 library(msa)
 
@@ -252,23 +255,30 @@ data.align<-bold.connectr.public(taxonomy = "Panthera leo")
 
 data.seq.aligned<-BOLDconnectR:::align.seq(data.align,name.fields = c("bin_uri","species"))
 
-data.seq.aligned
+DT::datatable(data.seq.aligned$seq.df,class = 'cell-border stripe')
 
 ```
 ## analyze.seq
 
 This function along with `align.seq` is an internal function of the package (with documentation). This function acts as a wrapper around the `dist.dna` and `plot.phylo` functions from `ape` for users of `BOLDconnectR`. The users can analyse the multiple sequence alignment output from the `align.seq` to generate a distance matrix, a Neighbor Joining (NJ) tree visualization and a newick tree output. In order to use this function following notation needs to be used `BOLDconnectR:::analyze.seq`. In addition, the users need to install and load `msa` and `Biostrings` separately before using this function to avoid any errors. Additional arguments of `dist.dna` can be passed to `analyze.seq` for more robust analysis.
 
-```{r analyze.seq}
+```{r analyze.seq,echo=FALSE,fig.width=6, fig.height=4, fig.align='center',warning=FALSE}
 
 library(msa)
 
-data.align<-bold.connectr.public(taxonomy = "Panthera leo")
+data.align<-bold.connectr.public(taxonomy = "Eulimnadia")
 
 
 data.seq.aligned<-BOLDconnectR:::align.seq(data.align,name.fields = c("bin_uri","species"))
 
-data.seq.aligned$msa.result
+data.seq.analyze<-BOLDconnectR:::analyze.seq(data.seq.aligned$msa.result,
+                                             dist.model = "K80",
+                                             clus="njs",
+                                             plot=TRUE,
+                                             plot.type = "p")
+
+
+DT::datatable(as.matrix(data.seq.analyze$dist_matrix),class = 'cell-border stripe')
 
 ```
 
@@ -277,7 +287,7 @@ data.seq.aligned$msa.result
 The function transforms the bold.connectr() or bold.connectr.public() downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a site.cat site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular site.cat or 'grid'). site.cat can be any of the geography fields (Meta data on fields can be checked using the bold.fields.info()). Alternatively, grids = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For grids generation, rows with no latitude and longitude data are removed (even if a corresponding site.cat information is available) while NULL entries for site.cat are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).grids converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the grids_final sf data frame stored in the output. The grids can be visualized with view.grids=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) if the data has many closely located grids, visualization with view.grids can get confusing. The argument pre.abs will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like vegan for biodiversity analyses.
 
 ### community matrix based on grids
-```{r gen.comm.mat2}
+```{r gen.comm.mat2,echo=FALSE,warning=FALSE}
 
 # Download data from BOLD
 comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
@@ -288,14 +298,16 @@ comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gri
 grids_output<-comm.data.grid$grids
 
 # View the sf dataframe of the grids
-grids_output
+DT::datatable(grids_output,class = 'cell-border stripe')
+
+# View the community matrix
+DT::datatable(comm.data.grid$comm.matrix,class = 'cell-border stripe')
 
 ```
 
-
 ## analyze.alphadiv
 
-```{r alphadiv}
+```{r alphadiv,echo=FALSE,fig.width=6, fig.align='center',warning=FALSE}
 
 # Download data from BOLD (removing species with blanks)
 comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
@@ -311,14 +323,21 @@ grid.data<-comm.data.grid$comm.matrix
 # Diversity results with estimation curve and without preston results
 div.res1<-analyze.alphadiv(grid.data,plot.curve=TRUE,curve.index="Jack1ab",curve.xval = "Sampl",preston.res = TRUE,pres.plot.y.label = "species")
 
-div.res1
+
+DT::datatable(div.res1$richness,class = 'cell-border stripe')
+
+DT::datatable(div.res1$Shannon_div,class = 'cell-border stripe')
+
+div.res1$richness_plot
+
+div.res1$preston.plot
 
 ```
 
 
 ## analyze.betadiv
 
-```{r betadiv}
+```{r betadiv,echo=FALSE,fig.width=8, fig.align='center',warning=FALSE}
 
 #Download data from BOLD (removing species with blanks)
 comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
@@ -329,14 +348,16 @@ comm.data.beta<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "coun
 #beta diversity with the heatmaps
 beta.div.res2<-analyze.betadiv(comm.data.beta$comm.matrix,index="sorenson",heatmap = TRUE,component = "total")
 
-#Total diversity
-beta.div.res2
+
+DT::datatable(as.matrix(round(beta.div.res2$total.beta,2)),class = 'cell-border stripe')
+
+beta.div.res2$heatmap.viz
 
 ```
 
 ## visualize.geo
 
-```{r gen.comm.mat}
+```{r gen.comm.mat,echo=FALSE,fig.width=8, fig.align='center',warning=FALSE}
 
 #Download data
 geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
@@ -344,9 +365,6 @@ geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
 geo.viz<-visualize.geo(geo.data,export = FALSE)
 
 #The `sf` dataframe of the downloaded data
-geo.viz$geo.df
-
-# Visualization
-geo.viz$plot
+DT::datatable(geo.viz$geo.df,class = 'cell-border stripe')
 
 ```
