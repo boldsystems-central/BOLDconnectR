@@ -58,8 +58,6 @@
 #' @importFrom ape write.tree
 #' @importFrom ape plot.phylo
 #'
-#' @keywords internal
-#'
 analyze.seq<-function(aligned.seq,
                       dist.model,
                       clus=c("nj",

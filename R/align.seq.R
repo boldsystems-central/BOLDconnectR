@@ -48,8 +48,6 @@
 #' #importFrom ape write.FASTA
 #' #importFrom methods as
 #'
-#' @keywords internal
-#'
 #'
 align.seq<-function (bold.df,
                      marker=NULL,

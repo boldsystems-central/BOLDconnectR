@@ -81,4 +81,3 @@ seq.analysis$base_freq
 #importFrom msa msaConvert
 
 }
-\keyword{internal}
