@@ -59,10 +59,13 @@ seq.data<-bold.connectr.public(taxonomy = c("Eulimnadia"),marker = "COI-5P")
 seq<-seq.data[!seq.data$species=="",]
 
 # Align the data (using species" and bin_uri  as a composite name for each sequence)
-seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+seq.align<-BOLDconnectR:::align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+
+# Name the output of the seq.align msa result
+msa.res<-seq.align$msa.result
 
 #Analyze the data
-seq.analysis<-analyze.seq(seq.align$msa.result,"K80",clus="njs",plot=TRUE)
+seq.analysis<-BOLDconnectR:::analyze.seq(msa.res,"K80",clus="njs",plot.type='p',plot=TRUE)
 
 #Visualize the plot
 seq.analysis$plot

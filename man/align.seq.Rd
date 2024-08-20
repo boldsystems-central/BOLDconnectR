@@ -10,7 +10,8 @@ align.seq(
   name.fields = NULL,
   file.path = NULL,
   file.name = NULL,
-  raw.fas = FALSE
+  raw.fas = FALSE,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ align.seq(
 \item{file.name}{A character value specifying the name of the exported file. Default value is NULL.}
 
 \item{raw.fas}{A logical input to specify whether an unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.}
+
+\item{...}{additional arguments from the \code{msa} function from the \code{msa} package.}
 }
 \value{
 An 'output' list containing:
@@ -48,7 +51,7 @@ Function designed to transform and align the data retrieved from the functions \
 seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 
 # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
-seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+seq.align<-BOLDconnectR:::align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
 
 # Dataframe of the sequences (not aligned) with their corresponding names
 head(seq.align$seq.df)

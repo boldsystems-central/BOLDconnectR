@@ -9,6 +9,7 @@
 #' @param file.path A character value specifying the folder path where the file should be saved. Default value is NULL.
 #' @param file.name A character value specifying the name of the exported file. Default value is NULL.
 #' @param raw.fas A logical input to specify whether an unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.
+#' @param ... additional arguments from the `msa` function from the `msa` package.
 #'
 #' @details
 #' `align.seq` retrieves the sequence information obtained using `bold.connectr` or `bold.connectr.public` functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
@@ -28,7 +29,7 @@
 #' seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 #'
 #' # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
-#' seq.align<-align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+#' seq.align<-BOLDconnectR:::align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
 #'
 #' # Dataframe of the sequences (not aligned) with their corresponding names
 #' head(seq.align$seq.df)
@@ -54,7 +55,8 @@ align.seq<-function (bold.df,
                      name.fields=NULL,
                      file.path=NULL,
                      file.name=NULL,
-                     raw.fas=FALSE) {
+                     raw.fas=FALSE,
+                     ...) {
 
 
   # Check if data is a data frame object
@@ -238,7 +240,7 @@ align.seq<-function (bold.df,
  # A try catch here to check if the users have 'msa' installed or not
 
   alignment_seq<-DNAStringSet(seq.from.data)%>%
-    msa(.,method = "ClustalOmega")
+    msa(.,method = "ClustalOmega",...)
 
 
   # alignment_seq<-Biostrings::DNAStringSet(seq.from.data)
