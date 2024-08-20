@@ -50,7 +50,7 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \details{
 \code{analyze.seq} analyzes the multiple sequence alignment output of the \code{align.seq} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. The function does not check for any STOP codons or indels. \code{plot}= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using \code{\link[ape:plot.phylo]{ape::plot.phylo()}}. Both \code{ape::nj()} and \code{ape::njs()} are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a newick format.
-\emph{Note: } This function is currently an internal function with documentation. Users are required to install and load the  \code{msa} package before running this function that is maintained by \code{Bioconductor}.
+\emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the \code{:::} operator  (\code{BOLDconnectR:::analyze.seq}). Users are required to install and load the  \code{msa} package before running this function that is maintained by \code{Bioconductor}.
 }
 \examples{
 \dontrun{

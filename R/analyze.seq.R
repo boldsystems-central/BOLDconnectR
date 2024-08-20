@@ -14,7 +14,7 @@
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
 #' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. The function does not check for any STOP codons or indels. `plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree of the distance matrix using [ape::plot.phylo()]. Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a newick format.
-#' \emph{Note: } This function is currently an internal function with documentation. Users are required to install and load the  `msa` package before running this function that is maintained by `Bioconductor`.
+#' \emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the `:::` operator  (`BOLDconnectR:::analyze.seq`). Users are required to install and load the  `msa` package before running this function that is maintained by `Bioconductor`.
 #'
 #' @returns An 'output' list containing:
 #' * dist_mat = A distance matrix based on the model selected.
