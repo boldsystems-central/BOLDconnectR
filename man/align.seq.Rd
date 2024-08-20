@@ -27,7 +27,7 @@ align.seq(
 
 \item{raw.fas}{A logical input to specify whether an unaligned(raw) ‘fasta’ file should be created. Default value is FALSE.}
 
-\item{...}{additional arguments from the \code{msa} function from the \code{msa} package.}
+\item{...}{additional arguments passed to the \code{msa} function from the \code{msa} package.}
 }
 \value{
 An 'output' list containing:
@@ -42,7 +42,7 @@ An 'output' list containing:
 Function designed to transform and align the data retrieved from the functions \code{bold.connectr} and \code{bold.connectr.public}
 }
 \details{
-\code{align.seq} retrieves the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector.Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
+\code{align.seq} retrieves the sequence information obtained using \code{bold.connectr} or \code{bold.connectr.public} functions and performs a multiple sequence alignment using ClustalOmega. multiple sequence alignment on it. It utilizes the msa::msa() function with default settings, specifically calling msa::msaClustalOmega().File path and file name need to be provided for if raw.fas=TRUE. marker name provided must match with the standard marker names available in BOLD. Name for individual sequences in the output can be customized by using the name.fields argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for   verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data.
 \emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the \code{:::} operator  (\code{BOLDconnectR:::align.seq}). Users are required to install and load the \code{Biostrings} and \code{msa} packages before running this function that are maintained by \code{Bioconductor}.
 }
 \examples{
