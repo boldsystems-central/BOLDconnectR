@@ -21,15 +21,8 @@ from the `devtools` package in R (which needs to be installed before
 installing BOLDConnectR). *This package currently exists as a private
 repo and thus has an authorization token*.
 
-``` r
-
-devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
-                         auth_token = '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')
-#> Skipping install of 'BOLDconnectR' from a github remote, the SHA1 (fd8b8e23) has not changed since last install.
-#>   Use `force = TRUE` to force installation
-
-library(BOLDconnectR)
-```
+    #> Skipping install of 'BOLDconnectR' from a github remote, the SHA1 (1f1408e5) has not changed since last install.
+    #>   Use `force = TRUE` to force installation
 
 ## The package currently has 9 functions:
 
@@ -57,7 +50,6 @@ function. Alternatively, it can be set up as an environmental variable
 using the ‘Sys.setenv’ function.
 
 ``` r
-
 # The key can be added in place of "api.key" 
 Sys.setenv ("api_key"="api.key")
 ```
@@ -66,11 +58,10 @@ It can then be retrieved using `Sys.getenv` function directly or by
 storing it as another variable.
 
 ``` r
-
 api.key <- Sys.getenv('api_key')
 ```
 
-## Function usage:
+## Functions usage:
 
 ### 1.bold.fields.info:
 
@@ -78,8 +69,13 @@ api.key <- Sys.getenv('api_key')
 fields (columns) currently available for download from BOLD. The
 function gives the name, definition and the data type of each field.
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-d207a5bfb434e264650e" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-d207a5bfb434e264650e">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76"],["processid","sampleid","fieldid","museumid","record_id","specimenid","processid_minted_date","bin_uri","bin_created_date","collection_code","inst","taxid","kingdom","phylum","class","order","family","subfamily","tribe","genus","species","subspecies","species_reference","identification","identification_method","identification_rank","identified_by","identifier_email","taxonomy_notes","sex","reproduction","life_stage","short_note","notes","voucher_type","tissue_type","specimen_linkout","associated_specimens","associated_taxa","collectors","collection_date_start","collection_date_end","collection_event_id","collection_time","collection_notes","geoid","country/ocean","country_iso","province/state","region","sector","site","site_code","coord","coord_accuracy","coord_source","elev","elev_accuracy","depth","depth_accuracy","habitat","sampling_protocol","nuc","nuc_basecount","insdc_acs","funding_src","marker_code","primers_forward","primers_reverse","sequence_run_site","sequence_upload_date","bold_recordset_code_arr","ecoregion","biome","realm  string  default  Inferred RESOLVE defined realm based on collection coordinates.","sovereign_inst"],["BOLD System generated unique identifier for the sample being sequenced.","User generated identifier for the sample being sequenced, often identical to the Field ID or Museum ID.","Specimen or sample identifier generated in the field or lot number for a bulk collection event.","Catalog number from a museum collection.","A BOLD generated identifier for the marker and specimen sequence combination.","BOLD System generated numerical ID associated with the specimen record.","Date of record registration on BOLD.","The Barcode Index Number (BIN) assigned to the COI sequence.","Date of BIN creation in BOLD.","Code associated with a given collection within an institution.","Institution storing the physical specimen.","Identifier associated with the taxon assignment.","Taxonomy: Kingdom.","Taxonomy: Phylum.","Taxonomy: Class.","Taxonomy: Order.","Taxonomy: Family.","Taxonomy: Subfamily.","Taxonomy: Tribe","Taxonomy: Genus.","Taxonomy: Species.","Taxonomy: Subspecies.","Reference for species name/Authorship of the species name.","Taxonomic identification of the specimen.","The method used to identify the specimen.","Taxonomic rank of the identification associated with the specimen.","Full name of primary individual responsible for providing the taxonomic identification of the specimen.","Identifier email address.","General notes regarding the taxonomy of the specimen.","The sex of the specimen registered in the record. This field uses a controlled vocabulary: 'Male', 'female', 'hermaphrodite' only.","Sexual/asexual/cyclic parthenogen only.","The age class or life stage of the specimen(s) at the time of sampling. Contolled vocabulary: 'Adult', 'Immature', 'Juvenile', 'Pupa'.","A brief note or term associated with the specimen to add context to the record.","Detailed notes regarding the specimen.","Status of the specimen in an accessioning process.This field uses a controlled vocabulary: 'Museum Vouchered:Type', 'Museum Vouchered:Type Series', 'Vouchered:Registered Collection', 'To Be Vouchered:Holdup/Private', 'E-Vouchered:DNA/Tissue+Photo', 'Dna/Tissue Vouchered Only', 'No Specimen'.","A physical result of a sampling (or subsampling) event. In biological collections, the material sample is typically collected, and either preserved or destructively processed.","Link to an external resource for the specimen record.","A list (concatenated and comma separated) of other specimens associated with the subject specimen at the time of its collection. References to other specimen identifiers should be preceded by the relationship. Examples: 'host: PLANT23452, prey: USNM45677' when both prey and host specimens have been captured.","A list (concatenated and comma separated) of taxa associated with the specimen at the time of its collection. References to taxa should be preceded by the relationship. Use of this field implies knowledge of an associated specimen where the identification is an inference. Examples: [host: Quercus alba], [prey: caterpillar].","Comma separated list of full or abbreviated names of the individuals or teams responsible for collecting the sample in the field.","The start date for the associated collecting event.","The end date for the associated collecting event.","An identifier for the set of information associated with an Event (something that occurs at a place and time). May be a global unique identifier or an identifier specific to the data set.","The time or time of day during which the sample was collected.","Comments or notes about the collection event.","Unique identifier assigned to the most detailed or specific geographic division available, either country/ocean or province/state.","The full, unabbreviated name of the country, major political unit, or ocean.","Country ISO 3166-1 Alpha-2 code.","The full, unabbreviated name of the state, province, territory, or prefecture within the given country.","Park, county, district, lake or river.","Sector of park or county/city.","The name of the sampling location.","A short string representing the sampling location.","Latitude &amp; Longitude in decimal degrees (DD) format (e.g. 45.837).","Accuracy of coordinate in decimal degrees (DD).","The source of the coordinates.","Elevation of sampling site. Measured in meters relative to sea level. Negative values indicate a position below sea level.","Accuracy of the elevation value in meters.","For organisms collected beneath the surface of a water body. Measured in meters below the surface of water.","The accuracy of the depth value in meters.","A category or description of the habitat.","The names of, references to, or descriptions of the methods or protocols used to capture the associated specimen.","Nucleotide sequence as submitted.","Count of IUPAC non-degenerate nucleotide symbols.","Accession number assigned to a sequence upon its deposition in one of the databases affiliated with the International Nucleotide Sequence Database Collaboration, 'www.insdc.org'.","Source of funding for data generation, curation, and publication.","Short code associated with the sequenced marker(gene).","A comma separated list of forward primer code and sequence pairs, with each code and sequence separated by a colon.","A comma separated list of reverse primer code and sequence pairs, with each code and sequence separated by a colon.","Full name of the institution where sequencing was performed or the database the sequence was retrieved from.","Date the sequence was uploaded.","A comma separated list of Projects and Datasets on BOLD that this record is associated with.","Inferred RESOLVE defined ecoregion based on the collection coordinates.","Inferred RESOLVE defined biome based on the collection coordinates.","","Institution with sovereignty over the physical specimen."],["character","character","character","character","character","integer","Date","character","Date","character","character","numeric","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","character","Date","Date","character","character","character","integer","character","character","character","character","character","character","character",null,"numeric","character","numeric","numeric","numeric","numeric","character","character","character","integer","character","character","character","character","character","character","Date","character","character","character",null,"character"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>field<\/th>\n      <th>definition<\/th>\n      <th>R_field_types<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"field","targets":1},{"name":"definition","targets":2},{"name":"R_field_types","targets":3}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+| field     | definition                                                                                              | R_field_types |
+|:----------|:--------------------------------------------------------------------------------------------------------|:--------------|
+| processid | BOLD System generated unique identifier for the sample being sequenced.                                 | character     |
+| sampleid  | User generated identifier for the sample being sequenced, often identical to the Field ID or Museum ID. | character     |
+| fieldid   | Specimen or sample identifier generated in the field or lot number for a bulk collection event.         | character     |
+| museumid  | Catalog number from a museum collection.                                                                | character     |
+| record_id | A BOLD generated identifier for the marker and specimen sequence combination.                           | character     |
 
 ### 2.bold.connectr:
 
@@ -97,16 +93,16 @@ one can be used to retrieve data from BOLD.
 
 ``` r
 
-data("test.data")
-
-head(test.data,5)
-#>    processid sampleid
-#> 1 ACAM001-13  AC13A01
-#> 2 ACAM008-13  AC13A14
-#> 3 ACAM015-13  AC13A32
-#> 4 ACAM027-13  AC13A72
-#> 5 ACAM030-13  AC13A78
+knitr::kable(head(test.data,5))
 ```
+
+| processid  | sampleid |
+|:-----------|:---------|
+| ACAM001-13 | AC13A01  |
+| ACAM008-13 | AC13A14  |
+| ACAM015-13 | AC13A32  |
+| ACAM027-13 | AC13A72  |
+| ACAM030-13 | AC13A78  |
 
 ### 2a.Default (all data retrieved)
 
@@ -116,11 +112,7 @@ those ids. Certain ids might not have information for certain fields in
 which case the number of columns could be different
 
 ``` r
-
-data("test.data")
-
 api.key <- Sys.getenv('api_key')
-
 # A small subset of the data used for data retrieval
 to_download=test.data[1:100,]
 
@@ -128,195 +120,16 @@ result<-bold.connectr(input.data = to_download,
                                   param = 'processid',
                                   param.index = 1,
                                   api_key = api.key)
-
-head(result,5)
-#>    processid         record_id insdc_acs    sampleid specimenid taxid
-#> 1  AJS105-19  AJS105-19.COI-5P           S-03-A-FBC5   10597471 52768
-#> 2 ACAM001-13 ACAM001-13.COI-5P               AC13A01    3934418 24807
-#> 3  AJS052-19  AJS052-19.COI-5P             S-03-A-MB   10597418 52768
-#> 4  AJS071-19  AJS071-19.COI-5P             S-09-B-MB   10597437 52768
-#> 5  AJS107-19  AJS107-19.COI-5P           S-03-A-FBC7   10597473 52768
-#>   short_note identification_method museumid     fieldid collection_code
-#> 1         NA                    NA          S-03-A-FBC5                
-#> 2         NA                    NA             AC13AL01                
-#> 3         NA                    NA            S-03-A-MB                
-#> 4         NA                    NA            S-09-B-MB                
-#> 5         NA                    NA          S-03-A-FBC7                
-#>   processid_minted_date                                             inst
-#> 1            2019-08-08                               Chapman University
-#> 2            2013-10-30 South African Institute for Aquatic Biodiversity
-#> 3            2019-08-08                               Chapman University
-#> 4            2019-08-08                               Chapman University
-#> 5            2019-08-08                               Chapman University
-#>   specimendetails.verbatim_depository funding_src sex life_stage reproduction
-#> 1                                  NA        <NA>  NA         NA           NA
-#> 2                                  NA  iBOL:WG1.1  NA         NA           NA
-#> 3                                  NA        <NA>  NA         NA           NA
-#> 4                                  NA        <NA>  NA         NA           NA
-#> 5                                  NA        <NA>  NA         NA           NA
-#>   habitat collectors site_code specimen_linkout collection_event_id
-#> 1      NA                   NA               NA                  NA
-#> 2      NA A. Chakona        NA               NA                  NA
-#> 3      NA                   NA               NA                  NA
-#> 4      NA                   NA               NA                  NA
-#> 5      NA                   NA               NA                  NA
-#>   sampling_protocol tissue_type collection_date_start
-#> 1                NA          NA                  <NA>
-#> 2                NA          NA            2013-03-04
-#> 3                NA          NA                  <NA>
-#> 4                NA          NA                  <NA>
-#> 5                NA          NA                  <NA>
-#>   specimendetails.verbatim_collectiondate collection_time
-#> 1                                      NA              NA
-#> 2                                      NA              NA
-#> 3                                      NA              NA
-#> 4                                      NA              NA
-#> 5                                      NA              NA
-#>   collection_date_accuracy specimendetails.verbatim_collectiondate_precision
-#> 1                       NA                                                NA
-#> 2                       NA                                                NA
-#> 3                       NA                                                NA
-#> 4                       NA                                                NA
-#> 5                       NA                                                NA
-#>   associated_taxa associated_specimens voucher_type notes taxonomy_notes
-#> 1              NA                   NA           NA    NA             NA
-#> 2              NA                   NA           NA    NA             NA
-#> 3              NA                   NA           NA    NA             NA
-#> 4              NA                   NA           NA    NA             NA
-#> 5              NA                   NA           NA    NA             NA
-#>   collection_notes specimendetails.verbatim_kingdom
-#> 1               NA                               NA
-#> 2               NA                               NA
-#> 3               NA                               NA
-#> 4               NA                               NA
-#> 5               NA                               NA
-#>   specimendetails.verbatim_phylum specimendetails.verbatim_class
-#> 1                              NA                             NA
-#> 2                              NA                             NA
-#> 3                              NA                             NA
-#> 4                              NA                             NA
-#> 5                              NA                             NA
-#>   specimendetails.verbatim_order specimendetails.verbatim_family
-#> 1                             NA                              NA
-#> 2                             NA                              NA
-#> 3                             NA                              NA
-#> 4                             NA                              NA
-#> 5                             NA                              NA
-#>   specimendetails.verbatim_subfamily specimendetails.verbatim_tribe
-#> 1                                 NA                             NA
-#> 2                                 NA                             NA
-#> 3                                 NA                             NA
-#> 4                                 NA                             NA
-#> 5                                 NA                             NA
-#>   specimendetails.verbatim_genus specimendetails.verbatim_species
-#> 1                             NA                               NA
-#> 2                             NA                               NA
-#> 3                             NA                               NA
-#> 4                             NA                               NA
-#> 5                             NA                               NA
-#>   specimendetails.verbatim_subspecies
-#> 1                                  NA
-#> 2                                  NA
-#> 3                                  NA
-#> 4                                  NA
-#> 5                                  NA
-#>   specimendetails.verbatim_species_reference
-#> 1                                         NA
-#> 2                                         NA
-#> 3                                         NA
-#> 4                                         NA
-#> 5                                         NA
-#>   specimendetails.verbatim_identifier geoid location.verbatim_country
-#> 1                                  NA   238                        NA
-#> 2                                  NA   128                        NA
-#> 3                                  NA   238                        NA
-#> 4                                  NA   238                        NA
-#> 5                                  NA   238                        NA
-#>   location.verbatim_province location.verbatim_country_iso_alpha3 marker_code
-#> 1                         NA                                   NA      COI-5P
-#> 2                         NA                                   NA      COI-5P
-#> 3                         NA                                   NA      COI-5P
-#> 4                         NA                                   NA      COI-5P
-#> 5                         NA                                   NA      COI-5P
-#>    kingdom   phylum          class        order    family           subfamily
-#> 1 Animalia Chordata Actinopterygii Cichliformes Cichlidae Pseudocrenilabrinae
-#> 2 Animalia Chordata Actinopterygii Cichliformes Cichlidae Pseudocrenilabrinae
-#> 3 Animalia Chordata Actinopterygii Cichliformes Cichlidae Pseudocrenilabrinae
-#> 4 Animalia Chordata Actinopterygii Cichliformes Cichlidae Pseudocrenilabrinae
-#> 5 Animalia Chordata Actinopterygii Cichliformes Cichlidae Pseudocrenilabrinae
-#>   tribe       genus                 species subspecies          identification
-#> 1    NA Oreochromis   Oreochromis niloticus         NA   Oreochromis niloticus
-#> 2    NA Oreochromis Oreochromis mossambicus         NA Oreochromis mossambicus
-#> 3    NA Oreochromis   Oreochromis niloticus         NA   Oreochromis niloticus
-#> 4    NA Oreochromis   Oreochromis niloticus         NA   Oreochromis niloticus
-#> 5    NA Oreochromis   Oreochromis niloticus         NA   Oreochromis niloticus
-#>   identification_rank tax_rank.numerical_posit species_reference  identified_by
-#> 1             species                       17    Linnaeus, 1758           <NA>
-#> 2             species                       17      Peters, 1852 Albert Chakona
-#> 3             species                       17    Linnaeus, 1758           <NA>
-#> 4             species                       17    Linnaeus, 1758           <NA>
-#> 5             species                       17    Linnaeus, 1758           <NA>
-#>   specimendetails__identifier.person.email                sequence_run_site
-#> 1                                     <NA>               Chapman University
-#> 2                    a.chakona@saiab.ac.za Centre for Biodiversity Genomics
-#> 3                                     <NA>               Chapman University
-#> 4                                     <NA>               Chapman University
-#> 5                                     <NA>               Chapman University
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                nuc
-#> 1 CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGATGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCT------------------------AACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCACCCTATACCAACACTTAT---
-#> 2     CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCATTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTCCTCGGAGACGACCAGATTTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATGCCAATTATAATTGGAGGTTTTGGAAACTGACTAGTGCCACTAATGATTGGTGCACCCGACATGGCCTTCCCTCGAATAAATAACATGAGTTTTTGACTCCTCCCCCCCTCATTTCTCCTTCTCCTCGCCTCATCCGGGGTCGAAGCAGGGGCCGGTACAGGATGGACTGTTTATCCCCCACTCGCAGGCAATCTCGCCCATGCTGGGCCTTCCGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGGGTGTCATCTATTTTAGGTGCAATTAATTTTATTACAACCATTATTAACATAAAACCCCCTGCCATCTCCCAATATCAAACACCCCTCTTTGTATGATCCGTTCTAATTACCGCAGTACTACTCCTACTATCCCTACCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGATCCTGCCGGAGGAGGAGACCCCATCCTTTACCAACACTTA
-#> 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 CAAATYTATAATGTAATTGTTACAGCRCATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATRATTGGAGGCTT
-#> 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     CTCGGAGACGAYCAAATYTATAATGTRATTGTTACAGCRCATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATWATRATTGGAGGCTT
-#> 5 CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGTTGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAGCCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTC-
-#>   nuc_basecount sequence_upload_date      bin_uri bin_created_date elev
-#> 1           629           2019-08-09 BOLD:AAC9904       2010-07-15   NA
-#> 2           652           2014-05-08 BOLD:AAA8511       2010-07-15  532
-#> 3            77           2019-08-08         <NA>             <NA>   NA
-#> 4            86           2019-08-08         <NA>             <NA>   NA
-#> 5           655           2019-08-09 BOLD:AAC9904       2010-07-15   NA
-#>   location.verbatim_elev depth location.verbatim_depth       lat      lon
-#> 1                     NA    NA                      NA        NA       NA
-#> 2                     NA    NA                      NA -17.52523 35.20858
-#> 3                     NA    NA                      NA        NA       NA
-#> 4                     NA    NA                      NA        NA       NA
-#> 5                     NA    NA                      NA        NA       NA
-#>   location.verbatim_coord                      coord_source coord_accuracy
-#> 1                      NA                              <NA>             NA
-#> 2                      NA Coordinates from country centroid             NA
-#> 3                      NA                              <NA>             NA
-#> 4                      NA                              <NA>             NA
-#> 5                      NA                              <NA>             NA
-#>   location.verbatim_gps_accuracy elev_accuracy location.verbatim_elev_accuracy
-#> 1                             NA            NA                              NA
-#> 2                             NA            NA                              NA
-#> 3                             NA            NA                              NA
-#> 4                             NA            NA                              NA
-#> 5                             NA            NA                              NA
-#>   depth_accuracy location.verbatim_depth_accuracy      realm biome
-#> 1             NA                               NA       <NA>    NA
-#> 2             NA                               NA Afrotropic    NA
-#> 3             NA                               NA       <NA>    NA
-#> 4             NA                               NA       <NA>    NA
-#> 5             NA                               NA       <NA>    NA
-#>                           ecoregion region sector          site country_iso
-#> 1                              <NA>   <NA>   <NA>          <NA>          US
-#> 2 Zambezian-Limpopo_mixed_woodlands   <NA>   <NA> Muhukwa river          MZ
-#> 3                              <NA>   <NA>   <NA>          <NA>          US
-#> 4                              <NA>   <NA>   <NA>          <NA>          US
-#> 5                              <NA>   <NA>   <NA>          <NA>          US
-#>   country.ocean province.state              bold_recordset_code_arr
-#> 1 United States                  AJS,DS-OREOSA,DS-OREOSARO,DS-CICHI
-#> 2    Mozambique                ACAM,DS-CBOLW,DS-EDBRTEST,DS-INVASSP
-#> 3 United States                           AJS,DS-OREOSA,DS-OREOSARO
-#> 4 United States                           AJS,DS-OREOSA,DS-OREOSARO
-#> 5 United States                  AJS,DS-OREOSA,DS-OREOSARO,DS-CICHI
-#>   geopol_denorm.country_iso3 collection_date_end
-#> 1                        USA                <NA>
-#> 2                        MOZ                <NA>
-#> 3                        USA                <NA>
-#> 4                        USA                <NA>
-#> 5                        USA                <NA>
+knitr::kable(head(result,5))
 ```
+
+| processid  | record_id         | insdc_acs | sampleid     | specimenid | taxid | short_note | identification_method | museumid | fieldid      | collection_code | processid_minted_date | inst                                             | specimendetails.verbatim_depository | funding_src | sex | life_stage | reproduction | habitat | collectors | site_code | specimen_linkout | collection_event_id | sampling_protocol | tissue_type | collection_date_start | specimendetails.verbatim_collectiondate | collection_time | collection_date_accuracy | specimendetails.verbatim_collectiondate_precision | associated_taxa | associated_specimens | voucher_type | notes | taxonomy_notes | collection_notes | specimendetails.verbatim_kingdom | specimendetails.verbatim_phylum | specimendetails.verbatim_class | specimendetails.verbatim_order | specimendetails.verbatim_family | specimendetails.verbatim_subfamily | specimendetails.verbatim_tribe | specimendetails.verbatim_genus | specimendetails.verbatim_species | specimendetails.verbatim_subspecies | specimendetails.verbatim_species_reference | specimendetails.verbatim_identifier | geoid | location.verbatim_country | location.verbatim_province | location.verbatim_country_iso_alpha3 | marker_code | kingdom  | phylum   | class          | order        | family    | subfamily           | tribe | genus       | species                 | subspecies | identification          | identification_rank | tax_rank.numerical_posit | species_reference | identified_by  | specimendetails\_\_identifier.person.email | sequence_run_site                | nuc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | nuc_basecount | sequence_upload_date | bin_uri      | bin_created_date | elev | location.verbatim_elev | depth | location.verbatim_depth |       lat |      lon | location.verbatim_coord | coord_source                      | coord_accuracy | location.verbatim_gps_accuracy | elev_accuracy | location.verbatim_elev_accuracy | depth_accuracy | location.verbatim_depth_accuracy | realm      | biome | ecoregion                         | region | sector | site         | country_iso | country.ocean | province.state | bold_recordset_code_arr                                  | geopol_denorm.country_iso3 | collection_date_end |
+|:-----------|:------------------|:----------|:-------------|-----------:|------:|:-----------|:----------------------|:---------|:-------------|:----------------|:----------------------|:-------------------------------------------------|:------------------------------------|:------------|:----|:-----------|:-------------|:--------|:-----------|:----------|:-----------------|:--------------------|:------------------|:------------|:----------------------|:----------------------------------------|:----------------|:-------------------------|:--------------------------------------------------|:----------------|:---------------------|:-------------|:------|:---------------|:-----------------|:---------------------------------|:--------------------------------|:-------------------------------|:-------------------------------|:--------------------------------|:-----------------------------------|:-------------------------------|:-------------------------------|:---------------------------------|:------------------------------------|:-------------------------------------------|:------------------------------------|------:|:--------------------------|:---------------------------|:-------------------------------------|:------------|:---------|:---------|:---------------|:-------------|:----------|:--------------------|:------|:------------|:------------------------|:-----------|:------------------------|:--------------------|-------------------------:|:------------------|:---------------|:-------------------------------------------|:---------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------:|:---------------------|:-------------|:-----------------|-----:|:-----------------------|------:|:------------------------|----------:|---------:|:------------------------|:----------------------------------|---------------:|:-------------------------------|--------------:|:--------------------------------|---------------:|:---------------------------------|:-----------|:------|:----------------------------------|:-------|:-------|:-------------|:------------|:--------------|:---------------|:---------------------------------------------------------|:---------------------------|:--------------------|
+| AJS078-19  | AJS078-19.COI-5P  |           | S-11-C-MB    |   10597444 | 52768 | NA         | NA                    |          | S-11-C-MB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | TCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATYTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTT                                                                                                                                                                                                                                                                                                                                                                                                                                                             |           224 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO                                | USA                        | NA                  |
+| AJS052-19  | AJS052-19.COI-5P  |           | S-03-A-MB    |   10597418 | 52768 | NA         | NA                    |          | S-03-A-MB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | CAAATYTATAATGTAATTGTTACAGCRCATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATRATTGGAGGCTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |            77 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO                                | USA                        | NA                  |
+| ACAM027-13 | ACAM027-13.COI-5P |           | AC13A72      |    3934444 | 24807 | NA         | NA                    |          | AC13AL06     |                 | 2013-10-30            | South African Institute for Aquatic Biodiversity | NA                                  | iBOL:WG1.1  | NA  | NA         | NA           | NA      | A. Chakona | NA        | NA               | NA                  | NA                | NA          | 2013-03-06            | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   128 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis mossambicus | NA         | Oreochromis mossambicus | species             |                       17 | Peters, 1852      | Albert Chakona | <a.chakona@saiab.ac.za>                    | Centre for Biodiversity Genomics | CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCATTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTCCTCGGAGACGACCAGATTTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATGCCAATTATAATTGGAGGTTTTGGAAACTGACTAGTGCCACTAATGATTGGTGCACCCGACATGGCCTTCCCTCGAATAAATAACATGAGTTTTTGACTCCTCCCCCCCTCATTTCTCCTTCTCCTCGCCTCATCCGGGGTCGAAGCAGGGGCCGGTACAGGATGGACTGTTTATCCCCCACTCGCAGGCAATCTCGCCCATGCTGGGCCTTCCGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGGGTGTCATCTATTTTAGGTGCAATTAATTTTATTACAACCATTATTAACATAAAACCCCCTGCCATCTCCCAATATCAAACACCCCTCTTTGTATGATCCGTTCTAATTACCGCAGTACTACTCCTACTATCCCTACCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGATCCTGCCGGAGGAGGAGACCCCATCCTTTACCAACACTTA                  |           652 | 2014-05-08           | BOLD:AAA8511 | 2010-07-15       |  496 | NA                     |    NA | NA                      | -17.52523 | 35.20858 | NA                      | Coordinates from country centroid |             NA | NA                             |            NA | NA                              |             NA | NA                               | Afrotropic | NA    | Zambezian-Limpopo_mixed_woodlands | NA     | NA     | Chipembe dam | MZ          | Mozambique    |                | ACAM,DS-CBOLW,DS-EDBRTEST,DS-INVASSP,DS-NAR01C,DS-NAR01C | MOZ                        | NA                  |
+| AJS100-19  | AJS100-19.COI-5P  |           | S-02-A-FBC10 |   10597466 | 52768 | NA         | NA                    |          | S-02-A-FBC10 |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCWSCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGATGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTC-              |           653 | 2019-08-09           | BOLD:AAC9904 | 2010-07-15       |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-TANGQIAN,DS-CICHI           | USA                        | NA                  |
+| AJS018-19  | AJS018-19.COI-5P  |           | S-06-C-FB    |   10597384 | 52768 | NA         | NA                    |          | S-06-C-FB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | TATYGGCACCCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGATGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTCTGA—- |           666 | 2019-08-08           | BOLD:AAC9904 | 2010-07-15       |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-TANGQIAN,DS-CICHI           | USA                        | NA                  |
 
 ### 2b.Institutes Filter
 
@@ -327,9 +140,6 @@ Aquatic Biodiversity) data.
 ``` r
 api.key <- Sys.getenv('api_key')
 # A small subset of the data used for data retrieval
-
-to_download=test.data[1:100,]
-
 result_institutes<-bold.connectr(input.data = to_download,
                                   param = 'processid',
                                   param.index = 1,
@@ -337,21 +147,16 @@ result_institutes<-bold.connectr(input.data = to_download,
                       institutes = "South African Institute for Aquatic Biodiversity",
                       fields = c("bin_uri","processid","inst"))
 
-head(result_institutes,5)
-#>    processid sampleid      bin_uri
-#> 1 ACAM015-13  AC13A32 BOLD:AAA8511
-#> 2 ACAM030-13  AC13A78 BOLD:AAA8511
-#> 3 ACAM008-13  AC13A14 BOLD:ACE5030
-#> 4 ACAM001-13  AC13A01 BOLD:AAA8511
-#> 5 ACAM073-13 AC13A103 BOLD:AAA8511
-#>                                               inst
-#> 1 South African Institute for Aquatic Biodiversity
-#> 2 South African Institute for Aquatic Biodiversity
-#> 3 South African Institute for Aquatic Biodiversity
-#> 4 South African Institute for Aquatic Biodiversity
-#> 5 South African Institute for Aquatic Biodiversity
-#DT::datatable(result_institutes,class = 'cell-border stripe')
+knitr::kable(head(result_institutes,5))
 ```
+
+| processid  | sampleid | bin_uri      | inst                                             |
+|:-----------|:---------|:-------------|:-------------------------------------------------|
+| ACAM027-13 | AC13A72  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM015-13 | AC13A32  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM001-13 | AC13A01  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM073-13 | AC13A103 | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM008-13 | AC13A14  | BOLD:ACE5030 | South African Institute for Aquatic Biodiversity |
 
 ### 2c.Geographic location filter
 
@@ -361,8 +166,8 @@ Colorado) data.
 
 ``` r
 api.key <- Sys.getenv('api_key')
-to_download=test.data[1:100,]
 
+to_download=test.data[1:100,]
 result_geography<-bold.connectr(input.data = to_download,
                                   param = 'processid',
                                   param.index = 1,
@@ -370,15 +175,16 @@ result_geography<-bold.connectr(input.data = to_download,
                                  geography=c("United States"),
                                 fields = c("bin_uri","processid","province.state"))
  
-head(result_geography,5)                 
-#>   processid    sampleid      bin_uri province.state
-#> 1 AJS107-19 S-03-A-FBC7 BOLD:AAC9904               
-#> 2 AJS009-19   S-03-C-FB         <NA>               
-#> 3 AJS084-19   S-13-C-MB         <NA>               
-#> 4 AJS022-19   S-08-A-FB         <NA>               
-#> 5 AJS079-19   S-12-A-MB         <NA>
-#DT::datatable(result_geography,class = 'cell-border stripe')
+knitr::kable(head(result_geography,5))                 
 ```
+
+| processid | sampleid  | bin_uri      | province.state |
+|:----------|:----------|:-------------|:---------------|
+| AJS064-19 | S-07-A-MB | NA           |                |
+| AJS015-19 | S-05-C-FB | NA           |                |
+| AJS006-19 | S-02-C-FB | BOLD:AAC9904 |                |
+| AJS068-19 | S-08-B-MB | NA           |                |
+| AJS054-19 | S-03-C-MB | NA           |                |
 
 ### 2d.Altitude
 
@@ -387,23 +193,25 @@ fetch data only between the range of altitude specified (100 to 1500 m
 a.s.l.) data.
 
 ``` r
-
 api.key <- Sys.getenv('api_key')
+
 result_altitude<-bold.connectr(input.data = test.data,
                                   param = 'processid',
                                   param.index = 1,
                                   api_key = api.key,
                                  altitude = c(100,1500),
                                fields = c("bin_uri","processid","family","elev"))
-head(result_altitude,5)                    
-#>    processid sampleid      bin_uri    family elev
-#> 1 ACAM027-13  AC13A72 BOLD:AAA8511 Cichlidae  496
-#> 2 ACAM001-13  AC13A01 BOLD:AAA8511 Cichlidae  532
-#> 3 ACAM015-13  AC13A32 BOLD:AAA8511 Cichlidae  526
-#> 4 ACAM008-13  AC13A14 BOLD:ACE5030 Cichlidae  501
-#> 5 ACAM030-13  AC13A78 BOLD:AAA8511 Cichlidae  286
-#DT::datatable(result_altitude,class = 'cell-border stripe')
+
+knitr::kable(head(result_altitude,5))                    
 ```
+
+| processid  | sampleid | bin_uri      | family    | elev |
+|:-----------|:---------|:-------------|:----------|-----:|
+| ACAM030-13 | AC13A78  | BOLD:AAA8511 | Cichlidae |  286 |
+| ACAM027-13 | AC13A72  | BOLD:AAA8511 | Cichlidae |  496 |
+| ACAM008-13 | AC13A14  | BOLD:ACE5030 | Cichlidae |  501 |
+| ACAM001-13 | AC13A01  | BOLD:AAA8511 | Cichlidae |  532 |
+| ACAM015-13 | AC13A32  | BOLD:AAA8511 | Cichlidae |  526 |
 
 ### 2e.Collection period
 
@@ -420,12 +228,13 @@ result_collection.per<-bold.connectr(input.data = test.data,
                                  collection.period = c( "1995-05-26","2010-01-13"),
                                  fields=c("bin_uri","processid","collection_date_start","collection_date_end"))
 
-#DT::datatable(result_collection.per,class = 'cell-border stripe')
-head(result_collection.per,5)
-#>       processid sampleid      bin_uri collection_date_start collection_date_end
-#> 1 GBGCA11620-15 KJ669572 BOLD:AAA8511            2009-07-15          2010-01-13
-#> 2 GBGCA11628-15 KJ669573 BOLD:AAA6537            2009-07-15          2010-01-13
+knitr::kable(head(result_collection.per,5))
 ```
+
+| processid     | sampleid | bin_uri      | collection_date_start | collection_date_end |
+|:--------------|:---------|:-------------|:----------------------|:--------------------|
+| GBGCA11620-15 | KJ669572 | BOLD:AAA8511 | 2009-07-15            | 2010-01-13          |
+| GBGCA11628-15 | KJ669573 | BOLD:AAA6537 | 2009-07-15            | 2010-01-13          |
 
 ### 3.bold.connectr.public
 
@@ -446,56 +255,57 @@ result.public<-bold.connectr.public(taxonomy = c("Panthera leo"),fields = c("bin
 #> datasets inputs should be logical otherwise output obtained might either be
 #> empty or not correct
 
-head(result.public,10)                    
-#>       processid     sampleid      bin_uri    genus      species
-#> 1   ABRMM002-06  ROM PM13004 BOLD:AAD6819 Panthera Panthera leo
-#> 2   ABRMM043-06   ROM 101200 BOLD:AAD6819 Panthera Panthera leo
-#> 3     CAR055-11       Ple153              Panthera Panthera leo
-#> 4     CAR055-11       Ple153              Panthera Panthera leo
-#> 5     CAR056-11       Ple185              Panthera Panthera leo
-#> 6     CAR056-11       Ple185              Panthera Panthera leo
-#> 7  GBCHO2596-23 XR_006196888              Panthera Panthera leo
-#> 8  GBCHO2597-23 XR_006196890              Panthera Panthera leo
-#> 9  GBCHO2598-23 XR_006196891              Panthera Panthera leo
-#> 10 GBCHO2599-23 XR_006196892              Panthera Panthera leo
-#DT::datatable(result.public,class = 'cell-border stripe')
+knitr::kable(head(result.public,10))                    
 ```
+
+| processid    | sampleid     | bin_uri      | genus    | species      |
+|:-------------|:-------------|:-------------|:---------|:-------------|
+| ABRMM002-06  | ROM PM13004  | BOLD:AAD6819 | Panthera | Panthera leo |
+| ABRMM043-06  | ROM 101200   | BOLD:AAD6819 | Panthera | Panthera leo |
+| CAR055-11    | Ple153       |              | Panthera | Panthera leo |
+| CAR055-11    | Ple153       |              | Panthera | Panthera leo |
+| CAR056-11    | Ple185       |              | Panthera | Panthera leo |
+| CAR056-11    | Ple185       |              | Panthera | Panthera leo |
+| GBCHO2596-23 | XR_006196888 |              | Panthera | Panthera leo |
+| GBCHO2597-23 | XR_006196890 |              | Panthera | Panthera leo |
+| GBCHO2598-23 | XR_006196891 |              | Panthera | Panthera leo |
+| GBCHO2599-23 | XR_006196892 |              | Panthera | Panthera leo |
 
 ### 3b.All data retrieved based on taxonomy and geography
 
 ``` r
-
 result.public.geo<-bold.connectr.public(taxonomy = c("Panthera leo"),geography = "India",fields = c("bin_uri","processid","country.ocean","genus","species"))
 #> Warning in bold.connectr.public(taxonomy = c("Panthera leo"), geography =
 #> "India", : The combination of any of the taxonomy, geography, bins, ids and
 #> datasets inputs should be logical otherwise output obtained might either be
 #> empty or not correct
 
-head(result.public.geo,5)                    
-#>    processid        sampleid      bin_uri country.ocean    genus      species
-#> 1  CAR056-11          Ple185                      India Panthera Panthera leo
-#> 2  CAR056-11          Ple185                      India Panthera Panthera leo
-#> 3 GENG056-12 BIOMTWL-BLE-017 BOLD:AAD6819         India Panthera Panthera leo
-#> 4 GENG057-12 BIOMTWL-BLE-063                      India Panthera Panthera leo
-#> 5 GENG105-12 BIOMTWL-BLE-043                      India Panthera Panthera leo
-#DT::datatable(result.public.geo,class = 'cell-border stripe')
+knitr::kable(head(result.public.geo,5))                    
 ```
+
+| processid  | sampleid        | bin_uri      | country.ocean | genus    | species      |
+|:-----------|:----------------|:-------------|:--------------|:---------|:-------------|
+| CAR056-11  | Ple185          |              | India         | Panthera | Panthera leo |
+| CAR056-11  | Ple185          |              | India         | Panthera | Panthera leo |
+| GENG056-12 | BIOMTWL-BLE-017 | BOLD:AAD6819 | India         | Panthera | Panthera leo |
+| GENG057-12 | BIOMTWL-BLE-063 |              | India         | Panthera | Panthera leo |
+| GENG105-12 | BIOMTWL-BLE-043 |              | India         | Panthera | Panthera leo |
 
 ### 3c.All data retrieved based on taxonomy, geography and BIN id
 
 ``` r
-
 result.public.geo.bin<-bold.connectr.public(taxonomy = c("Panthera leo"),geography = "India",bins = 'BOLD:AAD6819',fields = c("bin_uri","country.ocean","genus","species"))
 #> Warning in bold.connectr.public(taxonomy = c("Panthera leo"), geography =
 #> "India", : The combination of any of the taxonomy, geography, bins, ids and
 #> datasets inputs should be logical otherwise output obtained might either be
 #> empty or not correct
  
-head(result.public.geo.bin)                   
-#>    processid        sampleid      bin_uri country.ocean    genus      species
-#> 1 GENG056-12 BIOMTWL-BLE-017 BOLD:AAD6819         India Panthera Panthera leo
-#DT::datatable(result.public.geo.bin,class = 'cell-border stripe')
+knitr::kable(head(result.public.geo.bin))                   
 ```
+
+| processid  | sampleid        | bin_uri      | country.ocean | genus    | species      |
+|:-----------|:----------------|:-------------|:--------------|:---------|:-------------|
+| GENG056-12 | BIOMTWL-BLE-017 | BOLD:AAD6819 | India         | Panthera | Panthera leo |
 
 The search parameters of `bold.connectr.public` should be used carefully
 if a filtered result (like above) is expected. Wrong combination of
@@ -511,7 +321,6 @@ for specific columns using the `columns` argument. The function also
 prints the number of rows and columns in the console by default.
 
 ``` r
-
 result.public.geo.bin<-bold.connectr.public(taxonomy = c("Mus musculus"),fields = c("bin_uri","country.ocean","genus","species"))
 #> Warning in bold.connectr.public(taxonomy = c("Mus musculus"), fields =
 #> c("bin_uri", : The combination of any of the taxonomy, geography, bins, ids and
@@ -571,61 +380,139 @@ biodiversity analyses.
 
 ### community matrix based on grids
 
-    #>        Panthera.leo Panthera.onca Panthera.pardus Panthera.tigris
-    #> cell_1            4            14              11               4
-    #> cell_2           13             0              61              46
-    #> cell_3            0             0               1               0
-    #> cell_4            1             0               0               2
-    #> cell_5            1             0               1               0
-    #>        Panthera.uncia
-    #> cell_1              0
-    #> cell_2              3
-    #> cell_3              0
-    #> cell_4              0
-    #> cell_5              0
+|        | Panthera.leo | Panthera.onca | Panthera.pardus | Panthera.tigris | Panthera.uncia |
+|:-------|-------------:|--------------:|----------------:|----------------:|---------------:|
+| cell_1 |            4 |            14 |              11 |               4 |              0 |
+| cell_2 |           13 |             0 |              61 |              46 |              3 |
+| cell_3 |            0 |             0 |               1 |               0 |              0 |
+| cell_4 |            1 |             0 |               0 |               2 |              0 |
+| cell_5 |            1 |             0 |               1 |               0 |              0 |
 
 ## analyze.alphadiv
 
-    #>   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  77%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%
+``` r
 
-<img src="man/figures/README-alphadiv-1.png" width="100%" style="display: block; margin: auto;" /><img src="man/figures/README-alphadiv-2.png" width="100%" style="display: block; margin: auto;" />
+# Download data from BOLD (removing species with blanks)
+comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+# Remove rows which have no species data
+comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
+
+# Generate the community matrix based on grids
+comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat='country.ocean')
+
+grid.data<-comm.data.grid$comm.matrix
+
+# Diversity results with estimation curve and without preston results
+div.res1<-analyze.alphadiv(grid.data,plot.curve=TRUE,curve.index="Jack1ab",curve.xval = "Sampl",preston.res = TRUE,pres.plot.y.label = "species")
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  77%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%
+
+div.res1$richness_plot
+```
+
+<img src="man/figures/README-alphadiv-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
+
+div.res1$preston.plot
+```
+
+<img src="man/figures/README-alphadiv-2.png" width="100%" style="display: block; margin: auto;" />
 
 ## analyze.betadiv
+
+``` r
+
+#Download data from BOLD (removing species with blanks)
+comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+#Generate the community matrix based on grids
+comm.data.beta<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+
+#beta diversity with the heatmaps
+beta.div.res2<-analyze.betadiv(comm.data.beta$comm.matrix,index="sorenson",heatmap = TRUE,component = "total")
+
+knitr::kable(as.matrix(round(beta.div.res2$total.beta,2)))
+```
+
+|                     |      | Argentina | Australia | Bangladesh | Belize | Brazil | Cape Verde | China | Colombia | Costa Rica | El Salvador | French Guiana | French Polynesia | Germany | Guatemala | Honduras | India | Indonesia | Iraq | Israel | Japan | Kenya | Libya | Madagascar | Malaysia | Mexico | Myanmar | Namibia | Nicaragua | Nigeria | Panama | Philippines | Puerto Rico | South Africa | Taiwan | Thailand | Trinidad and Tobago | Uganda | United States | Vietnam |
+|:--------------------|-----:|----------:|----------:|-----------:|-------:|-------:|-----------:|------:|---------:|-----------:|------------:|--------------:|-----------------:|--------:|----------:|---------:|------:|----------:|-----:|-------:|------:|------:|------:|-----------:|---------:|-------:|--------:|--------:|----------:|--------:|-------:|------------:|------------:|-------------:|-------:|---------:|--------------------:|-------:|--------------:|--------:|
+|                     | 0.00 |      0.83 |      0.57 |       0.83 |   0.83 |   0.60 |       0.83 |  0.83 |     0.77 |       0.85 |        1.00 |             1 |             0.83 |    0.83 |      0.83 |     0.62 |  0.38 |      0.69 | 0.83 |   0.69 |  0.67 |  0.83 |  0.83 |       0.83 |     0.83 |   0.52 |    0.83 |    0.83 |      0.73 |    0.83 |   0.76 |        0.83 |        0.69 |         0.57 |   0.69 |     0.83 |                0.85 |   0.83 |          0.57 |    0.83 |
+| Argentina           | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Australia           | 0.57 |      0.50 |      0.00 |       0.50 |   1.00 |   0.71 |       0.50 |  0.50 |     0.78 |       1.00 |        1.00 |             1 |             0.50 |    0.50 |      1.00 |     0.75 |  0.25 |      0.60 | 1.00 |   0.60 |  0.40 |  0.50 |  0.50 |       0.50 |     0.50 |   0.69 |    0.50 |    1.00 |      0.71 |    0.50 |   0.78 |        1.00 |        0.60 |         0.00 |   0.60 |     0.50 |                0.60 |   0.50 |          0.67 |    0.50 |
+| Bangladesh          | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Belize              | 0.83 |      1.00 |      1.00 |       1.00 |   0.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     0.67 |  1.00 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   1.00 |    1.00 |    1.00 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| Brazil              | 0.60 |      0.60 |      0.71 |       0.60 |   1.00 |   0.00 |       0.60 |  0.60 |     0.89 |       1.00 |        0.60 |             1 |             0.60 |    0.60 |      1.00 |     0.78 |  0.78 |      0.67 | 1.00 |   1.00 |  0.82 |  0.60 |  1.00 |       0.60 |     0.60 |   1.00 |    0.60 |    1.00 |      0.75 |    0.60 |   0.60 |        1.00 |        0.67 |         0.71 |   1.00 |     0.60 |                0.67 |   0.60 |          0.71 |    0.60 |
+| Cape Verde          | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| China               | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Colombia            | 0.77 |      0.88 |      0.78 |       0.88 |   1.00 |   0.89 |       0.88 |  0.88 |     0.00 |       1.00 |        1.00 |             1 |             0.88 |    0.88 |      1.00 |     0.90 |  0.80 |      0.88 | 1.00 |   0.88 |  0.82 |  0.88 |  1.00 |       0.88 |     0.88 |   0.84 |    0.88 |    1.00 |      0.89 |    0.88 |   0.81 |        1.00 |        0.76 |         0.78 |   1.00 |     0.88 |                0.88 |   0.88 |          0.78 |    0.88 |
+| Costa Rica          | 0.85 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       0.00 |        1.00 |             1 |             1.00 |    1.00 |      0.33 |     0.71 |  0.71 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   0.83 |    1.00 |    1.00 |      0.33 |    1.00 |   0.50 |        0.33 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| El Salvador         | 1.00 |      1.00 |      1.00 |       1.00 |   1.00 |   0.60 |       1.00 |  1.00 |     1.00 |       1.00 |        0.00 |             1 |             1.00 |    1.00 |      1.00 |     0.67 |  1.00 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   1.00 |    1.00 |    1.00 |      0.60 |    1.00 |   0.71 |        1.00 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| French Guiana       | 1.00 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             0 |             1.00 |    1.00 |      1.00 |     1.00 |  1.00 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   1.00 |    1.00 |    1.00 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| French Polynesia    | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Germany             | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Guatemala           | 0.83 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       0.33 |        1.00 |             1 |             1.00 |    1.00 |      0.00 |     0.67 |  0.67 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   0.82 |    1.00 |    1.00 |      0.60 |    1.00 |   0.71 |        0.00 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| Honduras            | 0.62 |      1.00 |      0.75 |       1.00 |   0.67 |   0.78 |       1.00 |  1.00 |     0.90 |       0.71 |        0.67 |             1 |             1.00 |    1.00 |      0.67 |     0.00 |  0.60 |      1.00 | 1.00 |   1.00 |  0.83 |  1.00 |  1.00 |       1.00 |     1.00 |   0.73 |    1.00 |    1.00 |      0.33 |    1.00 |   0.64 |        0.67 |        1.00 |         0.75 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| India               | 0.38 |      0.67 |      0.25 |       0.67 |   1.00 |   0.78 |       0.67 |  0.67 |     0.80 |       0.71 |        1.00 |             1 |             0.67 |    0.67 |      0.67 |     0.60 |  0.00 |      0.43 | 0.67 |   0.71 |  0.50 |  0.67 |  0.67 |       0.67 |     0.67 |   0.47 |    0.67 |    0.67 |      0.56 |    0.67 |   0.64 |        0.67 |        0.71 |         0.25 |   0.43 |     0.67 |                0.71 |   0.67 |          0.50 |    0.67 |
+| Indonesia           | 0.69 |      0.33 |      0.60 |       0.33 |   1.00 |   0.67 |       0.33 |  0.33 |     0.88 |       1.00 |        1.00 |             1 |             0.33 |    0.33 |      1.00 |     1.00 |  0.43 |      0.00 | 0.33 |   1.00 |  0.78 |  0.33 |  1.00 |       0.33 |     0.33 |   0.83 |    0.33 |    0.33 |      1.00 |    0.33 |   0.75 |        1.00 |        0.50 |         0.60 |   0.50 |     0.33 |                0.50 |   0.33 |          0.20 |    0.33 |
+| Iraq                | 0.83 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     1.00 |  0.67 |      0.33 | 0.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   0.82 |    1.00 |    0.00 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         1.00 |   0.33 |     1.00 |                1.00 |   1.00 |          0.50 |    1.00 |
+| Israel              | 0.69 |      1.00 |      0.60 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     0.88 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     1.00 |  0.71 |      1.00 | 1.00 |   0.00 |  0.78 |  1.00 |  0.33 |       1.00 |     1.00 |   0.67 |    1.00 |    1.00 |      1.00 |    1.00 |   1.00 |        1.00 |        0.50 |         0.60 |   0.50 |     1.00 |                1.00 |   1.00 |          0.60 |    1.00 |
+| Japan               | 0.67 |      0.75 |      0.40 |       0.75 |   1.00 |   0.82 |       0.75 |  0.75 |     0.82 |       1.00 |        1.00 |             1 |             0.75 |    0.75 |      1.00 |     0.83 |  0.50 |      0.78 | 1.00 |   0.78 |  0.00 |  0.75 |  0.75 |       0.75 |     0.75 |   0.65 |    0.75 |    1.00 |      0.82 |    0.75 |   0.85 |        1.00 |        0.78 |         0.40 |   0.78 |     0.75 |                0.78 |   0.75 |          0.80 |    0.75 |
+| Kenya               | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Libya               | 0.83 |      1.00 |      0.50 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     1.00 |  0.67 |      1.00 | 1.00 |   0.33 |  0.75 |  1.00 |  0.00 |       1.00 |     1.00 |   0.82 |    1.00 |    1.00 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         0.50 |   0.33 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| Madagascar          | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Malaysia            | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Mexico              | 0.52 |      1.00 |      0.69 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     0.84 |       0.83 |        1.00 |             1 |             1.00 |    1.00 |      0.82 |     0.73 |  0.47 |      0.83 | 0.82 |   0.67 |  0.65 |  1.00 |  0.82 |       1.00 |     1.00 |   0.00 |    1.00 |    0.82 |      0.71 |    1.00 |   0.88 |        0.82 |        0.83 |         0.69 |   0.67 |     1.00 |                1.00 |   1.00 |          0.69 |    1.00 |
+| Myanmar             | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Namibia             | 0.83 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     1.00 |  0.67 |      0.33 | 0.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   0.82 |    1.00 |    0.00 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         1.00 |   0.33 |     1.00 |                1.00 |   1.00 |          0.50 |    1.00 |
+| Nicaragua           | 0.73 |      1.00 |      0.71 |       1.00 |   1.00 |   0.75 |       1.00 |  1.00 |     0.89 |       0.33 |        0.60 |             1 |             1.00 |    1.00 |      0.60 |     0.33 |  0.56 |      1.00 | 1.00 |   1.00 |  0.82 |  1.00 |  1.00 |       1.00 |     1.00 |   0.71 |    1.00 |    1.00 |      0.00 |    1.00 |   0.40 |        0.60 |        1.00 |         0.71 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| Nigeria             | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Panama              | 0.76 |      0.71 |      0.78 |       0.71 |   1.00 |   0.60 |       0.71 |  0.71 |     0.81 |       0.50 |        0.71 |             1 |             0.71 |    0.71 |      0.71 |     0.64 |  0.64 |      0.75 | 1.00 |   1.00 |  0.85 |  0.71 |  1.00 |       0.71 |     0.71 |   0.88 |    0.71 |    1.00 |      0.40 |    0.71 |   0.00 |        0.71 |        0.75 |         0.78 |   1.00 |     0.71 |                0.75 |   0.71 |          0.78 |    0.71 |
+| Philippines         | 0.83 |      1.00 |      1.00 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       0.33 |        1.00 |             1 |             1.00 |    1.00 |      0.00 |     0.67 |  0.67 |      1.00 | 1.00 |   1.00 |  1.00 |  1.00 |  1.00 |       1.00 |     1.00 |   0.82 |    1.00 |    1.00 |      0.60 |    1.00 |   0.71 |        0.00 |        1.00 |         1.00 |   1.00 |     1.00 |                1.00 |   1.00 |          1.00 |    1.00 |
+| Puerto Rico         | 0.69 |      0.33 |      0.60 |       0.33 |   1.00 |   0.67 |       0.33 |  0.33 |     0.76 |       1.00 |        1.00 |             1 |             0.33 |    0.33 |      1.00 |     1.00 |  0.71 |      0.50 | 1.00 |   0.50 |  0.78 |  0.33 |  1.00 |       0.33 |     0.33 |   0.83 |    0.33 |    1.00 |      1.00 |    0.33 |   0.75 |        1.00 |        0.00 |         0.60 |   1.00 |     0.33 |                0.50 |   0.33 |          0.20 |    0.33 |
+| South Africa        | 0.57 |      0.50 |      0.00 |       0.50 |   1.00 |   0.71 |       0.50 |  0.50 |     0.78 |       1.00 |        1.00 |             1 |             0.50 |    0.50 |      1.00 |     0.75 |  0.25 |      0.60 | 1.00 |   0.60 |  0.40 |  0.50 |  0.50 |       0.50 |     0.50 |   0.69 |    0.50 |    1.00 |      0.71 |    0.50 |   0.78 |        1.00 |        0.60 |         0.00 |   0.60 |     0.50 |                0.60 |   0.50 |          0.67 |    0.50 |
+| Taiwan              | 0.69 |      1.00 |      0.60 |       1.00 |   1.00 |   1.00 |       1.00 |  1.00 |     1.00 |       1.00 |        1.00 |             1 |             1.00 |    1.00 |      1.00 |     1.00 |  0.43 |      0.50 | 0.33 |   0.50 |  0.78 |  1.00 |  0.33 |       1.00 |     1.00 |   0.67 |    1.00 |    0.33 |      1.00 |    1.00 |   1.00 |        1.00 |        1.00 |         0.60 |   0.00 |     1.00 |                1.00 |   1.00 |          0.60 |    1.00 |
+| Thailand            | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| Trinidad and Tobago | 0.85 |      0.33 |      0.60 |       0.33 |   1.00 |   0.67 |       0.33 |  0.33 |     0.88 |       1.00 |        1.00 |             1 |             0.33 |    0.33 |      1.00 |     1.00 |  0.71 |      0.50 | 1.00 |   1.00 |  0.78 |  0.33 |  1.00 |       0.33 |     0.33 |   1.00 |    0.33 |    1.00 |      1.00 |    0.33 |   0.75 |        1.00 |        0.50 |         0.60 |   1.00 |     0.33 |                0.00 |   0.33 |          0.60 |    0.33 |
+| Uganda              | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+| United States       | 0.57 |      0.50 |      0.67 |       0.50 |   1.00 |   0.71 |       0.50 |  0.50 |     0.78 |       1.00 |        1.00 |             1 |             0.50 |    0.50 |      1.00 |     1.00 |  0.50 |      0.20 | 0.50 |   0.60 |  0.80 |  0.50 |  1.00 |       0.50 |     0.50 |   0.69 |    0.50 |    0.50 |      1.00 |    0.50 |   0.78 |        1.00 |        0.20 |         0.67 |   0.60 |     0.50 |                0.60 |   0.50 |          0.00 |    0.50 |
+| Vietnam             | 0.83 |      0.00 |      0.50 |       0.00 |   1.00 |   0.60 |       0.00 |  0.00 |     0.88 |       1.00 |        1.00 |             1 |             0.00 |    0.00 |      1.00 |     1.00 |  0.67 |      0.33 | 1.00 |   1.00 |  0.75 |  0.00 |  1.00 |       0.00 |     0.00 |   1.00 |    0.00 |    1.00 |      1.00 |    0.00 |   0.71 |        1.00 |        0.33 |         0.50 |   1.00 |     0.00 |                0.33 |   0.00 |          0.50 |    0.00 |
+
+``` r
+
+beta.div.res2$heatmap.viz
+```
 
 <img src="man/figures/README-betadiv-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## visualize.geo
 
+``` r
+
+#Download data
+geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+
+geo.viz<-visualize.geo(geo.data,export = FALSE)
+```
+
 <img src="man/figures/README-gen.comm.mat-1.png" width="100%" style="display: block; margin: auto;" />
 
-    #> Simple feature collection with 6 features and 9 fields
-    #> Geometry type: POINT
-    #> Dimension:     XY
-    #> Bounding box:  xmin: -103.755 ymin: 12.9716 xmax: 77.5946 ymax: 35.494
-    #> Geodetic CRS:  WGS 84
-    #>      processid      bin_uri     lat       lon country.ocean province.state
-    #> 1  AGIRI228-17 BOLD:AAA6020 12.9716   77.5946         India               
-    #> 2 BBDIT1074-11 BOLD:AAA6020 26.1870  -98.3790 United States          Texas
-    #> 3 BBDIT1075-11 BOLD:AAA6020 27.2640  -82.3080 United States        Florida
-    #> 4 BBDIT1076-11 BOLD:AAA6020 29.2690 -103.7550 United States          Texas
-    #> 5 BBDIT1531-12 BOLD:AAA6020 35.4940  -95.6710 United States       Oklahoma
-    #> 6 BBDIT1578-12 BOLD:AAA6020 34.9450 -101.6600 United States          Texas
-    #>                                 region                         sector
-    #> 1                            Bengaluru                               
-    #> 2 Bentsen-Rio Grande Valley State Park visitors centre, nature centre
-    #> 3                      Sarasota County        Myakka River State Park
-    #> 4                                           Big Bend Ranch State Park
-    #> 5                         Gentry Creek                     campground
-    #> 6          Palo Duro Canyon State Park          around Fortress Cliff
-    #>                           site                geometry
-    #> 1                              POINT (77.5946 12.9716)
-    #> 2 grass, rescata, short forest  POINT (-98.379 26.187)
-    #> 3      Myakka River Upper Lake  POINT (-82.308 27.264)
-    #> 4    Grassy Bank by Rio Grande POINT (-103.755 29.269)
-    #> 5            tall trees, grass  POINT (-95.671 35.494)
-    #> 6              dry scrub brush  POINT (-101.66 34.945)
+``` r
 
-## align.seq
+#The `sf` dataframe of the downloaded data
+knitr::kable(head(geo.viz$geo.df))
+```
+
+| processid    | bin_uri      |     lat |       lon | country.ocean | province.state | region                               | sector                         | site                         | geometry                |
+|:-------------|:-------------|--------:|----------:|:--------------|:---------------|:-------------------------------------|:-------------------------------|:-----------------------------|:------------------------|
+| AGIRI228-17  | BOLD:AAA6020 | 12.9716 |   77.5946 | India         |                | Bengaluru                            |                                |                              | POINT (77.5946 12.9716) |
+| BBDIT1074-11 | BOLD:AAA6020 | 26.1870 |  -98.3790 | United States | Texas          | Bentsen-Rio Grande Valley State Park | visitors centre, nature centre | grass, rescata, short forest | POINT (-98.379 26.187)  |
+| BBDIT1075-11 | BOLD:AAA6020 | 27.2640 |  -82.3080 | United States | Florida        | Sarasota County                      | Myakka River State Park        | Myakka River Upper Lake      | POINT (-82.308 27.264)  |
+| BBDIT1076-11 | BOLD:AAA6020 | 29.2690 | -103.7550 | United States | Texas          |                                      | Big Bend Ranch State Park      | Grassy Bank by Rio Grande    | POINT (-103.755 29.269) |
+| BBDIT1531-12 | BOLD:AAA6020 | 35.4940 |  -95.6710 | United States | Oklahoma       | Gentry Creek                         | campground                     | tall trees, grass            | POINT (-95.671 35.494)  |
+| BBDIT1578-12 | BOLD:AAA6020 | 34.9450 | -101.6600 | United States | Texas          | Palo Duro Canyon State Park          | around Fortress Cliff          | dry scrub brush              | POINT (-101.66 34.945)  |
+
+## *align.seq*
 
 This function is currently an internal function of the package (with
 documentation). This function acts as a wrapper around the `msa` and
@@ -641,7 +528,7 @@ passing additional arguments of the `msa` function to `align.seq`.
 
     #> using Gonnet
 
-## analyze.seq
+## *analyze.seq*
 
 This function along with `align.seq` is an internal function of the
 package (with documentation). This function acts as a wrapper around the
@@ -655,6 +542,43 @@ load `msa` and `Biostrings` separately before using this function to
 avoid any errors. Additional arguments of `dist.dna` can be passed to
 `analyze.seq` for more robust analysis.
 
-    #> using Gonnet
+``` r
+
+data.align<-bold.connectr.public(taxonomy = "Eulimnadia")
+
+data.seq.aligned<-BOLDconnectR:::align.seq(data.align,name.fields = c("bin_uri","species"))
+#> using Gonnet
+
+data.seq.analyze<-BOLDconnectR:::analyze.seq(data.seq.aligned$msa.result,
+                                             dist.model = "K80",
+                                             clus="njs",
+                                             plot=TRUE,
+                                             plot.type = "p")
+```
 
 <img src="man/figures/README-analyze.seq-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
+
+knitr::kable(as.matrix(data.seq.analyze$dist_matrix))
+```
+
+|                                         | BOLD:AAY3461\|Eulimnadia belki | BOLD:AAY3461\|Eulimnadia belki | BOLD:AAU6390\| | BOLD:AAU6390\| | BOLD:AAU6390\| | BOLD:AAU6390\| | BOLD:AAU6390\| | BOLD:AAU6390\| | BOLD:AAY3462\|Eulimnadia braueriana | BOLD:AAM4367\|Eulimnadia africana | BOLD:AAM4368\|Eulimnadia africana | BOLD:AAM4369\|Eulimnadia africana | BOLD:AAY3466\|Eulimnadia cylindrova | BOLD:AEG5287\|Eulimnadia sp. C MS-2015 | BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 | BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 | BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 |
+|:----------------------------------------|-------------------------------:|-------------------------------:|---------------:|---------------:|---------------:|---------------:|---------------:|---------------:|------------------------------------:|----------------------------------:|----------------------------------:|----------------------------------:|------------------------------------:|---------------------------------------:|----------------------------------------:|----------------------------------------:|----------------------------------------:|
+| BOLD:AAY3461\|Eulimnadia belki          |                         0.0000 |                         0.0000 |         0.0302 |         0.0302 |         0.0302 |         0.0302 |         0.0302 |         0.0286 |                              0.2001 |                            0.1785 |                            0.1827 |                            0.1725 |                              0.2122 |                                 0.1982 |                                  0.1833 |                                  0.1857 |                                  0.1835 |
+| BOLD:AAY3461\|Eulimnadia belki          |                         0.0000 |                         0.0000 |         0.0302 |         0.0302 |         0.0302 |         0.0302 |         0.0302 |         0.0286 |                              0.2001 |                            0.1785 |                            0.1827 |                            0.1725 |                              0.2122 |                                 0.1982 |                                  0.1833 |                                  0.1857 |                                  0.1835 |
+| BOLD:AAU6390\|                          |                         0.0302 |                         0.0302 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0016 |                              0.1938 |                            0.1766 |                            0.1893 |                            0.1706 |                              0.2041 |                                 0.1941 |                                  0.1793 |                                  0.1816 |                                  0.1837 |
+| BOLD:AAU6390\|                          |                         0.0302 |                         0.0302 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0016 |                              0.1938 |                            0.1766 |                            0.1893 |                            0.1706 |                              0.2041 |                                 0.1941 |                                  0.1793 |                                  0.1816 |                                  0.1837 |
+| BOLD:AAU6390\|                          |                         0.0302 |                         0.0302 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0016 |                              0.1938 |                            0.1766 |                            0.1893 |                            0.1706 |                              0.2041 |                                 0.1941 |                                  0.1793 |                                  0.1816 |                                  0.1837 |
+| BOLD:AAU6390\|                          |                         0.0302 |                         0.0302 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0016 |                              0.1938 |                            0.1766 |                            0.1893 |                            0.1706 |                              0.2041 |                                 0.1941 |                                  0.1793 |                                  0.1816 |                                  0.1837 |
+| BOLD:AAU6390\|                          |                         0.0302 |                         0.0302 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0000 |         0.0016 |                              0.1938 |                            0.1766 |                            0.1893 |                            0.1706 |                              0.2041 |                                 0.1941 |                                  0.1793 |                                  0.1816 |                                  0.1837 |
+| BOLD:AAU6390\|                          |                         0.0286 |                         0.0286 |         0.0016 |         0.0016 |         0.0016 |         0.0016 |         0.0016 |         0.0000 |                              0.1960 |                            0.1745 |                            0.1872 |                            0.1685 |                              0.2019 |                                 0.1962 |                                  0.1814 |                                  0.1837 |                                  0.1859 |
+| BOLD:AAY3462\|Eulimnadia braueriana     |                         0.2001 |                         0.2001 |         0.1938 |         0.1938 |         0.1938 |         0.1938 |         0.1938 |         0.1960 |                              0.0000 |                            0.1646 |                            0.1621 |                            0.1685 |                              0.1797 |                                 0.1799 |                                  0.1813 |                                  0.1832 |                                  0.1853 |
+| BOLD:AAM4367\|Eulimnadia africana       |                         0.1785 |                         0.1785 |         0.1766 |         0.1766 |         0.1766 |         0.1766 |         0.1766 |         0.1745 |                              0.1646 |                            0.0000 |                            0.0623 |                            0.0697 |                              0.1876 |                                 0.1711 |                                  0.1539 |                                  0.1557 |                                  0.1557 |
+| BOLD:AAM4368\|Eulimnadia africana       |                         0.1827 |                         0.1827 |         0.1893 |         0.1893 |         0.1893 |         0.1893 |         0.1893 |         0.1872 |                              0.1621 |                            0.0623 |                            0.0000 |                            0.0640 |                              0.1915 |                                 0.1685 |                                  0.1617 |                                  0.1595 |                                  0.1595 |
+| BOLD:AAM4369\|Eulimnadia africana       |                         0.1725 |                         0.1725 |         0.1706 |         0.1706 |         0.1706 |         0.1706 |         0.1706 |         0.1685 |                              0.1685 |                            0.0697 |                            0.0640 |                            0.0000 |                              0.1747 |                                 0.1604 |                                  0.1808 |                                  0.1827 |                                  0.1827 |
+| BOLD:AAY3466\|Eulimnadia cylindrova     |                         0.2122 |                         0.2122 |         0.2041 |         0.2041 |         0.2041 |         0.2041 |         0.2041 |         0.2019 |                              0.1797 |                            0.1876 |                            0.1915 |                            0.1747 |                              0.0000 |                                 0.1761 |                                  0.1849 |                                  0.1868 |                                  0.1889 |
+| BOLD:AEG5287\|Eulimnadia sp. C MS-2015  |                         0.1982 |                         0.1982 |         0.1941 |         0.1941 |         0.1941 |         0.1941 |         0.1941 |         0.1962 |                              0.1799 |                            0.1711 |                            0.1685 |                            0.1604 |                              0.1761 |                                 0.0000 |                                  0.1543 |                                  0.1562 |                                  0.1583 |
+| BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 |                         0.1833 |                         0.1833 |         0.1793 |         0.1793 |         0.1793 |         0.1793 |         0.1793 |         0.1814 |                              0.1813 |                            0.1539 |                            0.1617 |                            0.1808 |                              0.1849 |                                 0.1543 |                                  0.0000 |                                  0.0047 |                                  0.0062 |
+| BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 |                         0.1857 |                         0.1857 |         0.1816 |         0.1816 |         0.1816 |         0.1816 |         0.1816 |         0.1837 |                              0.1832 |                            0.1557 |                            0.1595 |                            0.1827 |                              0.1868 |                                 0.1562 |                                  0.0047 |                                  0.0000 |                                  0.0016 |
+| BOLD:AAM4366\|Eulimnadia sp. 2 WRH-2009 |                         0.1835 |                         0.1835 |         0.1837 |         0.1837 |         0.1837 |         0.1837 |         0.1837 |         0.1859 |                              0.1853 |                            0.1557 |                            0.1595 |                            0.1827 |                              0.1889 |                                 0.1583 |                                  0.0062 |                                  0.0016 |                                  0.0000 |
