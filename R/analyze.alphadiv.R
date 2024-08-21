@@ -6,7 +6,7 @@
 #' @param bin.comm the site X species like output from the `gen.comm.mat` function.
 #' @param plot.curve A logical value specifying whether an accumulation curve should be plotted.Default value is FALSE.
 #' @param curve.index A character value specifying which index should be used for the `curve.index` argument. Default value is NULL.
-#' @param curve.xval A character value specifying whether sample (Sampl) or individuals (Ind) should be used against the `curve.index`.Default value is NULL.
+#' @param curve.xval A character value specifying whether samples (Samples) or individuals (Individuals) should be used against the `curve.index`.Default value is NULL.
 #' @param preston.res A logical value specifying whether the Preston results should be generated. Default value is FALSE.
 #' @param pres.plot.y.label A character value specifying the taxonomic category (`taxon.rank` in [gen.comm.mat()]) which was used to generate the matrix.
 #'
@@ -156,6 +156,9 @@ analyze.alphadiv <- function(bin.comm,
 
         richness = richness
 
+        colnames(richness)[colnames(richness) == 'Ind'] <- 'Individuals'
+
+        colnames(richness)[colnames(richness) == 'Sampl'] <- 'Samples'
 
         richness_plot=richness%>%
         dplyr::select(!!x_data,

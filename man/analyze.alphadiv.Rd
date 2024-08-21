@@ -20,7 +20,7 @@ analyze.alphadiv(
 
 \item{curve.index}{A character value specifying which index should be used for the \code{curve.index} argument. Default value is NULL.}
 
-\item{curve.xval}{A character value specifying whether sample (Sampl) or individuals (Ind) should be used against the \code{curve.index}.Default value is NULL.}
+\item{curve.xval}{A character value specifying whether samples (Samples) or individuals (Individuals) should be used against the \code{curve.index}.Default value is NULL.}
 
 \item{preston.res}{A logical value specifying whether the Preston results should be generated. Default value is FALSE.}
 
