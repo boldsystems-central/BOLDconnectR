@@ -21,20 +21,55 @@ from the `devtools` package in R (which needs to be installed before
 installing BOLDConnectR). *This package currently exists as a private
 repo and thus has an authorization token*.
 
-    #> Skipping install of 'BOLDconnectR' from a github remote, the SHA1 (1f1408e5) has not changed since last install.
-    #>   Use `force = TRUE` to force installation
+    #> Downloading GitHub repo sameerpadhye/BOLDconnectR@HEAD
+    #> digest (0.6.36 -> 0.6.37) [CRAN]
+    #> Installing 1 packages: digest
+    #> Installing package into 'C:/Users/samee/AppData/Local/R/win-library/4.4'
+    #> (as 'lib' is unspecified)
+    #> Warning: unable to access index for repository https://bioconductor.org/packages/3.18/bioc/bin/windows/contrib/4.4:
+    #>   cannot open URL 'https://bioconductor.org/packages/3.18/bioc/bin/windows/contrib/4.4/PACKAGES'
+    #> Warning: unable to access index for repository https://bioconductor.org/packages/3.18/data/annotation/bin/windows/contrib/4.4:
+    #>   cannot open URL 'https://bioconductor.org/packages/3.18/data/annotation/bin/windows/contrib/4.4/PACKAGES'
+    #> Warning: unable to access index for repository https://bioconductor.org/packages/3.18/data/experiment/bin/windows/contrib/4.4:
+    #>   cannot open URL 'https://bioconductor.org/packages/3.18/data/experiment/bin/windows/contrib/4.4/PACKAGES'
+    #> Warning: unable to access index for repository https://bioconductor.org/packages/3.18/workflows/bin/windows/contrib/4.4:
+    #>   cannot open URL 'https://bioconductor.org/packages/3.18/workflows/bin/windows/contrib/4.4/PACKAGES'
+    #> Warning: unable to access index for repository https://bioconductor.org/packages/3.18/books/bin/windows/contrib/4.4:
+    #>   cannot open URL 'https://bioconductor.org/packages/3.18/books/bin/windows/contrib/4.4/PACKAGES'
+    #> package 'digest' successfully unpacked and MD5 sums checked
+    #> Warning: cannot remove prior installation of package 'digest'
+    #> Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying
+    #> C:\Users\samee\AppData\Local\R\win-library\4.4\00LOCK\digest\libs\x64\digest.dll
+    #> to C:\Users\samee\AppData\Local\R\win-library\4.4\digest\libs\x64\digest.dll:
+    #> Permission denied
+    #> Warning: restored 'digest'
+    #> 
+    #> The downloaded binary packages are in
+    #>  C:\Users\samee\AppData\Local\Temp\RtmpGyPySV\downloaded_packages
+    #> ── R CMD build ─────────────────────────────────────────────────────────────────
+    #>          checking for file 'C:\Users\samee\AppData\Local\Temp\RtmpGyPySV\remotes2cf45dbf5fc0\sameerpadhye-BOLDconnectR-c14a47ce5d4911c1de06beed5352c95928ac4eed/DESCRIPTION' ...  ✔  checking for file 'C:\Users\samee\AppData\Local\Temp\RtmpGyPySV\remotes2cf45dbf5fc0\sameerpadhye-BOLDconnectR-c14a47ce5d4911c1de06beed5352c95928ac4eed/DESCRIPTION'
+    #>       ─  preparing 'BOLDconnectR': (624ms)
+    #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
+    #>       ─  checking for LF line-endings in source and make files and shell scripts
+    #>   ─  checking for empty or unneeded directories
+    #>       ─  building 'BOLDconnectR_0.1.0.tar.gz'
+    #>      
+    #> 
+    #> Installing package into 'C:/Users/samee/AppData/Local/R/win-library/4.4'
+    #> (as 'lib' is unspecified)
 
-## The package currently has 9 functions:
+## The package currently has 10 functions:
 
 1.  bold.fields.info
 2.  bold.connectr
 3.  bold.connectr.public
-4.  gen.comm.mat
-5.  analyze.alphadiv
-6.  analyze.betadiv
-7.  visualize.geo
-8.  *align.seq*
-9.  *analyze.seq*
+4.  data.summary
+5.  gen.comm.mat
+6.  analyze.alphadiv
+7.  analyze.betadiv
+8.  visualize.geo
+9.  *align.seq*
+10. *analyze.seq*
 
 *These functions are currently internal functions which require external
 dependencies not included in the package. For their specific usage,
@@ -123,13 +158,13 @@ result<-bold.connectr(input.data = to_download,
 knitr::kable(head(result,5))
 ```
 
-| processid  | record_id         | insdc_acs | sampleid     | specimenid | taxid | short_note | identification_method | museumid | fieldid      | collection_code | processid_minted_date | inst                                             | specimendetails.verbatim_depository | funding_src | sex | life_stage | reproduction | habitat | collectors | site_code | specimen_linkout | collection_event_id | sampling_protocol | tissue_type | collection_date_start | specimendetails.verbatim_collectiondate | collection_time | collection_date_accuracy | specimendetails.verbatim_collectiondate_precision | associated_taxa | associated_specimens | voucher_type | notes | taxonomy_notes | collection_notes | specimendetails.verbatim_kingdom | specimendetails.verbatim_phylum | specimendetails.verbatim_class | specimendetails.verbatim_order | specimendetails.verbatim_family | specimendetails.verbatim_subfamily | specimendetails.verbatim_tribe | specimendetails.verbatim_genus | specimendetails.verbatim_species | specimendetails.verbatim_subspecies | specimendetails.verbatim_species_reference | specimendetails.verbatim_identifier | geoid | location.verbatim_country | location.verbatim_province | location.verbatim_country_iso_alpha3 | marker_code | kingdom  | phylum   | class          | order        | family    | subfamily           | tribe | genus       | species                 | subspecies | identification          | identification_rank | tax_rank.numerical_posit | species_reference | identified_by  | specimendetails\_\_identifier.person.email | sequence_run_site                | nuc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | nuc_basecount | sequence_upload_date | bin_uri      | bin_created_date | elev | location.verbatim_elev | depth | location.verbatim_depth |       lat |      lon | location.verbatim_coord | coord_source                      | coord_accuracy | location.verbatim_gps_accuracy | elev_accuracy | location.verbatim_elev_accuracy | depth_accuracy | location.verbatim_depth_accuracy | realm      | biome | ecoregion                         | region | sector | site         | country_iso | country.ocean | province.state | bold_recordset_code_arr                                  | geopol_denorm.country_iso3 | collection_date_end |
-|:-----------|:------------------|:----------|:-------------|-----------:|------:|:-----------|:----------------------|:---------|:-------------|:----------------|:----------------------|:-------------------------------------------------|:------------------------------------|:------------|:----|:-----------|:-------------|:--------|:-----------|:----------|:-----------------|:--------------------|:------------------|:------------|:----------------------|:----------------------------------------|:----------------|:-------------------------|:--------------------------------------------------|:----------------|:---------------------|:-------------|:------|:---------------|:-----------------|:---------------------------------|:--------------------------------|:-------------------------------|:-------------------------------|:--------------------------------|:-----------------------------------|:-------------------------------|:-------------------------------|:---------------------------------|:------------------------------------|:-------------------------------------------|:------------------------------------|------:|:--------------------------|:---------------------------|:-------------------------------------|:------------|:---------|:---------|:---------------|:-------------|:----------|:--------------------|:------|:------------|:------------------------|:-----------|:------------------------|:--------------------|-------------------------:|:------------------|:---------------|:-------------------------------------------|:---------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------:|:---------------------|:-------------|:-----------------|-----:|:-----------------------|------:|:------------------------|----------:|---------:|:------------------------|:----------------------------------|---------------:|:-------------------------------|--------------:|:--------------------------------|---------------:|:---------------------------------|:-----------|:------|:----------------------------------|:-------|:-------|:-------------|:------------|:--------------|:---------------|:---------------------------------------------------------|:---------------------------|:--------------------|
-| AJS078-19  | AJS078-19.COI-5P  |           | S-11-C-MB    |   10597444 | 52768 | NA         | NA                    |          | S-11-C-MB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | TCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATYTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTT                                                                                                                                                                                                                                                                                                                                                                                                                                                             |           224 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO                                | USA                        | NA                  |
-| AJS052-19  | AJS052-19.COI-5P  |           | S-03-A-MB    |   10597418 | 52768 | NA         | NA                    |          | S-03-A-MB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | CAAATYTATAATGTAATTGTTACAGCRCATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATRATTGGAGGCTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |            77 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO                                | USA                        | NA                  |
-| ACAM027-13 | ACAM027-13.COI-5P |           | AC13A72      |    3934444 | 24807 | NA         | NA                    |          | AC13AL06     |                 | 2013-10-30            | South African Institute for Aquatic Biodiversity | NA                                  | iBOL:WG1.1  | NA  | NA         | NA           | NA      | A. Chakona | NA        | NA               | NA                  | NA                | NA          | 2013-03-06            | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   128 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis mossambicus | NA         | Oreochromis mossambicus | species             |                       17 | Peters, 1852      | Albert Chakona | <a.chakona@saiab.ac.za>                    | Centre for Biodiversity Genomics | CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCATTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTCCTCGGAGACGACCAGATTTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATGCCAATTATAATTGGAGGTTTTGGAAACTGACTAGTGCCACTAATGATTGGTGCACCCGACATGGCCTTCCCTCGAATAAATAACATGAGTTTTTGACTCCTCCCCCCCTCATTTCTCCTTCTCCTCGCCTCATCCGGGGTCGAAGCAGGGGCCGGTACAGGATGGACTGTTTATCCCCCACTCGCAGGCAATCTCGCCCATGCTGGGCCTTCCGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGGGTGTCATCTATTTTAGGTGCAATTAATTTTATTACAACCATTATTAACATAAAACCCCCTGCCATCTCCCAATATCAAACACCCCTCTTTGTATGATCCGTTCTAATTACCGCAGTACTACTCCTACTATCCCTACCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGATCCTGCCGGAGGAGGAGACCCCATCCTTTACCAACACTTA                  |           652 | 2014-05-08           | BOLD:AAA8511 | 2010-07-15       |  496 | NA                     |    NA | NA                      | -17.52523 | 35.20858 | NA                      | Coordinates from country centroid |             NA | NA                             |            NA | NA                              |             NA | NA                               | Afrotropic | NA    | Zambezian-Limpopo_mixed_woodlands | NA     | NA     | Chipembe dam | MZ          | Mozambique    |                | ACAM,DS-CBOLW,DS-EDBRTEST,DS-INVASSP,DS-NAR01C,DS-NAR01C | MOZ                        | NA                  |
-| AJS100-19  | AJS100-19.COI-5P  |           | S-02-A-FBC10 |   10597466 | 52768 | NA         | NA                    |          | S-02-A-FBC10 |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCWSCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGATGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTC-              |           653 | 2019-08-09           | BOLD:AAC9904 | 2010-07-15       |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-TANGQIAN,DS-CICHI           | USA                        | NA                  |
-| AJS018-19  | AJS018-19.COI-5P  |           | S-06-C-FB    |   10597384 | 52768 | NA         | NA                    |          | S-06-C-FB    |                 | 2019-08-08            | Chapman University                               | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus   | NA         | Oreochromis niloticus   | species             |                       17 | Linnaeus, 1758    | NA             | NA                                         | Chapman University               | TATYGGCACCCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGATGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTCTGA—- |           666 | 2019-08-08           | BOLD:AAC9904 | 2010-07-15       |   NA | NA                     |    NA | NA                      |        NA |       NA | NA                      | NA                                |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA         | NA    | NA                                | NA     | NA     | NA           | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-TANGQIAN,DS-CICHI           | USA                        | NA                  |
+| processid | record_id        | insdc_acs | sampleid    | specimenid | taxid | short_note | identification_method | museumid | fieldid     | collection_code | processid_minted_date | inst               | specimendetails.verbatim_depository | funding_src | sex | life_stage | reproduction | habitat | collectors | site_code | specimen_linkout | collection_event_id | sampling_protocol | tissue_type | collection_date_start | specimendetails.verbatim_collectiondate | collection_time | collection_date_accuracy | specimendetails.verbatim_collectiondate_precision | associated_taxa | associated_specimens | voucher_type | notes | taxonomy_notes | collection_notes | specimendetails.verbatim_kingdom | specimendetails.verbatim_phylum | specimendetails.verbatim_class | specimendetails.verbatim_order | specimendetails.verbatim_family | specimendetails.verbatim_subfamily | specimendetails.verbatim_tribe | specimendetails.verbatim_genus | specimendetails.verbatim_species | specimendetails.verbatim_subspecies | specimendetails.verbatim_species_reference | specimendetails.verbatim_identifier | geoid | location.verbatim_country | location.verbatim_province | location.verbatim_country_iso_alpha3 | marker_code | kingdom  | phylum   | class          | order        | family    | subfamily           | tribe | genus       | species               | subspecies | identification        | identification_rank | tax_rank.numerical_posit | species_reference | identified_by | specimendetails\_\_identifier.person.email | sequence_run_site  | nuc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | nuc_basecount | sequence_upload_date | bin_uri      | bin_created_date | elev | location.verbatim_elev | depth | location.verbatim_depth | lat | lon | location.verbatim_coord | coord_source | coord_accuracy | location.verbatim_gps_accuracy | elev_accuracy | location.verbatim_elev_accuracy | depth_accuracy | location.verbatim_depth_accuracy | realm | biome | ecoregion | region | sector | site | country_iso | country.ocean | province.state | bold_recordset_code_arr            | geopol_denorm.country_iso3 | collection_date_end |
+|:----------|:-----------------|:----------|:------------|-----------:|------:|:-----------|:----------------------|:---------|:------------|:----------------|:----------------------|:-------------------|:------------------------------------|:------------|:----|:-----------|:-------------|:--------|:-----------|:----------|:-----------------|:--------------------|:------------------|:------------|:----------------------|:----------------------------------------|:----------------|:-------------------------|:--------------------------------------------------|:----------------|:---------------------|:-------------|:------|:---------------|:-----------------|:---------------------------------|:--------------------------------|:-------------------------------|:-------------------------------|:--------------------------------|:-----------------------------------|:-------------------------------|:-------------------------------|:---------------------------------|:------------------------------------|:-------------------------------------------|:------------------------------------|------:|:--------------------------|:---------------------------|:-------------------------------------|:------------|:---------|:---------|:---------------|:-------------|:----------|:--------------------|:------|:------------|:----------------------|:-----------|:----------------------|:--------------------|-------------------------:|:------------------|:--------------|:-------------------------------------------|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------:|:---------------------|:-------------|:-----------------|-----:|:-----------------------|------:|:------------------------|----:|----:|:------------------------|:-------------|---------------:|:-------------------------------|--------------:|:--------------------------------|---------------:|:---------------------------------|:------|:------|:----------|:-------|:-------|:-----|:------------|:--------------|:---------------|:-----------------------------------|:---------------------------|:--------------------|
+| AJS107-19 | AJS107-19.COI-5P |           | S-03-A-FBC7 |   10597473 | 52768 | NA         | NA                    |          | S-03-A-FBC7 |                 | 2019-08-08            | Chapman University | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus | NA         | Oreochromis niloticus | species             |                       17 | Linnaeus, 1758    | NA            | NA                                         | Chapman University | CCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTTCCCTCGAATAAATAACATGAGCTTTTGACTTCTCCCCCCCTCATTTCTTCTTCTTCTCGCCTCATCTGGAGTCGAAGCAGGTGCCGGCACAGGTTGGACTGTTTATCCCCCGCTCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGAGTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAGCCCCCTGCCATCTCCCAATATCAAACACCCCTATTTGTGTGATCCGTCCTAATTACCGCAGTACTACTCCTTCTATCCCTGCCCGTTCTTGCCGCCGGCATCACAATACTTCTAACAGACCGAAACCTAAACACAACCTTCTTTGACCCTGCCGGAGGAGGAGACCCCATCCTATACCAACACTTATTC- |           655 | 2019-08-09           | BOLD:AAC9904 | 2010-07-15       |   NA | NA                     |    NA | NA                      |  NA |  NA | NA                      | NA           |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA    | NA    | NA        | NA     | NA     | NA   | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-CICHI | USA                        | NA                  |
+| AJS009-19 | AJS009-19.COI-5P |           | S-03-C-FB   |   10597375 | 52768 | NA         | NA                    |          | S-03-C-FB   |                 | 2019-08-08            | Chapman University | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus | NA         | Oreochromis niloticus | species             |                       17 | Linnaeus, 1758    | NA            | NA                                         | Chapman University | ————-TATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACWGCACTAAGCCTCCTAATTCGGGCAGAAGTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATYTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGA——————————————————————————————————————————————————-TCGCAGGCAATCTTGCCCACGCTGGACCTTCTGTTGACTTAACCATCTTCTCCCTCCACTTGGCCGGARTGTCATCTATTTTAGGTGCAATTAATTTTATCACAACCATTATTAACATGAAACCCCCTGCCATCTCCCAATATCAAACACCCCTATTTG—————————————————————————————————————————————————————-                                                                                                                                                                                                       |           345 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |  NA |  NA | NA                      | NA           |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA    | NA    | NA        | NA     | NA     | NA   | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO,DS-CICHI | USA                        | NA                  |
+| AJS084-19 | AJS084-19.COI-5P |           | S-13-C-MB   |   10597450 | 52768 | NA         | NA                    |          | S-13-C-MB   |                 | 2019-08-08            | Chapman University | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus | NA         | Oreochromis niloticus | species             |                       17 | Linnaeus, 1758    | NA            | NA                                         | Chapman University | CGACGTTGTAAAACGACACYAAGCAYAAAGAYATGGGCACCCTCTATCTAGTATTTGGTGCTTGAGCCGGAATAGTAGGAACTGCACTAAGCCTCCTAATTCGGGCAGAACTAAGCCAGCCCGGCTCTCTTCTCGGAGACGACCAAATCTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATTATGATTGGAGGCTTTGGAAACTGACTAGTACCCCTCATGATTGGTGCACCAGACATGGCCTT                                                                                                                                                                                                                                                                                                                                                                                                  |           268 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |  NA |  NA | NA                      | NA           |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA    | NA    | NA        | NA     | NA     | NA   | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO          | USA                        | NA                  |
+| AJS022-19 | AJS022-19.COI-5P |           | S-08-A-FB   |   10597388 | 52768 | NA         | NA                    |          | S-08-A-FB   |                 | 2019-08-08            | Chapman University | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus | NA         | Oreochromis niloticus | species             |                       17 | Linnaeus, 1758    | NA            | NA                                         | Chapman University | ———————–TTGGTGCTTGAGCCGGAATAGTAGGAACTGCMCTAAGCCTCCTAATTCGGGCAGAACTAAGYCARCCYGGYKCTCTYCTCGGAGACGAYCAAATYTATAATGTAATTGTTACAGCACATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATWATRATTGGAGGCTTTGGAAACTGACTARTACCYCTCATGATYGGTGCMCCMGAYATGGCYTTCCCTCGAATAAATAACATRAGCTTYTGACTTCTCCCCCCCTCWTTTCTGCTTCTTYTMGCMTCMTCTGGAGTCGAAGC——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————                                                                                                                                                                                                                                            |           270 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |  NA |  NA | NA                      | NA           |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA    | NA    | NA        | NA     | NA     | NA   | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO          | USA                        | NA                  |
+| AJS079-19 | AJS079-19.COI-5P |           | S-12-A-MB   |   10597445 | 52768 | NA         | NA                    |          | S-12-A-MB   |                 | 2019-08-08            | Chapman University | NA                                  | NA          | NA  | NA         | NA           | NA      |            | NA        | NA               | NA                  | NA                | NA          | NA                    | NA                                      | NA              | NA                       | NA                                                | NA              | NA                   | NA           | NA    | NA             | NA               | NA                               | NA                              | NA                             | NA                             | NA                              | NA                                 | NA                             | NA                             | NA                               | NA                                  | NA                                         | NA                                  |   238 | NA                        | NA                         | NA                                   | COI-5P      | Animalia | Chordata | Actinopterygii | Cichliformes | Cichlidae | Pseudocrenilabrinae | NA    | Oreochromis | Oreochromis niloticus | NA         | Oreochromis niloticus | species             |                       17 | Linnaeus, 1758    | NA            | NA                                         | Chapman University | CAAATYTATAATGTAATTGTTACAGCRCATGCTTTCGTAATAATTTTCTTTATAGTAATACCAATWATRATTGGAGGCTTTGGAAACTGACTMRTWCCYCTCATGATYGGTGCMCC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |           106 | 2019-08-08           | NA           | NA               |   NA | NA                     |    NA | NA                      |  NA |  NA | NA                      | NA           |             NA | NA                             |            NA | NA                              |             NA | NA                               | NA    | NA    | NA        | NA     | NA     | NA   | US          | United States |                | AJS,DS-OREOSA,DS-OREOSARO          | USA                        | NA                  |
 
 ### 2b.Institutes Filter
 
@@ -152,11 +187,11 @@ knitr::kable(head(result_institutes,5))
 
 | processid  | sampleid | bin_uri      | inst                                             |
 |:-----------|:---------|:-------------|:-------------------------------------------------|
-| ACAM027-13 | AC13A72  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
 | ACAM015-13 | AC13A32  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM030-13 | AC13A78  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
+| ACAM008-13 | AC13A14  | BOLD:ACE5030 | South African Institute for Aquatic Biodiversity |
 | ACAM001-13 | AC13A01  | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
 | ACAM073-13 | AC13A103 | BOLD:AAA8511 | South African Institute for Aquatic Biodiversity |
-| ACAM008-13 | AC13A14  | BOLD:ACE5030 | South African Institute for Aquatic Biodiversity |
 
 ### 2c.Geographic location filter
 
@@ -178,13 +213,13 @@ result_geography<-bold.connectr(input.data = to_download,
 knitr::kable(head(result_geography,5))                 
 ```
 
-| processid | sampleid  | bin_uri      | province.state |
-|:----------|:----------|:-------------|:---------------|
-| AJS064-19 | S-07-A-MB | NA           |                |
-| AJS015-19 | S-05-C-FB | NA           |                |
-| AJS006-19 | S-02-C-FB | BOLD:AAC9904 |                |
-| AJS068-19 | S-08-B-MB | NA           |                |
-| AJS054-19 | S-03-C-MB | NA           |                |
+| processid | sampleid    | bin_uri      | province.state |
+|:----------|:------------|:-------------|:---------------|
+| AJS107-19 | S-03-A-FBC7 | BOLD:AAC9904 |                |
+| AJS009-19 | S-03-C-FB   | NA           |                |
+| AJS084-19 | S-13-C-MB   | NA           |                |
+| AJS022-19 | S-08-A-FB   | NA           |                |
+| AJS079-19 | S-12-A-MB   | NA           |                |
 
 ### 2d.Altitude
 
@@ -207,11 +242,11 @@ knitr::kable(head(result_altitude,5))
 
 | processid  | sampleid | bin_uri      | family    | elev |
 |:-----------|:---------|:-------------|:----------|-----:|
-| ACAM030-13 | AC13A78  | BOLD:AAA8511 | Cichlidae |  286 |
 | ACAM027-13 | AC13A72  | BOLD:AAA8511 | Cichlidae |  496 |
-| ACAM008-13 | AC13A14  | BOLD:ACE5030 | Cichlidae |  501 |
 | ACAM001-13 | AC13A01  | BOLD:AAA8511 | Cichlidae |  532 |
 | ACAM015-13 | AC13A32  | BOLD:AAA8511 | Cichlidae |  526 |
+| ACAM008-13 | AC13A14  | BOLD:ACE5030 | Cichlidae |  501 |
+| ACAM030-13 | AC13A78  | BOLD:AAA8511 | Cichlidae |  286 |
 
 ### 2e.Collection period
 
@@ -243,7 +278,10 @@ query. NO `api key` is required for this function. It also differs from
 `bold.connectr` with respect to the way the data is fetched. Search can
 be based on Taxonomic names, geographical locations in addition to ids
 (processid and sampleid) and BINs (BIN numbers). All the other filters
-can then be used on the downloaded data to refine the result.
+can then be used on the downloaded data to refine the result. *The
+search parameters of `bold.connectr.public` should be used carefully if
+a filtered result (like above) is expected. Wrong combination of
+parameters might not retrieve any data.*
 
 ### 3a. All data retrieved based on taxonomy
 
@@ -307,11 +345,7 @@ knitr::kable(head(result.public.geo.bin))
 |:-----------|:----------------|:-------------|:--------------|:---------|:-------------|
 | GENG056-12 | BIOMTWL-BLE-017 | BOLD:AAD6819 | India         | Panthera | Panthera leo |
 
-The search parameters of `bold.connectr.public` should be used carefully
-if a filtered result (like above) is expected. Wrong combination of
-parameters might not retrieve any data.
-
-## 4.data.summary
+### 4.data.summary
 
 `data.summary` provides a detailed profile of the data downloaded
 through `bold.connectr` or `bold.connectr.public`. This profile is
@@ -345,40 +379,38 @@ data.summ.res
 | genus         |         0 |             1 |   3 |   3 |     0 |        1 |          0 |
 | species       |         0 |             1 |  12 |  12 |     0 |        1 |          0 |
 
-## 5.gen.comm.mat
+### 5.gen.comm.mat
 
-The function transforms the `bold.connectr()` or
+`gen.comm.mat`transforms the `bold.connectr()` or
 `bold.connectr.public()` downloaded data into a **site X species** like
 matrix. Instead of species counts (or abundances) though, values in each
-cell are the counts (or abundances) of a specific BIN from a site.cat
-site category or a ‘grid’. These counts can be generated at any
-taxonomic hierarchical level for a single or multiple taxa (This can
-also be done for ‘bin_uri’; the difference being that the numbers in
-each cell would be the number of times that respective BIN is found at a
-particular site.cat or ‘grid’). site.cat can be any of the geography
-fields (Meta data on fields can be checked using the
-bold.fields.info()). Alternatively, grids = TRUE will generate grids
-based on the BIN occurrence data (latitude, longitude) with the size of
-the grid determined by the user (in sq.m.). For grids generation, rows
-with no latitude and longitude data are removed (even if a corresponding
-site.cat information is available) while NULL entries for site.cat are
-allowed if they have a latitude and longitude value (This is done
+cell are the counts (or abundances) BINs from the site category
+(*site.cat*) or a *grid*. These counts can be generated at any taxonomic
+hierarchical level for a single or multiple taxa (This can also be done
+for ‘bin_uri’; the difference being that the numbers in each cell would
+be the number of times that respective BIN is found at a particular
+*site.cat* or *grid*). *site.cat* can be any of the geography fields
+(Meta data on fields can be checked using the `bold.fields.info()`).
+Alternatively, `grids` = TRUE will generate grids based on the BIN
+occurrence data (latitude, longitude) with the size of the grid
+determined by the user (in sq.m.). For grids generation, rows with no
+latitude and longitude data are removed (even if a corresponding
+*site.cat* information is available) while NULL entries for *site.cat*
+are allowed if they have a latitude and longitude value (This is done
 because grids are drawn based on the bounding boxes which only use
 latitude and longitude values).grids converts the Coordinate Reference
-System (CRS) of the data to a ‘Mollweide’ projection by which distance
-based grid can be correctly specified. A cell id is also given to each
-grid with the lowest number assigned to the lowest latitudinal point in
-the dataset. The cellids can be changed as per the user by making
-changes in the grids_final sf data frame stored in the output. The grids
-can be visualized with view.grids=TRUE. The plot obtained is a
-visualization of the grid centroids with their respective names. Please
-note that a) if the data has many closely located grids, visualization
-with view.grids can get confusing. The argument pre.abs will convert the
-counts (or abundances) to 1 and 0. This dataset can then directly be
+System (CRS) of the data to a **Mollweide** projection by which distance
+based grid can be appropriately specified. A cell id is also given to
+each grid with the smallest number assigned to the lowest latitudinal
+point in the data. The cell ids can be changed as per the user by making
+changes in the `grids_final` `sf` data frame stored in the output. The
+grids can be visualized with `view.grids`=TRUE. The plot obtained is a
+visualization of the grid centroids with their respective names. *Please
+note that if the data has many closely located grids, visualization with
+view.grids can get confusing*. The argument `pre.abs` will convert the
+counts (or abundances) to 1 and 0. This data set can then directly be
 used as the input data for functions from packages like vegan for
 biodiversity analyses.
-
-### community matrix based on grids
 
 |        | Panthera.leo | Panthera.onca | Panthera.pardus | Panthera.tigris | Panthera.uncia |
 |:-------|-------------:|--------------:|----------------:|----------------:|---------------:|
@@ -388,7 +420,7 @@ biodiversity analyses.
 | cell_4 |            1 |             0 |               0 |               2 |              0 |
 | cell_5 |            1 |             0 |               1 |               0 |              0 |
 
-## analyze.alphadiv
+### 6.analyze.alphadiv
 
 ``` r
 
@@ -419,7 +451,7 @@ div.res1$preston.plot
 
 <img src="man/figures/README-alphadiv-2.png" width="100%" style="display: block; margin: auto;" />
 
-## analyze.betadiv
+### 7.analyze.betadiv
 
 ``` r
 
@@ -485,7 +517,7 @@ beta.div.res2$heatmap.viz
 
 <img src="man/figures/README-betadiv-1.png" width="100%" style="display: block; margin: auto;" />
 
-## visualize.geo
+### 8.visualize.geo
 
 ``` r
 
@@ -495,7 +527,7 @@ geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
 geo.viz<-visualize.geo(geo.data,export = FALSE)
 ```
 
-<img src="man/figures/README-gen.comm.mat-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-visualize.geo-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -512,7 +544,7 @@ knitr::kable(head(geo.viz$geo.df))
 | BBDIT1531-12 | BOLD:AAA6020 | 35.4940 |  -95.6710 | United States | Oklahoma       | Gentry Creek                         | campground                     | tall trees, grass            | POINT (-95.671 35.494)  |
 | BBDIT1578-12 | BOLD:AAA6020 | 34.9450 | -101.6600 | United States | Texas          | Palo Duro Canyon State Park          | around Fortress Cliff          | dry scrub brush              | POINT (-101.66 34.945)  |
 
-## *align.seq*
+### *9.align.seq*
 
 This function is currently an internal function of the package (with
 documentation). This function acts as a wrapper around the `msa` and
@@ -528,7 +560,7 @@ passing additional arguments of the `msa` function to `align.seq`.
 
     #> using Gonnet
 
-## *analyze.seq*
+### *10.analyze.seq*
 
 This function along with `align.seq` is an internal function of the
 package (with documentation). This function acts as a wrapper around the
