@@ -128,7 +128,7 @@ analyze.alphadiv <- function(bin.comm,
     data.frame(.)%>%
     dplyr::rename("Shannon_values"=".")
 
-  output$Shannon_div = shannon_div
+  output$Shannon_div = round(shannon_div,2)
 
   # Estimation curves
 

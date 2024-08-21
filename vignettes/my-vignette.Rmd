@@ -3,7 +3,7 @@ title: "BOLDconnectR"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{BOLDconnectR}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# BOLDconnectR
 
 BOLDconnectR is a package designed for retrieval, transformation and analysis of the data available in the Barcode Of Life Data Systems (BOLD) database. This package provides the functionality to obtain public and private user data available in the database. Its currently available as a devtools installation and can be downloaded with a 'auth_token'.
 
@@ -29,6 +28,8 @@ devtools::install_deps(dependencies = TRUE)
 if (!require("DT")) install.packages('DT')
 
 ```
+
+## Installing BOLDConnectR
 
 ```{r setup}
 

@@ -174,7 +174,7 @@ analyze.betadiv <- function (bin.comm,
                     index=row_number())
 
 
-    output$beta.bin.df = beta.bin.df
+    # output$beta.bin.df = beta.bin.df
 
     # If the data is grid based, grids on the heatmap are arranged based on distances between each grids (closest to farthest)
 

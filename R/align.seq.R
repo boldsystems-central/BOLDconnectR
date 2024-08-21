@@ -214,7 +214,10 @@ align.seq<-function (bold.df,
 
   # Storing the raw sequence data asa  data frame
 
-  output$seq.df<-obtain.seq.from.data
+  output$seq.df<-obtain.seq.from.data%>%
+    dplyr::select(seq.name,nuc)
+
+  colnames(output$seq.df)[colnames(output$seq.df) == 'nuc'] <- 'sequence'
 
 
   # Sequence alignment and export as a fasta file
