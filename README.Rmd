@@ -1,0 +1,373 @@
+---
+output: github_document
+always_allow_html: yes
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# BOLDconnectR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+BOLDconnectR is a package designed for retrieval, transformation and analysis of the data available in the Barcode Of Life Data Systems (BOLD) database. This package provides the functionality to obtain public and private user data available in the database. Its currently available as a devtools installation and can be downloaded with a 'auth_token'.
+
+```{r necessary packages install,include=FALSE}
+
+library(devtools)
+library(utils)
+library(base)
+library(msa)
+library(Biostrings)
+devtools::install_deps(dependencies = TRUE)
+if (!require("DT")) install.packages('DT')
+
+```
+
+## Installing BOLDConnectR
+
+```{r setup}
+
+devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
+                         auth_token = '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')
+
+library(BOLDconnectR)
+
+```
+
+## Obtaining all the information on the different data fields currently available for BOLD data
+`bold.fields.info` provides all the metadata related to the various fields (columns) currently available for download from BOLD. The function gives the name, definition and the data type of each field.
+
+```{r bold.field.info}
+
+bold.field.info<-bold.fields.info(print.output = FALSE)
+
+#DT::datatable(bold.field.info,class = 'cell-border stripe')
+
+```
+
+### Note on API key
+
+The function `bold.connectr` requires an `api key` in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key is needed only for the data retrieval and can be added directly within the function. Alternatively, it can be set up as an environmental variable using the 'Sys.setenv' function. 
+
+```{r api_key setenv}
+
+# The key can be added in place of "api.key" 
+Sys.setenv ("api_key"="api.key")
+
+```
+
+It can then be retrieved using ‘Sys.getenv’ function directly or by storing it as another variable.
+
+```{r api_key getenv}
+
+api.key <- Sys.getenv('api_key')
+
+```
+
+
+## bold.connectr
+This function retrieves public and private user data on BOLD using the`api key`
+
+### Test data
+
+Test data is a data frame having 2 columns and 2100 unique ids. First column has 'processids' while second has 'sampleids'. Either one can be used to retrieve data from BOLD
+
+```{r test data}
+
+data("test.data")
+
+#DT::datatable(test.data,class = 'cell-border stripe')
+
+```
+
+### default (all data retrieved)
+The arguments provided below need to be specified by default for every request. Default settings retrieve data for all available fields for those ids. Certain ids might not have information for certain fields in which case the number of columns could be different
+
+```{r bold.connectr,echo=FALSE}
+
+data("test.data")
+
+api.key <- Sys.getenv('api_key')
+
+to_download=test.data[1:100,]
+
+result<-bold.connectr(input.data = to_download,
+                                  param = 'processid',
+                                  param.index = 1,
+                                  api_key = api.key)
+result
+# Output showing the first 5 rows
+
+#DT::datatable(result,class = 'cell-border stripe')
+
+```
+
+## using some filters
+The downloaded data can also be filtered using the various filter arguments available (all arguments after the `api_key`). The filtering happens locally after the data is downloaded. Care has to be taken to select the filters properly. If wrong/too many filters are applied, it can result in an empty result. The `fields` argument in the function helps in selecting only the fields needed by the user.
+
+### Institutes
+Data is downloaded followed by a 'institute' filter applied on it to fetch only the relevant 'institute' (here South African Institute for Aquatic Biodiversity) data.
+
+```{r bold.connectr filters1}
+
+to_download=test.data[1:100,]
+
+result_institutes<-bold.connectr(input.data = to_download,
+                                  param = 'processid',
+                                  param.index = 1,
+                                  api_key = api.key,
+                      institutes = "South African Institute for Aquatic Biodiversity",
+                      fields = c("bin_uri","processid","inst"))
+
+# Output showing the first 10 columns
+
+#DT::datatable(result_institutes,class = 'cell-border stripe')
+
+```
+
+
+### Geographic location
+Data is downloaded followed by a 'geography' filter applied on it to fetch only the relevant locations (here Ciudad de Mexico,Antioquia Colorado) data.
+
+```{r bold.connectr filters2}
+
+to_download=test.data[1:100,]
+
+result_geography<-bold.connectr(input.data = to_download,
+                                  param = 'processid',
+                                  param.index = 1,
+                                  api_key = api.key,
+                                 geography=c("United States"),
+                                fields = c("bin_uri","processid","province.state"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result_geography,class = 'cell-border stripe')
+
+```
+
+
+### Altitude
+Data is downloaded followed by a'Altitude' filter applied on it to fetch data only between the range of altitude specified (100 to 1500 m a.s.l.) data.
+
+```{r bold.connectr filters3}
+
+
+result_altitude<-bold.connectr(input.data = test.data,
+                                  param = 'processid',
+                                  param.index = 1,
+                                  api_key = api.key,
+                                 altitude = c(100,1500),
+                               fields = c("bin_uri","processid","family","elev"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result_altitude,class = 'cell-border stripe')
+
+```
+### Collection period
+Data is downloaded followed by a  'Collection period' filter applied on it to fetch data only between the range of dates specified (2009-2010) data.
+
+```{r bold.connectr filters4}
+
+result_collection.per<-bold.connectr(input.data = test.data,
+                                  param = 'processid',
+                                  param.index = 1,
+                                  api_key = api.key,
+                                 collection.period = c( "1995-05-26","2010-01-13"),
+                                 fields=c("bin_uri","processid","collection_date_start","collection_date_end"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result_collection.per,class = 'cell-border stripe')
+```
+
+
+## bold.connectr.public
+This function retrieves all the public available data based on the query. NO `api key` is required for this function.  It also differs from `bold.connectr` with respect to the way the data is fetched. Search can be based on Taxonomic names, geographical locations in addition to ids (processid and sampleid) and BINs (BIN numbers). All the other filters can then be used on the downloaded data to refine the result.
+
+### All data retrieved based on taxonomy
+
+```{r bold.connectr.public}
+
+result.public<-bold.connectr.public(taxonomy = c("Panthera leo"),fields = c("bin_uri","processid","genus","species"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result.public,class = 'cell-border stripe')
+
+```
+
+## All data retrieved based on geography
+
+```{r bold.connectr.public2}
+
+result.public.geo<-bold.connectr.public(taxonomy = c("Panthera leo"),geography = "India",fields = c("bin_uri","processid","country.ocean","genus","species"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result.public.geo,class = 'cell-border stripe')
+
+```
+
+
+## All data retrieved based on geography and BINs
+
+```{r bold.connectr.public3}
+
+result.public.geo.bin<-bold.connectr.public(taxonomy = c("Panthera leo"),geography = "India",bins = 'BOLD:AAD6819',fields = c("bin_uri","country.ocean","genus","species"))
+                    
+
+# Output showing the first 10 columns
+
+#DT::datatable(result.public.geo.bin,class = 'cell-border stripe')
+
+```
+
+The search parameters of `bold.connectr.public` should be used carefully if a filtered result (like above) is expected. Wrong combination of parameters might not retrieve any data.
+
+## data.summary
+
+`data.summary` provides a detailed profile of the data downloaded through `bold.connectr` or `bold.connectr.public`. This profile is further broken by data types wherein each type of data get some unique measures (Ex.mean,mode for numeric data). Profile can also be created for specific columns using the `columns` argument. The function also prints the number of rows and columns in the console by default.
+
+## align.seq
+
+This function is currently an internal function of the package (with documentation). This function acts as a wrapper around the `msa` and `Biostrings` package functions for users of `BOLDconnectR` by which they can carry out multiple sequence alignment on the downloaded data by `bold.connectr` and `bold.connectr.public` functions. In order to use this function following notation needs to be used `BOLDconnectR:::align.seq`. In addition, the users need to install and load `msa` and `Biostrings` separately before using this function to avoid any errors. A function performs alignment using the 'ClustalOmega' algorithm by default, though, more refined alignments  can be done by passing additional arguments of the `msa` function to `align.seq`. 
+
+```{r align.seq,echo=FALSE,warning=FALSE}
+
+library(msa)
+
+data.align<-bold.connectr.public(taxonomy = "Panthera leo")
+
+
+data.seq.aligned<-BOLDconnectR:::align.seq(data.align,name.fields = c("bin_uri","species"))
+
+#DT::datatable(data.seq.aligned$seq.df,class = 'cell-border stripe')
+
+```
+## analyze.seq
+
+This function along with `align.seq` is an internal function of the package (with documentation). This function acts as a wrapper around the `dist.dna` and `plot.phylo` functions from `ape` for users of `BOLDconnectR`. The users can analyse the multiple sequence alignment output from the `align.seq` to generate a distance matrix, a Neighbor Joining (NJ) tree visualization and a newick tree output. In order to use this function following notation needs to be used `BOLDconnectR:::analyze.seq`. In addition, the users need to install and load `msa` and `Biostrings` separately before using this function to avoid any errors. Additional arguments of `dist.dna` can be passed to `analyze.seq` for more robust analysis.
+
+```{r analyze.seq,echo=FALSE,fig.width=6, fig.height=4, fig.align='center',warning=FALSE}
+
+library(msa)
+
+data.align<-bold.connectr.public(taxonomy = "Eulimnadia")
+
+
+data.seq.aligned<-BOLDconnectR:::align.seq(data.align,name.fields = c("bin_uri","species"))
+
+data.seq.analyze<-BOLDconnectR:::analyze.seq(data.seq.aligned$msa.result,
+                                             dist.model = "K80",
+                                             clus="njs",
+                                             plot=TRUE,
+                                             plot.type = "p")
+
+
+#DT::datatable(as.matrix(data.seq.analyze$dist_matrix),class = 'cell-border stripe')
+
+```
+
+## gen.comm.mat
+
+The function transforms the bold.connectr() or bold.connectr.public() downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a site.cat site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular site.cat or 'grid'). site.cat can be any of the geography fields (Meta data on fields can be checked using the bold.fields.info()). Alternatively, grids = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For grids generation, rows with no latitude and longitude data are removed (even if a corresponding site.cat information is available) while NULL entries for site.cat are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).grids converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the grids_final sf data frame stored in the output. The grids can be visualized with view.grids=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) if the data has many closely located grids, visualization with view.grids can get confusing. The argument pre.abs will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like vegan for biodiversity analyses.
+
+### community matrix based on grids
+```{r gen.comm.mat2,echo=FALSE,warning=FALSE}
+
+# Download data from BOLD
+comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
+
+# Generate the community matrix based on grids
+comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 10000000)
+
+grids_output<-comm.data.grid$grids
+
+# View the sf dataframe of the grids
+DT::datatable(grids_output,class = 'cell-border stripe')
+
+# View the community matrix
+#DT::datatable(comm.data.grid$comm.matrix,class = 'cell-border stripe')
+
+```
+
+## analyze.alphadiv
+
+```{r alphadiv,echo=FALSE,fig.width=6, fig.align='center',warning=FALSE}
+
+# Download data from BOLD (removing species with blanks)
+comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+# Remove rows which have no species data
+comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
+
+# Generate the community matrix based on grids
+comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat='country.ocean')
+
+grid.data<-comm.data.grid$comm.matrix
+
+# Diversity results with estimation curve and without preston results
+div.res1<-analyze.alphadiv(grid.data,plot.curve=TRUE,curve.index="Jack1ab",curve.xval = "Sampl",preston.res = TRUE,pres.plot.y.label = "species")
+
+
+# DT::datatable(div.res1$richness,class = 'cell-border stripe')
+# 
+# DT::datatable(div.res1$Shannon_div,class = 'cell-border stripe')
+
+div.res1$richness_plot
+
+div.res1$preston.plot
+
+```
+
+
+## analyze.betadiv
+
+```{r betadiv,echo=FALSE,fig.width=8, fig.align='center',warning=FALSE}
+
+#Download data from BOLD (removing species with blanks)
+comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+#Generate the community matrix based on grids
+comm.data.beta<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
+
+#beta diversity with the heatmaps
+beta.div.res2<-analyze.betadiv(comm.data.beta$comm.matrix,index="sorenson",heatmap = TRUE,component = "total")
+
+
+#DT::datatable(as.matrix(round(beta.div.res2$total.beta,2)),class = 'cell-border stripe')
+
+beta.div.res2$heatmap.viz
+
+```
+
+## visualize.geo
+
+```{r gen.comm.mat,echo=FALSE,fig.width=8, fig.align='center',warning=FALSE}
+
+#Download data
+geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+
+geo.viz<-visualize.geo(geo.data,export = FALSE)
+
+#The `sf` dataframe of the downloaded data
+#DT::datatable(geo.viz$geo.df,class = 'cell-border stripe')
+
+```
