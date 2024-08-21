@@ -32,9 +32,6 @@ Imports:
     vegan
 Suggests:
     Biostrings,
-    knitr,
     msa,
-    rmarkdown
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: rmarkdown
