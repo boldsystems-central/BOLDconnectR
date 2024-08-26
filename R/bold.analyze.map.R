@@ -5,15 +5,11 @@
 #'
 #' @export
 #'
-#' @param bold.df the data.frame retrieved from [bold.connectr()] or [bold.connectr.public()].
+#' @param bold.df the data.frame retrieved from [bold.fetch()].
 #' @param country A single or multiple character vector of country names. Default value is NULL.
 #' @param bbox  A numeric vector specifying the min,max values of the latitude and longitude. Default value is NULL.
-#' @param export A logical value asking if the output should be exported locally.Default value is FALSE.
-#' @param file.path A character value specifying the folder path where the file should be saved. #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.
-#' @param file.name A character value specifying the name of the exported file. Default value is NULL.
-#' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available. Default value is NULL.
 #'
-#' @details `visualize.geo` extracts out the geographic information from the [bold.connectr()] or [bold.connectr.public()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. If `export` = TRUE, an image file will be saved based on the `file.type` (.jpg, .tiff),`file.path` and the `file.name`. The function also provides a `sf` data frame of the GIS data which can be used for any other application/s.
+#' @details `visualize.geo` extracts out the geographic information from the [bold.fetch()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. The function also provides a `sf` data frame of the GIS data which can be used for any other application/s.
 #'
 #' @returns An 'output' list containing:
 #' * geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
@@ -53,13 +49,9 @@
 #'
 #' @export
 #'
-visualize.geo<-function(bold.df,
+bold.analyze.map<-function(bold.df,
                        country=NULL,
-                       bbox=NULL,
-                       export=FALSE,
-                       file.path=NULL,
-                       file.name=NULL,
-                       file.type=NULL)
+                       bbox=NULL)
 {
 
 
@@ -205,72 +197,12 @@ visualize.geo<-function(bold.df,
 
   }
 
-  # If map needs to be saved. Type will be all the formats available through 'ggsave'
-
-  if(export==TRUE)
-
-  {
-
-    if(is.null(file.path)|is.null(file.name)|is.null(file.type))
-
-    {
-
-      warning("The file name, type and the path must be specified if export = TRUE")
-
-      return(FALSE)
-
-    }
-
-    else
-
-      {
-
-    ggplot2::ggsave(filename=paste(file.name,
-                                   ".",
-                                   file.type,
-                                   sep = ""),
-                    plot=map_plot,
-                    path = file.path,
-                    device = file.type,
-                    width = 10,
-                    height = 3)
-
-        }
-
-
-
-    output$geo.df=bin.geo.df
-
-    output$plot=map_plot
-
-  }
-
-
-  else if (export==FALSE && !(is.null(file.path))|!(is.null(file.name))|!(is.null(file.type)))
-
-  {
-
-
-    stop("File name, type and path have been specified when export = FALSE. Please re-check the input")
-
-    return(FALSE)
-
-
-  }
-
-
-  else
-
-  {
 
     output$geo.df=bin.geo.df
 
     output$plot=map_plot
 
     print(map_plot)
-
-
-  }
 
   invisible(output)
 

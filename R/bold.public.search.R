@@ -1,0 +1,265 @@
+#' Search publicly available data on the BOLD database
+#'
+#' @description
+#' Retrieves record ids for publicly available data based on taxonomy,geography or ids (dataset codes & bin_uri) search.
+#'
+#' @param taxonomy A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.
+#' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
+#' @param bins A single or multiple character vector specifying the BIN ids. Default value is NULL.
+#' @param datasets A single or multiple character vector specifying dataset codes. Default value is NULL.
+#' @param filt.latitude A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
+#' @param filt.longitude A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
+#' @param filt.shapefile A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.
+#' @param filt.institutes A single or multiple character vector specifying names of institutes. Default value is NULL.
+#' @param filt.identified.by A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.
+#' @param filt.seq.source A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.
+#' @param filt.marker A single or multiple character vector specifying  of gene names. Default value is NULL.
+#' @param filt.collection.period A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.
+#' @param filt.basecount A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.
+#' @param filt.altitude A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.
+#' @param filt.depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
+#'
+#' @details `bold.public.search` searches publicly available data on BOLD and be retrieves the associated proccessids and sampleids, data for which can then be retrieved by t`bold.fetch`. Search parameters can either be one or a combination of taxonomy, geography, bin uri or dataset codes. There is no limit on the id data that can be downloaded but complex combinations of the search parameters can lead to web-url character length exceeding the predetermined limit (2048 characters). Single parameter searches are exempt from this limit. Multi-parameter searches (taxonomy + geography + bins/datasets; Please see the example: Taxonomy + Geography + BIN id) to obtain a filtered result should be logical otherwise output obtained might either be empty or not correct. Downloaded ids can then be filtered further on either one or a combination of arguments (such as institutes, identifiers, altitude, depth etc.). The `filt` or filter parameter argument names must be written explicitly (Ex. `filt.institutes` = 'CBG' instead of just 'CBG') to avoid any errors.
+#'
+#' @returns A data frame containing all the processids and sampleids related to the query search.
+#'
+#' @examples
+#'
+#' \dontrun{
+#' # Taxonomy
+#' bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
+#' head(bold.data,10)
+#'
+#' # Taxonomy and Geography
+#' bold.data.taxo.geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
+#' head(bold.data.taxo_geo,10)
+#'
+#' # Taxonomy, Geography and BINs
+#' bold.data.taxo.geo.bin<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
+#'}
+#'
+#' @importFrom utils URLencode
+#' @importFrom dplyr %>%
+#'
+#' @export
+#'
+bold.public.search <- function(taxonomy = NULL,
+                               geography = NULL,
+                               bins = NULL,
+                               datasets = NULL,
+                               filt.latitude=NULL,
+                               filt.longitude=NULL,
+                               filt.shapefile=NULL,
+                               filt.institutes=NULL,
+                               filt.identified.by=NULL,
+                               filt.seq.source=NULL,
+                               filt.marker=NULL,
+                               filt.collection.period=NULL,
+                               filt.basecount=NULL,
+                               filt.altitude=NULL,
+                               filt.depth=NULL)
+
+{
+
+  # Arguments list (list used since combination could entail long vectors of any of the 5 arguments in any numbers and combinations)
+
+  args <- list(taxonomy = taxonomy,
+               geography = geography,
+               bins = bins,
+               datasets = datasets)
+
+  if (length(args)>1)
+
+  {
+
+    warning("The combination of any of the taxonomy, geography, bins, ids and datasets inputs should be logical otherwise output obtained might either be empty or not correct")
+
+
+  }
+
+  # Filter out NULL values and get their values
+
+  # Null arguments
+
+  nulls=sapply(args,is.null)
+
+  # Selecting the non null arguments
+
+  non_nulls = args[!nulls]
+
+  # Check if at least one parameter is provided
+
+  if (length(non_nulls) > 1)
+
+  {
+
+    values_args <- list()
+
+    for (arg in names(non_nulls))
+
+    {
+      # Fetch value of the argument
+
+      value <- non_nulls[[arg]]
+
+      # Append it in the values_args list
+
+      values_args[[arg]] <- value
+    }
+
+    # Convert the list into a character vector
+
+    values_args_vec = unlist (values_args)|>unname()
+
+    trial_query_input<- values_args_vec
+
+    result = fetch.public.data(query = trial_query_input)
+
+  }
+
+  else if (length(non_nulls)==1)
+
+    # If only a single input is provided
+
+  {
+
+
+    trial_query_input = unlist(non_nulls)|>unname()
+
+
+    if(length(trial_query_input)<=5)
+
+    {
+
+      result = fetch.public.data(query = trial_query_input)
+
+    }
+
+    else
+
+    {
+
+      # Batch creation
+
+      batch.size=5
+
+      length.data<-seq_len(length(trial_query_input))
+
+      batch.cutoffs=ceiling(length.data/batch.size)
+
+      batch.indexes=split(length.data,
+                          batch.cutoffs)|>
+        unname()
+
+      generate.batch.ids=lapply(batch.indexes,
+                                function(x) trial_query_input[x])
+
+      result.pre.filter = lapply(generate.batch.ids,
+                                 function(x) fetch.public.data(x))
+
+      # removing empty results
+
+      result.post.filter = Filter(function(df) nrow(df) > 0, result.pre.filter)
+
+      # removing unwanted columns
+
+      result.rem.col=lapply(result.post.filter, function (df)
+      {
+
+        res=df%>%select(processid:marker_count,
+                        -collection_event_id)
+
+        return(res)
+
+      }
+      )
+
+      # Finding out the common columns from all the results
+
+      common.cols=Reduce(intersect,
+                         lapply(result.rem.col,
+                                colnames))
+
+      # Using the above column names vector to select common columns from all dataframes
+
+      res.comm.col <- lapply(result.rem.col, function(df) df[, common.cols, drop = FALSE])
+
+
+      # Binding the list of dataframes
+
+      result=res.comm.col%>%
+        bind_rows(.)
+
+    }
+
+  }
+
+
+  if(nrow(result)==0)
+
+  {
+
+    stop("Data could not be retrieved. Please re-check the parameters.")
+
+  }
+
+  #   return(result)
+  # }
+  # For filtering the data
+
+  # filter_list<-c(latitude=filt.latitude,
+  #                longitude=filt.longitude,
+  #                shapefile=filt.shapefile,
+  #                institutes=filt.institutes,
+  #                identified.by=filt.identified.by,
+  #                seq.source=filt.seq.source,
+  #                marker=filt.marker,
+  #                collection.period=filt.collection.period,
+  #                basecount=filt.basecount,
+  #                altitude=filt.altitude,
+  #                depth=filt.depth)
+
+  # Use the filter_list only if the condition is met
+#
+#   if (length(filter_list)>=1)
+#
+#
+#   {
+
+    result = bold.connectr.filters(bold.df = result,
+                                   latitude=filt.latitude,
+                                   longitude=filt.longitude,
+                                   shapefile=filt.shapefile,
+                                   institutes=filt.institutes,
+                                   identified.by=filt.identified.by,
+                                   seq.source=filt.seq.source,
+                                   marker=filt.marker,
+                                   collection.period=filt.collection.period,
+                                   basecount=filt.basecount,
+                                   altitude=filt.altitude,
+                                   depth=filt.depth)
+  # }
+
+
+
+  # Generate only processid and sampleid output
+
+  final.res = result%>%
+    dplyr::select(processid,
+                  sampleid)
+
+  # Condition to state if the result is empty
+
+  if(nrow(final.res)==0)
+
+  {
+
+    stop("Result is an empty dataframe. Please recheck the search queries")
+
+    return(FALSE)
+
+  }
+
+  return(final.res)
+
+}

@@ -1,13 +1,13 @@
 #'Generate a summary of the data downloaded from BOLD
 #'
 #' @description
-#'The function is used to obtain a detailed summary of the data obtained by `bold.connectr` and `bold.connectr.public` functions.
+#'The function is used to obtain a detailed summary of the data obtained by `bold.fetch` function.
 #'
-#' @param bold.df the data.frame retrieved from the connectr functions
+#' @param bold.df the data.frame retrieved from the `bold.fetch` function.
 #' @param cols A single or multiple character vector specifying the columns for which a data summary is sought. Default value is NULL.
 #'
 #' @details
-#' `data.summary` provides summaries for each data type available in the downloaded dataset. The function uses the [skimr::skim()] function  to generate a list of data frames followed by the [skimr::partition()] which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The `cols` argument will select any specific field required.The default NULL will generate a summary of all columns. The output is printed on the console and can be saved as well. Please note that if the `fields` argument from `bold.connectr` or `bold.connectr.public`has been used to filter certain columns, summaries of only those columns will be available by default.
+#' `bold.data.summarize` provides summaries for each data type available in the downloaded dataset. The function uses the [skimr::skim()] function  to generate a list of data frames followed by the [skimr::partition()] which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The `cols` argument will select any specific field required.The default NULL will generate a summary of all columns. The output is printed on the console and can be saved as well. Please note that if the `fields` argument from `bold.fetch`has been used to filter certain columns, summaries of only those columns will be available by default.
 #'
 #' @returns A list of data frames. Each data frame is a data summary of a specific data type.
 #'
@@ -33,7 +33,7 @@
 #'
 #' @export
 #'
-data.summary<-function(bold.df,
+bold.data.summarize<-function(bold.df,
                             cols=NULL) {
 
   # Check for data structure

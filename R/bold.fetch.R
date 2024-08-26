@@ -1,34 +1,32 @@
 #' Retrieve all data from the BOLD database
 #'
 #' @description
-#' Retrieves public and private user data based on different ids (processid,sampleid, dataset codes & bin_uri) input.
+#' Retrieves public and private user data based on different parameters (processid,sampleid, dataset codes & bin_uri) input.
 #'
-#' @param input.data A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.
-#' @param param A data path, character vector or a `data.frame`having any one/all of  “processid”, “sampleid”, "bin_uri" or "dataset_codes".
-#' @param param.index A number indicating the column index (position) of the `params` in the dataset.
+#' @param param.data A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.
+#' @param query.param The parameter on which the data should be fetched.  “processid”, “sampleid”, "bin_uri" or "dataset_codes".
+#' @param param.index A number indicating the column index (position) of the `query.params` in the dataset.
 #' @param api_key A character string required for authentication and data access.
-#' @param taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
-#' @param geography A single or multiple character vector of any of country/province/state/region/sector/site names/codes. Default value is NULL.
-#' @param latitude A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
-#' @param longitude A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
-#' @param shapefile A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.
-#' @param institutes A single or multiple character vector specifying names of institutes. Default value is NULL.
-#' @param identified.by A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.
-#' @param seq.source A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.
-#' @param marker A single or multiple character vector specifying  of gene names. Default value is NULL.
-#' @param collection.period A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.
-#' @param basecount A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.
-#' @param altitude A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.
-#' @param depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
-#' @param fields A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.
+#' @param filt.taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
+#' @param filt.geography A single or multiple character vector of any of country/province/state/region/sector/site names/codes. Default value is NULL.
+#' @param filt.latitude A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
+#' @param filt.longitude A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
+#' @param filt.shapefile A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.
+#' @param filt.institutes A single or multiple character vector specifying names of institutes. Default value is NULL.
+#' @param filt.identified.by A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.
+#' @param filt.seq.source A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.
+#' @param filt.marker A single or multiple character vector specifying  of gene names. Default value is NULL.
+#' @param filt.collection.period A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.
+#' @param filt.basecount A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.
+#' @param filt.altitude A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.
+#' @param filt.depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
+#' @param filt.fields A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.
 #' @param export A logical value specifying whether the output should be exported locally. Default value is FALSE.
 #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available.
 #' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
 #'
-#' @details This function retrieves both public as well as private user data, where private data refers to data that the user has permission to access. It supports effective download data in bulk using search parameters (param) such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Users must specify only one of the params at a time for retrieval -- multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless  of  the parameters available. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications.
-#' Data input can be either through a path to a flat file with extensions like `.csv/.tsv/.txt` or a R data.frame object. The import process assumes that the input data includes a header. Post download, users can apply optional filters on various fields like taxonomy, geography, institutions etc. with the default setting for all fields being  NULL. Using the fields argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default.
-#' If the “fields’ argument is left as NULL all columns will be downloaded. api_key is a UUID v4 hexadecimal string, is obtained upon request from  BOLD to `support@boldsystems.org` and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data are those specified in the the `bold.fields.info`. It is important to correctly match the `param` and `param.index` to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.
+#' @details This function retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the `Barcode Core Data Model (BCDM)` format. It supports effective download data in bulk using search parameters `query.params` such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Data input can be either through a path to a flat file with extensions like `.csv/.tsv/.txt` or a R data.frame object. The import process assumes that the input data includes a header. Users must specify only one of the `query.params` at a time for retrieval -- multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless  of  the parameters available. The `filt` or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all `filt`argument names must be written explicitly to avoid any errors (Ex. `filt.institutes` = 'CBG' instead of just 'CBG').  Using the `filt.fields` argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default. If this argument is left as NULL all columns will be downloaded. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications. api_key is a UUID v4 hexadecimal string, is obtained upon request from  BOLD to `support@boldsystems.org` and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data are those specified in the the `bold.fields.info`. It is important to correctly match the `param` and `param.index` to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.
 #'
 #' @examples
 #' \dontrun{
@@ -92,24 +90,24 @@
 #'
 #' @export
 
-bold.connectr<-function(input.data,
-                      param,
+bold.fetch<-function(param.data,
+                      query.param,
                       param.index,
                       api_key,
-                          taxonomy=NULL,
-                          geography=NULL,
-                          latitude=NULL,
-                          longitude=NULL,
-                          shapefile=NULL,
-                          institutes=NULL,
-                          identified.by=NULL,
-                          seq.source=NULL,
-                          marker=NULL,
-                          collection.period=NULL,
-                          basecount=NULL,
-                          altitude=NULL,
-                          depth=NULL,
-                          fields=NULL,
+                          filt.taxonomy=NULL,
+                          filt.geography=NULL,
+                          filt.latitude=NULL,
+                          filt.longitude=NULL,
+                          filt.shapefile=NULL,
+                          filt.institutes=NULL,
+                          filt.identified.by=NULL,
+                          filt.seq.source=NULL,
+                          filt.marker=NULL,
+                          filt.collection.period=NULL,
+                          filt.basecount=NULL,
+                          filt.altitude=NULL,
+                          filt.depth=NULL,
+                          filt.fields=NULL,
                           export=FALSE,
                           file.type=NULL,
                           file.path=NULL,
@@ -117,69 +115,81 @@ bold.connectr<-function(input.data,
 
 {
 
+
   # First If condition to check if the input data is a file path or not (Single character implies a single data path)
 
-  if(is.character(input.data))
+  if(is.character(param.data))
 
   {
-    # and if that is a data path
 
-    if(file.exists(input.data))
+    if(length(param.data)==1)
 
     {
 
-      if (grepl("\\.(csv|txt|tsv)$", input.data))
+      if(file.exists(param.data))
 
       {
 
-        if(grepl("\\.csv$", input.data))
+        if(grepl("\\.csv$", param.data))
 
         {
 
-          input_data=read.delim(input.data,
+          input_data=read.delim(param.data,
                                 header = T,
                                 sep=",")
-
-
         }
 
-        else if (grepl("\\.(txt|tsv)$",input.data))
+        else if (grepl("\\.(txt|tsv)$",param.data))
 
         {
 
-
-          input_data=read.delim(input.data,
+          input_data=read.delim(param.data,
                                 header = T,
                                 sep="\t")
         }
 
+        else
+
+        {
+
+          stop("Check input file. File should be one of csv tsv or txt formats")
+
+        }
+
+        # If its not a data path but a single search query
 
       }
-
-
-      else
-
-      {
-
-        stop("Check input file. File should be one of csv tsv or txt formats")
-
-      }
-
-      # If its not a data path but a single search query
 
     }
+
+    else if (length(param.data)>=1)
+
+    {
+
+      input_data=data.frame(col1=param.data)
+
+    }
+
+    else
+
+    {
+
+      stop("Please re-check the input.")
+
+    }
+
 
   }
 
   # If the input is not a data path or a vector but a data frame
 
-  else if (is.data.frame(input.data))
+  else if (is.data.frame(param.data))
 
   {
 
     # Re-assert it as data frame in case packages such as readr are used where it could be imported as a tibble)
 
-    input_data=data.frame(input.data)
+    input_data=data.frame(param.data)
 
   }
 
@@ -251,7 +261,7 @@ bold.connectr<-function(input.data,
 
    #1. Processids
 
-  if (param=="processid")
+  if (query.param=="processid")
 
   {
 
@@ -263,7 +273,7 @@ bold.connectr<-function(input.data,
 
   #2. Sampleids
 
-  else if (param=='sampleid')
+  else if (query.param=='sampleid')
 
 
   {
@@ -275,7 +285,7 @@ bold.connectr<-function(input.data,
 
   #3. Dataset codes
 
-  else if (param=='dataset_codes')
+  else if (query.param=='dataset_codes')
 
   {
 
@@ -287,7 +297,7 @@ bold.connectr<-function(input.data,
 
   #4. BIN ids
 
-  else if (param=='bin_uri')
+  else if (query.param=='bin_uri')
 
   {
 
@@ -322,19 +332,19 @@ bold.connectr<-function(input.data,
     # a separate filter function is used to filter the retrieved data
 
     json.df = bold.connectr.filters(bold.df = json.df,
-                                          taxon.name=taxonomy,
-                                          location.name=geography,
-                                          latitude=latitude,
-                                          longitude=longitude,
-                                          shapefile=shapefile,
-                                          institutes=institutes,
-                                          identified.by=identified.by,
-                                          seq.source=seq.source,
-                                          marker=marker,
-                                          collection.period=collection.period,
-                                          basecount=basecount,
-                                          altitude=altitude,
-                                          depth=depth)
+                                          taxon.name=filt.taxonomy,
+                                          location.name=filt.geography,
+                                          latitude=filt.latitude,
+                                          longitude=filt.longitude,
+                                          shapefile=filt.shapefile,
+                                          institutes=filt.institutes,
+                                          identified.by=filt.identified.by,
+                                          seq.source=filt.seq.source,
+                                          marker=filt.marker,
+                                          collection.period=filt.collection.period,
+                                          basecount=filt.basecount,
+                                          altitude=filt.altitude,
+                                          depth=filt.depth)
 
   # }
 
@@ -343,7 +353,7 @@ bold.connectr<-function(input.data,
   #If the user wants specific fields from the data. By default processid and sampleid will be retained
 
 
-  if(!is.null(fields))
+  if(!is.null(filt.fields))
 
     {
 
@@ -352,7 +362,7 @@ bold.connectr<-function(input.data,
     json.df=json.df%>%
       dplyr::select(processid,
                     sampleid,
-                    all_of(fields))
+                    all_of(filt.fields))
 
 
   }

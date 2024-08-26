@@ -163,6 +163,8 @@ fetch.public.data<-function (query)
 
   final_data=reassign.data.type(final_data)
 
+  final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
+
   final_data$bin_created_date<-as.Date(final_data$bin_created_date,format("%Y-%m-%d"))
 
   final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
@@ -188,3 +190,4 @@ fetch.public.data<-function (query)
   return(final_data)
 
 }
+
