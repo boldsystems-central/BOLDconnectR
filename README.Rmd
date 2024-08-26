@@ -47,21 +47,19 @@ library(BOLDconnectR)
 ## BOLDconnectR currently has 10 functions:
 
 1. bold.fields.info
-2. bold.connectr
-3. bold.connectr.public
-4. data.summary
-5. gen.comm.mat
-6. analyze.alphadiv
-7. analyze.betadiv
-8. visualize.geo
-9. *align.seq*
-10. *analyze.seq*
+2. bold.fetch
+3. bold.public.search
+4. bold.data.summarize
+5. *bold.analyze.align*
+6. bold.analyze.tree
+7. bold.analyze.diversity
+8. bold.analyze.map
 
-*Functions 9 and 10 are currently internal functions which require external dependencies not included in the package. For their specific usage, please see the details provided below.*
+*Function 5 is currently an internal function which requires external dependencies not included in the package. For their specific usage, please see the details provided below.*
 
 ### Note on API key
 
-The function `bold.connectr` requires an `api key` in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key is needed only for the data retrieval and can be added directly within the function. Alternatively, it can be set up as an environmental variable using the 'Sys.setenv' function. 
+The function `bold.fetch` requires an `api key` in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key is needed only for the data retrieval and can be added directly within the function. Alternatively, it can be set up as an environmental variable using the 'Sys.setenv' function. 
 
 ```{r api_key setenv}
 # The key can be added in place of "api.key" 
@@ -86,8 +84,8 @@ knitr::kable(head(bold.field.info,5))
 
 ```
 
-### 2.bold.connectr: 
-This function retrieves public and private user data on BOLD using the`api key`.The downloaded data can also be filtered using the various filter arguments available (all arguments after the `api_key`). The filtering happens locally after the data is downloaded. Care has to be taken to select the filters properly. If wrong/too many filters are applied, it can result in an empty result. The `fields` argument in the function helps in selecting only the fields needed by the user.
+### 2.bold.fetch: 
+This function retrieves public and private user data on BOLD using the`api key`.The downloaded data can also be filtered using the various filter arguments available (all `filt` arguments after the `api_key`). The filtering happens locally after the data is downloaded. Care has to be taken to select the filters properly. If wrong/too many filters are applied, it can result in an empty result. The `filt.fields` argument in the function helps in selecting only the fields needed by the user.
 
 Test data
 Test data is a data frame having 2 columns and 2100 unique ids. First column has 'processids' while second has 'sampleids'. Either one can be used to retrieve data from BOLD. 
@@ -109,10 +107,10 @@ api.key <- Sys.getenv('api_key')
 # A small subset of the data used for data retrieval
 to_download=test.data[1:100,]
 
-result<-bold.connectr(input.data = to_download,
-                                  param = 'processid',
-                                  param.index = 1,
-                                  api_key = api.key)
+result<-bold.fetch(param.data = to_download,
+                   query.param = 'processid',
+                   param.index = 1,
+                   api_key = api.key)
 knitr::kable(head(result,5))
 ```
 
@@ -120,13 +118,13 @@ knitr::kable(head(result,5))
 Data is downloaded followed by the 'institute' filter applied on it to fetch only the relevant 'institute' (here South African Institute for Aquatic Biodiversity) data.
 ```{r bold.connectr filters1}
 api.key <- Sys.getenv('api_key')
+
 # A small subset of the data used for data retrieval
-result_institutes<-bold.connectr(input.data = to_download,
-                                  param = 'processid',
-                                  param.index = 1,
-                                  api_key = api.key,
-                      institutes = "South African Institute for Aquatic Biodiversity",
-                      fields = c("bin_uri","processid","inst"))
+result_institutes<-bold.fetch(param.data = test.data,
+                               query.param = 'processid',
+                               param.index = 1,
+                               api_key = api.key,
+                               filt.institutes = c("Universiti Sains Malaysia","Museum of Southwestern Biology, Division of Parasitology"))
 
 knitr::kable(head(result_institutes,5))
 ```
@@ -137,6 +135,7 @@ Data is downloaded followed by the 'geography' filter applied on it to fetch onl
 api.key <- Sys.getenv('api_key')
 
 to_download=test.data[1:100,]
+
 result_geography<-bold.connectr(input.data = to_download,
                                   param = 'processid',
                                   param.index = 1,
