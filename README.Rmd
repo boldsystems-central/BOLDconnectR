@@ -89,9 +89,9 @@ It can then be retrieved using `Sys.getenv` function directly or by storing it a
 `bold.fields.info` provides all the metadata related to the various fields (columns) currently available for download from BOLD. The function gives the name, definition and the data type of each field.
 ```{r bold.field.info,warning=FALSE,message=F}
 
-bold.field.info<-bold.fields.info(print.output = FALSE)
-
-knitr::kable(head(bold.field.info,5))
+# bold.field.info<-bold.fields.info(print.output = FALSE)
+# 
+# knitr::kable(head(bold.field.info,5))
 
 ```
 
