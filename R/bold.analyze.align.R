@@ -28,6 +28,12 @@
 #' # Fetch the data using the ids
 #' seq.data<-bold.fetch(param.data = seq.data.ids,query.param = "processid",param.index = 1,apikey)
 #'
+#' # msa is reuqired for this function to run. msa is installed using BiocManager
+#' if (!requireNamespace("BiocManager", quietly=TRUE))
+#' install.packages("BiocManager")
+#' BiocManager::install("msa")
+#' library(msa)
+#'
 #' # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
 #' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
 #'
@@ -35,7 +41,6 @@
 #'  head(seq.align)
 #
 #'  }
-#'
 #'
 bold.analyze.align<-function (bold.df,
                               marker=NULL,

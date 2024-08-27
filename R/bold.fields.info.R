@@ -23,6 +23,7 @@
 #'
 bold.fields.info<-function (print.output=FALSE) {
 
+  options(timeout=300)
 
   bold.fields.data= suppressMessages(data.table::fread("https://github.com/DNAdiversity/BCDM/raw/main/field_definitions.tsv",
                                                        sep = '\t',

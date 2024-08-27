@@ -25,8 +25,7 @@ BOLDconnectR is a package designed for **retrieval**, **transformation** and **a
 library(devtools)
 library(utils)
 library(base)
-library(msa)
-library(Biostrings)
+
 ```
 
 ## Installation
@@ -42,6 +41,16 @@ devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
 
 ```{r BOLDconnectR import,warning=FALSE,message=FALSE}
 library(BOLDconnectR)
+```
+
+*NOTE* One of the functions in the package requires `msa` package installed and imported beforehand. `msa` is installed using `BiocManager` package.
+```{r msa install,warning=FALSE,message=FALSE}
+
+if (!requireNamespace("BiocManager", quietly=TRUE))
+install.packages("BiocManager")
+BiocManager::install("msa")
+library(msa)
+
 ```
 
 ## BOLDconnectR has 9 functions currently:

@@ -41,7 +41,7 @@ Imports:
     utils,
     vegan
 Suggests:
-    Biostrings,
+    BiocManager,
     msa
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
