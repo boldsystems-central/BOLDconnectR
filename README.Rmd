@@ -206,7 +206,8 @@ to_download=test.data[1:100,]
 fetch.data.result.summ<-bold.fetch(param.data = to_download,
                                query.param = 'processid',
                                param.index = 1,
-                               api_key = api.key)
+                               api_key = api.key,
+                               filt.fields = c("bin_uri","elev","nuc_basecount","species","inst"))
 
 data.summ.res<-bold.data.summarize(fetch.data.result.summ)
 
@@ -229,11 +230,9 @@ aligned.data.result<-bold.fetch(param.data = data.4.alignment.ids,
 
 data.seq.aligned<-BOLDconnectR:::bold.analyze.align(aligned.data.result)
 
-head(data.seq.aligned)
-# # A data.frame of the sequences and their respective names
-# final.res=subset(data.seq.aligned,select=c(aligned_seq,msa.seq.name))
-# 
-# head(final.res)
+# A data.frame of the sequences and their respective names
+final.res=subset(data.seq.aligned,select=c(aligned_seq,msa.seq.name))
+knitr::kable(head(final.res))
 ```
 
 
@@ -242,27 +241,22 @@ This function uses the modified BCDM dataframe obtained from the `bold.analyze.a
 
 ```{r analyze.seq,fig.width=6, fig.height=4, fig.align='center',warning=FALSE,message=FALSE}
 
-library(msa)
+data.4.analysis.ids<-bold.public.search(taxonomy = "Eulimnadia")
+ 
+data.4.seqanalysis<-bold.fetch(param.data = data.4.analysis.ids,
+                               query.param = 'processid',
+                               param.index = 1,
+                               api_key = api.key,
+                               filt.marker = "COI-5P")
 
-api.key <- Sys.getenv('api_key')
+data.seq.align<-BOLDconnectR:::bold.analyze.align(data.4.seqanalysis,seq.name.fields = c("bin_uri","species"))
 
-# data.4.analysis.ids<-bold.public.search(taxonomy = "Eulimnadia")
-# 
-# data.4.seqanalysis<-bold.fetch(param.data = data.4.analysis.ids,
-#                                query.param = 'processid',
-#                                param.index = 1,
-#                                api_key = api.key,
-#                                filt.marker = "COI-5P")
-# 
-# 
-# data.seq.align<-BOLDconnectR:::bold.analyze.align(data.4.seqanalysis,seq.name.fields = c("bin_uri","species"))
-# 
-# data.seq.analyze<-bold.analyze.tree(data.seq.align,
-#                                              dist.model = "K80",
-#                                              dist.matrix = TRUE,
-#                                              clus.method="njs",
-#                                              tree.plot=TRUE,
-#                                              tree.plot.type = "p")
+data.seq.analyze<-bold.analyze.tree(data.seq.align,
+                                             dist.model = "K80",
+                                             dist.matrix = TRUE,
+                                             clus.method="njs",
+                                             tree.plot=TRUE,
+                                             tree.plot.type = "p")
 
 
 ```
@@ -273,79 +267,74 @@ api.key <- Sys.getenv('api_key')
 
 ### 7a. Richness results
 ```{r alphadiv,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
-# api.key <- Sys.getenv('api_key')
-# 
-# # Fetch the data
-# BCDMdata<-bold.fetch(param.data = test.data,query.param = "processid",param.index = 1,api_key = api.key)
-# 
-# #1. Analyze richness data
-# res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',richness.res=TRUE)
-# 
-# # Community matrix (BCDM data converted to community matrix)
-# res.rich$comm.matrix
-# 
-# # richness results
-# knitr::kable(res.rich$richness)
+# Fetch the data
+BCDMdata<-bold.fetch(param.data = test.data,query.param = "processid",param.index = 1,api_key = api.key)
+
+#1. Analyze richness data
+res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',richness.res=TRUE)
+
+# Community matrix (BCDM data converted to community matrix)
+res.rich$comm.matrix
+
+# richness results (top 10 rows)
+knitr::kable(head(res.rich$richness,10))
 
 ```
 
 ### 7b. Shannon diversity
 ```{r alphadiv2,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
-# api.key <- Sys.getenv('api_key')
-# 
-# #2. Shannon diversity
-# res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',shannon.res = TRUE)
-# 
-# # Shannon diversity results
-# knitr::kable(res.shannon)
+#2. Shannon diversity
+res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',shannon.res = TRUE)
+
+# Shannon diversity results (top 10 rows)
+knitr::kable(head(res.shannon,10))
 
 ```
 
 ### 7c. Preston plot results
 ```{r alphadiv3,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
-# api.key <- Sys.getenv('api_key')
-# #3. Preston plots and results
-# 
-# pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',preston.res=TRUE)
-# 
-# # Preston plot
-# pres.res$preston.plot
-# 
-# # Preston plot data
-# pres.res$preston.res
+
+#3. Preston plots and results
+
+pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',preston.res=TRUE)
+
+# Preston plot
+pres.res$preston.plot
+
+# Preston plot data
+pres.res$preston.res
 
 ```
 
 ### 7d. Beta diversity
 ```{r alphadiv4,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
-api.key <- Sys.getenv('api_key')
-# #4. beta diversity
-# beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',beta.res=TRUE,beta.index = "jaccard")
-# 
+
+#4. beta diversity
+beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',beta.res=TRUE,beta.index = "jaccard")
+
 # # Total beta diversity matrix (10 rows)
-# knitr::kable(head(as.matrix(round(beta.res$total.beta,2)),10))
+knitr::kable(head(as.matrix(round(beta.res$total.beta,2)),10))
 
 #Replacement
-# beta.res$replace
+#beta.res$replace
 
 #Richness difference
-# beta.res$richnessd
+#beta.res$richnessd
 
 ```
 
 
 ### 8.bold.analyze.map
 ```{r visualize.geo,fig.width=8,fig.height=8, fig.align='center',warning=FALSE,message=FALSE}
-api.key <- Sys.getenv('api_key')
 #Download the ids for the data
-# map.data.ids<-bold.public.search(taxonomy = "Musca domestica")
-# 
-# # Fetch the data using the ids
-# map.data<-bold.fetch(param.data = map.data.ids,query.param = "processid",param.index = 1,api_key = api.key)
-# 
-# geo.viz<-bold.analyze.map(map.data)
-# 
-# geo.viz.country<-bold.analyze.map(map.data,country = "China")
+map.data.ids<-bold.public.search(taxonomy = "Musca domestica")
+
+# Fetch the data using the ids
+map.data<-bold.fetch(param.data = map.data.ids,query.param = "processid",param.index = 1,api_key = api.key)
+
+geo.viz<-bold.analyze.map(map.data)
+
+geo.viz.country<-bold.analyze.map(map.data,country = "China")
 
 #The `sf` dataframe of the downloaded data
 # geo.viz$geo.df
