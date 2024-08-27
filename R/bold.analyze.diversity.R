@@ -43,13 +43,13 @@
 #' comm.mat.data<-bold.public.search(taxonomy = "Poecilia")
 #'
 #' # Fetch the data using the ids
-#' BCDMdata<-bold.fetch(param.data = comm.mat.data,query.param = "processid",param.index = 1,api_key = apikey)
+#' BCDMdata<-bold.fetch(param.data = comm.mat.data,query.param = "processid",param.index = 1,apikey)
 #'
 #' # Remove rows which have no species data
-#' BCDMdata<-BCDMdata[!BCDMdata$species=="",]#'
+#' data<-BCDMdata[!BCDMdata$species=="",]#'
 #'
-#' #1. Analyze richness data
-#' res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',richness.res=TRUE)
+#' #1. Analyze richness data (site.cat='country.ocean')
+#' res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",'country.ocean',richness.res=TRUE)
 #'
 #' # Community matrix (BCDM data converted to community matrix)
 #' res.rich$comm.matrix
@@ -57,14 +57,14 @@
 #' # richness results
 #' res.rich$comm.matrix
 #'
-#' #2. Shannon diversity
-#' res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',shannon.res = TRUE)
+#' #2. Shannon diversity (taxon.rank = 'species'; site.cat='country.ocean')
+#' res.shannon<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',shannon.res = TRUE)
 #'
 #' # Shannon diversity results
 #' res.shannon
 #'
-#' #3. Preston plots and results
-#' pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',preston.res=TRUE)
+#' #3. Preston plots and results (taxon.rank = 'species'; site.cat='country.ocean')
+#' pres.res<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',preston.res=TRUE)
 #'
 #' # Preston plot
 #' pres.res$preston.plot
@@ -72,8 +72,8 @@
 #' # Preston plot data
 #' pres.res$preston.res
 #'
-#' #4. beta diversity
-#' beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',beta.res=TRUE,beta.index = "jaccard")
+#' #4. beta diversity (taxon.rank = 'species'; site.cat='country.ocean'; beta.index = "jaccard")
+#' beta.res<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',beta.res=TRUE,"jaccard")
 #'
 #' #Total diversity
 #' beta.res$total.beta

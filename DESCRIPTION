@@ -14,7 +14,7 @@ Description: Facilitate retrieval, transformation and analysis of the data
     taxonomy, geography etc. The package provides data transformation
     functions to convert data into formats compatible with other
     R-packages and third party tools, as well as analysis functions for
-    biodiversity, clustering and mapping
+    biodiversity, clustering and mapping.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

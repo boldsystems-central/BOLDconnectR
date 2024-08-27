@@ -44,7 +44,7 @@ Function designed to transform and align the data retrieved from the functions \
 seq.data.ids<-bold.public.search(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
 
 # Fetch the data using the ids
-seq.data<-bold.fetch(param.data = seq.data.ids,query.param = "processid",param.index = 1,api_key = apikey)
+seq.data<-bold.fetch(param.data = seq.data.ids,query.param = "processid",param.index = 1,apikey)
 
 # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
 seq.align<-BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
