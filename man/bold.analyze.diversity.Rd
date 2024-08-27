@@ -60,6 +60,7 @@ bold.analyze.diversity(
 An 'output' list containing containing:
 \itemize{
 \item comm.matrix = site X species like matrix required for the biodiversity results
+\item grid_plot = A map of grids based on their centroids
 \item richness = A richness profile matrix
 \item Shannon_div = Shannon diversity values for the given sites/grids(from \code{gen.comm.mat})
 \item richness_plot = A ggplot2 visualization of the richness curve

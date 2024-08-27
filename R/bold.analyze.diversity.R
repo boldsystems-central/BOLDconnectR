@@ -27,6 +27,7 @@
 #'
 #' @returns An 'output' list containing containing:
 #' * comm.matrix = site X species like matrix required for the biodiversity results
+#' * grid_plot = A map of grids based on their centroids
 #' * richness = A richness profile matrix
 #' * Shannon_div = Shannon diversity values for the given sites/grids(from `gen.comm.mat`)
 #' * richness_plot = A ggplot2 visualization of the richness curve
@@ -143,7 +144,9 @@ bold.analyze.diversity <- function(bold.df,
 
   }
 
+  # Empty output list
 
+  output = list()
 
   # Condition to check if grids.cat is specified or whether site.cat will be used
 
@@ -160,6 +163,10 @@ bold.analyze.diversity <- function(bold.df,
                                 view.grids=TRUE)
 
     bin.comm = bin.comm.res$comm.matrix
+
+    grids.map=bin.comm.res$grid_plot
+
+    output$grid.map=grids.map
 
 
   }
@@ -187,10 +194,6 @@ bold.analyze.diversity <- function(bold.df,
     bin.comm=ifelse(bin.comm>=1,1,0)%>%data.frame(.)
 
   }
-
-  # Empty output list
-
-  output = list()
 
 
   # Output the community data
