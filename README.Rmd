@@ -25,7 +25,6 @@ BOLDconnectR is a package designed for **retrieval**, **transformation** and **a
 library(devtools)
 library(utils)
 library(base)
-
 ```
 
 ## Installation
