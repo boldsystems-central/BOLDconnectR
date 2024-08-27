@@ -42,13 +42,17 @@ devtools::install_github("https://github.com/sameerpadhye/BOLDconnectR.git",
 library(BOLDconnectR)
 ```
 
-*NOTE* One of the functions in the package requires `msa` package installed and imported beforehand. `msa` is installed using `BiocManager` package.
+*NOTE* One of the functions in the package requires `msa` and `Biostrings` packages installed and imported beforehand. `msa` is installed using `BiocManager` package (Details of the function given below).
 ```{r msa install,warning=FALSE,message=FALSE}
 
 if (!requireNamespace("BiocManager", quietly=TRUE))
 install.packages("BiocManager")
+
 BiocManager::install("msa")
+BiocManager::install("Biostrings")
+
 library(msa)
+library(Biostrings)
 
 ```
 
