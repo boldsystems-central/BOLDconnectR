@@ -5,6 +5,7 @@
 #'
 #' @param bold.df A data frame obtained from [bold.fetch()].
 #' @param marker A single or multiple character vector specifying the gene marker for which the output is generated. Default is NULL (all data is used).
+#' @param align.method Character vector specifying the type of multiple sequence alignment algorithm to be used. Default value is ClustalOmega.
 #' @param seq.name.fields A single or multiple character vector specifying the column headers which to be should be used to name each sequence in the fasta file. Default is NULL in which case, only the processid is used as a name.
 #' @param ... additional arguments that can be passed to `msa::msa()` function.
 #'
@@ -37,8 +38,9 @@
 #'
 #'
 bold.analyze.align<-function (bold.df,
-                      marker=NULL,
-                      seq.name.fields=NULL,
+                              marker=NULL,
+                              align.method="ClustalOmega",
+                              seq.name.fields=NULL,
                       ...)
 
 {
@@ -198,7 +200,7 @@ bold.analyze.align<-function (bold.df,
     # A try catch here to check if the users have 'msa' installed or not
 
     alignment_seq<-DNAStringSet(seq.from.data)%>%
-      msa(.,method = "ClustalOmega",...)
+      msa(.,method = align.method,...)
 
     #4. Converting the output into a DNAstringset object
 

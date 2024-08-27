@@ -4,12 +4,20 @@
 \alias{bold.analyze.align}
 \title{Transform and align the sequence data retrieved from BOLD (Internal function)}
 \usage{
-bold.analyze.align(bold.df, marker = NULL, seq.name.fields = NULL, ...)
+bold.analyze.align(
+  bold.df,
+  marker = NULL,
+  align.method = "ClustalOmega",
+  seq.name.fields = NULL,
+  ...
+)
 }
 \arguments{
 \item{bold.df}{A data frame obtained from \code{\link[=bold.fetch]{bold.fetch()}}.}
 
 \item{marker}{A single or multiple character vector specifying the gene marker for which the output is generated. Default is NULL (all data is used).}
+
+\item{align.method}{Character vector specifying the type of multiple sequence alignment algorithm to be used. Default value is ClustalOmega.}
 
 \item{seq.name.fields}{A single or multiple character vector specifying the column headers which to be should be used to name each sequence in the fasta file. Default is NULL in which case, only the processid is used as a name.}
 
