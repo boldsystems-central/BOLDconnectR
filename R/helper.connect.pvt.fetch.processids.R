@@ -95,13 +95,14 @@ fetch.bold.processid<-function(data.input,
                        id.files)
 
 
-    # Obtain the POST result
+    # Obtain the POST result. Here lapply is used with the post.api.res.fetch to generate the output (BOLD data) based on the 5000 processids
+
 
     result = lapply(temp_file,
-                    function (file) {post.api.res.fetch(base.url=base_url,
-                                                        query.params=query_params,
-                                                        api.key=api_key,
-                                                        temp.file=file)})
+                               function (file) {post.api.res.fetch(base.url=base_url,
+                                                                   query.params=query_params,
+                                                                   api.key=api_key,
+                                                                   temp.file=file)})
 
     if (unlist(result,
                use.names = T)$status_code!=200)
@@ -113,6 +114,11 @@ fetch.bold.processid<-function(data.input,
     }
 
 
+    # # removing empty results
+    #
+    # result = Filter(function(df) nrow(df) > 0, result.pre.filter)
+
+
     # Generating the data frame
 
 
@@ -120,22 +126,39 @@ fetch.bold.processid<-function(data.input,
                    fetch.data)%>%
       dplyr::bind_rows(.)
 
+
+    if(nrow(json.df)==0)
+
+    {
+
+      stop("Search resulted in an empty dataset. Please re-check the input data.")
+
+    }
+
+    else
+
+    {
+
+      json.df
+
+    }
+
   }
 
 
-  # Convert the 'coord' character data into two numeric columns 'lat','lon'
+
+    # Convert the 'coord' character data into two numeric columns 'lat','lon'
+
+    json.df = json.df%>%
+      tidyr::separate(coord,
+                      c("lat","lon"),
+                      sep=",",
+                      remove = T)%>%
+      dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x)))
 
 
-  json.df = json.df%>%
-    tidyr::separate(coord,
-                    c("lat","lon"),
-                    sep=",",
-                    remove = T)%>%
-    dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x)))
-
-
-  # Return the output
 
   return(json.df)
+
 
 }

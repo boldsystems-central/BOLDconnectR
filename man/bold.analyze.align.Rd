@@ -31,22 +31,19 @@ Function designed to transform and align the data retrieved from the functions \
 }
 \examples{
 \dontrun{
-# Download the data
-seq<-bold.connectr.public(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
+
+# Search for ids
+seq.data.ids<-bold.public.search(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
+
+# Fetch the data using the ids
+seq.data<-bold.fetch(param.data = seq.data.ids,query.param = "processid",param.index = 1,api_key = apikey)
 
 # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
-seq.align<-BOLDconnectR:::bold.analyze.align(seq, seq.name.fields = c("bin_uri"),marker="COI-5P")
+seq.align<-BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
 
-# Dataframe of the sequences (not aligned) with their corresponding names
-head(seq.align$bold.df.mod)
+# Dataframe of the sequences (aligned) with their corresponding names
+ head(seq.align)
  }
 
-# Functions used by `bold.analyze.align` (for which the users need to install `Biostrings` & `msa`).
-#importFrom Biostrings DNAStringSet
-#importFrom msa msa
-#importFrom msa msaClustalOmega
-#importFrom ape read.dna
-#importFrom ape write.FASTA
-#importFrom methods as
 
 }

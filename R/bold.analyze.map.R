@@ -202,7 +202,7 @@ bold.analyze.map<-function(bold.df,
 
     output$plot=map_plot
 
-    print(map_plot)
+  print(map_plot)
 
   invisible(output)
 

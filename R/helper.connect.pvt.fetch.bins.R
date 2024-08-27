@@ -126,13 +126,13 @@ fetch.bold.bins<-function(data.input,
     # Obtain the POST result. Here lapply is used with the post.api.res.fetch to generate the output (BOLD data) based on the 5000 processids
 
 
-    result = lapply(temp_file,
+    result.pre.filter = lapply(temp_file,
                     function (file) {post.api.res.fetch(base.url=base_url,
                                                         query.params=query_params,
                                                         api.key=api_key,
                                                         temp.file=file)})
 
-    if (unlist(result,
+    if (unlist(result.pre.filter,
                use.names = T)$status_code!=200)
 
     {
@@ -141,6 +141,12 @@ fetch.bold.bins<-function(data.input,
 
     }
 
+
+    # # removing empty results
+    #
+    # result = Filter(function(df) nrow(df) > 0, result.pre.filter)
+
+
     # Generating the data frame
 
 
@@ -148,10 +154,26 @@ fetch.bold.bins<-function(data.input,
                    fetch.data)%>%
       dplyr::bind_rows(.)
 
+    if(nrow(json.df)==0)
+
+    {
+
+      stop("Search resulted in an empty dataset. Please re-check the input data.")
+
+    }
+
+    else
+
+    {
+
+      json.df
+
+    }
+
   }
 
 
-  # Convert the 'coord' character data into two numeric columns 'lat','lon'
+ # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
   json.df = json.df%>%
     tidyr::separate(coord,
@@ -160,8 +182,7 @@ fetch.bold.bins<-function(data.input,
                     remove = T)%>%
     dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x)))
 
-
-  return(json.df)
+ return(json.df)
 
 
 }

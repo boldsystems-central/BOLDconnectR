@@ -80,52 +80,51 @@ This function creates a biodiversity profile of the downloaded data using \code{
 }
 \examples{
 \dontrun{
-# Download data from BOLD (removing species with blanks)
-comm.mat.data<-bold.connectr.public(taxonomy = "Poecilia")
+
+# Search for ids
+comm.mat.data<-bold.public.search(taxonomy = "Poecilia")
+
+# Fetch the data using the ids
+BCDMdata<-bold.fetch(param.data = comm.mat.data,query.param = "processid",param.index = 1,api_key = apikey)
 
 # Remove rows which have no species data
-comm.mat.data<-comm.mat.data[!comm.mat.data$species=="",]
+BCDMdata<-BCDMdata[!BCDMdata$species=="",]#'
 
-# Generate the community matrix based on grids
-comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat='country.ocean')
+#1. Analyze richness data
+res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',richness.res=TRUE)
 
-grid.data<-comm.data.grid$comm.matrix
+# Community matrix (BCDM data converted to community matrix)
+res.rich$comm.matrix
 
-# Diversity results with estimation curve and without preston results
-div.res1<-analyze.alphadiv(grid.data,plot.curve=TRUE,curve.index="Jack1ab",curve.xval = "Sampl")
+# richness results
+res.rich$comm.matrix
 
-# Richness estimations
-head(div.res1$richness)
+#2. Shannon diversity
+res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',shannon.res = TRUE)
 
-# Richness plot
-div.res1$richness_plot
+# Shannon diversity results
+res.shannon
 
-# Shannon diversity
-head(div.res1$Shannon_div)
-
-# Diversity results without estimation curve and with preston results
-div.res2<-analyze.alphadiv(grid.data,preston.res = TRUE,pres.plot.y.label = "species")
-
-# Preston results
-div.res2$preston.res
+#3. Preston plots and results
+pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',preston.res=TRUE)
 
 # Preston plot
-div.res2$preston.plot
+pres.res$preston.plot
 
- beta.data<-comm.data.beta$comm.matrix
+# Preston plot data
+pres.res$preston.res
 
-#beta diversity without the heatmaps
-beta.div.res<-analyze.betadiv(beta.data,index="sorenson")
+#4. beta diversity
+beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',beta.res=TRUE,beta.index = "jaccard")
 
 #Total diversity
-beta.div.res$total.beta
+beta.res$total.beta
 
 #Replacement
-beta.div.res$replace
+beta.res$replace
 
 #Richness difference
-beta.div.res$richnessd
-
+beta.res$richnessd
 
 }
 
