@@ -109,7 +109,7 @@ fetch.bold.sampleid<-function(data.input,
 
     {
 
-      stop("Error occurred during data download. Please check the input data, parameter or the api_key")
+      stop("Error occurred during data download. Please re-check param.data,param.query, param.index or the api_key")
 
     }
 

@@ -154,7 +154,19 @@ bold.analyze.diversity <- function(bold.df,
 
   {
 
-    bin.comm.res = gen.comm.mat(bold.df=bold.df,
+    if(is.null(gridsize))
+
+    {
+
+      stop("When grids.cat=TRUE, gridsize must be specified")
+
+    }
+
+    else
+
+      {
+
+      bin.comm.res = gen.comm.mat(bold.df=bold.df,
                                 taxon.rank=taxon.rank,
                                 taxon.name=taxon.name,
                                 site.cat=site.cat,
@@ -168,6 +180,22 @@ bold.analyze.diversity <- function(bold.df,
 
     output$grid.map=grids.map
 
+    }
+
+    # else if (grids.cat==F)
+    #
+    # {
+    #
+    #   if(!is.null(gridsize))
+    #
+    #   {
+    #
+    #     stop("gridsize specified when grids.cat=FALSE. Please re-check the inputs.")
+    #
+    #   }
+    #
+    #
+    # }
 
   }
 
@@ -175,12 +203,27 @@ bold.analyze.diversity <- function(bold.df,
 
   {
 
-    bin.comm.res = gen.comm.mat(bold.df=bold.df,
+   if (!is.null(site.cat))
+
+     {
+
+     bin.comm.res = gen.comm.mat(bold.df=bold.df,
                                 taxon.rank=taxon.rank,
                                 taxon.name=taxon.name,
                                 site.cat=site.cat)
 
     bin.comm = bin.comm.res$comm.matrix
+
+   }
+
+    else if (any(!is.null(site.cat) && grids.cat==F|!is.null(gridsize)))
+
+    {
+
+      stop("grid.cat or gridsize specified when site.cat is specified. Please re-check the inputs.")
+
+    }
+
 
   }
 
