@@ -2,10 +2,12 @@ Package: BOLDconnectR
 Title: Retrieve, Transform and Analyze the Barcode of Life Data Systems
     Data in R
 Version: 1.0.0
-Authors@R: c(person("Sameer", "Padhye", , "spadhye@uoguelph.ca", role = c("aut", "cre"),comment = c(encoding = "UTF-8")),
+Authors@R: c(
+    person("Sameer", "Padhye", , "spadhye@uoguelph.ca", role = c("aut", "cre")),
     person("Liliana", "Ballesteros-Mejia", , "cballest@uoguelph.ca", role = "aut"),
-    person("Sujeevan", "Ratnasingham", , "sratnasi@uoguelph.ca", role = "aut"))
-Maintainer: Sameer Padhye <spadhye@uoguelph.ca>, Liliana Ballesteros-Mejia<cballest@uoguelph.ca>
+    person("Sujeevan", "Ratnasingham", , "sratnasi@uoguelph.ca", role = "aut")
+  )
+Maintainer: Sameer Padhye <spadhye@uoguelph.ca>
 Description: Facilitate retrieval, transformation and analysis of the data
     from the Barcode of Life Data Systems (BOLD) database. It allows both
     public and private user data to be easily downloaded easily into the R
@@ -13,7 +15,7 @@ Description: Facilitate retrieval, transformation and analysis of the data
     taxonomy, geography etc. The package provides data transformation
     functions to convert data into formats compatible with other
     R-packages and third party tools, as well as analysis functions for
-    biodiversity, clustering and mapping.
+    biodiversity, clustering and mapping
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

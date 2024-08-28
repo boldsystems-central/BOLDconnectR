@@ -46,7 +46,7 @@
 #'
 bold.analyze.align<-function (bold.df,
                               marker=NULL,
-                              align.method="ClustalOmega",
+                              align.method,
                               seq.name.fields=NULL,
                       ...)
 
