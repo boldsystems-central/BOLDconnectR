@@ -161,33 +161,33 @@ bold.public.search <- function(taxonomy = NULL,
 
       result.post.filter = Filter(function(df) nrow(df) > 0, result.pre.filter)
 
-      # removing unwanted columns
+      # # removing unwanted columns
+      #
+      # result.rem.col=lapply(result.post.filter, function (df)
+      # {
+      #
+      #   res=df%>%select(processid:marker_count,
+      #                   -collection_event_id)
+      #
+      #   return(res)
+      #
+      # }
+      # )
+      #
+      # # Finding out the common columns from all the results
+      #
+      # common.cols=Reduce(intersect,
+      #                    lapply(result.rem.col,
+      #                           colnames))
+      #
+      # # Using the above column names vector to select common columns from all dataframes
+      #
+      # res.comm.col <- lapply(result.rem.col, function(df) df[, common.cols, drop = FALSE])
+      #
+      #
+      # # Binding the list of dataframes
 
-      result.rem.col=lapply(result.post.filter, function (df)
-      {
-
-        res=df%>%select(processid:marker_count,
-                        -collection_event_id)
-
-        return(res)
-
-      }
-      )
-
-      # Finding out the common columns from all the results
-
-      common.cols=Reduce(intersect,
-                         lapply(result.rem.col,
-                                colnames))
-
-      # Using the above column names vector to select common columns from all dataframes
-
-      res.comm.col <- lapply(result.rem.col, function(df) df[, common.cols, drop = FALSE])
-
-
-      # Binding the list of dataframes
-
-      result=res.comm.col%>%
+      result=result.post.filter%>%
         bind_rows(.)
 
     }
