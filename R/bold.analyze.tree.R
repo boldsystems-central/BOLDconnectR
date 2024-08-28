@@ -69,6 +69,7 @@
 #' @importFrom ape write.tree
 #' @importFrom ape plot.phylo
 #' @importFrom ape as.DNAbin
+#' @importFrom ape axisPhylo
 #'
 #' @export
 #'
@@ -264,6 +265,7 @@ bold.analyze.tree<-function(bold.df,
                           tip.color = "darkblue",
                           edge.color = "orangered2",
                           edge.width=1.5)
+    axisPhylo(backward = FALSE)
 
     # Reset margins to original values
 
