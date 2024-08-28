@@ -1,21 +1,21 @@
 #' Transform and align the sequence data retrieved from BOLD (Internal function)
 #'
 #' @description
-#' Function designed to transform and align the data retrieved from the functions `bold.fetch`.
+#' Function designed to transform and align the sequence data retrieved from the function `bold.fetch`.
 #'
 #' @param bold.df A data frame obtained from [bold.fetch()].
 #' @param marker A single or multiple character vector specifying the gene marker for which the output is generated. Default is NULL (all data is used).
 #' @param align.method Character vector specifying the type of multiple sequence alignment algorithm to be used. Default value is ClustalOmega.
-#' @param seq.name.fields A single or multiple character vector specifying the column headers which to be should be used to name each sequence in the fasta file. Default is NULL in which case, only the processid is used as a name.
-#' @param ... additional arguments that can be passed to `msa::msa()` function.
+#' @param seq.name.fields A single or multiple character vector specifying the column headers to be used to name each sequence in the fasta file. Default is NULL in which case, only the processid is used as a name.
+#' @param ... additional arguments that can be passed to msa::msa() function.
 #'
 #' @details
-#' `bold.analyze.align` retrieves the sequence information obtained using `bold.fetch` function and performs a multiple sequence alignment using ClustalOmega algorithm. It utilizes the msa::msa() function with default settings but additional arguments can be passed via the `...` argument. Marker name provided must match with the standard marker names available on the BOLD webpage. Name for individual sequences in the output can be customized by using the `sequence.name.fields` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally,users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data. The output of this function is a modified BCDM dataframe having two extra columns, one of the aligned sequence and the other of the name given to that sequence.
+#' `bold.analyze.align` retrieves the sequence information obtained using `bold.fetch` function and performs a multiple sequence alignment. Type of clustering method can be specified using the `align.method` argument (Default value is ClustalOmega). It utilizes the msa::msa() function with default settings but additional arguments can be passed via the `...` argument. Marker name provided must match with the standard marker names available on the BOLD webpage. Name for individual sequences in the output can be customized by using the `seq.name.fields` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data. The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and another for the names given to the sequences.
 #'
-#' \emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the `:::` operator  (`BOLDconnectR:::bold.analyze.align`). Users are required to install and load the `Biostrings` and `msa` packages before running this function that are maintained by `Bioconductor`.
+#' `\emph{Note: }` This function is currently an internal function with documentation and can be accessed only by using the `:::` operator  (`BOLDconnectR:::bold.analyze.align`). Users are required to install and load the `Biostrings` and `msa` packages using `BiocManager` (Please see the examples for the usage) before running this function that are maintained by `Bioconductor`.
 #'
 #' @returns An 'output' list containing:
-#' * bold.df.mod = A modified bold BCDM data frame with two additional columns ('aligned_seq' and 'sequence_name').
+#' * bold.df.mod = A modified BCDM data frame with two additional columns (’aligned_seq’ and ’msa.seq.name’).
 #'
 #' @importFrom utils install.packages
 #'
@@ -23,12 +23,16 @@
 #' \dontrun{
 #'
 #' # Search for ids
-#' seq.data.ids<-bold.public.search(taxonomy = c("Oreochromis tanganicae","Oreochromis karongae"))
+#' seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae", "Oreochromis karongae"))
 #'
 #' # Fetch the data using the ids
-#' seq.data<-bold.fetch(param.data = seq.data.ids,query.param = "processid",param.index = 1,apikey)
+#' # api_key must be obtained from BOLD support before usage
+#' seq.data<-bold.fetch(param.data = seq.data.ids,
+#' query.param = "processid",
+#' param.index = 1,
+#' api_key=apikey)
 #'
-#' # msa is reuqired for this function to run. msa is installed using BiocManager
+#' # msa is required for this function to run. msa is installed using BiocManager
 #' if (!requireNamespace("BiocManager", quietly=TRUE))
 #' install.packages("BiocManager")
 #' BiocManager::install("msa")
@@ -36,8 +40,8 @@
 #' library(msa)
 #' library(Biostrings)
 #'
-#' # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
-#' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
+#' # Align the data (using  bin_uri as the name for each sequence)
+#' seq.align <- BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
 #'
 #' # Dataframe of the sequences (aligned) with their corresponding names
 #'  head(seq.align)
