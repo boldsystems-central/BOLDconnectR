@@ -156,17 +156,17 @@ bold.fetch<-function(param.data,
 
         }
 
-        # If its not a data path but a single search query
+        # If its not a data path but a single search query or character vector of queries
 
       }
 
-    }
+      else if (length(param.data)>=1)
 
-    else if (length(param.data)>=1)
+      {
 
-    {
+        input_data=data.frame(col1=param.data)
 
-      input_data=data.frame(col1=param.data)
+      }
 
     }
 

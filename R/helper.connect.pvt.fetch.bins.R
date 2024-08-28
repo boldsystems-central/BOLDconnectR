@@ -126,13 +126,13 @@ fetch.bold.bins<-function(data.input,
     # Obtain the POST result. Here lapply is used with the post.api.res.fetch to generate the output (BOLD data) based on the 5000 processids
 
 
-    result.pre.filter = lapply(temp_file,
+    result= lapply(temp_file,
                     function (file) {post.api.res.fetch(base.url=base_url,
                                                         query.params=query_params,
                                                         api.key=api_key,
                                                         temp.file=file)})
 
-    if (unlist(result.pre.filter,
+    if (unlist(result,
                use.names = T)$status_code!=200)
 
     {

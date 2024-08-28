@@ -32,7 +32,9 @@
 #' if (!requireNamespace("BiocManager", quietly=TRUE))
 #' install.packages("BiocManager")
 #' BiocManager::install("msa")
+#' BiocManager::install("Biostrings")
 #' library(msa)
+#' library(Biostrings)
 #'
 #' # Align the data (using species", bin_uri & country.ocean as a composite name for each sequence)
 #' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))

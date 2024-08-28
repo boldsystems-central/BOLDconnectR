@@ -56,22 +56,28 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \examples{
 \dontrun{
-#Download the data
-seq.data<-bold.connectr.public(taxonomy = c("Eulimnadia"),marker = "COI-5P")
-seq<-seq.data[!seq.data$species=="",]
 
-# Align the data (using species" and bin_uri  as a composite name for each sequence)
-seq.align<-BOLDconnectR:::align.seq(seq,name.fields = c("species","bin_uri"),marker="COI-5P")
+# Download the ids
+seq.data.ids<-bold.public.search(taxonomy = c("Eulimnadia"),filt.marker = "COI-5P")
 
-# Name the output of the seq.align msa result
-msa.res<-seq.align$msa.result
+# Download the data
+seq.data<-bold.fetch(seq.data.ids,query.param = "processid",
+param.index = 1,
+api_key = apikey)
 
-#Analyze the data
-seq.analysis<-BOLDconnectR:::analyze.seq(msa.res,"K80",clus="njs",plot.type='p',plot=TRUE)
+# Align the data
+seq.align<-BOLDconnectR:::bold.analyze.align(seq.data,
+                                             seq.name.fields = c("species","bin_uri"),
+                                             marker="COI-5P",
+                                             align.method = "ClustalOmega")
 
-#Visualize the plot
-seq.analysis$plot
-
+seq.analysis<-bold.analyze.tree(seq.align,
+                                dist.model = "K80",
+                                clus="nj",
+                                tree.plot.type='p',
+                                tree.plot=TRUE,
+                                dist.matrix = T)
+# Output
 #A 'phylo' object of the plot
 seq.analysis$data_for_plot
 

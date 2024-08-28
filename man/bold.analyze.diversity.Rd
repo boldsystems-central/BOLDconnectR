@@ -89,7 +89,7 @@ comm.mat.data<-bold.public.search(taxonomy = "Poecilia")
 BCDMdata<-bold.fetch(param.data = comm.mat.data,query.param = "processid",param.index = 1,apikey)
 
 # Remove rows which have no species data
-data<-BCDMdata[!BCDMdata$species=="",]#'
+data<-BCDMdata[!BCDMdata$species=="",]
 
 #1. Analyze richness data (site.cat='country.ocean')
 res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",'country.ocean',richness.res=TRUE)
@@ -116,7 +116,11 @@ pres.res$preston.plot
 pres.res$preston.res
 
 #4. beta diversity (taxon.rank = 'species'; site.cat='country.ocean'; beta.index = "jaccard")
-beta.res<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',beta.res=TRUE,"jaccard")
+beta.res<-bold.analyze.diversity(BCDMdata,
+"species",
+'country.ocean',
+beta.res=TRUE,
+"jaccard")
 
 #Total diversity
 beta.res$total.beta

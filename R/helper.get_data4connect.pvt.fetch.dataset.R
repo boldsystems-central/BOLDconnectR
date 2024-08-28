@@ -18,7 +18,7 @@ get_data_datasets<-function (data_for_datasets,
 
   # Obtain the dataset codes as a list of comma separated vector with 'dataset_codes' title
 
-  query_params_dataset = list('dataset_codes'= paste(data.input[,param.index],
+  query_params_dataset = list('dataset_codes'= paste(data_for_datasets,
                                                      collapse=','))
 
   # add a condition to check  the number of dataset codes
