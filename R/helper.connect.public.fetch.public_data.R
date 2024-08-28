@@ -162,7 +162,7 @@ fetch.public.data<-function (query)
 
   # final_data.pre=reassign.data.type(final_data)
 
-  final_data=final_data.pre%>%
+  final_data=final_data%>%
     dplyr::select(processid,
                   sampleid,
                   coord,
@@ -192,12 +192,12 @@ fetch.public.data<-function (query)
 #
 #   final_data$coord <- gsub('\\[|\\]','',final_data$coord)
 #
-#   final_data = suppressWarnings(final_data%>%
-#                                   tidyr::separate(coord,
-#                                                   c("lat","lon"),
-#                                                   sep=",",
-#                                                   remove = T)%>%
-#                                   dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x))))
+  final_data = suppressWarnings(final_data%>%
+                                  tidyr::separate(coord,
+                                                  c("lat","lon"),
+                                                  sep=",",
+                                                  remove = T)%>%
+                                  dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x))))
 
 
   return(final_data)
