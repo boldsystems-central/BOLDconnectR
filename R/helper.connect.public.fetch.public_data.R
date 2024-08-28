@@ -158,33 +158,33 @@ fetch.public.data<-function (query)
 
 
 
-  # Some of the column data types are reassigned
-
-
-  final_data=reassign.data.type(final_data)
-
-  final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
-
-  final_data$bin_created_date<-as.Date(final_data$bin_created_date,format("%Y-%m-%d"))
-
-  final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
-
-  final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
-
-  final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
-
-  final_data$collection_time<-as.character(final_data$collection_time)
+  # # Some of the column data types are reassigned
+  #
+  #
+  # final_data=reassign.data.type(final_data)
+  #
+  # final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
+  #
+  # final_data$bin_created_date<-as.Date(final_data$bin_created_date,format("%Y-%m-%d"))
+  #
+  # final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
+  #
+  # final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
+  #
+  # final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
+  #
+  # final_data$collection_time<-as.character(final_data$collection_time)
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
-
-  final_data$coord <- gsub('\\[|\\]','',final_data$coord)
-
-  final_data = suppressWarnings(final_data%>%
-                                  tidyr::separate(coord,
-                                                  c("lat","lon"),
-                                                  sep=",",
-                                                  remove = T)%>%
-                                  dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x))))
+#
+#   final_data$coord <- gsub('\\[|\\]','',final_data$coord)
+#
+#   final_data = suppressWarnings(final_data%>%
+#                                   tidyr::separate(coord,
+#                                                   c("lat","lon"),
+#                                                   sep=",",
+#                                                   remove = T)%>%
+#                                   dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x))))
 
 
   return(final_data)
