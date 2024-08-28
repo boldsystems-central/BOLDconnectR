@@ -1,29 +1,36 @@
 #'Generate a summary of the data downloaded from BOLD
 #'
 #' @description
-#'The function is used to obtain a detailed summary of the data obtained by `bold.fetch` function.
+#' The function is used to obtain a detailed summary of the data obtained by `bold.fetch` function.
 #'
 #' @param bold.df the data.frame retrieved from the `bold.fetch` function.
 #' @param cols A single or multiple character vector specifying the columns for which a data summary is sought. Default value is NULL.
 #'
 #' @details
-#' `bold.data.summarize` provides summaries for each data type available in the downloaded dataset. The function uses the [skimr::skim()] function  to generate a list of data frames followed by the [skimr::partition()] which separates the summary based on the data type for easy export. The summary includes counts for NULL, unique values along with proportion of complete cases. The `cols` argument will select any specific field required.The default NULL will generate a summary of all columns. The output is printed on the console and can be saved as well. Please note that if the `fields` argument from `bold.fetch`has been used to filter certain columns, summaries of only those columns will be available by default.
+#' `bold.data.summarize` provides summaries for each data type available in the downloaded dataset. The function uses the `skimr::skim()` function to generate a list of data frames which are then separated by data type using `skimr::partition()` to facilitate streamlined export. The summary includes counts for NULL values, unique values and the proportion of complete cases. The cols argument allows users to select specific fields for summarization; by default, it is set to NULL, meaning all columns are summarized. Summaries are printed to the console and can also be saved. Please note that if the fields argument from bold.fetch has been used to filter for specific columns,  and only those will be summarized by default. For specific details on the skim output, refers to the `skimr` package documentation.
 #'
 #' @returns A list of data frames. Each data frame is a data summary of a specific data type.
 #'
 #' @examples
 #' \dontrun{
 #' # Download data
-#' bold_data<-bold.connectr.public(taxonomy = "Oreochromis")
+#' bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
+#'
+#' bold.data <- bold.fetch(bold_data.ids,
+#' query.param = "processid",
+#' param.index = 1,
+#' api_key = apikey)
 #'
 #' # Generate summary for specific fields (cols)
-#' test.data.summary<-data.summary(bold_data,cols = c("country.ocean","nuc_basecount","inst","elev"))
+#' test.data.summary <- bold.data.summarize(bold_data,
+#'                                          cols = c("country.ocean", "nuc_basecount", "inst", "elev"))
 #'
-#' # Character data fields summary
+#' Character data fields summary
 #' test.data.summary$character
 #'
-#' # Numerical data fields summary
+#' Numerical data fields summary
 #' test.data.summary$numeric
+#'
 #' }
 #'
 #' @importFrom skimr skim

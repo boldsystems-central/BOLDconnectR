@@ -5,28 +5,39 @@
 #'
 #' @export
 #'
-#' @param bold.df the data.frame retrieved from [bold.fetch()].
+#' @param bold.df The data.frame retrieved from [bold.fetch()].
 #' @param country A single or multiple character vector of country names. Default value is NULL.
-#' @param bbox  A numeric vector specifying the min,max values of the latitude and longitude. Default value is NULL.
+#' @param bbox  A numeric vector specifying the min, max values of the latitude and longitude. Default value is NULL.
+
 #'
-#' @details `visualize.geo` extracts out the geographic information from the [bold.fetch()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the [rnaturalearth::ne_countries()] at a 110 scale (low resolution). If the `country` is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (`bbox`) can be defined for a specific region to be visualized. The function also provides a `sf` data frame of the GIS data which can be used for any other application/s.
+#' @details `bold.analyze.map` extracts out the geographic information from the [bold.fetch()] output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a ’WGS84’ Coordinate Reference System (CRS) projection. Default view includes data mapped onto a world shape file using the `rnaturalearth::ne_countries()` at a 110 scale (low resolution). If the country is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (bbox) can be defined for a specific region to be visualized. The function also provides a sf data frame of the GIS data which can be used for any other application/s.
 #'
 #' @returns An 'output' list containing:
-#' * geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
-#' * map_plot = A visualization of the occurrences.
+#' *	geo.df = A simple features (sf) ‘data.frame’ containing the geographic data.
+#' *	plot = A visualization of the occurrences.
 #'
 #' @examples
 #' \dontrun{
-#' #Download data
-#' geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+#' Download the ids
+#' geo.data.ids <- bold.public.search(taxonomy = "Musca domestica")
 #'
-#' geo.viz<-visualize.geo(geo.data,export = FALSE)
+#' # Fetch the data using the ids.
+#' # api_key must be obtained from BOLD support before usage.
 #'
-#' #The `sf` dataframe of the downloaded data
-#' geo.viz$geo.df
+#' geo.data <- bold.fetch(param.data = geo.data.ids,
+#' query.param = "processid",
+#' param.index = 1, api_key = apikey)
 #'
-#' # Visualization
-#' geo.viz$plot
+#' # All data plotted.
+#' geo.viz <- bold.analyze.map(geo.data)
+#'
+#' # Data plotted only in one country
+#' geo.viz <- bold.analyze.map(geo.data,
+#' country = c("Saudi Arabia"))
+#'
+#'#The sf dataframe of the downloaded data
+#'geo.viz$geo.df
+#'
 #'}
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify

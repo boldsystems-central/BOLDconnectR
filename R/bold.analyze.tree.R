@@ -7,56 +7,62 @@
 #' @param dist.model A character string specifying the model to generate the distances.
 #' @param clus.method A character vector specifying either [ape::nj()] (neighbour joining) or [ape::njs()] (neighbour joining with NAs) clustering algorithm.
 #' @param dist.matrix A logical value specifying whether the distance matrix should be saved in the output. Default is FALSE.
-#' @param newick.tree.export A logical value specifying whether newick tree should be generated and exported. Default value is FALSE.
+#' @param newick.tree.export A logical value specifying whether newick tree should be generated and ex- ported. Default value is FALSE.
 #' @param newick.file.path A character value specifying the folder path where the file should be saved.
 #' @param newick.file.name A character value specifying the name of the exported file.
 #' @param tree.plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.
-#' @param tree.plot.type The layout of the tree. Based on [ape::plot.phylo()] `type`.Default value is 'c' (for cladogram).
+#' @param tree.plot.type The layout of the tree. Based on [ape::plot.phylo()] type.
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `analyze.seq` analyzes the multiple sequence alignment output of the `align.seq` function to generate a distance matrix using the models available in the [ape::dist.dna()]. `dist.matrix`= TRUE will also store the underlying distance matrix in the output. Default value for the argument is deliberately kept FALSE due to potential memory issues arising in case of large data. Additional arguments for calculating distances can be be passed using the `...` argument. `tree.plot`= TRUE will generate a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and an option to export the trees in a newick format by providing the name and the path for storing the file.
+#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Setting `dist.matrix`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed using the argument `...`. Setting `tree.plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
 #'
 #' @returns An 'output' list containing:
-#' * dist_mat = A distance matrix based on the model selected if `dist.matrix`=TRUE.
-#' * base_freq = Overall base frequencies of the `align.seq` result.
-#' * plot = Neighbor Joining clustering visualization (if `tree.plot`=TRUE).
-#' * data_for_plot = A `phylo` object used for the plot.
-#' * NJ/NJS tree in a newick format (only if `newick.tree.export`=TRUE).
-#'
+#' *	dist_mat = A distance matrix based on the model selected if dist.matrix=TRUE.
+#' *	base_freq = Overall base frequencies of the align.seq result.
+#' *	plot = Neighbor Joining clustering visualization (if tree.plot=TRUE).
+#' *	data_for_plot = A phylo object used for the plot.
+#' *	NJ/NJS tree in a newick format (only if newick.tree.export=TRUE).
+
 #' @examples
 #' \dontrun{
 #'
-#' # Download the ids
-#' seq.data.ids<-bold.public.search(taxonomy = c("Eulimnadia"),filt.marker = "COI-5P")
+#' library(msa)
+#' library(Biostrings)
 #'
-#' # Download the data
-#' seq.data<-bold.fetch(seq.data.ids,query.param = "processid",
-#' param.index = 1,
-#' api_key = apikey)
+#' # Download the data ids
+#' seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"), filt.marker = "COI-5P")
+#'
+#' # Fetch the data using the ids.
+#' # api_key must be obtained from BOLD support before usage.
+#'
+#' seq.data <- bold.fetch(param.data = seq.data.ids, query.param = "processid",
+#'                        param.index = 1, api_key = apikey)
+#'
+#' # Remove rows without species name information
+#' seq <- seq.data[seq.data$species ! ="", ]
 #'
 #' # Align the data
+#' # Users need to install and load packages `msa` and `Biostrings`.
 #' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data,
 #'                                              seq.name.fields = c("species","bin_uri"),
-#'                                              marker="COI-5P",
-#'                                              align.method = "ClustalOmega")
+#'                                              marker="COI-5P")
 #'
-# #Analyze the data to get a tree
+#' #Analyze the data to get a tree
 #' seq.analysis<-bold.analyze.tree(seq.align,
 #'                                 dist.model = "K80",
 #'                                 clus="nj",
 #'                                 tree.plot.type='p',
 #'                                 tree.plot=TRUE,
 #'                                 dist.matrix = T)
+#'
 #' # Output
-#' #A 'phylo' object of the plot
+#' # A ‘phylo’ object of the plot
 #' seq.analysis$data_for_plot
-#'
-#' #A distance matrix based on the distance model selected
+#' # A distance matrix based on the distance model selected
 #' seq.analysis$dist_matrix
-#'
 #' # Base frequencies of the sequences
 #' seq.analysis$base_freq
-
+#'
 #'}
 #'
 #' # Function used by `analyze.seq` (for which the users need to install `msa`).

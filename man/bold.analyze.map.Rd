@@ -7,36 +7,46 @@
 bold.analyze.map(bold.df, country = NULL, bbox = NULL)
 }
 \arguments{
-\item{bold.df}{the data.frame retrieved from \code{\link[=bold.fetch]{bold.fetch()}}.}
+\item{bold.df}{The data.frame retrieved from \code{\link[=bold.fetch]{bold.fetch()}}.}
 
 \item{country}{A single or multiple character vector of country names. Default value is NULL.}
 
-\item{bbox}{A numeric vector specifying the min,max values of the latitude and longitude. Default value is NULL.}
+\item{bbox}{A numeric vector specifying the min, max values of the latitude and longitude. Default value is NULL.}
 }
 \value{
 An 'output' list containing:
 \itemize{
-\item geo.df = A  simple features (sf) ‘data.frame’ containing the geographic data.
-\item map_plot = A visualization of the occurrences.
+\item geo.df = A simple features (sf) ‘data.frame’ containing the geographic data.
+\item plot = A visualization of the occurrences.
 }
 }
 \description{
 This function creates basic maps of BIN occurrence data at different scales.
 }
 \details{
-\code{visualize.geo} extracts out the geographic information from the \code{\link[=bold.fetch]{bold.fetch()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a 'WGS84' Coordinate Reference System (CRS) projection. Default view includes data mapped on a world shape file using the \code{\link[rnaturalearth:ne_countries]{rnaturalearth::ne_countries()}} at a 110 scale (low resolution). If the \code{country} is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (\code{bbox}) can be defined for a specific region to be visualized. The function also provides a \code{sf} data frame of the GIS data which can be used for any other application/s.
+\code{bold.analyze.map} extracts out the geographic information from the \code{\link[=bold.fetch]{bold.fetch()}} output. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a ’WGS84’ Coordinate Reference System (CRS) projection. Default view includes data mapped onto a world shape file using the \code{rnaturalearth::ne_countries()} at a 110 scale (low resolution). If the country is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (bbox) can be defined for a specific region to be visualized. The function also provides a sf data frame of the GIS data which can be used for any other application/s.
 }
 \examples{
 \dontrun{
-#Download data
-geo.data<-bold.connectr.public(taxonomy = "Musca domestica")
+Download the ids
+geo.data.ids <- bold.public.search(taxonomy = "Musca domestica")
 
-geo.viz<-visualize.geo(geo.data,export = FALSE)
+# Fetch the data using the ids.
+# api_key must be obtained from BOLD support before usage.
 
-#The `sf` dataframe of the downloaded data
+geo.data <- bold.fetch(param.data = geo.data.ids,
+query.param = "processid",
+param.index = 1, api_key = apikey)
+
+# All data plotted.
+geo.viz <- bold.analyze.map(geo.data)
+
+# Data plotted only in one country
+geo.viz <- bold.analyze.map(geo.data,
+country = c("Saudi Arabia"))
+
+#The sf dataframe of the downloaded data
 geo.viz$geo.df
 
-# Visualization
-geo.viz$plot
 }
 }

@@ -30,39 +30,38 @@ bold.analyze.diversity(
 
 \item{taxon.name}{A single or multiple character vector specifying the taxonomic names associated with the ‘taxon.rank’. Default value is NULL.}
 
-\item{site.cat}{A single or multiple character vector specifying the countries for which a community matrix should be created. Default value is NULL.}
+\item{site.cat}{A single character vector specifying the geographic category for which a community matrix should be created. Default value is NULL.}
 
 \item{grids.cat}{A logical value specifying Whether the community matrix should be based on grids as ‘sites’. Default value is NULL.}
 
-\item{gridsize}{A numeric value of the size of the grid if the grids=TRUE;Size is in sq.m. Default value is NULL.}
+\item{gridsize}{A numeric value of the size of the grid if the grids=TRUE; Size is in sq.m. Default value is NULL.}
 
-\item{presence.absence}{A logical value specifying whether the generated matrix should be converted into a 'presence-absence' matrix.}
+\item{presence.absence}{A logical value specifying whether the generated matrix should be converted into a ’presence-absence’ matrix.}
 
 \item{richness.res}{A logical value specifying whether richness results should be calculated. Default value is FALSE.}
 
-\item{rich.plot.curve}{A logical value specifying whether an accumulation curve should be plotted.Default value is FALSE.}
+\item{rich.plot.curve}{A logical value specifying whether an accumulation curve should be plotted. Default value is FALSE.}
 
 \item{rich.curve.estimatr}{A character value specifying which index should be used. Default value is NULL.}
 
-\item{rich.curve.x.axis}{A character value specifying whether samples (Samples) or individuals (Individuals) should be used against the \code{curve.index}.Default value is NULL.}
+\item{rich.curve.x.axis}{A character value specifying whether 'samples' or 'individuals' should be used against the \code{rich.curve.estimatr}. Default value is NULL.}
 
-\item{shannon.res}{A logical value specifying whether the Shannon diversity results should be generated. Default value is FALSE.}
+\item{shannon.res}{A logical value specifying whether the Shannon diversity results should be gen- erated. Default value is FALSE.}
 
-\item{preston.res}{A logical value specifying whether the Preston results should be generated. Default value is FALSE.}
+\item{preston.res}{A logical value specifying whether the Preston results should be generated. De- fault value is FALSE.}
 
 \item{pres.plot.y.label}{A character value specifying the taxonomic category (\code{taxon.rank}) which was used to generate the matrix.}
 
 \item{beta.res}{A logical value specifying whether beta diversity results should be calculated. Default value is FALSE.}
 
-\item{beta.index}{A character vector specifying the type of beta diversity index ('jaccard' or 'sorenson' available).}
+\item{beta.index}{A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available).}
 }
 \value{
 An 'output' list containing containing:
 \itemize{
 \item comm.matrix = site X species like matrix required for the biodiversity results
-\item grid_plot = A map of grids based on their centroids
 \item richness = A richness profile matrix
-\item Shannon_div = Shannon diversity values for the given sites/grids(from \code{gen.comm.mat})
+\item Shannon_div = Shannon diversity values for the given sites/grids (from gen.comm.mat)
 \item richness_plot = A ggplot2 visualization of the richness curve
 \item preston.res = a Preston plot numerical data output
 \item preston.plot = a ggplot2 visualization of the preston.plot
@@ -75,52 +74,62 @@ An 'output' list containing containing:
 This function creates a biodiversity profile of the downloaded data using \code{\link[=bold.fetch]{bold.fetch()}}.
 }
 \details{
-\code{bold.analyze.diversity} estimates the richness, shannon diversity and beta diversity  from the BIN counts or presence-absence data. The function internally converts the downloaded BCDM data into a community matrix (~site X species) which is also generated as a part of the output.\code{grids.cat} converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. It uses this matrix to create richness profiles using \code{\link[BAT:alpha.accum]{BAT::alpha.accum()}} and Preston and Shannon diversity analyses using \code{\link[vegan:fisherfit]{vegan::prestondistr()}} and \code{\link[vegan:diversity]{vegan::diversity()}} respectively. The \code{\link[BAT:alpha.accum]{BAT::alpha.accum()}} currently has many richness estimators (Obs: Observed diversity; S1: Singletons; S2: Doubletons; Q1: Uniques; Q2: Duplicates; Jack1ab: Jackknife1 abundance; Jack1in: Jackknife1 incidence; Jack2ab: Jackknife2 abundance; Jack2in: Jackknife2 incidence; Chao1; Chao2). The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation. Preston plots are created using the data from the \code{prestondistr} results in \code{ggplot2} featuring cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts. The argument \code{presence.absence} will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \code{vegan} for biodiversity analyses.Beta diversity values are calculated using \code{\link[BAT:beta]{BAT::beta()}} function, which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach partitioning the beta diversity into ’species replacement’ and ’richness difference’ components. These results are stored as distance matrices in the output.
-\verb{\\emph\{Note on the community matrix\}}: Instead of species counts (or abundances), values in each cell of this matrix are the counts (or abundances) of a specific BIN from a \code{site.cat} site category or a \code{grids.cat}. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or \code{grids.cat}). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.fields.info]{bold.fields.info()}}). Alternatively, \code{grids.cat} = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.) with the \code{gridsize} argument. For \code{grids} generation, rows with no latitude and longitude data are removed (even if a corresponding \code{site.cat} information is available) while NULL entries for \code{site.cat} are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).
-\verb{\\emph\{Note:\}} Results, including species counts, adapt based on \code{taxon.rank} argument although the output label remains ‘species’ in some instances (\code{preston.res}).
+\code{bold.analyze.diversity} estimates the richness, Shannon diversity and beta diversity from the BIN counts or presence-absence data. Internally, the function converts the downloaded BCDM data into a community matrix (site X species) which is also generated as a part of the output. grids.cat converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide’ projection by which distance-based grid can be correctly specified (Gott III et al. 2007).Each grid is assigned a cell id, with the lowest number given to the lowest latitudinal point in the dataset.
+The community matrix generated by the function is used to create richness profiles using \code{BAT::alpha.accum()} and Preston and Shannon diversity analyses using \code{vegan::prestondistr()} and \code{vegan::diversity()} respectively. The \code{BAT::alpha.accum()} currently offers various richness estimators, including Observed diversity (Obs); Singletons (S1); Doubletons (S2); Uniques (Q1); Duplicates (Q2); Jackknife1 abundance (Jack1ab); Jackknife1 incidence (Jack1in); Jackknife2 abundance (Jack2ab); Jackknife2 incidence (Jack2in); Chao1 and Chao2. The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation.
+Preston plots are generated using the data from the \code{prestondistr} results in \code{ggplot2} featuring cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts. The \code{presence.absence} argument converts the counts (or abundances) to 1s and 0s. This dataset can then be directly used as input data for biodiversity analysis functions from packages like vegan.
+Beta diversity values are calculated using \code{BAT::beta()} function, which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach partitioning the beta diversity into ’species replacement’ and ’richness difference’ components. These results are stored as distance matrices in the output.
+\emph{Note on the community matrix}: Each cell in this matrix contains the counts (or abundances) of the specimens which sequence have an assigned BIN, in a given a site category (\code{site.cat}) or a grid  (\code{grids.cat}). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including ’bin_uri’. The \code{site.cat} can refer to any geographic field, and metadata on these fields can be checked using the \code{bold.fields.info()}. If, \code{grids.cat} = TRUE, grids are generated based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the \code{gridsize} argument. Rows lacking latitude and longitude data are removed, while NULL entries for site.cat are allowed if they have a latitude and longitude value. This is because grids are drawn based on the bounding boxes which only use latitude and longitude values
+\emph{Important Note}: Results, including species counts, adapt based on taxon.rank argument although the output label remains ‘species’ in some instances (\code{preston.res}).
 }
 \examples{
 \dontrun{
 
 # Search for ids
-comm.mat.data<-bold.public.search(taxonomy = "Poecilia")
+comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 
 # Fetch the data using the ids
-BCDMdata<-bold.fetch(param.data = comm.mat.data,query.param = "processid",param.index = 1,apikey)
+# api_key must be obtained from BOLD support before usage.
+BCDMdata <- bold.fetch(param.data = comm.mat.data,
+query.param = "processid",
+param.index = 1,
+api_key = apikey)
 
-# Remove rows which have no species data
-data<-BCDMdata[!BCDMdata$species=="",]
+# Remove rows which have no species data BCDMdata <- BCDMdata[!BCDMdata$species == "",]
 
-#1. Analyze richness data (site.cat='country.ocean')
-res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",'country.ocean',richness.res=TRUE)
+#1. Analyze richness data
+res.rich <- bold.analyze.diversity(BCDMdata,
+taxon.rank = "species",
+site.cat = 'country.ocean',
+richness.res = TRUE)
 
-# Community matrix (BCDM data converted to community matrix)
-res.rich$comm.matrix
+# Community matrix (BCDM data converted to community matrix) res.rich$comm.matrix
 
-# richness results
-res.rich$comm.matrix
+# richness results res.rich$comm.matrix
 
-#2. Shannon diversity (taxon.rank = 'species'; site.cat='country.ocean')
-res.shannon<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',shannon.res = TRUE)
+#2. Shannon diversity
+res.shannon <- bold.analyze.diversity(BCDMdata,
+taxon.rank = "species",
+site.cat = 'country.ocean',
+shannon.res = TRUE)
 
-# Shannon diversity results
-res.shannon
+# Shannon diversity results res.shannon
 
-#3. Preston plots and results (taxon.rank = 'species'; site.cat='country.ocean')
-pres.res<-bold.analyze.diversity(BCDMdata,"species",'country.ocean',preston.res=TRUE)
+#3. Preston plots and results
+pres.res < -bold.analyze.diversity(BCDMdata,
+taxon.rank = "species",
+site.cat = 'country.ocean',
+preston.res = TRUE)
 
-# Preston plot
-pres.res$preston.plot
+# Preston plot pres.res$preston.plot
 
-# Preston plot data
-pres.res$preston.res
+# Preston plot data pres.res$preston.res
 
-#4. beta diversity (taxon.rank = 'species'; site.cat='country.ocean'; beta.index = "jaccard")
-beta.res<-bold.analyze.diversity(BCDMdata,
-"species",
-'country.ocean',
-beta.res=TRUE,
-"jaccard")
+#4. beta diversity
+beta.res <- bold.analyze.diversity(BCDMdata,
+taxon.rank = "species",
+site.cat = 'country.ocean',
+beta.res = TRUE,
+beta.index = "jaccard")
 
 #Total diversity
 beta.res$total.beta
@@ -133,4 +142,11 @@ beta.res$richnessd
 
 }
 
+}
+\references{
+Carvalho, J.C., Cardoso, P. & Gomes, P. (2012) Determining the relative roles of species replace- ment and species richness differences in generating beta-diversity patterns. Global Ecology and Biogeography, 21, 760-771.
+
+Podani, J. & Schmera, D. (2011) A new conceptual and methodological framework for exploring and explaining pattern in presence-absence data. Oikos, 120, 1625-1638.
+
+Richard Gott III, J., Mugnolo, C., & Colley, W. N. (2007). Map projections minimizing distance errors. Cartographica: The International Journal for Geographic Information and Geovisualization, 42(3), 219-234.
 }
