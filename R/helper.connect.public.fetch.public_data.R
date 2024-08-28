@@ -160,10 +160,21 @@ fetch.public.data<-function (query)
 
   # Some of the column data types are reassigned
 
-  final_data.pre=reassign.data.type(final_data)
+  # final_data.pre=reassign.data.type(final_data)
 
   final_data=final_data.pre%>%
-    dplyr::select(processid,sampleid)
+    dplyr::select(processid,
+                  sampleid,
+                  coord,
+                  inst,
+                  identified_by,
+                  sequence_run_site,
+                  marker_code,
+                  nuc_basecount,
+                  collection_date_start,
+                  collection_date_end,
+                  elev,
+                  depth)
 
   # final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
   #
@@ -171,9 +182,9 @@ fetch.public.data<-function (query)
   #
   # final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
   #
-  # final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
+  final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
   #
-  # final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
+  final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
   #
   # final_data$collection_time<-as.character(final_data$collection_time)
 
