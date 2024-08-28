@@ -9,7 +9,7 @@
 Facilitate retrieval, transformation and analysis of the data from the Barcode of Life Data Systems (BOLD) database. It allows both public and private user data to be easily downloaded easily into the R environment using a variety of inputs such as: processids, sampleids, taxonomy, geography etc. The package provides data transformation functions to convert data into formats compatible with other R-packages and third party tools, as well as analysis functions for biodiversity, clustering and mapping.
 }
 \author{
-\strong{Maintainer}: Sameer Padhye \email{spadhye@uoguelph.ca}
+\strong{Maintainer}: Sameer Padhye \email{spadhye@uoguelph.ca} (UTF-8)
 
 Authors:
 \itemize{
