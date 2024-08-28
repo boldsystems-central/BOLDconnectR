@@ -158,11 +158,13 @@ fetch.public.data<-function (query)
 
 
 
-  # # Some of the column data types are reassigned
-  #
-  #
-  # final_data=reassign.data.type(final_data)
-  #
+  # Some of the column data types are reassigned
+
+  final_data.pre=reassign.data.type(final_data)
+
+  final_data=final_data.pre%>%
+    dplyr::select(processid,sampleid)
+
   # final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
   #
   # final_data$bin_created_date<-as.Date(final_data$bin_created_date,format("%Y-%m-%d"))
