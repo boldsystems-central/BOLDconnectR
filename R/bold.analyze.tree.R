@@ -39,7 +39,7 @@
 #'                        param.index = 1, api_key = apikey)
 #'
 #' # Remove rows without species name information
-#' seq <- seq.data[seq.data$species ! ="", ]
+#' seq <- seq.data[seq.data$species!="", ]
 #'
 #' # Align the data
 #' # Users need to install and load packages `msa` and `Biostrings`.

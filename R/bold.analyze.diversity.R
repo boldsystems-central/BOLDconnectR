@@ -79,7 +79,7 @@
 #' # Shannon diversity results res.shannon
 #'
 #' #3. Preston plots and results
-#' pres.res < -bold.analyze.diversity(BCDMdata,
+#' pres.res <- bold.analyze.diversity(BCDMdata,
 #' taxon.rank = "species",
 #' site.cat = 'country.ocean',
 #' preston.res = TRUE)
@@ -183,69 +183,48 @@ bold.analyze.diversity <- function(bold.df,
 
     else
 
-      {
+    {
 
       bin.comm.res = gen.comm.mat(bold.df=bold.df,
-                                taxon.rank=taxon.rank,
-                                taxon.name=taxon.name,
-                                site.cat=site.cat,
-                                grids=grids.cat,
-                                gridsize=gridsize,
-                                view.grids=TRUE)
+                                  taxon.rank=taxon.rank,
+                                  taxon.name=taxon.name,
+                                  site.cat=site.cat,
+                                  grids=grids.cat,
+                                  gridsize=gridsize,
+                                  view.grids=TRUE)
 
-    bin.comm = bin.comm.res$comm.matrix
+      bin.comm = bin.comm.res$comm.matrix
 
-    grids.map=bin.comm.res$grid_plot
+      grids.map=bin.comm.res$grid_plot
 
-    output$grid.map=grids.map
+      output$grid.map=grids.map
 
     }
 
-    # else if (grids.cat==F)
-    #
-    # {
-    #
-    #   if(!is.null(gridsize))
-    #
-    #   {
-    #
-    #     stop("gridsize specified when grids.cat=FALSE. Please re-check the inputs.")
-    #
-    #   }
-    #
-    #
-    # }
-
   }
 
-  else
+  else if (any(!is.null(site.cat) && grids.cat==F|!is.null(gridsize)))
 
   {
 
-   if (!is.null(site.cat))
+    stop("grid.cat or gridsize specified when site.cat is specified. Please re-check the inputs.")
 
-     {
+  }
 
-     bin.comm.res = gen.comm.mat(bold.df=bold.df,
+  else if (!is.null(site.cat))
+
+  {
+
+
+
+    bin.comm.res = gen.comm.mat(bold.df=bold.df,
                                 taxon.rank=taxon.rank,
                                 taxon.name=taxon.name,
                                 site.cat=site.cat)
 
     bin.comm = bin.comm.res$comm.matrix
 
-   }
-
-    else if (any(!is.null(site.cat) && grids.cat==F|!is.null(gridsize)))
-
-    {
-
-      stop("grid.cat or gridsize specified when site.cat is specified. Please re-check the inputs.")
-
-    }
-
-
   }
-
 
   # Check if the data is presence-absence
 
@@ -260,9 +239,9 @@ bold.analyze.diversity <- function(bold.df,
 
   # Output the community data
 
- output$comm.matrix = bin.comm
+  output$comm.matrix = bin.comm
 
- # Richness results
+  # Richness results
 
   if(richness.res)
 
@@ -331,7 +310,7 @@ bold.analyze.diversity <- function(bold.df,
 
   }
 
- # Shannon diversity
+  # Shannon diversity
 
   if (shannon.res)
 
@@ -436,7 +415,7 @@ bold.analyze.diversity <- function(bold.df,
 
   }
 
- # Beta diversity
+  # Beta diversity
 
 
   if(beta.res)
@@ -445,10 +424,10 @@ bold.analyze.diversity <- function(bold.df,
 
 
     beta.bin.div=BAT::beta(bin.comm,
-                      func = beta.index,
-                      abund = presence.absence,
-                      runs=10,
-                      comp = T)
+                           func = beta.index,
+                           abund = presence.absence,
+                           runs=10,
+                           comp = T)
 
 
 
