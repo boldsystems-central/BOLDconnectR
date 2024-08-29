@@ -1,10 +1,10 @@
 #' Retrieve all data from the BOLD database
 #'
 #' @description
-#' Retrieves public and private user data based on different parameters (processid,sampleid, dataset codes & bin_uri) input.
+#' Retrieves public and private user data based on different parameters (processid, sampleid, dataset codes & bin_uri) input.
 #'
 #' @param param.data A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.
-#' @param query.param The parameter on which the data should be fetched.  “processid”, “sampleid”, "bin_uri" or "dataset_codes".
+#' @param query.param The parameter on which the data should be fetched. “processid”, “sampleid”, "bin_uri" or "dataset_codes".
 #' @param param.index A number indicating the column index (position) of the `query.params` in the dataset.
 #' @param api_key A character string required for authentication and data access.
 #' @param filt.taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
@@ -15,46 +15,65 @@
 #' @param filt.institutes A single or multiple character vector specifying names of institutes. Default value is NULL.
 #' @param filt.identified.by A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.
 #' @param filt.seq.source A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.
-#' @param filt.marker A single or multiple character vector specifying  of gene names. Default value is NULL.
+#' @param filt.marker A single or multiple character vector specifying of gene names. Default value is NULL.
 #' @param filt.collection.period A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.
-#' @param filt.basecount A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.
+#' @param filt.basecount A single or a vector of two numbers specifying range of basepairs number. Val- ues should be separated by a comma. Default value is NULL.
 #' @param filt.altitude A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.
 #' @param filt.depth A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.
 #' @param filt.fields A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.
-#' @param export A logical value specifying whether the output should be exported locally. Default value is FALSE.
+#' @param export A logical value specifying whether the output should be exported locally. De- fault value is FALSE.
 #' @param file.type A character value specifying the type of file to be exported. Currently ‘.csv’ and ‘.tsv’ options are available.
 #' @param file.path A character value specifying the folder path where the file should be saved.
 #' @param file.name A character value specifying the name of the exported file.
 #'
-#' @details This function retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the `Barcode Core Data Model (BCDM)` format. It supports effective download data in bulk using search parameters `query.params` such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Data input can be either through a path to a flat file with extensions like `.csv/.tsv/.txt` or a R data.frame object. The import process assumes that the input data includes a header. Users must specify only one of the `query.params` at a time for retrieval -- multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless  of  the parameters available. The `filt` or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all `filt`argument names must be written explicitly to avoid any errors (Ex. `filt.institutes` = 'CBG' instead of just 'CBG').  Using the `filt.fields` argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default. If this argument is left as NULL all columns will be downloaded. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications. api_key is a UUID v4 hexadecimal string, is obtained upon request from  BOLD to `support@boldsystems.org` and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data are those specified in the the `bold.fields.info`. It is important to correctly match the `param` and `param.index` to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.
+#' @details `bold.fetch` retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the Barcode Core Data Model (BCDM) format. It supports effective download data in bulk using search parameters `query.params` such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Data input can be either through a path to a flat file with extensions like `.csv/.tsv/.txt` or a R `data.frame` object. The import process assumes that the input data includes a header. Users must specify only one of the `query.params` at a time for retrieval. Multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless of the parameters available. The `filt.` or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all `filt.`argument names must be written explicitly to avoid any errors (Ex. `filt.institutes` = ’CBG’ instead of just ’CBG’). Using the `filt.fields` argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default. If this argument is left as NULL all columns will be downloaded. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications. The `api_key` is a UUID v4 hexadecimal string obtained upon request from BOLD at support@boldsystems.org and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data correspond to those specified in bold.fields.info. It is important to correctly match the `query.param` and `param.index` to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.
 #'
 #' @examples
 #' \dontrun{
 #' data(test.data)
 #'
-#' #'key' would the 'api_key' provided to the user
+#' # key' would the 'api_key' provided to the user
+#'
 #' #With processids ('processid' param is the first column in the data (param.index=1))
-#' res<-bold.connectr(input.data = test.data, param = 'processid',param.index = 1,api_key = "key")
+#' res <- bold.fetch(param.data = test.data,
+#' query.param = 'processid',
+#' param.index = 1,
+#' api_key = "key")
 #'
 #'
 #' #With sampleids ('sampleid' param is the second column in the data (param.index=2))
-#' res<-bold.connectr(test.data,'sampleid',2,api_key = "key")
-#'
+#' res<-bold.fetch(param.data = test.data,
+#' query.param = 'sampleid',
+#' param.index = 2,
+#' api_key = "key")
 #'
 #' ## Using filters
 #'
 #' #Geography
-#' res<-bold.connectr(test.data, param = 'processid',param.index = 1,api_key = "key",geography="India")
+#' res <- bold.fetch(param.data = test.data,
+#' query.param = 'processid',
+#' param.index = 1,
+#' api_key = "key",
+#' filt.geography = "India")
 #'
 #' #Sequence length
-#' res<-bold.connectr(test.data, 'processid',1,api_key = "key",nuc_basecount=c(500,600))
+#' res <- bold.fethc(param.data = test.data,
+#' query.param = 'processid',
+#' param.index = 1,
+#' api_key  =  "key",
+#' filt.nuc_basecount = c(500,600))
 #'
 #' #Gene marker & sequence length
-#' res<-bold.connectr(test.data,'processid',1,api_key = "key",marker="COI-5P",nuc_basecount=c(500,600))
+#' res<-bold.fetch(param.data = test.data,
+#' query.param = 'processid',
+#' param.index = 1,
+#' api_key  =  "key",
+#' filt.marker = "COI-5P",
+#' filt.nuc_basecount = c(500, 600))
 #'
 #'}
 #'
-#' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any)
+#' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any).
 #'
 #' @importFrom dplyr %>%
 #' @importFrom dplyr select

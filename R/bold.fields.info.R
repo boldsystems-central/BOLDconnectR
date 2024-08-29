@@ -1,12 +1,12 @@
 #' Retrieve metadata of the BOLD data fields
 #'
-#' @description This function provides information on the field (column) names and their respective data type
+#' @description Provides information on the field (column) names and their respective data type, all of which are compliant with the Barcode Core Data Model (BCDM), the latest data model of the BOLD database.
 #'
 #' @param print.output Whether the output should be printed in the console. Default is FALSE.
 #'
-#' @details The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.`print,output` = TRUE will print the information in the console.
+#' @details The function downloads the latest field (column) meta data (file type and brief description) which is currently available for download from BOLD.print,output = TRUE will print the information in the console.
 #'
-#' @returns A data frame containing information on all fields (columns)
+#' @returns A data frame containing information on all fields (columns).
 #'
 #' @examples
 #'

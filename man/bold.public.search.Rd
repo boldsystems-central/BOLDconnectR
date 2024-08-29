@@ -43,11 +43,11 @@ bold.public.search(
 
 \item{filt.seq.source}{A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.}
 
-\item{filt.marker}{A single or multiple character vector specifying  of gene names. Default value is NULL.}
+\item{filt.marker}{A single or multiple character vector specifying of gene names. Default value is NULL.}
 
 \item{filt.collection.period}{A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.}
 
-\item{filt.basecount}{A single or a vector of two numbers specifying range of basepairs number. Values should be separated by a comma. Default value is NULL.}
+\item{filt.basecount}{A single or a vector of two numbers specifying range of basepairs number.     Values should be separated by a comma. Default value is NULL.}
 
 \item{filt.altitude}{A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.}
 
@@ -57,24 +57,31 @@ bold.public.search(
 A data frame containing all the processids and sampleids related to the query search.
 }
 \description{
-Retrieves record ids for publicly available data based on taxonomy,geography or ids (dataset codes & bin_uri) search.
+Retrieves record ids for publicly available data based on taxonomy, geography or ids (dataset codes & bin_uri) search.
 }
 \details{
-\code{bold.public.search} searches publicly available data on BOLD and be retrieves the associated proccessids and sampleids, data for which can then be retrieved by t\code{bold.fetch}. Search parameters can either be one or a combination of taxonomy, geography, bin uri or dataset codes. There is no limit on the id data that can be downloaded but complex combinations of the search parameters can lead to web-url character length exceeding the predetermined limit (2048 characters). Single parameter searches are exempt from this limit. Multi-parameter searches (taxonomy + geography + bins/datasets; Please see the example: Taxonomy + Geography + BIN id) to obtain a filtered result should be logical otherwise output obtained might either be empty or not correct. Downloaded ids can then be filtered further on either one or a combination of arguments (such as institutes, identifiers, altitude, depth etc.). The \code{filt} or filter parameter argument names must be written explicitly (Ex. \code{filt.institutes} = 'CBG' instead of just 'CBG') to avoid any errors.
+\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography, bin uri or dataset codes. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins/datasets; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results. Downloaded IDs can be filtered further on one or a combination of arguments (such as institutes, identifiers, altitude, depth etc.). It is essential to explicitly name the filter arguments (eg. \code{filt.institutes} = ’CBG’ instead of just ’CBG’) to avoid any errors.
 }
 \examples{
 
 \dontrun{
+
 # Taxonomy
-bold.data<-bold.connectr.public(taxonomy = "Panthera leo")
+bold.data <- bold.connectr.public(taxonomy = "Panthera leo")
 head(bold.data,10)
 
 # Taxonomy and Geography
-bold.data.taxo.geo<-bold.connectr.public(taxonomy = "Panthera uncia",geography = "India")
+bold.data.taxo.geo <- bold.connectr.public(taxonomy = "Panthera uncia",
+geography = "India")
 head(bold.data.taxo_geo,10)
 
 # Taxonomy, Geography and BINs
-bold.data.taxo.geo.bin<-bold.connectr.public("Panthera leo", "India",bins=c("BOLD:AAD6819"))
+bold.data.taxo.geo.bin <- bold.connectr.public("Panthera leo",
+geography = "India",
+bins=c("BOLD:AAD6819"))
+
+bold.data.taxo.geo.bin
+
 }
 
 }
