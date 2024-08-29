@@ -92,9 +92,9 @@ It can then be retrieved using `Sys.getenv` function directly or by storing it a
 `bold.fields.info` provides all the metadata related to the various fields (columns) currently available for download from BOLD. The function gives the name, definition and the data type of each field.
 ```{r bold.field.info,warning=FALSE,message=F}
 
-# bold.field.info<-bold.fields.info(print.output = FALSE)
-# 
-# knitr::kable(head(bold.field.info,5))
+bold.field.info<-bold.fields.info(print.output = FALSE)
+
+knitr::kable(head(bold.field.info,5))
 
 ```
 
@@ -138,7 +138,7 @@ result_institutes<-bold.fetch(param.data = test.data,
                                query.param = 'processid',
                                param.index = 1,
                                api_key = api.key,
-                               filt.institutes = c("Universiti Sains Malaysia","Museum of Southwestern Biology, Division of Parasitology"),
+                               filt.institutes = c("Centre for Biodiversity Genomics"),
                               filt.fields = c("processid","sampleid","inst","nuc_basecount"))
 
 # Results (first five rows)
@@ -154,8 +154,8 @@ result_geography<-bold.fetch(param.data = trial.data,
                                query.param = 'processid',
                                param.index = 1,
                                api_key = api.key,
-                                filt.geography=c("United States"),
-                                filt.fields = c("bin_uri","processid","country.ocean"))
+                                filt.geography=c("Churchill"),
+                                filt.fields = c("bin_uri","processid","region"))
 # Result (First 5 rows) 
 knitr::kable(head(result_geography,5))                 
 
@@ -170,7 +170,7 @@ result_altitude<-bold.fetch(param.data = trial.data,
                                query.param = 'processid',
                                param.index = 1,
                                api_key = api.key,
-                               filt.altitude = c(100,1500),
+                               filt.altitude = c(1000,1200),
                                filt.fields = c("bin_uri","processid","family","elev"))
 
 # Result (First 5 rows)
@@ -244,7 +244,7 @@ aligned.data.result<-bold.fetch(param.data = data.4.alignment.ids,
                                api_key = api.key,
                                filt.marker = "COI-5P")
 
-data.seq.aligned<-BOLDconnectR:::bold.analyze.align(aligned.data.result)
+data.seq.aligned<-BOLDconnectR:::bold.analyze.align(aligned.data.result,align.method = "ClustalOmega")
 
 # Subset of the BCDM data frame of the  aligned sequences and their respective names
  
@@ -268,7 +268,7 @@ data.4.seqanalysis<-bold.fetch(param.data = data.4.analysis.ids,
                                api_key = api.key,
                                filt.marker = "COI-5P")
 
-data.seq.align<-BOLDconnectR:::bold.analyze.align(data.4.seqanalysis,seq.name.fields = c("bin_uri","species"))
+data.seq.align<-BOLDconnectR:::bold.analyze.align(data.4.seqanalysis,seq.name.fields = c("bin_uri","species"),align.method = "ClustalOmega")
 
 data.seq.analyze<-bold.analyze.tree(data.seq.align,
                                              dist.model = "K80",
@@ -290,7 +290,7 @@ data.seq.analyze<-bold.analyze.tree(data.seq.align,
 BCDMdata<-bold.fetch(param.data = test.data,query.param = "processid",param.index = 1,api_key = api.key)
 
 #1. Analyze richness data
-res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',richness.res=TRUE)
+res.rich<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='region',richness.res=TRUE)
 
 # Community matrix (BCDM data converted to community matrix)
 knitr::kable(head(res.rich$comm.matrix,5))
@@ -303,7 +303,7 @@ knitr::kable(head(res.rich$richness,5))
 #### 7b. Shannon diversity
 ```{r alphadiv2,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
 #2. Shannon diversity
-res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',shannon.res = TRUE)
+res.shannon<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='region',shannon.res = TRUE)
 
 # Shannon diversity results (top 10 rows)
 knitr::kable(head(res.shannon$Shannon_div,5))
