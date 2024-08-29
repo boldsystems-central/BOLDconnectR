@@ -314,7 +314,7 @@ knitr::kable(head(res.shannon$Shannon_div,5))
 
 #3. Preston plots and results
 
-pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',preston.res=TRUE)
+pres.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='region',preston.res=TRUE)
 
 # Preston plot
 pres.res$preston.plot
@@ -327,7 +327,7 @@ pres.res$preston.res
 ```{r alphadiv4,fig.width=6, fig.align='center',warning=FALSE,message=FALSE}
 
 #4. beta diversity
-beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='country.ocean',beta.res=TRUE,beta.index = "jaccard")
+beta.res<-bold.analyze.diversity(BCDMdata,taxon.rank="species",site.cat='region',beta.res=TRUE,beta.index = "jaccard")
 
 # # Total beta diversity matrix (10 rows)
 knitr::kable(head(as.matrix(round(beta.res$total.beta,2)),5))
@@ -388,6 +388,6 @@ geo.viz.country<-bold.analyze.map(map.data,country = "China")
 
 
 ## Note on the community matrix generated for `bold.analyze.diversity`
-The *site X species** like matrix generated for `bold.analyze.diversity` calculates the counts (or abundances) or presence-absence data of all the records which have BINs for the given site category (*site.cat*) or a *grid.cat*. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa. *site.cat* can be any of the geography fields (Meta data on fields can be checked using the `bold.fields.info()`). Alternatively, `grid.cat` = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For grids generation, rows with no latitude and longitude data are removed (even if a corresponding *site.cat* information is available) while NULL entries for *site.cat* are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).`grids.cat` converts the Coordinate Reference System (CRS) of the data to a **Molleweide** projection by which distance based grid can be appropriately specified. A cell id is also given to each grid with the smallest number assigned to the lowest latitudinal point in the data. A basic gridmap is also stored in the output when `grids.cat`=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. *Please note that if the data has many closely located grids, visualization with view.grids can get confusing*. The argument `presence.absence` converts the counts (or abundances) to 1 and 0. The community matrix is also stored in the output as `comm.mat` and can also be used as the input data for functions from packages like vegan for biodiversity analyses.
+Each cell in the community matrix contains the counts (or abundances) of the specimens for whose sequences have an assigned BIN, in a given a site category (site.cat) or a grid (grids.cat). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including ’bin_uri’. The `site.cat` can refer to any geographic field, and metadata on these fields can be checked using the `bold.fields.info()`. If, `grids.cat` = TRUE, grids are generated based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the gridsize argument. Rows lacking latitude and longitude data are removed, while NULL entries for `site.cat` are allowed if they have a latitude and longitude value. This is because grids are drawn based on the bounding boxes which only use latitude and longitude values. 
 
 #### *BOLDconnectR* is able to fetch public as well as private user data very fast (~100k records in a minute on a fast wired connection) and also offers functionality for data transformation and analysis. 
