@@ -93,7 +93,8 @@ query.param = "processid",
 param.index = 1,
 api_key = apikey)
 
-# Remove rows which have no species data BCDMdata <- BCDMdata[!BCDMdata$species == "",]
+# Remove rows which have no species data
+BCDMdata <- BCDMdata[!BCDMdata$species== "",]
 
 #1. Analyze richness data
 res.rich <- bold.analyze.diversity(BCDMdata,
@@ -101,9 +102,11 @@ taxon.rank = "species",
 site.cat = 'country.ocean',
 richness.res = TRUE)
 
-# Community matrix (BCDM data converted to community matrix) res.rich$comm.matrix
+# Community matrix (BCDM data converted to community matrix)
+res.rich$comm.matrix
 
-# richness results res.rich$comm.matrix
+# richness results
+res.rich$richness
 
 #2. Shannon diversity
 res.shannon <- bold.analyze.diversity(BCDMdata,
@@ -111,7 +114,8 @@ taxon.rank = "species",
 site.cat = 'country.ocean',
 shannon.res = TRUE)
 
-# Shannon diversity results res.shannon
+# Shannon diversity results
+res.shannon
 
 #3. Preston plots and results
 pres.res <- bold.analyze.diversity(BCDMdata,
@@ -119,9 +123,11 @@ taxon.rank = "species",
 site.cat = 'country.ocean',
 preston.res = TRUE)
 
-# Preston plot pres.res$preston.plot
+# Preston plot
+pres.res$preston.plot
 
-# Preston plot data pres.res$preston.res
+# Preston plot data
+pres.res$preston.res
 
 #4. beta diversity
 beta.res <- bold.analyze.diversity(BCDMdata,
