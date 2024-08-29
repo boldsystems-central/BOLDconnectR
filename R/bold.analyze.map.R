@@ -35,7 +35,7 @@
 #' geo.viz <- bold.analyze.map(geo.data,
 #' country = c("Saudi Arabia"))
 #'
-#'#The sf dataframe of the downloaded data
+#'# The sf dataframe of the downloaded data
 #'geo.viz$geo.df
 #'
 #'}
