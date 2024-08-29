@@ -64,9 +64,6 @@
 #' seq.analysis$base_freq
 #'}
 #'
-#' # Function used by `analyze.seq` (for which the users need to install `msa`).
-#' #importFrom msa msaConvert
-#'
 #' @importFrom ape dist.dna
 #' @importFrom ape base.freq
 #' @importFrom ape nj
