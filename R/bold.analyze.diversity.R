@@ -203,18 +203,22 @@ bold.analyze.diversity <- function(bold.df,
 
   }
 
-  else if (any(!is.null(site.cat) && grids.cat==F|!is.null(gridsize)))
+
+  else if (!is.null(site.cat) && grids.cat==F)
 
   {
 
-    stop("grid.cat or gridsize specified when site.cat is specified. Please re-check the inputs.")
+    if (!is.null(gridsize))
 
-  }
+    {
 
-  else if (!is.null(site.cat))
+      warning("gridsize specified when grids.cat is FALSE. Please re-check the inputs.")
 
-  {
+    }
 
+    else
+
+      {
 
 
     bin.comm.res = gen.comm.mat(bold.df=bold.df,
@@ -223,6 +227,8 @@ bold.analyze.diversity <- function(bold.df,
                                 site.cat=site.cat)
 
     bin.comm = bin.comm.res$comm.matrix
+
+     }
 
   }
 
