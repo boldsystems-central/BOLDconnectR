@@ -115,7 +115,7 @@ shannon.res = TRUE)
 # Shannon diversity results res.shannon
 
 #3. Preston plots and results
-pres.res < -bold.analyze.diversity(BCDMdata,
+pres.res <- bold.analyze.diversity(BCDMdata,
 taxon.rank = "species",
 site.cat = 'country.ocean',
 preston.res = TRUE)

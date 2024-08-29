@@ -109,14 +109,14 @@ res <- bold.fetch(param.data = test.data,
 query.param = 'processid',
 param.index = 1,
 api_key = "key",
-filt.geography = "India")
+filt.geography = "Churchill")
 
 #Sequence length
-res <- bold.fethc(param.data = test.data,
+res <- bold.fetch(param.data = test.data,
 query.param = 'processid',
 param.index = 1,
 api_key  =  "key",
-filt.nuc_basecount = c(500,600))
+filt.basecount = c(500,600))
 
 #Gene marker & sequence length
 res<-bold.fetch(param.data = test.data,
@@ -124,7 +124,7 @@ query.param = 'processid',
 param.index = 1,
 api_key  =  "key",
 filt.marker = "COI-5P",
-filt.nuc_basecount = c(500, 600))
+filt.basecount = c(500, 600))
 
 }
 

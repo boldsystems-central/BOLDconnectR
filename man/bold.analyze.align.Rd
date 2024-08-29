@@ -59,7 +59,9 @@ library(msa)
 library(Biostrings)
 
 # Align the data (using  bin_uri as the name for each sequence)
-seq.align <- BOLDconnectR:::bold.analyze.align(seq.data, seq.name.fields = c("bin_uri"))
+seq.align <- BOLDconnectR:::bold.analyze.align(seq.data,
+seq.name.fields = c("bin_uri"),
+align.method="ClustalOmega")
 
 # Dataframe of the sequences (aligned) with their corresponding names
  head(seq.align)
