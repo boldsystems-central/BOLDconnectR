@@ -8,7 +8,7 @@
 #' @param param.index A number indicating the column index (position) of the `query.params` in the dataset.
 #' @param api_key A character string required for authentication and data access.
 #' @param filt.taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
-#' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
+#' @param filt.geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
 #' @param filt.latitude A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
 #' @param filt.longitude A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.
 #' @param filt.shapefile A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.
