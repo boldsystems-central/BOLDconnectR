@@ -14,7 +14,7 @@
 #' @param tree.plot.type The layout of the tree. Based on [ape::plot.phylo()] type.
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Setting `dist.matrix`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed using the argument `...`. Setting `tree.plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
+#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Setting `dist.matrix`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed using the argument `...`. Setting `tree.plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. `tree.plot.type` specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on `type` argument of [ape::plot.phylo()];The first alphabet can be used instead of the whole word). Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
 #'
 #' @returns An 'output' list containing:
 #' *	dist_mat = A distance matrix based on the model selected if dist.matrix=TRUE.
@@ -45,7 +45,8 @@
 #' # Users need to install and load packages `msa` and `Biostrings`.
 #' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data,
 #'                                              seq.name.fields = c("species","bin_uri"),
-#'                                              marker="COI-5P")
+#'                                              marker="COI-5P",
+#'                                              align.method="ClustalOmega")
 #'
 #' #Analyze the data to get a tree
 #' seq.analysis<-bold.analyze.tree(seq.align,
@@ -75,7 +76,6 @@
 #' @importFrom ape write.tree
 #' @importFrom ape plot.phylo
 #' @importFrom ape as.DNAbin
-#' @importFrom ape axisPhylo
 #'
 #' @export
 #'
@@ -271,8 +271,6 @@ bold.analyze.tree<-function(bold.df,
                           tip.color = "darkblue",
                           edge.color = "orangered2",
                           edge.width=1.5)
-    axisPhylo(backward = FALSE)
-
     # Reset margins to original values
 
     output$plot=tree_plot
