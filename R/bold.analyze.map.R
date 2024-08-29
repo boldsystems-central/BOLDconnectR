@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' Download the ids
+#' # Download the ids
 #' geo.data.ids <- bold.public.search(taxonomy = "Musca domestica")
 #'
 #' # Fetch the data using the ids.
