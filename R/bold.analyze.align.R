@@ -21,7 +21,6 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' # Search for ids
 #' seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae", "Oreochromis karongae"))
 #'
@@ -47,7 +46,6 @@
 #'
 #' # Dataframe of the sequences (aligned) with their corresponding names
 #'  head(seq.align)
-#
 #'  }
 #'
 bold.analyze.align<-function (bold.df,

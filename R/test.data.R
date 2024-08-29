@@ -1,6 +1,6 @@
 #' Canadian spider data by Blagoev et al.(2015)
 #'
-#' The test data comprises 1,336 process and sample IDs from the Salticidae family, sourced from Canadian spider data published by Blagoev et al. (2015). This publication includes a DNA barcode reference library encompassing 1,018 species of Canadian spiders.
+#' The test data comprises 1,336 process and sample IDs from the Salticidae (Arthropoda:Arachnida:Araneae) family, sourced from Canadian spider data published by Blagoev et al. (2015). This publication includes a DNA barcode reference library encompassing 1,018 species of Canadian spiders.
 #'
 #' @format A data frame with 1336 rows and 2 columns:
 #' \describe{

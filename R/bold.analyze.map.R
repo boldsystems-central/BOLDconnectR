@@ -37,8 +37,8 @@
 #'
 #'# The sf dataframe of the downloaded data
 #'geo.viz$geo.df
-#'
 #'}
+#'
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify
 #' @importFrom rnaturalearth ne_countries

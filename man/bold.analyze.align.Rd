@@ -39,7 +39,6 @@ Function designed to transform and align the sequence data retrieved from the fu
 }
 \examples{
 \dontrun{
-
 # Search for ids
 seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae", "Oreochromis karongae"))
 

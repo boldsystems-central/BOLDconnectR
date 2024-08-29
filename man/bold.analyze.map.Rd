@@ -28,7 +28,7 @@ This function creates basic maps of BIN occurrence data at different scales.
 }
 \examples{
 \dontrun{
-Download the ids
+# Download the ids
 geo.data.ids <- bold.public.search(taxonomy = "Musca domestica")
 
 # Fetch the data using the ids.
@@ -45,8 +45,8 @@ geo.viz <- bold.analyze.map(geo.data)
 geo.viz <- bold.analyze.map(geo.data,
 country = c("Saudi Arabia"))
 
-#The sf dataframe of the downloaded data
+# The sf dataframe of the downloaded data
 geo.viz$geo.df
-
 }
+
 }

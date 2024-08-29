@@ -40,8 +40,6 @@ bold.fetch(
 
 \item{filt.taxonomy}{A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.}
 
-\item{filt.geography}{A single or multiple character vector of any of country/province/state/region/sector/site names/codes. Default value is NULL.}
-
 \item{filt.latitude}{A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
 
 \item{filt.longitude}{A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
@@ -73,6 +71,8 @@ bold.fetch(
 \item{file.path}{A character value specifying the folder path where the file should be saved.}
 
 \item{file.name}{A character value specifying the name of the exported file.}
+
+\item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 }
 \value{
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any).
@@ -125,7 +125,6 @@ param.index = 1,
 api_key  =  "key",
 filt.marker = "COI-5P",
 filt.basecount = c(500, 600))
-
 }
 
 }

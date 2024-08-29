@@ -38,7 +38,6 @@ The name for individual sequences in the unaligned FASTA file output can be cust
 }
 \examples{
 \dontrun{
-
 library(msa)
 library(Biostrings)
 
@@ -70,7 +69,6 @@ bold.export(data_for_export, export= "fas",
 bold.export(seq.align,export = "msa.fas",
 fas.seq.name.fields = ("species","bin_uri","processid"),
 export.file.path = "file_path",export.file.name = "file_name")
-
 }
 
 }

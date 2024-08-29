@@ -47,7 +47,6 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' # Search for ids
 #' comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 #'
@@ -103,7 +102,6 @@
 #'
 #' #Richness difference
 #' beta.res$richnessd
-#'
 #'}
 #'
 #' @importFrom BAT alpha.accum

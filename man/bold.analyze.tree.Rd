@@ -56,7 +56,6 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \examples{
 \dontrun{
-
 library(msa)
 library(Biostrings)
 
@@ -94,7 +93,6 @@ seq.analysis$data_for_plot
 seq.analysis$dist_matrix
 # Base frequencies of the sequences
 seq.analysis$base_freq
-
 }
 
 # Function used by `analyze.seq` (for which the users need to install `msa`).

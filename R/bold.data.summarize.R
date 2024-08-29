@@ -30,8 +30,7 @@
 #'
 #' # Numerical data fields summary
 #' test.data.summary$numeric
-#'
-#' }
+#'}
 #'
 #' @importFrom skimr skim
 #' @importFrom skimr partition

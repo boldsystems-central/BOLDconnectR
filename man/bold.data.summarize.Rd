@@ -31,15 +31,14 @@ param.index = 1,
 api_key = apikey)
 
 # Generate summary for specific fields (cols)
-test.data.summary <- bold.data.summarize(bold_data,
+test.data.summary <- bold.data.summarize(bold.data,
                                          cols = c("country.ocean", "nuc_basecount", "inst", "elev"))
 
-Character data fields summary
+# Character data fields summary
 test.data.summary$character
 
-Numerical data fields summary
+# Numerical data fields summary
 test.data.summary$numeric
-
 }
 
 }

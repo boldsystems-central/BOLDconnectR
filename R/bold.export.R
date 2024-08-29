@@ -16,7 +16,6 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' library(msa)
 #' library(Biostrings)
 #'
@@ -48,7 +47,6 @@
 #' bold.export(seq.align,export = "msa.fas",
 #' fas.seq.name.fields = ("species","bin_uri","processid"),
 #' export.file.path = "file_path",export.file.name = "file_name")
-#'
 #' }
 #'
 #' @returns It exports a .fas or a csv/tsv file based on the export argument.

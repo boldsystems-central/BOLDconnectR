@@ -25,7 +25,6 @@
 #' @examples
 #'
 #' \dontrun{
-#'
 #' # Taxonomy
 #' bold.data <- bold.public.search(taxonomy = "Panthera leo")
 #' head(bold.data,10)
@@ -41,7 +40,6 @@
 #' bins=c("BOLD:AAD6819"))
 #'
 #' bold.data.taxo.geo.bin
-#'
 #'}
 #'
 #' @importFrom utils URLencode

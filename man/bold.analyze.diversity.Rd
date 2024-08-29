@@ -83,7 +83,6 @@ Beta diversity values are calculated using \code{BAT::beta()} function, which pa
 }
 \examples{
 \dontrun{
-
 # Search for ids
 comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 
@@ -139,7 +138,6 @@ beta.res$replace
 
 #Richness difference
 beta.res$richnessd
-
 }
 
 }
