@@ -32,7 +32,7 @@ library(base)
 The package can be installed using `devtools::install_github` function from the `devtools` package in R (which needs to be installed before installing BOLDConnectR). 
 ```{r setup,warning=FALSE,message=F}
 
-devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR.git")
+devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR/tree/v0.0.1-beta")
 
 ```
 
