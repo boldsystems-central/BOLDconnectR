@@ -85,4 +85,4 @@ It can then be retrieved using `Sys.getenv` function directly or by storing it a
 
 *BOLDconnectR* is able to fetch public as well as private user data very fast (~100k records in a minute on a fast wired connection) and also offers functionality for data transformation and analysis. 
 
-*Citation: Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL, Ratnasingham S. BOLDconnectR: An R package for interacting with the Barcode of Life Data (BOLD) system.(MS in prep)*
+*Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL, Ratnasingham S. BOLDconnectR: An R package for interacting with the Barcode of Life Data (BOLD) system.(MS in prep)

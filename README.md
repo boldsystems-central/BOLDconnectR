@@ -87,6 +87,6 @@ storing it as another variable.
 fast (~100k records in a minute on a fast wired connection) and also
 offers functionality for data transformation and analysis.
 
-*Citation: Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL,
+*Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL,
 Ratnasingham S. BOLDconnectR: An R package for interacting with the
-Barcode of Life Data (BOLD) system.(MS in prep)*
+Barcode of Life Data (BOLD) system.(MS in prep)
