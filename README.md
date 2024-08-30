@@ -1,16 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# BOLDconnectR
+<img src="man/figures/boldconnectr logo.jpg" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-BOLDconnectR is a package designed for **retrieval**, **transformation**
-and **analysis** of the data available in the *Barcode Of Life Data
-Systems (BOLD)* database. This package provides the functionality to
-obtain public and private user data available in the database in the
-*Barcode Core Data Model (BCDM)* format. Data include information on the
+**BOLDconnectR** is a package designed for **retrieval**,
+**transformation** and **analysis** of the data available in the
+*Barcode Of Life Data Systems (BOLD)* database. This package provides
+the functionality to obtain public and private user data available in
+the database in the *Barcode Core Data Model (BCDM)* format. Data
+include information on the
 **taxonomy**,**geography**,**collection**,**identification** and **DNA
 sequence** of every submission.
 
