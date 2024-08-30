@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r display image, warning=F,message=F,echo=F}
 
-knitr::include_graphics("C:/Users/samee/OneDrive/Desktop/BOLDConnectR/BOLDconnectR/man/figures/boldconnectr logo.jpg")
+knitr::include_graphics("G:/Research data/BOLD related work/BOLD.R_package_codes_tests_data/IBOL Poster BOLDconnectR/boldconnectr logo.jpg")
 
 ```
 
