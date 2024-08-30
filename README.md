@@ -38,6 +38,7 @@ installed using the `BiocManager` package.
 
 if (!requireNamespace("BiocManager", quietly=TRUE))
 install.packages("BiocManager")
+library(BiocManager)
 
 BiocManager::install("msa")
 BiocManager::install("Biostrings")
