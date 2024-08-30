@@ -166,7 +166,7 @@ gen.comm.mat<-function(bold.df,
                   !!taxon.rank)%>%
     dplyr::filter(!is.na(bin_uri))%>%
     tidyr::drop_na(!!site.cat)%>%
-    dplyr::filter(!(!!site.cat==""))%>%
+    #dplyr::filter(!(!!site.cat==""))%>%
     dplyr::arrange(!!site.cat)
 
   bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
