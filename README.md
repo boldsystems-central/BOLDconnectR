@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="G:/Research data/BOLD related work/BOLD.R_package_codes_tests_data/IBOL Poster BOLDconnectR/boldconnectr logo.jpg" width="100%" />
+<img src="man/figures/boldconnectr logo.jpg" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
