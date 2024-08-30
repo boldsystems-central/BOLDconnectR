@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="50%" />
+<img src="man/figures/boldconnectr_logo.png" width="300px" />
 
 <!-- badges: start -->
 <!-- badges: end -->
