@@ -31,9 +31,8 @@ library(BOLDconnectR)
 ```
 
 *NOTE* One of the functions in the package requires `msa` and
-`Biostrings` packages installed and imported beforehand. `msa` is
-installed using `BiocManager` package (Details of the function given
-below).
+`Biostrings` packages are installed and imported beforehand. These packages can be
+installed using the `BiocManager` package.
 
 ``` r
 
