@@ -1,10 +1,10 @@
 #' Retrieve all data from the BOLD database
 #'
 #' @description
-#' Retrieves public and private user data based on different parameters (processid, sampleid, dataset codes & bin_uri) input.
+#' Retrieves public and private user data based on different parameters (processid, sampleid, dataset or project codes & bin_uri) input.
 #'
 #' @param param.data A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.
-#' @param query.param The parameter on which the data should be fetched. “processid”, “sampleid”, "bin_uri" or "dataset_codes".
+#' @param query.param The parameter on which the data should be fetched (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes").
 #' @param param.index A number indicating the column index (position) of the `query.params` in the dataset.
 #' @param api_key A character string required for authentication and data access.
 #' @param filt.taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.

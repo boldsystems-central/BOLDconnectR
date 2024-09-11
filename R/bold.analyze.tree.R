@@ -14,7 +14,7 @@
 #' @param tree.plot.type The layout of the tree. Based on [ape::plot.phylo()] type.
 #' @param ... additional arguments from [ape::dist.dna()]
 #'
-#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Setting `dist.matrix`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed using the argument `...`. Setting `tree.plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. `tree.plot.type` specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on `type` argument of [ape::plot.phylo()];The first alphabet can be used instead of the whole word). Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
+#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Setting `dist.matrix`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed to [ape::dist.dna()] using the argument `...`. Setting `tree.plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. `tree.plot.type` specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on `type` argument of [ape::plot.phylo()];The first alphabet can be used instead of the whole word). Both `ape::nj()` and `ape::njs()` are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
 #'
 #' @returns An 'output' list containing:
 #' *	dist_mat = A distance matrix based on the model selected if dist.matrix=TRUE.
@@ -92,7 +92,6 @@ bold.analyze.tree<-function(bold.df,
                   matches("sampleid",ignore.case=TRUE),
                   matches("^bin_uri$",ignore.case=TRUE),
                   matches("^marker_code$",ignore.case=TRUE),
-                  #matches("^nuc_basecount$",ignore.case=TRUE),
                   matches("^nuc$",ignore.case=TRUE),
                   matches("^aligned_seq",ignore.case=TRUE),
                   matches("^msa.seq.name",ignore.case=TRUE))%>%

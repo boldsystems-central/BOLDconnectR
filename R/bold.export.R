@@ -30,7 +30,7 @@
 #' # Align the data (using processid and bin_uri as fields for sequence names)
 #' # Users need to install and load packages `msa` and `Biostrings` before using bold.analyze.align.
 #'
-#' seq.align<-BOLDconnectR:::bold.analyze.align(data_for_export,
+#' seq.align<-bold.analyze.align(data_for_export,
 #'                                              seq.name.fields = c("processid","bin_uri"),
 #'                                              align.method = "ClustalOmega")
 #' # Export the multiple sequence alignment
@@ -224,7 +224,6 @@ switch(export,
                            matches("sampleid",ignore.case=TRUE),
                            matches("^bin_uri$",ignore.case=TRUE),
                            matches("^marker_code$",ignore.case=TRUE),
-                           #matches("^nuc_basecount$",ignore.case=TRUE),
                            matches("^nuc$",ignore.case=TRUE),
                            all_of(fas.seq.name.fields))%>%
              dplyr::filter(!is.na(nuc))%>%
