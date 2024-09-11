@@ -40,10 +40,10 @@
 #'
 #' # Align the data
 #' # Users need to install and load packages `msa` and `Biostrings`.
-#' seq.align<-BOLDconnectR:::bold.analyze.align(seq.data,
-#'                                              seq.name.fields = c("species","bin_uri"),
-#'                                              marker="COI-5P",
-#'                                              align.method="ClustalOmega")
+#' seq.align<-bold.analyze.align(seq.data,
+#' seq.name.fields = c("species","bin_uri"),
+#' marker="COI-5P",
+#' align.method="ClustalOmega")
 #'
 #' #Analyze the data to get a tree
 #' seq.analysis<-bold.analyze.tree(seq.align,

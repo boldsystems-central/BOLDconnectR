@@ -34,14 +34,14 @@
 #'
 #' # key' would the 'api_key' provided to the user
 #'
-#' #With processids ('processid' param is the first column in the data (param.index=1))
+#' # With processids ('processid' param is the first column in the data (param.index=1))
 #' res <- bold.fetch(param.data = test.data,
 #' query.param = 'processid',
 #' param.index = 1,
 #' api_key = "key")
 #'
 #'
-#' #With sampleids ('sampleid' param is the second column in the data (param.index=2))
+#' # With sampleids ('sampleid' param is the second column in the data (param.index=2))
 #' res<-bold.fetch(param.data = test.data,
 #' query.param = 'sampleid',
 #' param.index = 2,
@@ -49,21 +49,21 @@
 #'
 #' ## Using filters
 #'
-#' #Geography
+#' # Geography
 #' res <- bold.fetch(param.data = test.data,
 #' query.param = 'processid',
 #' param.index = 1,
 #' api_key = "key",
 #' filt.geography = "Churchill")
 #'
-#' #Sequence length
+#' # Sequence length
 #' res <- bold.fetch(param.data = test.data,
 #' query.param = 'processid',
 #' param.index = 1,
 #' api_key  =  "key",
 #' filt.basecount = c(500,600))
 #'
-#' #Gene marker & sequence length
+#' # Gene marker & sequence length
 #' res<-bold.fetch(param.data = test.data,
 #' query.param = 'processid',
 #' param.index = 1,
