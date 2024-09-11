@@ -19,18 +19,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 4.0.0)    
+    R (>= 4.0.0), 
+    ape(>= 5.5)   
 biocViews:
 Imports: 
-    ape,
-    BAT,
-    data.table,
-    dplyr,
-    ggplot2,
-    glue,
-    httr,
-    jsonlite,
-    lifecycle,
+    BAT(>= 2.0),
+    data.table(>= 1.13),
+    dplyr(>= 1.0.1),
+    ggplot2(>= 3.3.2),
+    glue(>= 1.4.2),
+    httr(>= 1.4.2),
+    jsonlite(>= 1.7),
+    lifecycle(>= 1.0.0),
     methods,
     reshape2,
     rlang,

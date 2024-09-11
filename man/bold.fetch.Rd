@@ -32,7 +32,7 @@ bold.fetch(
 \arguments{
 \item{param.data}{A file path pointing to either a csv/tsv/txt file with the ids or a data frame where ids are stored.}
 
-\item{query.param}{The parameter on which the data should be fetched. “processid”, “sampleid”, "bin_uri" or "dataset_codes".}
+\item{query.param}{The parameter on which the data should be fetched (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes").}
 
 \item{param.index}{A number indicating the column index (position) of the \code{query.params} in the dataset.}
 
@@ -78,7 +78,7 @@ bold.fetch(
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any).
 }
 \description{
-Retrieves public and private user data based on different parameters (processid, sampleid, dataset codes & bin_uri) input.
+Retrieves public and private user data based on different parameters (processid, sampleid, dataset or project codes & bin_uri) input.
 }
 \details{
 \code{bold.fetch} retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the Barcode Core Data Model (BCDM) format. It supports effective download data in bulk using search parameters \code{query.params} such as ‘processids’, ‘sampleids’, ‘bin_uri’ and ‘dataset codes’. Data input can be either through a path to a flat file with extensions like \code{.csv/.tsv/.txt} or a R \code{data.frame} object. The import process assumes that the input data includes a header. Users must specify only one of the \code{query.params} at a time for retrieval. Multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless of the parameters available. The \code{filt.} or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all \code{filt.}argument names must be written explicitly to avoid any errors (Ex. \code{filt.institutes} = ’CBG’ instead of just ’CBG’). Using the \code{filt.fields} argument allows users to select specific columns for inclusion in the final data frame, though, processids and sampleids, are included by default. If this argument is left as NULL all columns will be downloaded. There is no upper limit to the volume of data that can be retrieved, however, this depends on the user’s internet connection and computer specifications. The \code{api_key} is a UUID v4 hexadecimal string obtained upon request from BOLD at support@boldsystems.org and is valid for one year, requiring renewal thereafter. The names of the columns in the downloaded data correspond to those specified in bold.fields.info. It is important to correctly match the \code{query.param} and \code{param.index} to avoid getting any errors. Note that some values or fields might currently be unavailable but may be accessible future.

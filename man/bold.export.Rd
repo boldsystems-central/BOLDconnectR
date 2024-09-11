@@ -52,7 +52,7 @@ data_for_export <- bold.fetch(data_for_export_ids,
 # Align the data (using processid and bin_uri as fields for sequence names)
 # Users need to install and load packages `msa` and `Biostrings` before using bold.analyze.align.
 
-seq.align<-BOLDconnectR:::bold.analyze.align(data_for_export,
+seq.align<-bold.analyze.align(data_for_export,
                                              seq.name.fields = c("processid","bin_uri"),
                                              align.method = "ClustalOmega")
 # Export the multiple sequence alignment
