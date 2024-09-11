@@ -19,31 +19,6 @@
 #' * grids = A `sf` data frame containing the grid geometry and corresponding cell id.
 #' * grid_plot = A grid_plot overlaid on a world map with cell ids.
 #'
-#' @examples
-#' \dontrun{
-#' # Using countries as a site.cat
-#'
-#' # Download data from BOLD
-#' comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
-#'
-#' # Generate the community matrix based on countries
-#' comm.matrix<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
-#'
-#' # View the community matrix
-#' head(comm.matrix$comm.matrix)
-#'
-#' # Using grids instead of site.cat
-#'
-#' # Generate the community matrix based on grids
-#' comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
-#'
-#' # View the community matrix
-#' head(comm.data.grid$comm.matrix)
-#'
-#' # View the sf dataframe of the grids
-#' head(comm.data.grid$grids)
-#'}
-#'
 #' @importFrom reshape2 dcast
 #' @importFrom httr POST
 #' @importFrom dplyr bind_rows

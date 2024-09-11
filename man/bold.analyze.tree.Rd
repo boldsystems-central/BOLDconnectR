@@ -56,8 +56,6 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \examples{
 \dontrun{
-library(msa)
-library(Biostrings)
 
 # Download the data ids
 seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"), filt.marker = "COI-5P")

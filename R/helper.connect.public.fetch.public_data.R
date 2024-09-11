@@ -15,8 +15,6 @@ fetch.public.data<-function (query)
 
   base_url_query<-'https://portal.boldsystems.org/api/query?query='
 
-  options(timeout = 1800)
-
   #1.trial_query parse
 
   # Remove the commas and substitute it with space

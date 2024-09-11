@@ -23,7 +23,11 @@
 #'
 bold.fields.info<-function (print.output=FALSE) {
 
-  options(timeout=300)
+  original_timeout = getOption('timeout')
+
+  options(timeout=350)
+
+  on.exit(original_timeout)
 
   bold.fields.data= suppressMessages(data.table::fread("https://github.com/DNAdiversity/BCDM/raw/main/field_definitions.tsv",
                                                        sep = '\t',
@@ -61,6 +65,8 @@ bold.fields.info<-function (print.output=FALSE) {
     # This is so that the whole output is not printed in the console
 
     invisible(bold.fields.data)
+
+
 
   }
 

@@ -46,30 +46,4 @@ This function generates a community matrix (~site X species) using the data retr
 \details{
 The function transforms the \code{\link[=bold.fetch]{bold.fetch()}} downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a \code{site.cat} site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular \code{site.cat} or 'grid'). \code{site.cat} can be any of the \code{geography} fields (Meta data on fields can be checked using the \code{\link[=bold.fields.info]{bold.fields.info()}}). Alternatively, \code{grids} = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For \code{grids} generation, rows with no latitude and longitude data are removed (even if a corresponding \code{site.cat} information is available) while NULL entries for \code{site.cat} are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).\code{grids} converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the \code{grids_final} \code{sf} data frame stored in the output. The grids can be visualized with \code{view.grids}=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) if the data has many closely located grids, visualization with \code{view.grids} can get confusing. The argument \code{pre.abs} will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like \code{vegan} for biodiversity analyses.
 }
-\examples{
-\dontrun{
-# Using countries as a site.cat
-
-# Download data from BOLD
-comm.mat.data<-bold.connectr.public(taxonomy = "Panthera")
-
-# Generate the community matrix based on countries
-comm.matrix<-gen.comm.mat(comm.mat.data,taxon.rank="species",site.cat = "country.ocean")
-
-# View the community matrix
-head(comm.matrix$comm.matrix)
-
-# Using grids instead of site.cat
-
-# Generate the community matrix based on grids
-comm.data.grid<-gen.comm.mat(comm.mat.data,taxon.rank="species",grids = TRUE,gridsize = 1000000)
-
-# View the community matrix
-head(comm.data.grid$comm.matrix)
-
-# View the sf dataframe of the grids
-head(comm.data.grid$grids)
-}
-
-}
 \keyword{internal}

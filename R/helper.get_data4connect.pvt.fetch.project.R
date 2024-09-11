@@ -1,24 +1,23 @@
-#' Helper function using GET to get the processids from dataset codes
+#' Helper function using GET to get the processids from project codes
 #'
-#' @param data_for_datasets input data containing dataset codes information
+#' @param data_for_projects input data containing dataset codes information
 #' @param api.key API key required to fetch the data
 #' @keywords internal
-
-
-get_data_datasets<-function (data_for_datasets,
-                         api.key)
+#'
+get_data_projects<-function (data_for_projects,
+                             api.key)
 
 {
 
 
   # base url
 
-  base_url_dataset = "https://data.boldsystems.org/api/records/processids?"
+  base_url_project = "https://data.boldsystems.org/api/records/processids?"
 
 
   # Obtain the dataset codes as a list of comma separated vector with 'dataset_codes' title
 
-  query_params_dataset = list('dataset_codes'= paste(data_for_datasets,
+  query_params_project = list('project_codes'= paste(data_for_projects,
                                                      collapse=','))
 
   # add a condition to check  the number of dataset codes
@@ -28,8 +27,8 @@ get_data_datasets<-function (data_for_datasets,
     {
 
 
-      httr::GET(url=base_url_dataset,
-                query=query_params_dataset,
+      httr::GET(url=base_url_project,
+                query=query_params_project,
                 add_headers('accept' = 'application/json',
                             'api-key' = api.key))
 
@@ -68,7 +67,7 @@ get_data_datasets<-function (data_for_datasets,
 
     suppressWarnings(
 
-      json_cont_data_sets<-content(get.data,"text")
+      json_cont_project<-content(get.data,"text")
 
     )
 
@@ -76,13 +75,13 @@ get_data_datasets<-function (data_for_datasets,
 
   # Json strings to text to a list
 
-  json_data_datasets<- lapply(strsplit(json_cont_data_sets,
-                                   "\n")[[1]], # split the content (here each process or sample id)
-                          function(x) fromJSON(x)) # convert to JSON string and lapply converts that into a list
+  json_data_project<- lapply(strsplit(json_cont_project,
+                                       "\n")[[1]], # split the content (here each process or sample id)
+                              function(x) fromJSON(x)) # convert to JSON string and lapply converts that into a list
 
   # COnvert the list to a data frame
 
-  input_data2 = json_data_datasets%>%
+  input_data2 = json_data_project%>%
     data.frame(.)
 
 

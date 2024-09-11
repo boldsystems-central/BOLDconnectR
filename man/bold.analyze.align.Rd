@@ -35,12 +35,13 @@ Function designed to transform and align the sequence data retrieved from the fu
 \details{
 \code{bold.analyze.align} retrieves the sequence information obtained using \code{bold.fetch} function and performs a multiple sequence alignment. Type of clustering method can be specified using the \code{align.method} argument (Default value is ClustalOmega). It utilizes the msa::msa() function with default settings but additional arguments can be passed via the \code{...} argument. Marker name provided must match with the standard marker names available on the BOLD webpage. Name for individual sequences in the output can be customized by using the \code{seq.name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data. The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and another for the names given to the sequences.
 
-\emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the \code{:::} operator  (\code{BOLDconnectR:::bold.analyze.align}). Users are required to install and load the \code{Biostrings} and \code{msa} packages using \code{BiocManager} (Please see the examples for the usage) before running this function that are maintained by \code{Bioconductor}.
+\emph{Note: } This function is currently an internal function with documentation and can be accessed only by using the \code{:::} operator  (\code{BOLDconnectR:::bold.analyze.align}). Users are required to install and load the \code{Biostrings} and \code{msa} packages using \code{BiocManager} before running this function.
 }
 \examples{
 \dontrun{
 # Search for ids
-seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae", "Oreochromis karongae"))
+seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae",
+"Oreochromis karongae"))
 
 # Fetch the data using the ids
 # api_key must be obtained from BOLD support before usage
@@ -49,21 +50,18 @@ query.param = "processid",
 param.index = 1,
 api_key=apikey)
 
-# msa is required for this function to run. msa is installed using BiocManager
-if (!requireNamespace("BiocManager", quietly=TRUE))
-install.packages("BiocManager")
-BiocManager::install("msa")
-BiocManager::install("Biostrings")
-library(msa)
-library(Biostrings)
+# R packages `msa` and `Biostrings` are required for this function to run.
+# Both the packages are installed using `BiocManager`.
+# That is the reason this function is internal (and therefore, has been commented out here as well).
+# This can be used by the three colon notation (Ex.BOLDconnectR:::bold.analyze.align).
 
 # Align the data (using  bin_uri as the name for each sequence)
-seq.align <- BOLDconnectR:::bold.analyze.align(seq.data,
-seq.name.fields = c("bin_uri"),
-align.method="ClustalOmega")
+# seq.align <- BOLDconnectR:::bold.analyze.align(seq.data,
+# seq.name.fields = c("bin_uri"),
+# align.method="ClustalOmega")
 
 # Dataframe of the sequences (aligned) with their corresponding names
- head(seq.align)
+# head(seq.align)
  }
 
 }

@@ -64,7 +64,6 @@ Retrieves record ids for publicly available data based on taxonomy, geography or
 }
 \examples{
 
-\dontrun{
 # Taxonomy
 bold.data <- bold.public.search(taxonomy = "Panthera leo")
 head(bold.data,10)
@@ -80,6 +79,5 @@ geography = "India",
 bins=c("BOLD:AAD6819"))
 
 bold.data.taxo.geo.bin
-}
 
 }

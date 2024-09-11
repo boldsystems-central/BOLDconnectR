@@ -107,7 +107,7 @@
 #' @importFrom httr http_status
 #'
 #' @export
-
+#'
 bold.fetch<-function(param.data,
                       query.param,
                       param.index,
@@ -313,7 +313,18 @@ bold.fetch<-function(param.data,
                                   api_key = api_key)
   }
 
-  #4. BIN ids
+  #4. Project codes
+
+  else if (query.param=='project_codes')
+
+  {
+
+    json.df = fetch.bold.project(data.input = input_data,
+                                  param.index = param.index,
+                                  api_key = api_key)
+  }
+
+  #5. BIN ids
 
   else if (query.param=='bin_uri')
 

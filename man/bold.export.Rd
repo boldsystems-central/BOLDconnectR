@@ -38,37 +38,37 @@ The name for individual sequences in the unaligned FASTA file output can be cust
 }
 \examples{
 \dontrun{
-library(msa)
-library(Biostrings)
-
- # Download data
+Download data
 data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata",
-filt.basecount= c(500,600),
-filt.marker = "COI-5P")
+                                          filt.basecount= c(500,600),
+                                          filt.marker = "COI-5P")
 
 # Fetching the data using the ids
 data_for_export <- bold.fetch(data_for_export_ids,
-query.param = "processid",
-param.index = 1,
-apikey= apikey)
+                              query.param = "processid",
+                              param.index = 1,
+                              api_key= apikey)
 
 # Align the data (using processid and bin_uri as fields for sequence names)
-# Users need to install and load packages `msa` and `Biostrings`.
+# Users need to install and load packages `msa` and `Biostrings` before using bold.analyze.align.
 
 seq.align<-BOLDconnectR:::bold.analyze.align(data_for_export,
-                                             seq.name.fields = c("processid","bin_uri"))
-# Export the fasta file (unaligned)
-# Note that input data is the original BCDM data retrieved using bold.fetch
-bold.export(data_for_export, export= "fas",
-            fas.seq.name.fields = c("species","bin_uri","processid"),
-            export.file.path = "file_path",
-            export.file.name = "file_name")
-
+                                             seq.name.fields = c("processid","bin_uri"),
+                                             align.method = "ClustalOmega")
 # Export the multiple sequence alignment
-# Note the input data here is the modified BCDM data after using bold.analyze.align
+# Note the input data here is the modified BCDM data after using bold.analyze.align.
+# file.path and file.name must be provided
 bold.export(seq.align,export = "msa.fas",
-fas.seq.name.fields = ("species","bin_uri","processid"),
-export.file.path = "file_path",export.file.name = "file_name")
+export.file.path = "file_path",
+export.file.name = "file_name")
+
+# Export the fasta file (unaligned)
+# Note that input data is the original BCDM data retrieved using bold.fetch.
+# file.path and file.name must be provided
+bold.export(data_for_export, export= "fas",
+fas.seq.name.fields = c("species","bin_uri","processid"),
+export.file.path = "",
+export.file.name = "")
 }
 
 }

@@ -4,9 +4,9 @@
 \name{BOLDconnectR-package}
 \alias{BOLDconnectR}
 \alias{BOLDconnectR-package}
-\title{BOLDconnectR: Retrieve, Transform and Analyze the Barcode of Life Data Systems Data in R}
+\title{BOLDconnectR: Retrieve, Transform and Analyze the Barcode of Life Data Systems Data}
 \description{
-Facilitate retrieval, transformation and analysis of the data from the Barcode of Life Data Systems (BOLD) database. This package allows both public and private user data to be easily downloaded easily into the R environment using a variety of inputs such as: processids, sampleids, taxonomy, geography etc. It provides the functionality to convert data into formats compatible with other R-packages and third-party tools, as well as analysis functions for biodiversity, clustering and mapping.
+Facilitate retrieval, transformation and analysis of the data from the Barcode of Life Data Systems (BOLD) database <http:https://boldsystems.org/>. This package allows both public and private user data to be easily downloaded easily into the R environment using a variety of inputs such as: processids, sampleids, taxonomy, geography etc. It provides the functionality to convert data into formats compatible with other R-packages and third-party tools, as well as analysis functions for biodiversity, clustering and mapping.
 }
 \author{
 \strong{Maintainer}: Sameer Padhye \email{spadhye@uoguelph.ca}
