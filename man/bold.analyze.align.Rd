@@ -24,7 +24,6 @@ bold.analyze.align(
 \item{...}{additional arguments that can be passed to msa::msa() function.}
 }
 \value{
-An 'output' list containing:
 \itemize{
 \item bold.df.mod = A modified BCDM data frame with two additional columns (’aligned_seq’ and ’msa.seq.name’).
 }
@@ -33,7 +32,7 @@ An 'output' list containing:
 Function designed to transform and align the sequence data retrieved from the function \code{bold.fetch}.
 }
 \details{
-\code{bold.analyze.align} retrieves the sequence information obtained using \code{bold.fetch} function and performs a multiple sequence alignment. Type of clustering method can be specified using the \code{align.method} argument. It utilizes the msa::msa() function with default settings but additional arguments can be passed via the \code{...} argument. Marker name provided must match with the standard marker names available on the BOLD webpage. Name for individual sequences in the output can be customized by using the \code{seq.name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data. The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and another for the names given to the sequences.
+\code{bold.analyze.align} retrieves the sequence information obtained using \code{bold.fetch} function and performs a multiple sequence alignment. Type of clustering method can be specified using the \code{align.method} argument. It utilizes the \code{msa::msa()} function with default settings but additional arguments can be passed via the \code{...} argument. Marker name provided must match with the standard marker names available on the BOLD webpage (Ex. COI-5P). Name for individual sequences in the output can be customized by using the \code{seq.name.fields} argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data by default. The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and another for the names given to the sequences.
 
 \emph{Note: }. Users are required to install and load the \code{Biostrings} and \code{msa} packages using \code{BiocManager} before running this function.
 }
@@ -54,12 +53,12 @@ api_key=apikey)
 # Both the packages are installed using `BiocManager`.
 
 # Align the data (using  bin_uri as the name for each sequence)
-# seq.align <- bold.analyze.align(seq.data,
-# seq.name.fields = c("bin_uri"),
-# align.method="ClustalOmega")
+seq.align <- bold.analyze.align(seq.data,
+seq.name.fields = c("bin_uri"),
+align.method="ClustalOmega")
 
 # Dataframe of the sequences (aligned) with their corresponding names
-# head(seq.align)
+head(seq.align)
  }
 
 }

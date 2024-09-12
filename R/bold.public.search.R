@@ -26,11 +26,15 @@
 #'
 #' # Taxonomy
 #' bold.data <- bold.public.search(taxonomy = "Panthera leo")
+#'
+#' #Result
 #' head(bold.data,10)
 #'
 #' # Taxonomy and Geography
 #' bold.data.taxo.geo <- bold.public.search(taxonomy = "Panthera uncia",
 #' geography = "India")
+#'
+#' #Result
 #' head(bold.data.taxo.geo,10)
 #'
 #' # Taxonomy, Geography and BINs
@@ -38,6 +42,7 @@
 #' geography = "India",
 #' bins=c("BOLD:AAD6819"))
 #'
+#' #Result
 #' bold.data.taxo.geo.bin
 #'
 #' @importFrom utils URLencode
