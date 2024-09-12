@@ -79,10 +79,22 @@ get_data_projects<-function (data_for_projects,
                                        "\n")[[1]], # split the content (here each process or sample id)
                               function(x) fromJSON(x)) # convert to JSON string and lapply converts that into a list
 
-  # COnvert the list to a data frame
+  # Convert the list to a data frame
 
-  input_data2 = json_data_project%>%
-    data.frame(.)
+  input_data2 <- tryCatch({
+    df <- json_data_project %>%
+      data.frame(.)
+
+    if (nrow(df) == 0) {
+      stop("The resulting data frame is empty.")
+    }
+
+    df
+  }, error = function(e) {
+    # Handle the error for the data frame conversion
+    stop("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+
+  })
 
 
   return(input_data2)

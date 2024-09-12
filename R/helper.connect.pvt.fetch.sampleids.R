@@ -148,12 +148,15 @@ fetch.bold.sampleid<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-    json.df = json.df%>%
-      tidyr::separate(coord,
-                      c("lat","lon"),
-                      sep=",",
-                      remove = T)%>%
-      dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x)))
+  json.df <- tryCatch({
+    json.df %>%
+      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  }, error = function(e) {
+    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+    return(NULL)
+  })
+
 
 
   return(json.df)

@@ -342,20 +342,12 @@ bold.fetch<-function(param.data,
 
     {
 
-     stop("Input params can only be either processid, sampleid, datasets or bin_uri")
+     stop("Input params can only be either processid, sampleid, dataset or project_codes and bin_uri")
 
      return(FALSE)
 
       }
 
-
-  if(nrow(json.df)==0)
-
-  {
-
-    stop("Data could not be retrieved. Please re-check the parameters.")
-
-  }
 
 
     # a separate filter function is used to filter the retrieved data
@@ -395,19 +387,6 @@ bold.fetch<-function(param.data,
 
 
   }
-
-  # If the resulting data (after filtering) is empty
-
-  if(nrow(json.df)==0)
-
-  {
-
-    stop("The output has no data.It could either be due to wrong range of values or incorrect names. Please re-check the filter/s used")
-
-    return(FALSE)
-
-  }
-
 
 
   # If user wants to export the data

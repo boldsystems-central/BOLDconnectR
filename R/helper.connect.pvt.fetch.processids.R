@@ -109,7 +109,7 @@ fetch.bold.processid<-function(data.input,
 
     {
 
-      stop("Error occurred during data download. Please re-check param.data,param.query, param.index or the api_key")
+      stop("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
 
     }
 
@@ -127,34 +127,20 @@ fetch.bold.processid<-function(data.input,
       dplyr::bind_rows(.)
 
 
-    if(nrow(json.df)==0)
-
-    {
-
-      stop("Search resulted in an empty dataset. Please re-check the input data.")
-
-    }
-
-    else
-
-    {
-
-      json.df
-
-    }
-
-  }
+ }
 
 
 
     # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-    json.df = json.df%>%
-      tidyr::separate(coord,
-                      c("lat","lon"),
-                      sep=",",
-                      remove = T)%>%
-      dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x)))
+  json.df <- tryCatch({
+    json.df %>%
+      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  }, error = function(e) {
+    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+    return(NULL)
+  })
 
 
 
