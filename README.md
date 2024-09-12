@@ -53,15 +53,13 @@ library(Biostrings)
 2.  bold.fetch
 3.  bold.public.search
 4.  bold.data.summarize
-5.  *bold.analyze.align*
+5.  bold.analyze.align
 6.  bold.analyze.tree
 7.  bold.analyze.diversity
 8.  bold.analyze.map
 9.  bold.export
 
-*Function 5 is currently an internal function which requires external
-dependencies not included in the package. For their specific usage,
-please see the details provided below.*
+*Function 5 requires external dependencies not included in the package.*
 
 ### Note on API key
 
