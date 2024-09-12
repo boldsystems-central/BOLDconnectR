@@ -34,10 +34,10 @@ Imports:
     methods,
     reshape2,
     rlang,
-    rnaturalearth,
+    rnaturalearth(>= 0.1),
     sf(>= 0.9.4),
     skimr(>= 2.1.2),
-    tidyr,
+    tidyr(>= 1.1.1),
     utils,
     vegan(>= 2.5.7)
 Suggests:
