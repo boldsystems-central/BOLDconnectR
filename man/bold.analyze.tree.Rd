@@ -22,7 +22,7 @@ bold.analyze.tree(
 
 \item{dist.model}{A character string specifying the model to generate the distances.}
 
-\item{clus.method}{A character vector specifying either \code{\link[ape:nj]{ape::nj()}} (neighbour joining) or \code{\link[ape:njs]{ape::njs()}} (neighbour joining with NAs) clustering algorithm.}
+\item{clus.method}{A character vector specifying either \code{nj} (neighbour joining) or \code{njs} (neighbour joining with NAs) clustering algorithm.}
 
 \item{dist.matrix}{A logical value specifying whether the distance matrix should be saved in the output. Default is FALSE.}
 
@@ -34,9 +34,9 @@ bold.analyze.tree(
 
 \item{tree.plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.}
 
-\item{tree.plot.type}{The layout of the tree. Based on \code{\link[ape:plot.phylo]{ape::plot.phylo()}} type.}
+\item{tree.plot.type}{The layout of the tree.}
 
-\item{...}{additional arguments from \code{\link[ape:dist.dna]{ape::dist.dna()}}}
+\item{...}{additional arguments from \code{ape::dist.dna}.}
 }
 \value{
 An 'output' list containing:
@@ -52,7 +52,7 @@ An 'output' list containing:
 Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{bold.analyze.align}.
 }
 \details{
-\code{bold.analyze.tree} analyzes the multiple sequence alignment output of the \code{bold.analyze.align} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. Setting \code{dist.matrix}= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed to \code{\link[ape:dist.dna]{ape::dist.dna()}} using the argument \code{...}. Setting \code{tree.plot}= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from \code{\link[ape:dist.dna]{ape::dist.dna()}} and the \code{\link[ape:plot.phylo]{ape::plot.phylo()}} function. \code{tree.plot.type} specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on \code{type} argument of \code{\link[ape:plot.phylo]{ape::plot.phylo()}};The first alphabet can be used instead of the whole word). Both \code{ape::nj()} and \code{ape::njs()} are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
+\code{bold.analyze.tree} analyzes the multiple sequence alignment output of the \code{bold.analyze.align} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. Setting \code{dist.matrix}= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data. Additional arguments for calculating distances can passed to \code{\link[ape:dist.dna]{ape::dist.dna()}} using the \code{...} argument. Setting \code{tree.plot}= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from \code{\link[ape:dist.dna]{ape::dist.dna()}} and the \code{\link[ape:plot.phylo]{ape::plot.phylo()}} function. \code{tree.plot.type} specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on \code{type} argument of \code{\link[ape:plot.phylo]{ape::plot.phylo()}};The first alphabet can be used instead of the whole word). Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additionally, the function provides base frequencies and offers an option to export the trees in a Newick format by specifying the name and path for output file.
 }
 \examples{
 \dontrun{
