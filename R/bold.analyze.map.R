@@ -146,8 +146,14 @@ bold.analyze.map<-function(bold.df,
     bin.geo.df<-geo.data%>%
       dplyr::filter(country.ocean %in% !!country)
 
-    map_data<-rnaturalearth::ne_countries(country = country,
-                                          scale = 110)
+    map_data <- rnaturalearth::ne_countries(scale = 110)
+
+    # US names mismatch is corrected
+
+    map_data[which(map_data$name_en=="United States of America"),"name_en"]<-"United States"
+
+    map_data<-map_data%>%
+      dplyr::filter(name_en %in% !!country)
 
     map_data <- st_set_crs(map_data,
                            4326)
