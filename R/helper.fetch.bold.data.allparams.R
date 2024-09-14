@@ -102,14 +102,14 @@ fetch.bold.processid<-function(data.input,
                                                         api.key=api_key,
                                                         temp.file=file)})
 
-    if (unlist(result,
-               use.names = T)$status_code!=200)
-
-    {
-
-      stop("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-
-    }
+    # if (unlist(result,
+    #            use.names = T)$status_code!=200)
+    #
+    # {
+    #
+    #   stop("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+    #
+    # }
 
 
     # # removing empty results
@@ -131,16 +131,18 @@ fetch.bold.processid<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-  json.df <- tryCatch({
-    json.df %>%
-      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
-      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
-  }, error = function(e) {
-    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-    return(NULL)
-  })
+  # json.df <- tryCatch({
+  #   json.df %>%
+  #     tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+  #     dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  # }, error = function(e) {
+  #   message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+  #   return(NULL)
+  # })
 
-
+  json.df %>%
+        tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+        dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
 
   return(json.df)
 
@@ -292,15 +294,17 @@ fetch.bold.sampleid<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-  json.df <- tryCatch({
-    json.df %>%
-      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
-      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
-  }, error = function(e) {
-    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-    return(NULL)
-  })
-
+  # json.df <- tryCatch({
+  #   json.df %>%
+  #     tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+  #     dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  # }, error = function(e) {
+  #   message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+  #   return(NULL)
+  # })
+  json.df %>%
+    tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+    dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
 
 
   return(json.df)
@@ -474,17 +478,21 @@ fetch.bold.bins<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-  json.df <- tryCatch({
-    json.df %>%
-      tidyr::separate(coord, c("lat", "lon"),
-                      sep = ",",
-                      remove = TRUE) %>%
-      dplyr::mutate(across(c(lat, lon),
-                           ~ as.numeric(.x)))
-  }, error = function(e) {
-    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-    return(NULL)
-  })
+  # json.df <- tryCatch({
+  #   json.df %>%
+  #     tidyr::separate(coord, c("lat", "lon"),
+  #                     sep = ",",
+  #                     remove = TRUE) %>%
+  #     dplyr::mutate(across(c(lat, lon),
+  #                          ~ as.numeric(.x)))
+  # }, error = function(e) {
+  #   message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+  #   return(NULL)
+  # })
+
+  json.df %>%
+    tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+    dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
 
 
   return(json.df)
@@ -665,14 +673,18 @@ fetch.bold.datasets<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-  json.df <- tryCatch({
-    json.df %>%
-      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
-      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
-  }, error = function(e) {
-    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-    return(NULL)
-  })
+  # json.df <- tryCatch({
+  #   json.df %>%
+  #     tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+  #     dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  # }, error = function(e) {
+  #   message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+  #   return(NULL)
+  # })
+
+  json.df %>%
+    tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+    dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
 
   return(json.df)
 
@@ -852,15 +864,18 @@ fetch.bold.project<-function(data.input,
 
   # Convert the 'coord' character data into two numeric columns 'lat','lon'
 
-  json.df <- tryCatch({
-    json.df %>%
-      tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
-      dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
-  }, error = function(e) {
-    message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-    return(NULL)
-  })
+  # json.df <- tryCatch({
+  #   json.df %>%
+  #     tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+  #     dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
+  # }, error = function(e) {
+  #   message("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
+  #   return(NULL)
+  # })
 
+  json.df %>%
+    tidyr::separate(coord, c("lat", "lon"), sep = ",", remove = TRUE) %>%
+    dplyr::mutate(across(c(lat, lon), ~ as.numeric(.x)))
 
   return(json.df)
 

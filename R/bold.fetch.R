@@ -230,13 +230,13 @@ bold.fetch<-function(param.data,
    }
 
 
-  # Check the limit of the data
-
-  if (nrow(input_data)>25000) {
-
-    warning(" Input data has more than 25000 rows. Retrieving data might take time")
-
-  }
+  # # Check the limit of the data
+  #
+  # if (nrow(input_data)>25000) {
+  #
+  #   warning(" Input data has more than 25000 rows. Retrieving data might take time")
+  #
+  # }
 
 
   # Check param.index is a number
