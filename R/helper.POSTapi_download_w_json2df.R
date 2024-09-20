@@ -1,19 +1,42 @@
-#' Helper Function: Fetching the data based on the temp file
-#' @param result the output of any of the id fetch functions
+#' Helper Functions: Retrieve the data using POST API and convert it into a data frame
+#' @importFrom httr POST
+#'
 #' @keywords internal
+
+# Function 1: Retrieve data using the POST API
+
+post.api.res.fetch<-function (base.url,
+                              query.params,
+                              temp.file)
+
+{
+
+
+  result <- POST(
+    url = base.url,
+    query=query.params,
+    add_headers(
+      'accept' = 'application/json',
+      'api-key' = apikey,
+      'Content-Type' = 'multipart/form-data'
+    ),
+    body = list(
+      input_file = upload_file(temp.file)
+    )
+  )
+
+
+  return(result)
+
+}
+
+
+# Function 2: Converting the retrieved data into a data frame
 
 fetch.data<-function(result)
 
   {
 
-  if(is.null(result))
-
-  {
-
-    stop("Please re-check the input parameter")
-
-
-  }
 
  # Json content to dataframe. Has a few steps
 
@@ -39,7 +62,7 @@ fetch.data<-function(result)
                      data.frame())
 
 
-  #5. Assign the particular data types to the columns
+  #5. Assign the particular data types to the columns using the helper function
 
   json.df=reassign.data.type(json.df)
 

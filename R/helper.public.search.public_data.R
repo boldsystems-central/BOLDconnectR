@@ -106,8 +106,6 @@ fetch.public.data<-function (query)
     gsub(" ","%20",.)%>%
     gsub('/','%2F',.)
 
-
-
   full_query<-paste0(base_url_query,
                      query_url_part1,
                      "&extent=full",
@@ -118,24 +116,20 @@ fetch.public.data<-function (query)
   get.data.query=httr::GET(url=full_query,
                            add_headers('accept' = 'application/json'))
 
-
   if (get.data.query$status_code==422)
 
-    stop ("Query limit exceeded. Please reduce the number of search terms")
+   stop ("Query limit exceeded. Please reduce the number of search terms")
 
   # Convert the data into text
 
   suppressWarnings(suppressMessages(json_query<-content(get.data.query,
                                                         "text")))
 
-
   # Extract the data
 
   json_query_data<-lapply(strsplit(json_query,
                                    "\n")[[1]], # split the content (here each process or sample id)
                           function(x) fromJSON(x))
-
-
 
   #4. Obtain the data based on the query
 
@@ -146,7 +140,6 @@ fetch.public.data<-function (query)
                            "/download?format=tsv",
                            sep="")
 
-
   suppressWarnings(final_data<-data.table::fread(url_download_data,
                                                  sep = '\t',
                                                  quote = "",
@@ -154,49 +147,13 @@ fetch.public.data<-function (query)
                                                  showProgress = F)%>%
                      data.frame())
 
-
-
   # Some of the column data types are reassigned
 
   # final_data.pre=reassign.data.type(final_data)
 
-  final_data=final_data%>%
-    dplyr::select(processid,
-                  sampleid,
-                  coord,
-                  inst,
-                  identified_by,
-                  sequence_run_site,
-                  marker_code,
-                  nuc_basecount,
-                  collection_date_start,
-                  collection_date_end,
-                  elev,
-                  depth)
-
-  # final_data$collection_event_id<-as.Date(final_data$collection_event_id,format("%Y-%m-%d"))
-  #
-  # final_data$bin_created_date<-as.Date(final_data$bin_created_date,format("%Y-%m-%d"))
-  #
-  # final_data$processid_minted_date<-as.Date(final_data$processid_minted_date,format("%Y-%m-%d"))
-  #
   final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
-  #
+  
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
-  #
-  # final_data$collection_time<-as.character(final_data$collection_time)
-
-  # Convert the 'coord' character data into two numeric columns 'lat','lon'
-#
-#   final_data$coord <- gsub('\\[|\\]','',final_data$coord)
-#
-  final_data = suppressWarnings(final_data%>%
-                                  tidyr::separate(coord,
-                                                  c("lat","lon"),
-                                                  sep=",",
-                                                  remove = T)%>%
-                                  dplyr::mutate(across(c(lat,lon), ~ as.numeric(.x))))
-
 
   return(final_data)
 

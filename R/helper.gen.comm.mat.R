@@ -62,11 +62,7 @@ gen.comm.mat<-function(bold.df,
   if(is.data.frame(bold.df)==FALSE)
 
     {
-
     stop("Input is not a data frame")
-
-    return(FALSE)
-
   }
 
   # Check whether the data frame is empty
@@ -74,11 +70,7 @@ gen.comm.mat<-function(bold.df,
   if(nrow(bold.df)==0)
 
     {
-
     stop("Dataframe is empty")
-
-    return(FALSE)
-
   }
 
 
@@ -87,50 +79,36 @@ gen.comm.mat<-function(bold.df,
   if (!(is.null(site.cat)))
 
   {
-
     # The following columns have to be present in the input data frame in order to get the results
 
     if(any((c("bin_uri",taxon.rank,site.cat)%in% names(bold.df)))==FALSE)
 
     {
-
       stop("bin ids, taxon rank & site.cat fields have to be present in the dataset. Please re-check data")
-
-      return(FALSE)
-
     }
-
   }
 
   # If site category is not specified but grids are TRUE
 
   else if (is.null(site.cat) & !is.null(grids))
-
   {
-
     # The following columns have to be present in the input data frame in order to get the results
 
     if(any((c("bin_uri",taxon.rank,"lat","lon")%in% names(bold.df)))==FALSE)
 
     {
-
       stop("bin ids, taxon rank, latitude and longitude columns have to be present in the dataset for defining grids. Please re-check data")
-
-      return(FALSE)
-
-    }
-
-
+      }
   }
 
-
-  # Empty list for output
+ # Empty list for output
 
   output = list()
 
   # Obtaining the data from the fetched data for the transformation. NAs in site.cat and taxon.rank are removed
 
   bin.comm.trial=bold.df%>%
+    convert_coord_2_lat_lon(.)%>%
     dplyr::select(matches("bin_uri$",
                           ignore.case=TRUE),
                   matches("lat$",
@@ -156,8 +134,6 @@ gen.comm.mat<-function(bold.df,
 
     warning ("Taxon rank cannot be empty")
 
-    return(FALSE)
-
   }
 
   # Condition for when Taxon rank is specified but taxon name not specified
@@ -177,12 +153,10 @@ gen.comm.mat<-function(bold.df,
 
 
   {
-
     # The taxon name/s are filtered
 
     bin.comm.trial=bin.comm.trial%>%
       dplyr::filter(!!sym(taxon.rank)%in% taxon.name)
-
   }
 
 
@@ -190,18 +164,15 @@ gen.comm.mat<-function(bold.df,
 
   dcast.formula=as.formula(paste(site.cat,"~",taxon.rank))
 
-
   # If the site category is not specified
 
   if(is.null(site.cat))
 
 
   {
-
     # if Grids is TRUE and grid size is defined
 
     if (grids==TRUE & !is.null(gridsize))
-
 
     {
 
@@ -215,12 +186,9 @@ gen.comm.mat<-function(bold.df,
       if (nrow(bin.comm.trial)==0)
 
       {
+        stop("Dataset is empty.This could be due to no latitude and longitude data available for the taxa selected in the dataset")
 
-        warning("Dataset is empty.This could be due to no latitude and longitude data available for the taxa selected in the dataset")
-
-        return(FALSE)
-
-      }
+         }
 
       # If the dataset is not empty
 
@@ -329,32 +297,20 @@ gen.comm.mat<-function(bold.df,
     else if (grids==TRUE & is.null(gridsize))
 
     {
-
       stop("If grids = TRUE, gridsize needs to be specified")
-
-
     }
 
-
-
   }
-
 
   # If site.cat is not null and grids = T or gridsize is given
 
   else if (!is.null(site.cat) & grids==TRUE|!is.null(gridsize))
 
   {
-
     stop("Either site.cat or grid information should be used at one time")
+}
 
-    return(FALSE)
-
-  }
-
-
-
-  else
+ else
 
     # If the site.cat is not null, bin.comm.trial created at the taxon condition level will be returned
 
@@ -373,14 +329,11 @@ gen.comm.mat<-function(bold.df,
                                   dcast.form)
 
   {
-
     result.df=df%>%
       reshape2::dcast(dcast.formula,
                       value.var = "bin_uri",
                       fun.aggregate = length)|>
       data.frame()
-
-
   }
 
 
@@ -392,7 +345,6 @@ gen.comm.mat<-function(bold.df,
   if (any(colnames(result)=="cell.id"))
 
   {
-
     result=result%>%
       data.frame()%>%
       tidyr::separate(cell.id,
@@ -403,31 +355,23 @@ gen.comm.mat<-function(bold.df,
       tidyr::unite(cell.id,
                    cell:index,
                    remove = T)
-
-  }
+    }
 
   else
 
   {
-
     result = result
-
   }
-
 
   if(view.grids)
 
   {
-
     if(grids==TRUE & is.null(gridsize))
 
     {
+      stop("Grids can be viewed only when grids = T and gridsize is specified")
 
-      warning("Grids can be viewed only when grids = T and gridsize is specified")
-
-      return(FALSE)
-
-    }
+     }
 
     else
 
@@ -455,23 +399,6 @@ gen.comm.mat<-function(bold.df,
         geom_sf_text(aes(label = cell.id),
                      size = 3.5,
                      nudge_y = 300000) +
-        # geom_sf(data = bin_data_grids$grids_scaled,
-        #         fill = "orangered2",
-        #         alpha=0.8) +
-        # geom_sf_text(data = bin_data_grids$grids,
-        #                            aes(label = cell.id),
-        #                            size = 3) +
-        # geom_sf_label(data = grids_final,
-        #               aes(label = cell.id),
-        #               size = 3,                # Increase label size
-        #               nudge_y = 20000,
-        #               nudge_x = 10000,
-        #               label.padding = unit(0.2,
-        #                                    "lines"), # Padding around labels
-        #               label.size = 0.4,        # Border size around labels
-        #               label.r = unit(0.3, "lines"), # Rounded corners for labels
-        #               fill = "orange",          # Background color of labels
-        #               color = "black") +
         theme_minimal(base_size = 15) +
         labs(title = "Grid positions (approximate) for the data",
              x = "Longitude",
@@ -488,7 +415,6 @@ gen.comm.mat<-function(bold.df,
 
   }
 
-
   # convert the site.cat/cell.id to rownames
 
   rownames(result)=result[,1]
@@ -498,18 +424,7 @@ gen.comm.mat<-function(bold.df,
   result = result%>%
     dplyr::select(-1)
 
-
-  if(pre.abs)
-
-    {
-
-    result=ifelse(result>=1,1,0)
-
-  }
-
-
-  output$comm.matrix = result
-
+ output$comm.matrix = result
 
   invisible(output)
 

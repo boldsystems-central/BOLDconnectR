@@ -42,16 +42,10 @@ if(!is.null(taxon.name))
 
 {
 
+  # condition to check if taxonomy filters are of the correct data type
 
-  if(is.character(taxon.name)==FALSE)
+  stopifnot("taxon name should be character",is.character(taxon.name))
 
-  {
-
-    warning("taxon name should be character")
-
-    return(FALSE)
-
-  }
 
   # filter condition to select the specific taxon name.
 
@@ -77,17 +71,9 @@ if(!is.null(location.name))
 {
 
 
-  # condition to check if the country/region/site/sector is of the correct data type
+  # condition to check if geography filters are of the correct data type
 
-  if(is.character(location.name)==FALSE)
-
-  {
-
-    warning("Location name/s should be character")
-
-    return(FALSE)
-
-  }
+  stopifnot(is.character(location.name))
 
 
   bold.df=bold.df%>%
@@ -107,28 +93,19 @@ if(!is.null(location.name))
 if(!is.null(latitude))
 
 {
-
   # condition to check if Latitude is of the correct data type
 
   if(is.numeric(latitude)==FALSE)
 
   {
-
-    warning("latitude should be a numeric data type")
-
-    return(FALSE)
-
+    stop("Latitude should be a numeric data type")
   }
+
 
   if(length(latitude)!=2)
 
   {
-
-    warning("Latitude should be a range separated by a comma (start date, end date)")
-
-    return(FALSE)
-
-
+    stop("Latitude should be a range separated by a comma (start date, end date)")
   }
 
   # Latitude is a vector of length two giving a latitudinal extent
@@ -138,9 +115,8 @@ if(!is.null(latitude))
   latitude2=latitude[2]
 
   bold.df=bold.df%>%
+    convert_coord_2_lat_lon(.)%>%
     dplyr::filter(dplyr::between(lat,latitude1,latitude2))
-
-
 
 }
 
@@ -157,23 +133,14 @@ if(!is.null(longitude))
   if(is.numeric(longitude)==FALSE)
 
   {
-
-    warning("longitude should be a numeric data type")
-
-    return(FALSE)
-
+    stop("longitude should be a numeric data type")
   }
 
 
   if(length(longitude)!=2)
 
   {
-
-    warning("Longitude should be a range separated by a comma (start date, end date)")
-
-    return(FALSE)
-
-
+    stop("Longitude should be a range separated by a comma (start date, end date)")
   }
 
   # Longitude is a vector of length two giving a longitudinal extent
@@ -183,6 +150,7 @@ if(!is.null(longitude))
   longitude2=longitude[2]
 
   bold.df=bold.df%>%
+    convert_coord_2_lat_lon(.)%>%
     dplyr::filter(dplyr::between(lon,longitude1,longitude2))
 
 }
