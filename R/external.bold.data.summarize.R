@@ -133,7 +133,7 @@ bold.data.summarize<-function(bold_df,
                                                             category = "check_return",
                                                             preset = presets)
 
-              total_rows_cols(data_for_summary)
+              #total_rows_cols(data_for_summary)
 
               summary.bold.df=suppressWarnings(data_for_summary%>%
                                                  skimr::skim(.)%>%
@@ -150,7 +150,7 @@ bold.data.summarize<-function(bold_df,
                 stop("columns and presets should be NULL when summarize_by=all_data")
               }
 
-              total_rows_cols(data_for_summary)
+              total_rows_cols(bold_df)
 
               summary.bold.df=suppressWarnings(bold_df%>%
                                                  skimr::skim(.)%>%
