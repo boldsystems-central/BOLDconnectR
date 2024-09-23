@@ -1,33 +1,63 @@
 ################## Obtain processids for bin_uri, dataset_codes and project codes using GET API ######################
 
-# Function 1: The function that uses GET to retrieve pids
+# Function 1: The function that uses GET to retrieve pids (First a token is generated which is then used for obtaining the processids)
 
 bin.dataset.project.pids<-function (get.data.input,
-                                        query.param)
+                                    query.param)
 
 {
 
-  # Base url for fetching these ids
+  # Base url for the obtaining the token that will be used for fetching the processids
 
-  base_url_ids = "https://data.boldsystems.org/api/records/processids?"
+  base_url_ids<-paste('https://data.boldsystems.org/api/sets/create?',
+                      query.param,
+                      '?',
+                      sep='')
 
-  # Obtain the BIN ids as a list of comma separated vector with 'bin_uris' title
+  # query parameters
 
   query_ids = list(paste(get.data.input,
-                                       collapse=','))
+                         collapse=','))
+
+  # name of the query parameter
 
   names(query_ids)<-query.param
 
-  # use GET API to fetch data
+  # Using the GET API to fetch the token
 
   get.data=httr::GET(url=base_url_ids,
-                query=query_ids,
-                add_headers('accept' = 'application/json',
-                            'api-key' = apikey))
+                     query=query_ids,
+                     add_headers('accept' = 'application/json',
+                                 'api-key' = apikey))
+
+  ## Obtain the token as Json strings
+
+  suppressMessages(
+
+    suppressWarnings(
 
 
-    # stopifnot("Error occurred during data dowload.Please re-check whether the correct get_by and corresponding identifier argument has been specified.",is.null(get.data))
+      json_bin_dataset_project_cont<-content(get.data,
+                                             "text")
 
+    )
+
+  )
+
+  # Token is extracted out from the json text
+
+  json_bins_datasets_project_data<- lapply(strsplit(json_bin_dataset_project_cont,
+                                                    "\n")[[1]], # split the content (here each process or sample id)
+                                           function(x) fromJSON(x))
+
+  # The token is pasted in the second url to fetch the processids
+
+  url_get_pids_from_token<-paste('https://data.boldsystems.org/api/sets/retrieve/',json_bins_datasets_project_data[[1]]$token,'?','check_exists=false',sep='')
+
+
+  get.data.pids=httr::GET(url=url_get_pids_from_token,
+                          add_headers('accept' = 'application/json',
+                                      'api-key' = apikey))
 
   ## Obtain the content as Json strings
 
@@ -36,7 +66,7 @@ bin.dataset.project.pids<-function (get.data.input,
     suppressWarnings(
 
 
-      json_bin_dataset_project_cont<-content(get.data,"text")
+      json_bin_dataset_project_cont<-content(get.data.pids,"text")
 
     )
 
@@ -44,24 +74,13 @@ bin.dataset.project.pids<-function (get.data.input,
 
   # Json strings to text to a list
 
-  json_bins_datasets_project_data<- lapply(strsplit(json_bin_dataset_project_cont,
+  json_bins_datasets_project_pids<- lapply(strsplit(json_bin_dataset_project_cont,
                                                     "\n")[[1]], # split the content (here each process or sample id)
-                                           function(x) fromJSON(x)) # convert to JSON string and lapply converts that into a list
+                                           function(x) fromJSON(x))
 
-  # Convert the list to a data frame
-
-  # pids_for_POST_api <- tryCatch({
-  #   df <- json_bins_datasets_project_data %>%
-  #     data.frame(.)
-  # },
-  # error = function(e) {
-  #   # Handle the error for the data frame conversion
-  #   stop("Error occurred during data download. Please re-check the param.data, query.param, param.index or the api_key.")
-  #
-  # })
-
-  pids_for_POST_api<-json_bins_datasets_project_data %>%
+  pids_for_POST_api<-json_bins_datasets_project_pids %>%
     data.frame(.)
+
 
   return(pids_for_POST_api)
 

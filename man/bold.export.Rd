@@ -61,7 +61,8 @@ seq_align<-bold.analyze.align(data_for_export,
 # file.path and file.name must be provided
 
 # Export the fasta file (unaligned)
-# Note that input data is the original BCDM data retrieved using bold.fetch (Using getwd() as the path and trial_export as the name).
+# Note that input data is the original BCDM data retrieved
+using bold.fetch (Using getwd() as the path and trial_export as the name).
 bold.export(bold_df = data_for_export,
             export_type = "fas",
             cols_for_fas_names = c("bin_uri","genus","species"),

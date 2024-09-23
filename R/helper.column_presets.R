@@ -1,9 +1,9 @@
 #'Define and select column presets from the BCDM data
-#' 
+#'
 #' @importFrom dplyr pull
-#' 
+#'
 #' @keywords internal
-#' 
+#'
 bold_fields<-bold.fields.info()
 
 bold_fields[which(bold_fields$field=='country/ocean'),]<-"country.ocean"
@@ -127,42 +127,42 @@ bol_analyze_map_fields<-bold_fields%>%
 check_and_return_preset_df<-function (df,
                                       category = c("check","check_return"),
                                       preset)
-  {
-  
+{
+
   preset_col = preset%>%
     dplyr::pull(field)
-  
-  
+
+
   switch (category,
-          
-          
-          "check" = 
-            
+
+
+          "check" =
+
             {
-            
+
               if(!any(preset_col %in% names(df)))
               {
-                stop("Please re-check if column names match with the available field names for BCDM dataframe and that minimum field requirement for the analysis is satisfied. Please read the details section of the help for more information.")
-            
+                stop("Please re-check if column names match with the available field names for BCDM dataframe and that minimum field requirement for the analysis is satisfied. Please read the details section of 'bold.export' help for more information on presets.")
+
               }
             },
-          
-          "check_return" = 
-            
+
+          "check_return" =
+
             {
-              
+
               if(!any(preset_col %in% names(df)))
               {
-                stop("Please re-check if column names match with the available field names for the BCDM dataframe and that minimum field requirement for the analysis is satisfied. Please read the details section of the help for more information.")
+                stop("Please re-check if column names match with the available field names for the BCDM dataframe and that minimum field requirement for the analysis is satisfied. Please read the details section of 'bold.export' help for more information on presets.")
               }
               else
               {
                 preset_df = df%>%
                   dplyr::select(all_of(preset_col))
-                
+
               }
               return(preset_df)
             }
   )
-  
+
 }

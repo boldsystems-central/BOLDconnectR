@@ -38,4 +38,5 @@ bold.apikey<-function(apikey)
   on.exit(default_options)
 }
 
+bold.apikey('58EEAA88-D681-49AB-A4AC-79779E1AF3D9')
 

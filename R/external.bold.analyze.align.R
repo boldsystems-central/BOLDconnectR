@@ -192,15 +192,12 @@ bold.analyze.align<-function (bold_df,
   stringset.2.df.w.pid=stringset.2.df%>%
     dplyr::mutate(processid=sub("_.*","",msa.seq.name))
 
-  bold_df.mod=obtain.seq.from.data%>%
-    left_join(stringset.2.df.w.pid,
-              join_by(processid),
-              relationship =
-                "many-to-many")
-
+  bold_df.mod=stringset.2.df.w.pid%>%
+    left_join(bold_df,
+              join_by(processid))
 
   # The output is not printed in the console
 
-  invisible(msa_dna_string_obj)
+  invisible(bold_df.mod)
 
 }

@@ -41,7 +41,8 @@
 #' # file.path and file.name must be provided
 #'
 #' # Export the fasta file (unaligned)
-#' # Note that input data is the original BCDM data retrieved using bold.fetch (Using getwd() as the path and trial_export as the name).
+#' # Note that input data is the original BCDM data retrieved
+#' using bold.fetch (Using getwd() as the path and trial_export as the name).
 #' bold.export(bold_df = data_for_export,
 #'             export_type = "fas",
 #'             cols_for_fas_names = c("bin_uri","genus","species"),
@@ -70,97 +71,96 @@ bold.export<-function(bold_df,
   }
 
 
-# Check whether the data frame is empty
+  # Check whether the data frame is empty
 
   if (nrow(bold_df)==0) {
     stop("Input data should be a BCDM dataframe")
   }
 
+  switch(export_type,
 
+         "preset_df" =
 
-switch(export_type,
+           {
 
-       "preset_df" =
-
-         {
-
-           if (is.null(presets))
+             if (is.null(presets))
              {
-             stop("One of the presets must be provided when export_type = preset_df")
-           }
+               stop("One of the presets must be provided when export_type = preset_df")
+             }
 
 
-           preset_data=check_and_return_preset_df(bold_df,
-                                                  category = "check_return",
-                                                  preset = presets)
+             preset_data=check_and_return_preset_df(bold_df,
+                                                    category = "check_return",
+                                                    preset = presets)
 
-           utils::write.table(preset_data,
-                              paste0(export_to,
-                                     ".tsv",sep=""),
-                              sep = "\t",
-                              row.names = FALSE,
-                              quote = FALSE)
+             utils::write.table(preset_data,
+                                paste0(export_to,".tsv",sep=""),
+                                sep = "\t",
+                                row.names = FALSE,
+                                quote = FALSE)
 
            },
 
-       "msa" =
+         "msa" =
 
-         {
-           seq.data=bold_df%>%
-             dplyr::filter(!is.na(nuc))%>%
-             dplyr::filter(!is.null(nuc))%>%
-             dplyr::mutate(nuc=gsub("-","",nuc))%>%
-             dplyr::filter(nuc!="")%>%
-             dplyr::select(matches("^aligned_seq$",ignore.case=TRUE),
-                           matches("^msa.seq.name$",ignore.case=TRUE))%>%
-             dplyr::rename('seq.name'='msa.seq.name')
-
-
-           ## Export the result as a fasta file.
-
-           result=generate_ape_file(data = seq.data,
-                                    align_unaligned ='aligned_seq')
-
-
-           ape::write.FASTA(result,
-                            file=paste0(export_to,".fas",sep=""))
-
-
-       },
-
-
-       "fas" =
-
-
-         {
-
-           if(is.null(cols_for_fas_names))
            {
-             stop("Column names must be provided for sequence names")
-           }
+
+             if (any(!is.null(cols_for_fas_names),!is.null(presets)))
+             {
+               stop("Please remove any presets or field names provided in the presets or 'cols_for_fas_names' arguments.")
+             }
+
+             seq.data=bold_df%>%
+               dplyr::filter(!is.na(nuc))%>%
+               dplyr::filter(!is.null(nuc))%>%
+               dplyr::mutate(nuc=gsub("-","",nuc))%>%
+               dplyr::filter(nuc!="")%>%
+               dplyr::select(matches("^aligned_seq$",ignore.case=TRUE),
+                             matches("^msa.seq.name$",ignore.case=TRUE))%>%
+               dplyr::rename('seq.name'='msa.seq.name')
 
 
-           seq.data=bold_df%>%
-             dplyr::select(matches("^nuc$",ignore.case=TRUE),
-                           all_of(cols_for_fas_names))%>%
-             dplyr::filter(!is.na(nuc))%>%
-             dplyr::filter(!is.null(nuc))%>%
-             dplyr::mutate(nuc=gsub("-","",nuc))%>%
-             dplyr::filter(nuc!="")%>%
-             dplyr::rowwise()%>%
-             dplyr::mutate(across(all_of(cols_for_fas_names),
-                                  as.character))%>%
-             dplyr::select(nuc,
-                           all_of(cols_for_fas_names))%>%
-             dplyr::mutate(seq.name=paste0(paste(as.character(c_across(all_of(cols_for_fas_names))),
-                                                 collapse = "|")))%>%
-             dplyr::ungroup()
 
-
-            # Export the result as a raw fasta file.
+             ## Export the result as a fasta file.
 
              result=generate_ape_file(data = seq.data,
-                                      align_unaligned = 'nuc')
+                                      align_unaligned = "aligned_seq")
+
+
+             ape::write.FASTA(result,
+                              file=paste0(export_to,".fas",sep=""))
+
+           },
+
+         "fas" =
+
+           {
+             if (is.null(presets)==FALSE)
+             {
+               stop("Please remove any presets provided in the 'presets' arguments.")
+             }
+
+             seq.data=bold_df%>%
+               dplyr::select(matches("^nuc$",ignore.case=TRUE),
+                             all_of(cols_for_fas_names))%>%
+               dplyr::filter(!is.na(nuc))%>%
+               dplyr::filter(!is.null(nuc))%>%
+               dplyr::mutate(nuc=gsub("-","",nuc))%>%
+               dplyr::filter(nuc!="")%>%
+               dplyr::rowwise()%>%
+               dplyr::mutate(across(all_of(cols_for_fas_names),
+                                    as.character))%>%
+               dplyr::select(nuc,
+                             all_of(cols_for_fas_names))%>%
+               dplyr::mutate(seq.name=paste0(paste(as.character(c_across(all_of(cols_for_fas_names))),
+                                                   collapse = "|")))%>%
+               dplyr::ungroup()
+
+
+             # Export the result as a raw fasta file.
+
+             result=generate_ape_file(data = seq.data,
+                                      align_unaligned = "nuc")
 
 
              ape::write.FASTA(result,
@@ -168,8 +168,7 @@ switch(export_type,
 
            }
 
-
-)
+  )
 
 
 }

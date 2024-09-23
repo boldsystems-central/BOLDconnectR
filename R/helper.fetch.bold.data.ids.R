@@ -13,7 +13,7 @@ fetch.bold.id<-function(data.input,
 
   # base url for API
 
-  base_url= "https://data.boldsystems.org/api/records?"
+  base_url= "https://data.boldsystems.org/api/records/retrieve?"
 
   # Colors for printing the progress on the console
 

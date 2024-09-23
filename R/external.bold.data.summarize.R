@@ -70,6 +70,22 @@ bold.data.summarize<-function(bold_df,
       tidyr::drop_na(.)
   }
 
+
+  total_rows_cols<-function (df)
+
+  {
+
+    Rows=nrow(df)
+
+    Columns=ncol(df)
+
+    message<-paste("The total number of rows in the dataset is:",Rows,"\nThe total number of columns in the dataset is:",Columns)
+
+    cat(message)
+
+  }
+
+
   suppressMessages(skim_with(numeric=list(digits=2)))
 
   switch (summarize_by,
@@ -78,19 +94,22 @@ bold.data.summarize<-function(bold_df,
 
             {
 
-            stopifnot("columns should not be NULL when summarize_by=fields",
-                      !is.null(columns))
+              if (is.null(columns)) {
+                stop("Columns should not be NULL when summarize_by=fields")
+              }
+
 
             # Verification of column names
 
             if (any(!columns %in% colnames(bold_df)))
 
               {
-              stop("column names given are not present in the input BCDM dataframe")
-
+              stop("Column names given are not present in the input BCDM dataframe")
                 }
 
               # generate the summary
+
+              total_rows_cols(bold_df)
 
               summary.bold.df=suppressWarnings(bold_df%>%
                                                  dplyr::select(all_of(columns))%>%
@@ -102,36 +121,36 @@ bold.data.summarize<-function(bold_df,
           "presets" =
 
             {
+              if (is.null(presets))
 
-              stopifnot("presets should not be NULL when summarize_by=presets",
-                        !is.null(presets))
+              {
+                stop("Presets should not be NULL when summarize_by=presets")
+              }
+
+
 
               data_for_summary = check_and_return_preset_df(df=bold_df,
                                                             category = "check_return",
                                                             preset = presets)
 
+              total_rows_cols(data_for_summary)
 
               summary.bold.df=suppressWarnings(data_for_summary%>%
                                                  skimr::skim(.)%>%
                                                  mutate(across(where(is.numeric), ~ round(., 2)))%>%
                                                  skimr::partition(.))
-
               },
 
           "all_data" =
 
             {
+              if (any(!is.null(columns),!is.null(presets)))
 
-              stopifnot("columns and presets should be NULL when summarize_by=all_data",
-                        any(is.null(columns),is.null(presets)))
+              {
+                stop("columns and presets should be NULL when summarize_by=all_data")
+              }
 
-              Rows=nrow(bold_df)
-
-              Columns=ncol(bold_df)
-
-              message<-paste("The total number of rows in the dataset is:",Rows,"\nThe total number of columns in the dataset is:",Columns)
-
-              cat(message,"\n")
+              total_rows_cols(data_for_summary)
 
               summary.bold.df=suppressWarnings(bold_df%>%
                                                  skimr::skim(.)%>%
