@@ -49,12 +49,6 @@ bold.public.search <- function(taxonomy = NULL,
                geography = geography,
                bins = bins)
 
-  if (length(args)>1)
-
-  {
-    warning("The combination of any of the taxonomy, geography, bins, ids and datasets inputs should be logical otherwise output obtained might either be empty or not correct")
-  }
-
   # Filter out NULL values and get their values
 
   # Null arguments
