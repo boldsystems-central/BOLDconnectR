@@ -152,10 +152,14 @@ fetch.public.data<-function (query)
   # final_data.pre=reassign.data.type(final_data)
 
   final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
-  
+
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
 
-  return(final_data)
+  final_data_preset=check_and_return_preset_df(final_data,
+                             category = "check_return",
+                             preset = public.data.fields)
+
+  return(final_data_preset)
 
 }
 

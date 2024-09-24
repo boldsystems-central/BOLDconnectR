@@ -105,6 +105,7 @@ bold.public.search <- function(taxonomy = NULL,
     if(length(trial_query_input)<=5)
     {
       result = fetch.public.data(query = trial_query_input)
+
     }
 
     else
@@ -133,25 +134,25 @@ bold.public.search <- function(taxonomy = NULL,
       result.post.filter = Filter(function(df) nrow(df) > 0,
                                   result.pre.filter)
 
-      # removing unwanted columns
-
-      result.rem.col=lapply(result.post.filter,
-                            function (df)
-                            {
-                              res=check_and_return_preset_df(df,
-                                                             category = "check_return",
-                                                             preset = public.data.fields)
-                              return(res)
-                            }
-      )
+      # # removing unwanted columns
+      #
+      # result.rem.col=lapply(result.post.filter,
+      #                       function (df)
+      #                       {
+      #                         res=check_and_return_preset_df(df,
+      #                                                        category = "check_return",
+      #                                                        preset = public.data.fields)
+      #                         return(res)
+      #                       }
+      # )
 
 
       # Binding the list of dataframes
 
-      result=result.rem.col%>%
-        bind_rows(.)%>%
-        dplyr::select(processid,
-                      sampleid)
+      result=result.post.filter%>%
+        bind_rows(.)
+        # dplyr::select(processid,
+        #               sampleid)
 
     }
 

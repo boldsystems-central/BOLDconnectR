@@ -16,17 +16,7 @@ common_ids<-c("processid","sampleid")
 
 public.data.fields<-bold_fields%>%
   dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "coord",
-                             "inst",
-                             "identified_by",
-                             "sequence_run_site",
-                             "marker_code",
-                             "nuc_basecount",
-                             "collection_date_start",
-                             "collection_date_end",
-                             "elev",
-                             "depth"))
+  dplyr::filter(field %in% c(common_ids))
 
 ## Presets for export and summary
 

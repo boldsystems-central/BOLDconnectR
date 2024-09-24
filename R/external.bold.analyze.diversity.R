@@ -140,18 +140,18 @@ bold.analyze.diversity <- function(bold_df,
 
   # Check if data is a data frame object
 
-  if(is.data.frame(bold_df)==FALSE)
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0))
 
   {
-    stop("Input is not a data frame")
+    stop("Please re-check data input. Input needs to be a non-empty data frame")
   }
 
-  # Check whether the data frame is empty
+  # Check if taxon_rank is empty
 
-  if(nrow(bold_df)==0)
-
+  if(is.null(taxon_rank))
   {
-    stop("Dataframe is empty")
+    ## Taxon rank cannot be empty
+    stop ("Taxon rank cannot be left empty")
   }
 
   # Empty output list
