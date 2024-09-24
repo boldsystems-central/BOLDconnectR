@@ -112,6 +112,8 @@ bold.export<-function(bold_df,
                stop("Please remove any presets or field names provided in the presets or 'cols_for_fas_names' arguments.")
              }
 
+             stopifnot(any(names(bold_df)=='msa.seq.name'))
+
              seq.data=bold_df%>%
                dplyr::filter(!is.na(nuc))%>%
                dplyr::filter(!is.null(nuc))%>%

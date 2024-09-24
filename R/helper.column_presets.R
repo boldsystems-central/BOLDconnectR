@@ -4,120 +4,148 @@
 #'
 #' @keywords internal
 #'
-bold_fields<-bold.fields.info()
+presets<-function(col_groups)
+{
+  bold_fields<-bold.fields.info()
 
-bold_fields[which(bold_fields$field=='country/ocean'),]<-"country.ocean"
+  bold_fields[which(bold_fields$field=='country/ocean'),]<-"country.ocean"
 
-bold_fields[which(bold_fields$field=='province/state'),]<-"province.state"
+  bold_fields[which(bold_fields$field=='province/state'),]<-"province.state"
 
-common_ids<-c("processid","sampleid")
+  common_ids<-c("processid","sampleid")
 
-## Preset for bold.public.search
+  switch(col_groups,
 
-public.data.fields<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids))
+         "public.data.fields"=
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids))
+           },
+         "taxonomy" =
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "kingdom",
+                                          "phylum",
+                                          "class",
+                                          "order",
+                                          "family",
+                                          "subfamily",
+                                          "genus",
+                                          "species",
+                                          "bin_uri"))
+           },
+         "geography" =
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "country.ocean",
+                                          "country_iso",
+                                          "province.state",
+                                          "region",
+                                          "sector",
+                                          "site",
+                                          "site_code",
+                                          "coord",
+                                          "coord_accuracy",
+                                          "coord_source"))
+           },
+         "sequences"=
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "nuc",
+                                          "nuc_basecount",
+                                          "marker_code",
+                                          "sequence_run_site",
+                                          "sequence_upload_date"))
+           },
+         "attributions"=
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "inst",
+                                          "identification",
+                                          "identification_method",
+                                          "identification_rank",
+                                          "identified_by",
+                                          "collectors"))
+           },
+         "ecology_biogeography"=
+           {
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "elev",
+                                          "elev_accuracy",
+                                          "depth",
+                                          "depth_accuracy",
+                                          "habitat",
+                                          "ecoregion",
+                                          "biome",
+                                          "realm",
+                                          "coord",
+                                          "coord_source"))
+           },
+         "other_meta_data"=
+           {
 
-## Presets for export and summary
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "notes",
+                                          "taxonomy_notes",
+                                          "funding_src",
+                                          "voucher_type",
+                                          "tissue_type",
+                                          "sampling_protocol"))
+           },
 
-taxonomy<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "kingdom",
-                             "phylum",
-                             "class",
-                             "order",
-                             "family",
-                             "subfamily",
-                             "genus",
-                             "species",
-                             "bin_uri"))
+         "bold_analyze_align_fields" =
+           {
 
-geography<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "country.ocean",
-                             "country_iso",
-                             "province.state",
-                             "region",
-                             "sector",
-                             "site",
-                             "site_code",
-                             "coord",
-                             "coord_accuracy",
-                             "coord_source"))
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "marker_code",
+                                          "nuc"))
+           },
+         "bold_analyze_tree_fields" =
+           {
 
-# "primers_forward","primers_reverse"
-sequences<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "nuc",
-                             "nuc_basecount",
-                             "marker_code",
-                             "sequence_run_site",
-                             "sequence_upload_date"))
+             preset<-data.frame(field = c("processid",
+                                          "aligned_seq",
+                                          "msa.seq.name"))
+           },
+         "bol_analyze_map_fields" =
+           {
 
-# "sovereign_inst"
-attributions<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "inst",
-                             "identification",
-                             "identification_method",
-                             "identification_rank",
-                             "identified_by",
-                             "collectors"))
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "bin_uri",
+                                          "marker_code",
+                                          "nuc"))
+           }
 
+  )
 
-ecology_biogeography<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "elev",
-                             "elev_accuracy",
-                             "depth",
-                             "depth_accuracy",
-                             "habitat",
-                             "ecoregion",
-                             "biome",
-                             "realm",
-                             "coord",
-                             "coord_source"))
+  return(preset)
 
-other_meta_data<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "notes",
-                             "taxonomy_notes",
-                             "funding_src",
-                             "voucher_type",
-                             "tissue_type",
-                             "sampling_protocol"))
-
-
-# Presets for analyze_align, analyze_tree, analyze_diversity, analyze_map
-
-bold_analyze_align_fields<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "marker_code",
-                             "nuc"))
-
-bold_analyze_tree_fields<-data.frame(field = c("processid",
-                                               "aligned_seq",
-                                               "msa.seq.name"))
-bol_analyze_map_fields<-bold_fields%>%
-  dplyr::select(field)%>%
-  dplyr::filter(field %in% c(common_ids,
-                             "bin_uri",
-                             "marker_code",
-                             "nuc"))
-
+}
 # The function to check and return the data with the necessary columns
 
 check_and_return_preset_df<-function (df,
                                       category = c("check","check_return"),
                                       preset)
 {
+
+  preset = presets(col_groups = preset)
 
   preset_col = preset%>%
     dplyr::pull(field)
