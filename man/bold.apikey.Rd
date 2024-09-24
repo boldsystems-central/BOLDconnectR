@@ -18,4 +18,3 @@ Generates an 'apikey' variable in the R session
 \details{
 \code{bold.apikey} generates a variable called \code{apikey} that stores the access token provided by BOLD. The token must be provided as an input for the function. The \code{apikey} variable is then used by the \code{\link[=bold.fetch]{bold.fetch()}} internally so that the user does not have to input it again.
 }
-\keyword{external}

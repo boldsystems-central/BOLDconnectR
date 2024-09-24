@@ -11,7 +11,7 @@
 #'
 #' @returns Token saved as 'apikey'
 #'
-#' @keywords external
+#' @export
 #'
 bold.apikey<-function(apikey)
 
