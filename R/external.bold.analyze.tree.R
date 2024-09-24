@@ -88,7 +88,7 @@ bold.analyze.tree<-function(bold_df,
 
   check_and_return_preset_df(df=bold_df,
                              category = "check",
-                             preset = bold_analyze_tree_fields)
+                             preset = 'bold_analyze_tree_fields')
 
 # Generate a dataframe of the aligned_seq and the seq.name and convert it to a ape DNAbin
 

@@ -70,7 +70,7 @@ bold.analyze.align<-function (bold_df,
 
   check_and_return_preset_df(df=bold_df,
                              category = "check",
-                             preset = bold_analyze_align_fields)
+                             preset = 'bold_analyze_align_fields')
 
   # if(any((c("processid","sampleid","nuc", cols_for_seq_names) %in% names(bold_df)))==FALSE)
   # {

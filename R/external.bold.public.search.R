@@ -134,18 +134,6 @@ bold.public.search <- function(taxonomy = NULL,
       result.post.filter = Filter(function(df) nrow(df) > 0,
                                   result.pre.filter)
 
-      # # removing unwanted columns
-      #
-      # result.rem.col=lapply(result.post.filter,
-      #                       function (df)
-      #                       {
-      #                         res=check_and_return_preset_df(df,
-      #                                                        category = "check_return",
-      #                                                        preset = public.data.fields)
-      #                         return(res)
-      #                       }
-      # )
-
 
       # Binding the list of dataframes
 
