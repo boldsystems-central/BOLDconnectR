@@ -23,7 +23,7 @@
 
 #' @examples
 #' \dontrun{
-#' Download the data ids
+#' #Download the data ids
 #' seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"))
 #'
 #' # Fetch the data using the ids.

@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' Test data with processids
+#' #Test data with processids
 #' data(test.data)
 #'
 #' # apikey is loaded in the R environment using `bold.apikey` function
