@@ -15,34 +15,36 @@
 #'
 #' @examples
 #' \dontrun{
-#' data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata",
-#'                                           filt_basecount= c(500,600),
-#'                                           filt_marker = "COI-5P")
+#' # Download the records
+#' data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata")
+#'
 #' # Fetching the data using the ids
 #' data_for_export <- bold.fetch(get_by = "processid",
 #'                               identifiers = data_for_export_ids$processid)
 #'
-#' # Export the BCDM data using 'presets' (Using getwd() as the path and trial_export as the name)
+#' #1. Export the BCDM data using 'presets'
+#' # (Using getwd() as the path and trial_export as the name)
+#' bold.export(bold_df=data_for_export,
+#'             export_type = "preset_df",
+#'             presets = taxonomy,
+#'             export_to = paste(getwd(),'/','trial_export',sep=""))
 #'
-#' taxonomy_df<-bold.export(bold_df=data_for_export,
-#'                          export_type = "preset_df",
-#'                          presets = taxonomy,
-#'                          export_to = paste(getwd(),'/','trial_export',sep=""))
-#'
-#'
-#' # Align the data (using processid and bin_uri as fields for sequence names)
+#' #2. Export multiple sequence alignment
+#' #a. Align the data
+#' # (using processid and bin_uri as fields for sequence names)
 #' # Users need to install and load packages `msa` and `Biostrings` before using bold.analyze.align.
-#'
 #' seq_align<-bold.analyze.align(data_for_export,
 #'                               cols_for_seq_names = c("processid","bin_uri"),
 #'                               align_method = "ClustalOmega")
-#' # Export the multiple sequence alignment
-#' # Note the input data here is the modified BCDM data after using bold.analyze.align.
-#' # file.path and file.name must be provided
 #'
-#' # Export the fasta file (unaligned)
-#' # Note that input data is the original BCDM data retrieved
-#' using bold.fetch (Using getwd() as the path and trial_export as the name).
+#' #b. Export the multiple sequence alignment
+#' # Note the input data here is the modified BCDM data (seq_align)
+#' bold.export(bold_df=seq_align,
+#'            export_type = "msa",
+#'             export_to = paste(getwd(),'/','trial_export',sep=""))
+#'
+#' #3. Export the fasta file (unaligned)
+#' # Note that input data here is the original BCDM data (data_for_export)
 #' bold.export(bold_df = data_for_export,
 #'             export_type = "fas",
 #'             cols_for_fas_names = c("bin_uri","genus","species"),

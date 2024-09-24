@@ -34,23 +34,46 @@ The function is used to obtain a detailed summary of the data obtained by \code{
 }
 \examples{
 \dontrun{
-# Download data
 bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
 
-bold.data <- bold.fetch(bold_data.ids,
-query.param = "processid",
-param.index = 1,
-api_key = apikey)
+# Fetch the data using the ids.
+#1. api_key must be obtained from BOLD support before usage
+#2. the function `bold.apikey` should be used to set the apikey in the global env
 
-# Generate summary for specific fields (cols)
-test.data.summary <- bold.data.summarize(bold.data,
-                                         cols = c("country.ocean", "nuc_basecount", "inst", "elev"))
+bold.data <- bold.fetch(get_by = "processid",
+                        identifiers = bold_data.ids$processid)
+
+#1. Generate summary for the whole data
+
+test.data.summary <- bold.data.summarize(bold_df=bold.data,
+                                         summarize_by = "all_data")
+
+# All summary
+test.data.summary
+
+#2. Generate summary for specific fields (cols)
+test.data.summary.cols <- bold.data.summarize(bold_df=bold.data,
+                                              summarize_by = "fields",
+                                              columns = c("country.ocean",
+                                                          "nuc_basecount",
+                                                          "inst",
+                                                          "elev"),
+                                             na.rm = F)
 
 # Character data fields summary
-test.data.summary$character
+test.data.summary.cols$character
 
 # Numerical data fields summary
-test.data.summary$numeric
+test.data.summary.cols$numeric
+
+#3. Preset based summary
+test.data.summary.preset <- bold.data.summarize(bold_df=bold.data,
+                                                summarize_by = "presets",
+                                                presets = geography,
+                                                na.rm = F)
+
+# All summary with respect to geography related fields in the BCDM data
+test.data.summary.preset
 }
 
 }

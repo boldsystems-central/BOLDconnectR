@@ -20,16 +20,22 @@
 #' \emph{Note on the community matrix}: Each cell in this matrix contains the counts (or abundances) of the specimens whose sequences have an assigned BIN, in a given a site category (`site.cat`) or a grid  (`grids.cat`). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including ’bin_uri’. The `site.cat` can refer to any geographic field, and metadata on these fields can be checked using the `bold.fields.info()`. If, `grids.cat` = TRUE, grids are generated based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the `gridsize` argument. Rows lacking latitude and longitude data are removed, while NULL entries for site.cat are allowed if they have a latitude and longitude value. This is because grids are drawn based on the bounding boxes which only use latitude and longitude values
 #' \emph{Important Note}: Results, including species counts, adapt based on taxon_rank argument although the output label remains ‘species’ in some instances (`preston.res`).
 #'
-#' @returns An 'output' list containing containing:
+#' @returns An 'output' list containing containing results based on the profile selected:
+#' #Common to all
 #' *	comm.matrix = site X species like matrix required for the biodiversity results
+#' #1. richness
 #' *	richness = A richness profile matrix
+#' #2. shannon
 #' *	Shannon_div = Shannon diversity values for the given sites/grids (from gen.comm.mat)
-#' *	richness_plot = A ggplot2 visualization of the richness curve
+#' #3. preston
 #' *	preston.res = a Preston plot numerical data output
 #' *	preston.plot = a ggplot2 visualization of the preston.plot
+#' #4. beta
 #' *	total.beta = beta.total
 #' *	replace = beta.replace (replacement)
 #' *	richnessd = beta.richnessd (richness difference)
+#' #5. all
+#' *  All of the above results
 #'
 #' @references
 #' Carvalho, J.C., Cardoso, P. & Gomes, P. (2012) Determining the relative roles of species replace- ment and species richness differences in generating beta-diversity patterns. Global Ecology and Biogeography, 21, 760-771.
@@ -44,20 +50,21 @@
 #' comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 #'
 #' # Fetch the data using the ids
-#' # api_key must be obtained from BOLD support before usage.
-#' BCDMdata <- bold.fetch(param.data = comm.mat.data,
-#' query.param = "processid",
-#' param.index = 1,
-#' api_key = apikey)
+#' #1. api_key must be obtained from BOLD support before usage
+#' #2. the function `bold.apikey` should be used to set the apikey in the global env
+#'
+#' BCDMdata <- bold.fetch(get_by = "processid",
+#'                        identifiers = comm.mat.data$processid)
 #'
 #' # Remove rows which have no species data
 #' BCDMdata <- BCDMdata[!BCDMdata$species== "",]
 #'
 #' #1. Analyze richness data
-#' res.rich <- bold.analyze.diversity(BCDMdata,
-#' taxon_rank = "species",
-#' site.cat = 'country.ocean',
-#' richness.res = TRUE)
+#' res.rich <- bold.analyze.diversity(bold_df=BCDMdata,
+#'                                    taxon_rank = "species",
+#'                                    site_type = "locations",
+#'                                    location_type = 'country.ocean',
+#'                                    diversity_profile = "richness")
 #'
 #' # Community matrix (BCDM data converted to community matrix)
 #' res.rich$comm.matrix
@@ -66,19 +73,21 @@
 #' res.rich$richness
 #'
 #' #2. Shannon diversity
-#' res.shannon <- bold.analyze.diversity(BCDMdata,
-#' taxon_rank = "species",
-#' site.cat = 'country.ocean',
-#' shannon.res = TRUE)
+#' res.shannon <- bold.analyze.diversity(bold_df=BCDMdata,
+#'                                       taxon_rank = "species",
+#'                                       site_type = "locations",
+#'                                       location_type = 'country.ocean',
+#'                                       diversity_profile = "shannon")
 #'
 #' # Shannon diversity results
 #' res.shannon
 #'
 #' #3. Preston plots and results
-#' pres.res <- bold.analyze.diversity(BCDMdata,
-#' taxon_rank = "species",
-#' site.cat = 'country.ocean',
-#' preston.res = TRUE)
+#' pres.res <- bold.analyze.diversity(bold_df=BCDMdata,
+#'                                    taxon_rank = "species",
+#'                                    site_type = "locations",
+#'                                    location_type = 'country.ocean',
+#'                                    diversity_profile = "preston")
 #'
 #' # Preston plot
 #' pres.res$preston.plot
@@ -87,11 +96,12 @@
 #' pres.res$preston.res
 #'
 #' #4. beta diversity
-#' beta.res <- bold.analyze.diversity(BCDMdata,
-#' taxon_rank = "species",
-#' site.cat = 'country.ocean',
-#' beta.res = TRUE,
-#' beta.index = "jaccard")
+#' beta.res <- bold.analyze.diversity(bold_df=BCDMdata,
+#'                                    taxon_rank = "species",
+#'                                    site_type = "locations",
+#'                                    location_type = 'country.ocean',
+#'                                    diversity_profile = "beta",
+#'                                    beta_index = "jaccard")
 #'
 #' #Total diversity
 #' beta.res$total.beta

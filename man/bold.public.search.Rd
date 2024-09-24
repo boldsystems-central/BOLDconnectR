@@ -4,23 +4,7 @@
 \alias{bold.public.search}
 \title{Search publicly available data on the BOLD database}
 \usage{
-bold.public.search(
-  taxonomy = NULL,
-  geography = NULL,
-  bins = NULL,
-  datasets = NULL,
-  filt_latitude = NULL,
-  filt_longitude = NULL,
-  filt_shapefile = NULL,
-  filt_institutes = NULL,
-  filt_identified.by = NULL,
-  filt_seq.source = NULL,
-  filt_marker = NULL,
-  filt_collection.period = NULL,
-  filt_basecount = NULL,
-  filt_altitude = NULL,
-  filt_depth = NULL
-)
+bold.public.search(taxonomy = NULL, geography = NULL, bins = NULL)
 }
 \arguments{
 \item{taxonomy}{A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.}
@@ -28,30 +12,6 @@ bold.public.search(
 \item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 
 \item{bins}{A single or multiple character vector specifying the BIN ids. Default value is NULL.}
-
-\item{datasets}{A single or multiple character vector specifying dataset codes. Default value is NULL.}
-
-\item{filt_latitude}{A single or a vector of two numbers specifying the latitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
-
-\item{filt_longitude}{A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
-
-\item{filt_shapefile}{A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.}
-
-\item{filt_institutes}{A single or multiple character vector specifying names of institutes. Default value is NULL.}
-
-\item{filt_identified.by}{A single or multiple character vector specifying names of people responsible for identifying the organism. Default value is NULL.}
-
-\item{filt_seq.source}{A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.}
-
-\item{filt_marker}{A single or multiple character vector specifying of gene names. Default value is NULL.}
-
-\item{filt_collection.period}{A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.}
-
-\item{filt_basecount}{A single or a vector of two numbers specifying range of basepairs number.     Values should be separated by a comma. Default value is NULL.}
-
-\item{filt_altitude}{A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.}
-
-\item{filt_depth}{A single or a vector of two numbers specifying the depth range. Values should be separated by a comma. Default value is NULL.}
 }
 \value{
 A data frame containing all the processids and sampleids related to the query search.
@@ -60,7 +20,7 @@ A data frame containing all the processids and sampleids related to the query se
 Retrieves record ids for publicly available data based on taxonomy, geography or ids (dataset codes & bin_uri) search.
 }
 \details{
-\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography, bin uri or dataset codes. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins/datasets; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results. Downloaded IDs can be filtered further on one or a combination of arguments (such as institutes, identifiers, altitude, depth etc.). It is essential to explicitly name the filter arguments (eg. \code{filt_institutes} = ’CBG’ instead of just ’CBG’) to avoid any errors.
+\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography, bin uri or dataset codes. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins/datasets; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results.
 }
 \examples{
 

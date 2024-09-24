@@ -116,7 +116,8 @@ if(!is.null(latitude))
 
   bold.df=bold.df%>%
     convert_coord_2_lat_lon(.)%>%
-    dplyr::filter(dplyr::between(lat,latitude1,latitude2))
+    dplyr::filter(dplyr::between(lat,latitude1,latitude2))%>%
+    dplyr::select(everything(),-c(lat,lon))
 
 }
 
@@ -151,7 +152,8 @@ if(!is.null(longitude))
 
   bold.df=bold.df%>%
     convert_coord_2_lat_lon(.)%>%
-    dplyr::filter(dplyr::between(lon,longitude1,longitude2))
+    dplyr::filter(dplyr::between(lon,longitude1,longitude2))%>%
+    dplyr::select(everything(),-c(lat,lon))
 
 }
 
@@ -183,9 +185,9 @@ if (!is.null(shapefile))
 
     # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
 
-    shp_input= sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)
+    shp_input= suppressWarnings(suppressMessages(sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)))
 
-    shp_input = st_transform(shp_input,4326)
+    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
 
   }
 
@@ -199,9 +201,9 @@ if (!is.null(shapefile))
 
     shp_input=shapefile
 
-    shp_input = st_transform(shp_input,4326)
+    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
 
-    shp_input=shp_input%>%st_simplify(dTolerance = 0.001)
+    shp_input=suppressWarnings(suppressMessages(shp_input%>%st_simplify(dTolerance = 0.001)))
 
   }
 
@@ -213,16 +215,18 @@ if (!is.null(shapefile))
 
   }
 
-  spatial.bold.df=bold.df%>%
+
+  spatial.bold.df= suppressWarnings(suppressMessages(bold.df%>%
+    convert_coord_2_lat_lon(.)%>%
     tidyr::drop_na(lat,lon)%>%
     sf::st_as_sf(x=.,
                  coords = c("lon","lat"),
                  crs=4326,
-                 remove=FALSE)
+                 remove=FALSE)))
 
 
-  spatial.bold.df=st_transform(spatial.bold.df,
-                               st_crs(shp_input))
+  spatial.bold.df=suppressWarnings(suppressMessages(st_transform(spatial.bold.df,
+                               st_crs(shp_input))))
 
 
   bold.df=st_intersection(spatial.bold.df,

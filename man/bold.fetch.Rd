@@ -73,22 +73,23 @@ Retrieves public and private user data based on different parameters (processid,
 }
 \examples{
 \dontrun{
+Test data with processids
 data(test.data)
 
-# apikey is loaded in the R environment using `bold.apikey` function.
-
+# apikey is loaded in the R environment using `bold.apikey` function
+# Key(token) should be pasted in the function between single quotes.
 bold.apikey()
 
-# With processids ('processid' param is the first column in the data (param.index=1))
+# With processids
 res <- bold.fetch(get_by = "processid",
                   identifiers = test.data$processid)
 
 
-# With sampleids ('sampleid' param is the second column in the data (param.index=2))
+# With sampleids
 res<-bold.fetch(get_by = "sampleid",
                 identifiers = test.data$sampleid)
 
-# With datasets
+# With datasets (publicly available dataset provided)
 res<-bold.fetch(get_by = "dataset_codes",
                 identifiers = "DS-IBOLR24")
 

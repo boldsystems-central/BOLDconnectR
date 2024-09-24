@@ -38,27 +38,25 @@ Function designed to transform and align the sequence data retrieved from the fu
 }
 \examples{
 \dontrun{
-# Search for ids
 seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae",
-"Oreochromis karongae"))
+                                                "Oreochromis karongae"))
 
 # Fetch the data using the ids
-# api_key must be obtained from BOLD support before usage
-seq.data<-bold.fetch(param.data = seq.data.ids,
-query.param = "processid",
-param.index = 1,
-api_key=apikey)
+#1. api_key must be obtained from BOLD support before usage
+#2. the function `bold.apikey` should be used to set the apikey in the global env
+seq.data<-bold.fetch(get_by = "processid",
+                     identifiers = seq.data.ids$processid)
 
 # R packages `msa` and `Biostrings` are required for this function to run.
 # Both the packages are installed using `BiocManager`.
 
 # Align the data (using  bin_uri as the name for each sequence)
 seq.align <- bold.analyze.align(seq.data,
-cols_for_seq_names = c("bin_uri"),
-align_method="ClustalOmega")
+                                cols_for_seq_names = c("bin_uri"),
+                                align_method="ClustalOmega")
 
 # Dataframe of the sequences (aligned) with their corresponding names
-head(seq.align)
+head(seq.align[,c("aligned_seq","msa.seq.name")])
  }
 
 }

@@ -50,32 +50,34 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 }
 \examples{
 \dontrun{
-
-# Download the data ids
-seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"), filt.marker = "COI-5P")
+Download the data ids
+seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"))
 
 # Fetch the data using the ids.
-# api_key must be obtained from BOLD support before usage.
+#1. api_key must be obtained from BOLD support before usage
+#2. the function `bold.apikey` should be used to set the apikey in the global env
 
-seq.data <- bold.fetch(param.data = seq.data.ids, query.param = "processid",
-                       param.index = 1, api_key = apikey)
+seq.data <- bold.fetch(get_by = "processid",
+                       identifiers = seq.data.ids$processid,
+                       filt_marker = "COI-5P")
 
 # Remove rows without species name information
 seq <- seq.data[seq.data$species!="", ]
 
 # Align the data
 # Users need to install and load packages `msa` and `Biostrings`.
-seq.align<-bold.analyze.align(seq.data,
-seq.name.fields = c("species","bin_uri"),
-marker="COI-5P",
-align.method="ClustalOmega")
+seq.align<-bold.analyze.align(bold_df=seq.data,
+                              marker="COI-5P",
+                              align_method="ClustalOmega",
+                              cols_for_seq_names = c("species","bin_uri"))
 
 #Analyze the data to get a tree
-seq.analysis<-bold.analyze.tree(seq.align,
+
+seq.analysis<-bold.analyze.tree(bold_df=seq.align,
                                 dist_model = "K80",
-                                clus="nj",
-                                tree_plot_type='p',
+                                clus_method="nj",
                                 tree_plot=TRUE,
+                                tree_plot_type='p',
                                 save_dist_mat = T)
 
 # Output

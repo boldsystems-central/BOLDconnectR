@@ -18,25 +18,27 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Download the ids
+#' Download the ids
 #' geo_data.ids <- bold.public.search(taxonomy = "Musca domestica")
 #'
 #' # Fetch the data using the ids.
-#' # api_key must be obtained from BOLD support before usage.
+#' #1. api_key must be obtained from BOLD support before usage
+#' #2. the function `bold.apikey` should be used to set the apikey in the global env
 #'
-#' geo_data <- bold.fetch(param.data = geo_data.ids,
-#' query.param = "processid",
-#' param.index = 1, api_key = apikey)
+#' geo_data <- bold.fetch(get_by = "processid",
+#'                        identifiers = geo_data.ids$processid)
 #'
 #' # All data plotted.
 #' geo.viz <- bold.analyze.map(geo_data)
-#'
+#' # View plot
+#' geo.viz$plot
 #' # Data plotted only in one country
-#' geo.viz <- bold.analyze.map(geo_data,
-#' country = c("Saudi Arabia"))
-#'
-#'# The sf dataframe of the downloaded data
-#'geo.viz$geo.df
+#' geo.viz.country <- bold.analyze.map(geo_data,
+#'                                     country = c("Saudi Arabia"))
+#' # View plot
+#' geo.viz.country$plot
+#' # The sf dataframe of the downloaded data
+#' geo.viz$geo.df
 #'}
 #'
 #' @importFrom sf st_as_sf
@@ -68,14 +70,14 @@ bold.analyze.map<-function(bold_df,
 
   # Check if data is a data frame object
 
-  if(is.data.frame(bold_df)==FALSE) 
+  if(is.data.frame(bold_df)==FALSE)
   {
     stop("Input is not a data frame")
   }
 
   # Check whether the data frame is empty
 
-  if(nrow(bold_df)==0) 
+  if(nrow(bold_df)==0)
     {
     stop("Dataframe is empty")
   }
@@ -84,14 +86,14 @@ bold.analyze.map<-function(bold_df,
 
   output = list()
 
-  # Select the necessary columns preset for the analysis along with a check to see if the requisite columns are present 
-  
+  # Select the necessary columns preset for the analysis along with a check to see if the requisite columns are present
+
   geo_df = check_and_return_preset_df(df=bold_df,
                                       category = "check_return",
                                       preset = geography)
-  
+
   # Convert the 'coord' column into lat and lon for mapping and create a 'sf' data frame. All lat lon NA values are removed by default. CRS is 4326
-  
+
   geo_data = convert_coord_2_lat_lon(geo_df)%>%
     dplyr::filter(!is.na(lat),
                   !is.na(lon))%>%
@@ -104,9 +106,9 @@ bold.analyze.map<-function(bold_df,
 
 
   # Generate a base map with a low resolution
-  
+
   map_data <- rnaturalearth::ne_countries(scale = 110)
-  
+
   # IF country is not specified. All points will be mapped by default on a world map
 
   if(is.null(country))
