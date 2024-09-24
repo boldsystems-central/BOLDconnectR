@@ -208,7 +208,7 @@ bold.fetch<-function(get_by,
     bold_field_data = bold.fields.info(print.output = F)%>%
       dplyr::select(field)
 
-    if(!all(cols %in% bold_fields$field))
+    if(!all(cols %in% bold_field_data$field))
     {
       stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function. Column name match currently")
     }
