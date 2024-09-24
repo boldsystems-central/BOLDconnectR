@@ -10,8 +10,16 @@
 #' @param export_to A character value specifying the data path and the name for the file. Extension should not be provided
 #
 #' @details
-#' `bold.export` offers an export option for some of the sequence-based outputs obtained from functions within the `BOLDconnectR` package as well as a `preset` defined modified BCDM dataframe. Sequence information downloaded using [bold.fetch()] or the aligned sequences obtained using `bold.analyze.align` can be exported as a FASTA file for any third party tool (via `export_type`=’fas’ or ’msa’). Data fetched by [bold.fetch()] can be directly used to export the unaligned FASTA file, while the modified dataframe from `bold.analyze.align` is required for exporting the multiple sequence alignment. `presets`are defined set of columns representing a specific aspect of the BOLD BCDM data (currently available are: `taxonomy`,`geography`,`sequences`,`attributions`, `ecology_biogeography` and `other_meta_data`)
-#'The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Additionally, this function allows for the export of user-edited data (in taxonomy, geography etc.) as a csv/tsv file while retaining its BCDM format. This functionality is developed with the future potential of uploading data to BOLD using the package. Edits to the BCDM data can be made using any other R packages so long as it maintains the BCDM format.
+#' `bold.export` offers an export option for some of the sequence-based outputs obtained from functions within the `BOLDconnectR` package as well as a `preset` defined modified BCDM dataframe. Sequence information downloaded using [bold.fetch()] or the aligned sequences obtained using `bold.analyze.align` can be exported as a FASTA file for any third party tool (via `export_type`=’fas’ or ’msa’). Data fetched by [bold.fetch()] can be directly used to export the unaligned FASTA file, while the modified dataframe from `bold.analyze.align` is required for exporting the multiple sequence alignment. `presets` here can be considered as collections of predefined columns from the BCDM data that relate to a common theme. The number of columns in each preset varies based on data availability. There are six presets currently available in the package(`taxonomy`,`geography`,`sequences`,`attributions`, `ecology_biogeography` and `other_meta_data`). Fields included in each preset is as follows:
+#' * taxonomy = "kingdom", "phylum", "class", "order", "family", "subfamily", "genus", "species","bin_uri"
+#' * geography = "country.ocean","country_iso", "province.state", "region", "sector", "site", "site_code", "coord", "coord_accuracy", "coord_source"
+#' * sequences =  "nuc", "nuc_basecount", "marker_code", "sequence_run_site", "sequence_upload_date"
+#' * attributions = "inst", "identification", "identification_method", "identification_rank", "identified_by", "collectors"
+#' * ecology_biogeography = "elev", "elev_accuracy", "depth", "depth_accuracy", "habitat", "ecoregion", "biome", "realm", "coord", "coord_source"
+#' * other_meta_data = "notes", "taxonomy_notes", "funding_src", "voucher_type", "tissue_type","sampling_protocol"
+#'
+#' "processids" and "sampleids" are present in all the presets. Only one preset can be used at a time.
+#' The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Additionally, this function allows for the export of user-edited data (in taxonomy, geography etc.) as a csv/tsv file while retaining its BCDM format. This functionality is developed with the future potential of uploading data to BOLD using the package. Edits to the BCDM data can be made using any other R packages so long as it maintains the BCDM format.
 #'
 #' @examples
 #' \dontrun{
@@ -26,7 +34,7 @@
 #' # (Using getwd() as the path and trial_export as the name)
 #' bold.export(bold_df=data_for_export,
 #'             export_type = "preset_df",
-#'             presets = taxonomy,
+#'             presets = 'taxonomy',
 #'             export_to = paste(getwd(),'/','trial_export',sep=""))
 #'
 #' #2. Export multiple sequence alignment
@@ -51,7 +59,7 @@
 #'             export_to = paste(getwd(),'/','trial_export',sep=""))
 #' }
 #'
-#' @returns It exports a .fas or a csv/tsv file based on the export argument.
+#' @returns It exports a .fas or a tsv file based on the export argument.
 #'
 #' @importFrom utils write.table
 #' @importFrom ape read.dna

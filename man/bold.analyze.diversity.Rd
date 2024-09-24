@@ -8,7 +8,7 @@ bold.analyze.diversity(
   bold_df,
   taxon_rank,
   taxon_name = NULL,
-  site_type = c("locations", "grid"),
+  site_type = c("locations", "grids"),
   location_type = NULL,
   gridsize = NULL,
   presence_absence = FALSE,
