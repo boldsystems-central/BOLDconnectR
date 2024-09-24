@@ -119,7 +119,6 @@ gen.comm.mat<-function(bold.df,
                   !!taxon.rank)%>%
     dplyr::filter(!is.na(bin_uri))%>%
     tidyr::drop_na(!!site.cat)%>%
-    #dplyr::filter(!(!!site.cat==""))%>%
     dplyr::arrange(!!site.cat)
 
   bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
@@ -275,7 +274,6 @@ gen.comm.mat<-function(bold.df,
         # Adding the grid cell ids and removing the grid numbers
 
         grids_final=grids_selected%>%
-          #mutate(grid_centroids=st_centroid())
           dplyr::select(geometry,
                         cell.id)
 
