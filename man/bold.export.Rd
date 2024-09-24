@@ -56,7 +56,7 @@ data_for_export <- bold.fetch(get_by = "processid",
 # (Using getwd() as the path and trial_export as the name)
 bold.export(bold_df=data_for_export,
             export_type = "preset_df",
-            presets = taxonomy,
+            presets = 'taxonomy',
             export_to = paste(getwd(),'/','trial_export',sep=""))
 
 #2. Export multiple sequence alignment
