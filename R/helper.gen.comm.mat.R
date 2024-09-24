@@ -47,30 +47,29 @@
 #' @keywords internal
 #'
 gen.comm.mat<-function(bold.df,
-                            taxon.rank,
-                            taxon.name=NULL,
-                            site.cat=NULL,
-                            grids=FALSE,
-                            gridsize=NULL,
-                            pre.abs=FALSE,
-                            view.grids=FALSE)
+                       taxon.rank,
+                       taxon.name=NULL,
+                       site.cat=NULL,
+                       grids=FALSE,
+                       gridsize=NULL,
+                       pre.abs=FALSE,
+                       view.grids=FALSE)
 {
 
-  bold_df = convert_coord_2_lat_lon(bold.df)
 
   # Check if data is a data frame object
 
-  if(is.data.frame(bold_df)==FALSE)
+  if(is.data.frame(bold.df)==FALSE)
 
-    {
+  {
     stop("Input is not a data frame")
   }
 
   # Check whether the data frame is empty
 
-  if(nrow(bold_df)==0)
+  if(nrow(bold.df)==0)
 
-    {
+  {
     stop("Dataframe is empty")
   }
 
@@ -82,7 +81,7 @@ gen.comm.mat<-function(bold.df,
   {
     # The following columns have to be present in the input data frame in order to get the results
 
-    if(any((c("bin_uri",taxon.rank,site.cat)%in% names(bold_df)))==FALSE)
+    if(any((c("bin_uri",taxon.rank,site.cat)%in% names(bold.df)))==FALSE)
 
     {
       stop("bin ids, taxon rank & site.cat fields have to be present in the dataset. Please re-check data")
@@ -95,21 +94,22 @@ gen.comm.mat<-function(bold.df,
   {
     # The following columns have to be present in the input data frame in order to get the results
 
-    if(any((c("bin_uri",taxon.rank,"lat","lon")%in% names(bold_df)))==FALSE)
+    if(any((c("bin_uri",taxon.rank,"lat","lon")%in% names(bold.df)))==FALSE)
 
     {
       stop("bin ids, taxon rank, latitude and longitude columns have to be present in the dataset for defining grids. Please re-check data")
-      }
+    }
   }
 
- # Empty list for output
+  # Empty list for output
 
   output = list()
 
   # Obtaining the data from the fetched data for the transformation. NAs in site.cat and taxon.rank are removed
 
-  bin.comm.trial=bold_df%>%
-      dplyr::select(matches("bin_uri$",
+  bin.comm.trial=bold.df%>%
+    convert_coord_2_lat_lon(.)%>%
+    dplyr::select(matches("bin_uri$",
                           ignore.case=TRUE),
                   matches("lat$",
                           ignore.case=TRUE),
@@ -187,7 +187,7 @@ gen.comm.mat<-function(bold.df,
       {
         stop("Dataset is empty.This could be due to no latitude and longitude data available for the taxa selected in the dataset")
 
-         }
+      }
 
       # If the dataset is not empty
 
@@ -306,9 +306,9 @@ gen.comm.mat<-function(bold.df,
 
   {
     stop("Either site.cat or grid information should be used at one time")
-}
+  }
 
- else
+  else
 
     # If the site.cat is not null, bin.comm.trial created at the taxon condition level will be returned
 
@@ -353,7 +353,7 @@ gen.comm.mat<-function(bold.df,
       tidyr::unite(cell.id,
                    cell:index,
                    remove = T)
-    }
+  }
 
   else
 
@@ -369,7 +369,7 @@ gen.comm.mat<-function(bold.df,
     {
       stop("Grids can be viewed only when grids = T and gridsize is specified")
 
-     }
+    }
 
     else
 
@@ -385,7 +385,7 @@ gen.comm.mat<-function(bold.df,
         geom_sf(color="black",
                 fill="gray90",
                 alpha=0.2) +
-          geom_sf(#fill="steelblue",
+        geom_sf(#fill="steelblue",
           pch=0,
           color="black",
           size=5,
@@ -422,7 +422,7 @@ gen.comm.mat<-function(bold.df,
   result = result%>%
     dplyr::select(-1)
 
- output$comm.matrix = result
+  output$comm.matrix = result
 
   invisible(output)
 
