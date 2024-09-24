@@ -157,7 +157,7 @@ fetch.public.data<-function (query)
 
   final_data_preset=check_and_return_preset_df(final_data,
                              category = "check_return",
-                             preset = public.data.fields)
+                             preset = 'public.data.fields')
 
   return(final_data_preset)
 
