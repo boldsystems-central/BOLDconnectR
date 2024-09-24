@@ -90,7 +90,7 @@ bold.analyze.map<-function(bold_df,
 
   geo_df = check_and_return_preset_df(df=bold_df,
                                       category = "check_return",
-                                      preset = geography)
+                                      preset = 'geography')
 
   # Convert the 'coord' column into lat and lon for mapping and create a 'sf' data frame. All lat lon NA values are removed by default. CRS is 4326
 
