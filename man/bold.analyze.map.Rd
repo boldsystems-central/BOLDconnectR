@@ -28,7 +28,7 @@ This function creates basic maps of BIN occurrence data at different scales.
 }
 \examples{
 \dontrun{
-Download the ids
+#Download the ids
 geo_data.ids <- bold.public.search(taxonomy = "Musca domestica")
 
 # Fetch the data using the ids.

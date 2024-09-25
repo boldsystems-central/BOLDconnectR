@@ -69,7 +69,7 @@ test.data.summary.cols$numeric
 #3. Preset based summary
 test.data.summary.preset <- bold.data.summarize(bold_df=bold.data,
                                                 summarize_by = "presets",
-                                                presets = geography,
+                                                presets = 'geography',
                                                 na.rm = F)
 
 # All summary with respect to geography related fields in the BCDM data
