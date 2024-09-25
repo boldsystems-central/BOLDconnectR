@@ -185,9 +185,9 @@ if (!is.null(shapefile))
 
     # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
 
-    shp_input= suppressWarnings(suppressMessages(sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)))
+    suppressWarnings(suppressMessages(shp_input= sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)))
 
-    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
+    suppressWarnings(suppressMessages(shp_input = st_transform(shp_input,4326)))
 
   }
 
@@ -201,9 +201,9 @@ if (!is.null(shapefile))
 
     shp_input=shapefile
 
-    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
+    suppressWarnings(suppressMessages(shp_input = st_transform(shp_input,4326)))
 
-    shp_input=suppressWarnings(suppressMessages(shp_input%>%st_simplify(dTolerance = 0.001)))
+    suppressWarnings(suppressMessages(shp_input=shp_input%>%st_simplify(dTolerance = 0.001)))
 
   }
 
@@ -216,7 +216,7 @@ if (!is.null(shapefile))
   }
 
 
-  spatial.bold.df= suppressWarnings(suppressMessages(bold.df%>%
+  suppressWarnings(suppressMessages(spatial.bold.df= bold.df%>%
     convert_coord_2_lat_lon(.)%>%
     tidyr::drop_na(lat,lon)%>%
     sf::st_as_sf(x=.,
@@ -225,7 +225,7 @@ if (!is.null(shapefile))
                  remove=FALSE)))
 
 
-  spatial.bold.df=suppressWarnings(suppressMessages(st_transform(spatial.bold.df,
+  suppressWarnings(suppressMessages(spatial.bold.df=st_transform(spatial.bold.df,
                                st_crs(shp_input))))
 
 
