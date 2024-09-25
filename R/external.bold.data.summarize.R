@@ -151,7 +151,7 @@ bold.data.summarize<-function(bold_df,
                 stop("Presets should not be NULL when summarize_by=presets")
               }
 
-
+              total_rows_cols(bold_df)
 
               data_for_summary = check_and_return_preset_df(df=bold_df,
                                                             category = "check_return",
