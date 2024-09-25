@@ -229,7 +229,7 @@ if (!is.null(shapefile))
                                st_crs(shp_input))))
 
 
-  bold.df==suppressWarnings(suppressMessages(st_intersection(spatial.bold.df,
+  bold.df=suppressWarnings(suppressMessages(st_intersection(spatial.bold.df,
                           shp_input)%>%
     sf::st_drop_geometry(.)%>%
     data.frame(.)))
