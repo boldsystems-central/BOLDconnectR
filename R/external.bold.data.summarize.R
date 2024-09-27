@@ -105,7 +105,8 @@ bold.data.summarize<-function(bold_df,
 
   # Function to get the necessary long format data for plot
 
-  obtain.long.summ.df<-function(df,cols)
+  obtain.long.summ.df<-function(df,
+                                cols)
 
   {  # skim_summary_features required for the plots
 
@@ -123,12 +124,12 @@ bold.data.summarize<-function(bold_df,
         convert_coord_2_lat_lon(.)%>%
         skim()
 
-      results$all_skim_summ
+      results$all_skim_summ = all_skim_summ
 
-      concise_summ=all_skim_summ%>%
+      concise_summ = all_skim_summ%>%
         summary()
 
-      results$concise_summ
+      results$concise_summ = concise_summ
 
       result_df=all_skim_summ%>%
         filter(skim_variable %in% cols)%>%
@@ -154,7 +155,8 @@ bold.data.summarize<-function(bold_df,
       # result_df$features<-factor(result_df$features,
       #                               levels=c("complete_rate","n_missing","n_unique","mean"))
 
-      results$result_df
+      results$result_df=result_df
+
       return(results)
     })
   }
@@ -265,14 +267,9 @@ bold.data.summarize<-function(bold_df,
   )
 
 
-
   # Plot of the result
 
   summ_plot=summary_plot(summary.bold.df$result_df)
-
-  # Concise summary of the raw data
-
-
 
   # Compile output
 
@@ -287,6 +284,7 @@ bold.data.summarize<-function(bold_df,
   invisible(output)
 
   cat("This data summary is of the entire fetched data\n")
+
   print(summary.bold.df$concise_summ)
 
 }
