@@ -110,40 +110,52 @@ bold.data.summarize<-function(bold_df,
   {  # skim_summary_features required for the plots
 
     suppressWarnings({
-    common_summ<-c("n_missing","complete_rate")
 
-    num_summ<-c("mean","sd")
+      common_summ<-c("n_missing","complete_rate")
 
-    char_date_summ<-c("n_unique")
+      num_summ<-c("numeric.mean")
 
+      char_date_summ<-c("character.n_unique","Date.n_unique")
 
-    result_df=df%>%
-      convert_coord_2_lat_lon(.)%>%
-      skim()%>%
-      filter(skim_variable %in% cols)%>%
-      tidyr::gather(features,
-                    values,
-                    -c(skim_type,
-                              skim_variable))%>%
-      mutate(values = round(as.numeric(values),3))%>%
-      mutate(features = gsub("Date|character\\.n_unique",
-                             "n_unique",
-                             features))%>%
-      filter((skim_type == 'Date' & features %in% c(common_summ,
-                                                    char_date_summ))|
-               (skim_type=='character' & features %in% c(common_summ,
-                                                         char_date_summ))|
-               (skim_type=='numeric' & features %in% c(common_summ,
-                                                       num_summ)))%>%
-      mutate(values=round(as.numeric(values),3))%>%
-      mutate(values=case_when(features=='n_missing'~ (round(values/total_rows,
-                                                            3)*100),
-                              features=='n_unique' ~ values,
-                              features=='complete_rate' ~ values * 100,
-                              TRUE~values))
-    result_df$features<-as.factor(result_df$features)
+      results=list()
 
-    return(result_df)
+      all_skim_summ=df%>%
+        convert_coord_2_lat_lon(.)%>%
+        skim()
+
+      results$all_skim_summ
+
+      concise_summ=all_skim_summ%>%
+        summary()
+
+      results$concise_summ
+
+      result_df=all_skim_summ%>%
+        filter(skim_variable %in% cols)%>%
+        tidyr::gather(features,
+                      values,
+                      -c(skim_type,
+                         skim_variable))%>%
+        filter((skim_type == 'Date' & features %in% c(common_summ,
+                                                      char_date_summ))|
+                 (skim_type=='character' & features %in% c(common_summ,
+                                                           char_date_summ))|
+                 (skim_type=='numeric' & features %in% c(common_summ,
+                                                         num_summ)))%>%
+        mutate(values=round(as.numeric(values),3))%>%
+        mutate(features = gsub('.*\\.','', features))%>%
+        mutate(values=case_when(features=='n_missing'~ (round(values/total_rows,
+                                                              3)*100),
+                                features=='n_unique' ~ values,
+                                features=='complete_rate' ~ values * 100,
+                                features=='mean' ~ values,
+                                TRUE~values))
+
+      # result_df$features<-factor(result_df$features,
+      #                               levels=c("complete_rate","n_missing","n_unique","mean"))
+
+      results$result_df
+      return(results)
     })
   }
 
@@ -151,35 +163,37 @@ bold.data.summarize<-function(bold_df,
 
   summary_plot<-function(summ.df)  {
 
-suppressWarnings({
+    suppressWarnings({
 
-    facetlabels <- c(
-      'complete_rate'="Complete cases (%)",
-      'n_missing'="Missing values (%)",
-      'n_unique'="Unique values")
+      facetlabels <- c(
+        'complete_rate'="Complete cases (%)",
+        'n_missing'="Missing values (%)",
+        'n_unique'="Unique values",
+        'mean'= 'Mean value (numerical fields)')
 
-    plot=summ.df%>%
-      ggplot(aes(x=skim_variable,
-                 y=values))+
-      geom_bar(stat = "identity",
-               position = 'dodge',
-               fill='orangered2',
-               alpha=0.8,
-               col='black')+
-      ggplot2::facet_wrap(~features,
-                          scales='free_x',
-                          labeller = labeller(features=facetlabels))+
-      ggplot2::coord_flip()+
-      ylab('')+
-      xlab('Fields')+
-      theme_bw(base_size = 14) +
-      theme(axis.text.x = element_text(angle = 90,
-                                       vjust = 0.5,
-                                       hjust=1))+
-      ggtitle('Data profile')
+      summ_plot=summ.df%>%
+        ggplot(aes(x=skim_variable,
+                   y=values))+
+        geom_bar(stat = "identity",
+                 position = "dodge",
+                 fill='orangered2',
+                 alpha=0.8,
+                 col='black')+
+        ggplot2::facet_wrap(~features,
+                            scales='free_x',
+                            ncol=4,
+                            labeller = labeller(features=facetlabels))+
+        ylab('')+
+        xlab('Fields')+
+        theme_bw(base_size = 12) +
+        ggplot2::coord_flip()+
+        theme(axis.text.x = element_text(angle = 90,
+                                         vjust = 0.5,
+                                         hjust=1))+
+        ggtitle('Data profile')
 
-    return(plot)
-})
+      return(summ_plot)
+    })
 
   }
 
@@ -230,7 +244,7 @@ suppressWarnings({
 
 
               summary.bold.df=suppressWarnings(suppressMessages(obtain.long.summ.df(df = data_for_summary,
-                                                  cols = names(data_for_summary))))
+                                                                                    cols = names(data_for_summary))))
 
             },
 
@@ -251,33 +265,28 @@ suppressWarnings({
   )
 
 
-  # Change long to wide format of the summary for saving
-
-  summary_wide=tidyr::spread(summary.bold.df,
-                                key= features,
-                                value=values)
 
   # Plot of the result
 
-  summ_plot=summary_plot(summary.bold.df)
+  summ_plot=summary_plot(summary.bold.df$result_df)
 
   # Concise summary of the raw data
 
-  concise_summary<-bold_df%>%
-    skim()%>%
-    summary()
+
 
   # Compile output
 
   output$plot<-summ_plot
 
-  output$concise_summary<-concise_summary
+  output$concise_summ<-summary.bold.df$concise_summ
 
-  output$summary<-summary_wide
+  output$summary<-summary.bold.df$all_skim_summ
 
   # Summary
 
   invisible(output)
 
-}
+  cat("This data summary is of the entire fetched data\n")
+  print(summary.bold.df$concise_summ)
 
+}
