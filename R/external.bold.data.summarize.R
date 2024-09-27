@@ -288,12 +288,13 @@ bold.data.summarize<-function(bold_df,
 
   output$summary<-summary.bold.df$all_skim_summ
 
+  print(output$plot)
+
+  print(output$concise_summ)
+
   # Summary
 
   invisible(output)
 
-  cat("This data summary is of the entire fetched data\n")
-
-  print(summary.bold.df$concise_summ)
 
 }
