@@ -36,7 +36,7 @@ bold.analyze.diversity(
 \item{beta_index}{A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available).}
 }
 \value{
-An 'output' list containing containing results based on the profile selected:
+An 'output' list containing results based on the profile selected:
 #Common to all
 \itemize{
 \item comm.matrix = site X species like matrix required for the biodiversity results
