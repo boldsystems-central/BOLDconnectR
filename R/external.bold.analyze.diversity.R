@@ -26,7 +26,7 @@
 #' \emph{Note on the community matrix}: Each cell in this matrix contains the counts (or abundances) of the specimens whose sequences have an assigned BIN, in a given a `site_type` (`locations` or `grids`). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including ’bin_uri’. `location_type` can refer to any geographic field, and metadata on these fields can be checked using the `bold.fields.info()`. Rows lacking latitude and longitude data are removed when `site_type` = 'grids', while NULL entries for `site_type` = 'locations' are allowed if they have a latitude and longitude value. This is because grids are drawn based on the bounding boxes which only use latitude and longitude values.
 #' \emph{Important Note}: Results, including species counts, adapt based on taxon_rank argument although the output label remains ‘species’ in case of `preston` results.
 #'
-#' @returns An 'output' list containing containing results based on the profile selected:
+#' @returns An 'output' list containing results based on the profile selected:
 #' #Common to all
 #' *	comm.matrix = site X species like matrix required for the biodiversity results
 #' #1. richness
