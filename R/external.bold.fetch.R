@@ -99,6 +99,7 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr http_error
 #' @importFrom httr http_status
+#' @importFrom tidyr starts_with
 #'
 #' @export
 #'
@@ -154,6 +155,10 @@ bold.fetch<-function(get_by,
              data.input = input_data,
              query_param = get_by)
 
+             json.df = json.df%>%
+               dplyr::select(-tidyr::starts_with('specimendetails'),
+                             -tidyr::starts_with('location.'))
+
          },
 
 
@@ -176,6 +181,10 @@ bold.fetch<-function(get_by,
 
              json.df = fetch.bold.id(data.input = processids,
                                      query_param = "processid")
+
+             json.df = json.df%>%
+               dplyr::select(-tidyr::starts_with('specimendetails'),
+                             -tidyr::starts_with('location.'))
            },
 
          # Default case for invalid input

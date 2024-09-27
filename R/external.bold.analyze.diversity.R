@@ -207,9 +207,11 @@ bold.analyze.diversity <- function(bold_df,
 
              grids.map=bin.comm.res$grid_plot
 
-             output$grid.map=grids.map
+             grids.data= bin.comm.res$grids
 
-             output$grid_dta = bin.comm.res$grids
+             output$grids.data=grids.data
+
+             output$grid.map=grids.map
            }
   )
 

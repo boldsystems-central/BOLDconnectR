@@ -1,5 +1,7 @@
 #' Analyze and visualize the multiple sequence alignment
 #'
+#' @importFrom ape add.scale.bar
+#'
 #' @description
 #' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align`.
 #'
@@ -183,13 +185,21 @@ bold.analyze.tree<-function(bold_df,
 
   {
 
-    tree_plot<-plot.phylo(for_plot,
+    tree_plot<-plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,
                           cex=0.8,
                           font=1,
                           tip.color = "darkblue",
                           edge.color = "orangered2",
                           edge.width=1.5)
+
+    add.scale.bar(x=1.6,
+                  y=0.9,
+                  cex = 1,
+                  lwd=3,
+                  font = 2,
+                  col = "black")
+
     # Reset margins to original values
 
     output$plot=tree_plot

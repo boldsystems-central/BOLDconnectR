@@ -119,6 +119,7 @@ gen.comm.mat<-function(bold.df,
                   !!taxon.rank)%>%
     dplyr::filter(!is.na(bin_uri))%>%
     tidyr::drop_na(!!site.cat)%>%
+    #dplyr::filter(!(!!site.cat==""))%>%
     dplyr::arrange(!!site.cat)
 
   bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
@@ -379,26 +380,25 @@ gen.comm.mat<-function(bold.df,
 
       overview_map<-st_transform(overview_map,crs = st_crs(grids_final))
 
-      centroids_for_mapping = suppressWarnings(st_centroid(grids_final))
+      #centroids_for_mapping = suppressWarnings(st_centroid(grids_final))
 
-      grid_plot=ggplot(data=centroids_for_mapping) +
-        geom_sf(color="black",
-                fill="gray90",
-                alpha=0.2) +
-        geom_sf(#fill="steelblue",
-          pch=0,
-          color="black",
-          size=5,
-          stroke=1,
-          alpha=0.7) +
-        geom_sf(data = overview_map,
-                alpha=0.3,
-                linewidth=0.4) +
-        geom_sf_text(aes(label = cell.id),
-                     size = 3.5,
+      grid_plot=ggplot(data=overview_map) +
+        geom_sf(linewidth=0.3,
+                col='black',
+                fill='white') +
+        geom_sf(data = grids_final,
+                linewidth=0.3,
+                col="black",
+                fill='white',
+                alpha=0.4) +
+        geom_sf_text(data = grids_final,
+                     aes(label = cell.id),
+                     size = 2.5,
+                     col='black',
+                     alpha=0.7,
                      nudge_y = 300000) +
         theme_minimal(base_size = 15) +
-        labs(title = "Grid positions (approximate) for the data",
+        labs(title = "Grid map of the data",
              x = "Longitude",
              y = "Latitude")
 
@@ -406,8 +406,7 @@ gen.comm.mat<-function(bold.df,
 
       # Adding the grid data to the output
 
-      output$grids=grids_final%>%
-        dplyr::mutate(centroid=centroids_for_mapping$geometry)
+      output$grids=grids_final
 
     }
 

@@ -62,15 +62,17 @@
 #' @importFrom skimr skim
 #' @importFrom skimr partition
 #' @importFrom skimr skim_with
+#' @importFrom ggplot2 labeller
+#' @importFrom ggplot2 element_text
 #' @import dplyr
 #'
 #' @export
 #'
 bold.data.summarize<-function(bold_df,
-                            summarize_by = c("fields","presets","all_data"),
-                            columns = NULL,
-                            presets = NULL,
-                            na.rm=FALSE) {
+                              summarize_by = c("fields","presets","all_data"),
+                              columns = NULL,
+                              presets = NULL,
+                              na.rm=FALSE) {
 
   # Check for data structure
 
@@ -95,22 +97,95 @@ bold.data.summarize<-function(bold_df,
   }
 
 
-  total_rows_cols<-function (df)
+  # Input data for the functions below
 
-  {
+  all_cols<-names(bold_df)
 
-    Rows=nrow(df)
+  total_rows<-nrow(bold_df)
 
-    Columns=ncol(df)
+  # Function to get the necessary long format data for plot
 
-    message<-paste("The total number of rows in the dataset is:",Rows,"\nThe total number of columns in the dataset is:",Columns)
+  obtain.long.summ.df<-function(df,cols)
 
-    cat(message)
+  {  # skim_summary_features required for the plots
+
+    suppressWarnings({
+    common_summ<-c("n_missing","complete_rate")
+
+    num_summ<-c("mean","sd")
+
+    char_date_summ<-c("n_unique")
+
+
+    result_df=df%>%
+      convert_coord_2_lat_lon(.)%>%
+      skim()%>%
+      filter(skim_variable %in% cols)%>%
+      tidyr::gather(features,
+                    values,
+                    -c(skim_type,
+                              skim_variable))%>%
+      mutate(values = round(as.numeric(values),3))%>%
+      mutate(features = gsub("Date|character\\.n_unique",
+                             "n_unique",
+                             features))%>%
+      filter((skim_type == 'Date' & features %in% c(common_summ,
+                                                    char_date_summ))|
+               (skim_type=='character' & features %in% c(common_summ,
+                                                         char_date_summ))|
+               (skim_type=='numeric' & features %in% c(common_summ,
+                                                       num_summ)))%>%
+      mutate(values=round(as.numeric(values),3))%>%
+      mutate(values=case_when(features=='n_missing'~ (round(values/total_rows,
+                                                            3)*100),
+                              features=='n_unique' ~ values,
+                              features=='complete_rate' ~ values * 100,
+                              TRUE~values))
+    result_df$features<-as.factor(result_df$features)
+
+    return(result_df)
+    })
+  }
+
+  # Function to visualize the data
+
+  summary_plot<-function(summ.df)  {
+
+suppressWarnings({
+
+    facetlabels <- c(
+      'complete_rate'="Complete cases (%)",
+      'n_missing'="Missing values (%)",
+      'n_unique'="Unique values")
+
+    plot=summ.df%>%
+      ggplot(aes(x=skim_variable,
+                 y=values))+
+      geom_bar(stat = "identity",
+               position = 'dodge',
+               fill='orangered2',
+               alpha=0.8,
+               col='black')+
+      ggplot2::facet_wrap(~features,
+                          scales='free_x',
+                          labeller = labeller(features=facetlabels))+
+      ggplot2::coord_flip()+
+      ylab('')+
+      xlab('Fields')+
+      theme_bw(base_size = 14) +
+      theme(axis.text.x = element_text(angle = 90,
+                                       vjust = 0.5,
+                                       hjust=1))+
+      ggtitle('Data profile')
+
+    return(plot)
+})
 
   }
 
-
   suppressMessages(skim_with(numeric=list(digits=2)))
+
+  output<-list()
 
   switch (summarize_by,
 
@@ -123,24 +198,20 @@ bold.data.summarize<-function(bold_df,
               }
 
 
-            # Verification of column names
+              # Verification of column names
 
-            if (any(!columns %in% colnames(bold_df)))
+              if (any(!columns %in% colnames(bold_df)))
 
               {
-              stop("Column names given are not present in the input BCDM dataframe")
-                }
+                stop("Column names given are not present in the input BCDM dataframe")
+              }
 
-              # generate the summary
 
-              total_rows_cols(bold_df)
 
-              summary.bold.df=suppressWarnings(bold_df%>%
-                                                 dplyr::select(all_of(columns))%>%
-                                                 skimr::skim(.)%>%
-                                                 mutate(across(where(is.numeric), ~ round(., 2)))%>%
-                                                 skimr::partition(.))
-              },
+              summary.bold.df = obtain.long.summ.df (df = bold_df,
+                                                     cols = columns)
+
+            },
 
           "presets" =
 
@@ -151,42 +222,62 @@ bold.data.summarize<-function(bold_df,
                 stop("Presets should not be NULL when summarize_by=presets")
               }
 
-              total_rows_cols(bold_df)
+
 
               data_for_summary = check_and_return_preset_df(df=bold_df,
                                                             category = "check_return",
                                                             preset = presets)
 
-              #total_rows_cols(data_for_summary)
 
-              summary.bold.df=suppressWarnings(data_for_summary%>%
-                                                 skimr::skim(.)%>%
-                                                 mutate(across(where(is.numeric), ~ round(., 2)))%>%
-                                                 skimr::partition(.))
-              },
+              summary.bold.df=suppressWarnings(suppressMessages(obtain.long.summ.df(df = data_for_summary,
+                                                  cols = names(data_for_summary))))
+
+            },
 
           "all_data" =
 
             {
-              if (any(!is.null(columns),!is.null(presets)))
+              if (all(!is.null(columns),!is.null(presets)))
 
               {
                 stop("columns and presets should be NULL when summarize_by=all_data")
               }
 
-              total_rows_cols(bold_df)
 
-              summary.bold.df=suppressWarnings(bold_df%>%
-                                                 skimr::skim(.)%>%
-                                                 mutate(across(where(is.numeric), ~ round(., 2)))%>%
-                                                 skimr::partition(.))
+              summary.bold.df=obtain.long.summ.df(df = bold_df,
+                                                  cols = names(bold_df))
 
-              }
-          )
+            }
+  )
 
 
-# Summary
+  # Change long to wide format of the summary for saving
 
-return(summary.bold.df)
+  summary_wide=tidyr::spread(summary.bold.df,
+                                key= features,
+                                value=values)
+
+  # Plot of the result
+
+  summ_plot=summary_plot(summary.bold.df)
+
+  # Concise summary of the raw data
+
+  concise_summary<-bold_df%>%
+    skim()%>%
+    summary()
+
+  # Compile output
+
+  output$plot<-summ_plot
+
+  output$concise_summary<-concise_summary
+
+  output$summary<-summary_wide
+
+  # Summary
+
+  invisible(output)
 
 }
+

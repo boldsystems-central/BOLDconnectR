@@ -157,13 +157,22 @@ convert_coord_2_lat_lon<-function (df)
 
 {
 
-  result = df %>%
-    tidyr::separate(coord, c("lat", "lon"),
-                    sep = ",",
-                    remove = FALSE) %>%
-    dplyr::mutate(across(c(lat,
-                           lon),
-                         ~ as.numeric(.x)))
+  if(any(names(df)=='coord'))
+  {
+
+    result = df %>%
+      tidyr::separate(coord, c("lat", "lon"),
+                      sep = ",",
+                      remove = FALSE) %>%
+      dplyr::mutate(across(c(lat,
+                             lon),
+                           ~ as.numeric(.x)))
+
+  }
+  else
+  {
+    result = df
+  }
 
   return(result)
 }
