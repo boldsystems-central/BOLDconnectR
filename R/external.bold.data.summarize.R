@@ -203,8 +203,9 @@ bold.data.summarize<-function(bold_df,
         theme(axis.text.x = element_text(angle = 90,
                                          vjust = 0.5,
                                          hjust=1),
-              strip.background = ggplot2::element_rect(fill="lightseagreen"))+
-        ggtitle('Data profile')
+              strip.background = ggplot2::element_rect(fill="lightseagreen"),
+              text = element_text(family = "arial"))+
+        ggtitle('Completness profile of the downloaded data')
 
       return(summ_plot)
     })
