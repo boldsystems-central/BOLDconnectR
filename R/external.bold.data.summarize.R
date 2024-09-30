@@ -205,6 +205,7 @@ bold.data.summarize<-function(bold_df,
                                          hjust=1),
               strip.background = ggplot2::element_rect(fill="lightseagreen"),
               text = element_text(family = "arial"))+
+        scale_y_continuous(expand = c(0,0)) +
         ggtitle('Completness profile of the downloaded data')
 
       return(summ_plot)
