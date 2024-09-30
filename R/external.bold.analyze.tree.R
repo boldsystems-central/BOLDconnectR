@@ -185,7 +185,7 @@ bold.analyze.tree<-function(bold_df,
 
   {
 
-    tree_plot<-plot.phylo(ape::ladderize(for_plot,right = FALSE),
+    plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,
                           cex=0.8,
                           font=1,
@@ -193,16 +193,18 @@ bold.analyze.tree<-function(bold_df,
                           edge.color = "orangered2",
                           edge.width=1.5)
 
-    add.scale.bar(x=1.6,
-                  y=0.9,
+    # Get the plot limits
+    plot_limits <- par("usr")
+
+    on.exit(plot_limits)
+
+    # Add a scale bar dynamically
+    add.scale.bar(x = plot_limits[1] + 0.7 * (plot_limits[2] - plot_limits[1]), # Adjust x position
+                  y = plot_limits[3] + 0.05 * (plot_limits[4] - plot_limits[3]), # Adjust y position
                   cex = 1,
-                  lwd=3,
+                  lwd = 3,
                   font = 2,
                   col = "black")
-
-    # Reset margins to original values
-
-    output$plot=tree_plot
 
     # Save the plot as a phylo object
 
