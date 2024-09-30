@@ -80,15 +80,21 @@
 #' # richness results
 #' res.rich$richness
 #'
-#' #2. Shannon diversity
+#' #2. Shannon diversity (based on grids)
 #' res.shannon <- bold.analyze.diversity(bold_df=BCDMdata,
 #'                                       taxon_rank = "species",
-#'                                       site_type = "locations",
-#'                                       location_type = 'country.ocean',
+#'                                       site_type = "grids",
+#'                                       gridsize = 1000000,
 #'                                       diversity_profile = "shannon")
 #'
 #' # Shannon diversity results
-#' res.shannon
+#' res.shannon$shannon_div
+#'
+#' # Grid data (sf)
+#' res.shannon$grids.data
+#'
+#' # grid map
+#' res.shannon$grid.map
 #'
 #' #3. Preston plots and results
 #' pres.res <- bold.analyze.diversity(bold_df=BCDMdata,
