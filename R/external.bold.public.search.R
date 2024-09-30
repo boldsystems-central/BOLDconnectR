@@ -1,6 +1,6 @@
 #' Search publicly available data on the BOLD database
 #'
-#' @description Retrieves record ids for publicly available data based on taxonomy, geography or ids (dataset codes & bin_uri) search.
+#' @description Retrieves record ids for publicly available data based on taxonomy, geography or bin_uri search.
 #'
 #' @param taxonomy A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.
 #' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
