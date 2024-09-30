@@ -177,7 +177,7 @@ bold.data.summarize<-function(bold_df,
 
       facetlabels <- c(
         'complete_rate'="Complete cases (%)",
-        'n_missing'="Missing values",
+        'n_missing'="Missing values (Total)",
         'n_unique'="Unique values",
         'mean'= 'Mean value (numerical fields)')
 
@@ -189,8 +189,8 @@ bold.data.summarize<-function(bold_df,
                    y=values))+
         geom_bar(stat = "identity",
                  position = "dodge",
-                 fill='orangered2',
-                 alpha=0.8,
+                 fill='sienna1',
+                 alpha=0.9,
                  col='black')+
         ggplot2::facet_wrap(~features,
                             scales='free_x',
@@ -202,7 +202,8 @@ bold.data.summarize<-function(bold_df,
         ggplot2::coord_flip()+
         theme(axis.text.x = element_text(angle = 90,
                                          vjust = 0.5,
-                                         hjust=1))+
+                                         hjust=1),
+              strip.background = ggplot2::element_rect(fill="lightseagreen"))+
         ggtitle('Data profile')
 
       return(summ_plot)
