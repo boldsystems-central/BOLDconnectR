@@ -3,6 +3,8 @@
 #' @description
 #' The function is used to obtain a detailed summary of the data obtained by `bold.fetch` function.
 #'
+#' @importFrom graphics par
+#'
 #' @param bold_df the data.frame retrieved from the `bold.fetch` function.
 #' @param summarize_by A single character value specifying the type of summary required ("fields","presets","all_data" currently available)
 #' @param columns A single or multiple character vector specifying the columns for which a data summary is sought. Default value is NULL.
