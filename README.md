@@ -47,7 +47,7 @@ library(msa)
 library(Biostrings)
 ```
 
-## BOLDconnectR has 9 functions currently:
+## BOLDconnectR has 10 functions currently:
 
 1.  bold.fields.info
 2.  bold.apikey
