@@ -59,61 +59,82 @@ generate.batches<-function (data,
 #3. Function to convert the multi-record fields into a single character.
 # These columns in the downloaded data are arrays which are converted into a comma separated value
 
-bold.multirecords.set.csv <- function(edited.json) {
+bold.multirecords.set.csv<-function(edited.json)
+{
 
-  lapply(edited.json,
+  lapply(edited.json, function(x) {
 
-         function(x) {
+    columns_to_collapse <- c("bold_recordset_code_arr", "coord", "marker_code",
+                             "primers_forward", "primers_reverse")
 
+    for (col in columns_to_collapse) {
+      if (!is.null(x[[col]])) {
+        x[[col]] <- paste(unlist(x[[col]]), collapse = ",")
+      }
+    }
 
-           if (!is.null(x[["bold_recordset_code_arr"]]))
+    return(x)  # Return the modified x
+  })
 
-           {
-
-             x[["bold_recordset_code_arr"]] <- paste(unlist(x[["bold_recordset_code_arr"]]),
-                                                     collapse = ",")
-           }
-
-
-           if(!is.null(x[["coord"]]))
-
-           {
-
-             x[['coord']]<-paste(unlist(x[["coord"]]),
-                                 collapse = ",")
-           }
-
-           if(!is.null(x[["marker_code"]]))
-
-           {
-
-             x[['marker_code']]<-paste(unlist(x[["marker_code"]]),
-                                       collapse = ",")
-           }
-
-
-           if(!is.null(x[["primers_forward"]]))
-
-           {
-
-             x[["primers_forward"]]<-paste(unlist(x[["primers_forward"]]),
-                                           collapse = ",")
-           }
-
-
-           if(!is.null(x[["primers_reverse"]]))
-
-           {
-
-             x[["primers_reverse"]]<-paste(unlist(x[["primers_reverse"]]),
-                                           collapse = ",")
-           }
-
-
-           return(x)
-
-         })
 }
+
+# bold.multirecords.set.csv <- function(edited.json) {
+#
+#   lapply(edited.json,
+#
+#          function(x) {
+#
+#
+#            if (!is.null(x[["bold_recordset_code_arr"]]))
+#
+#            {
+#
+#              x[["bold_recordset_code_arr"]] <- paste(unlist(x[["bold_recordset_code_arr"]]),
+#                                                      collapse = ",")
+#            }
+#
+#
+#            if(!is.null(x[["coord"]]))
+#
+#            {
+#
+#              x[['coord']]<-paste(unlist(x[["coord"]]),
+#                                  collapse = ",")
+#            }
+#
+#            if(!is.null(x[["marker_code"]]))
+#
+#            {
+#
+#              x[['marker_code']]<-paste(unlist(x[["marker_code"]]),
+#                                        collapse = ",")
+#            }
+#
+#
+#            if(!is.null(x[["primers_forward"]]))
+#
+#            {
+#
+#              x[["primers_forward"]]<-paste(unlist(x[["primers_forward"]]),
+#                                            collapse = ",")
+#            }
+#
+#
+#            if(!is.null(x[["primers_reverse"]]))
+#
+#            {
+#
+#              x[["primers_reverse"]]<-paste(unlist(x[["primers_reverse"]]),
+#                                            collapse = ",")
+#            }
+#
+#
+#            return(x)
+#
+#          })
+# }
+
+
 
 
 #4.Function to reaasign data type based on R standards function
@@ -146,6 +167,16 @@ reassign.data.type<-function (x)
   # Convert/reaffirm Date fields
 
   x[date.fields.intersectn]<-lapply(x[date.fields.intersectn], function (x) {as.Date(x,"%Y-%m-%d")})
+
+  # Convert two fields taxid and specimenid to character
+
+  taxid_specimenid_vec<-c("taxid","specimenid")
+
+  for (col in taxid_specimenid_vec) {
+    if(!is.null(x[col])) {
+      x[[col]]<-as.character(x[[col]])
+    }
+  }
 
   return(x)
 

@@ -173,7 +173,7 @@ bold.fetch<-function(get_by,
 
              if(!nrow(input_data)>0)
              {
-               stop("Please re-check the column name specified in the identifiers.")
+               stop("Please re-check the data specified in the identifiers.")
              }
 
              processids = get.bin.dataset.project.pids(data.input=input_data,
