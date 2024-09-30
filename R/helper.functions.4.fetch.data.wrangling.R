@@ -155,6 +155,7 @@ reassign.data.type<-function (x)
 
   date.fields.intersectn=intersect(bold_field_data[bold_field_data$R_field_types=="Date","field"],names(x))
 
+  character.fields.intersectn=intersect(bold_field_data[bold_field_data$R_field_types=="character","field"],names(x))
 
   # Convert/reaffirm numeric fields
 
@@ -167,6 +168,11 @@ reassign.data.type<-function (x)
   # Convert/reaffirm Date fields
 
   x[date.fields.intersectn]<-lapply(x[date.fields.intersectn], function (x) {as.Date(x,"%Y-%m-%d")})
+
+  # Convert/reaffirm character fields
+
+  x[character.fields.intersectn]<-lapply(x[character.fields.intersectn], function(x) (x=as.character(x)))
+
 
   # Convert two fields taxid and specimenid to character
 

@@ -103,8 +103,7 @@ bold.data.summarize<-function(bold_df,
   {
     bold_df=bold_df%>%
       tidyr::drop_na(.)
-  }
-
+    }
 
   # Input data for the functions below
 
@@ -123,14 +122,15 @@ bold.data.summarize<-function(bold_df,
 
       common_summ<-c("n_missing","complete_rate")
 
-      num_summ<-c("numeric.mean")
+      #num_summ<-c("numeric.mean")
 
       char_date_summ<-c("character.n_unique","Date.n_unique")
 
       results=list()
 
       all_skim_summ=df%>%
-        convert_coord_2_lat_lon(.)%>%
+        dplyr::select(all_of(!!cols))%>%
+        #convert_coord_2_lat_lon(.)%>%
         skim()
 
       results$all_skim_summ = all_skim_summ
@@ -150,15 +150,12 @@ bold.data.summarize<-function(bold_df,
                                                       char_date_summ))|
                  (skim_type=='character' & features %in% c(common_summ,
                                                            char_date_summ))|
-                 (skim_type=='numeric' & features %in% c(common_summ,
-                                                         num_summ)))%>%
+                 (skim_type=='numeric' & features %in% c(common_summ)))%>%
         mutate(values=round(as.numeric(values),3))%>%
         mutate(features = gsub('.*\\.','', features))%>%
-        mutate(values=case_when(features=='n_missing'~ (round(values/total_rows,
-                                                              3)*100),
+        mutate(values=case_when(features=='n_missing'~ values,
                                 features=='n_unique' ~ values,
                                 features=='complete_rate' ~ values * 100,
-                                features=='mean' ~ values,
                                 TRUE~values))
 
       # result_df$features<-factor(result_df$features,
@@ -178,11 +175,14 @@ bold.data.summarize<-function(bold_df,
 
       facetlabels <- c(
         'complete_rate'="Complete cases (%)",
-        'n_missing'="Missing values (%)",
+        'n_missing'="Missing values",
         'n_unique'="Unique values",
         'mean'= 'Mean value (numerical fields)')
 
+
+
       summ_plot=summ.df%>%
+        dplyr::filter(features %in% c('complete_rate','n_missing'))%>%
         ggplot(aes(x=skim_variable,
                    y=values))+
         geom_bar(stat = "identity",
