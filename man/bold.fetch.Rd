@@ -77,9 +77,9 @@ Retrieves public and private user data based on different parameters (processid,
 #Test data with processids
 data(test.data)
 
-# apikey is loaded in the R environment using `bold.apikey` function
-# Key(token) should be pasted in the function between single quotes.
-bold.apikey()
+#1. api_key must be obtained from BOLD support before usage
+#2. The function `bold.apikey` should be used to set the apikey
+bold.apikey('apikey')
 
 # With processids
 res <- bold.fetch(get_by = "processid",

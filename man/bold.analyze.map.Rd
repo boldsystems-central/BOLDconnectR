@@ -24,16 +24,17 @@ An 'output' list containing:
 This function creates basic maps of BIN occurrence data at different scales.
 }
 \details{
-\code{bold.analyze.map} extracts out the geographic information from the \code{\link[=bold.fetch]{bold.fetch()}} output to generate an occurrence map. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a ’WGS84’ Coordinate Reference System (CRS) projection. Default view includes data mapped onto a world shape file using the \code{rnaturalearth::ne_countries()} at a 110 scale (low resolution). If the country is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (bbox) can be defined for a specific region to be visualized. The function also provides a \code{sf} data frame of the GIS data which can be used for any other application/s.
+\code{bold.analyze.map} extracts out the geographic information from the \code{\link[=bold.fetch]{bold.fetch()}} output to generate an occurrence map. Data points having NA values for either latitude or longitude or both are removed. Latitude and longitude values are in ‘decimal degrees’ format with a ’WGS84’ Coordinate Reference System (CRS) projection. Default view includes data mapped onto a world shape file using the \code{rnaturalearth::ne_countries()} at a 110 scale (low resolution). If the country is specified (single or multiple values), the function will specifically plot the occurrences on the specified country. Alternatively, a bounding box (bbox) can be defined for a specific region to be visualized (First two elements of the bbox are longitude values (xmin and xmax) and the remaining two are latitude values (ymin and ymax)). The function also provides a \code{sf} data frame of the GIS data which can be used for any other application/s.
 }
 \examples{
 \dontrun{
 #Download the ids
 geo_data.ids <- bold.public.search(taxonomy = "Musca domestica")
 
-# Fetch the data using the ids.
+# Fetch the data using the ids
 #1. api_key must be obtained from BOLD support before usage
-#2. the function `bold.apikey` should be used to set the apikey in the global env
+#2. The function `bold.apikey` should be used to set the apikey
+bold.apikey('apikey')
 
 geo_data <- bold.fetch(get_by = "processid",
                        identifiers = geo_data.ids$processid)
@@ -42,6 +43,7 @@ geo_data <- bold.fetch(get_by = "processid",
 geo.viz <- bold.analyze.map(geo_data)
 # View plot
 geo.viz$plot
+
 # Data plotted only in one country
 geo.viz.country <- bold.analyze.map(geo_data,
                                     country = c("Saudi Arabia"))
@@ -49,6 +51,10 @@ geo.viz.country <- bold.analyze.map(geo_data,
 geo.viz.country$plot
 # The sf dataframe of the downloaded data
 geo.viz$geo.df
+
+# Data plotted based on a bounding box
+bold.analyze.map(bold_df = geo_data,
+bbox = c(41,100,20.36501,55.506))
 }
 
 }

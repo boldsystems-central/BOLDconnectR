@@ -6,7 +6,7 @@
 #' @param apikey A character string required for authentication and data access.
 #'
 #' @details
-#' `bold.apikey` generates a variable called `apikey` that stores the access token provided by BOLD. The `apikey` variable is then used by the [bold.fetch()] internally so that the user does not have to input it again. The token must be provided as an input for the function before any other functions are used so as to set the apikey. The `api_key` is a UUID v4 hexadecimal string obtained upon request from BOLD at `support@boldsystems.org` and is valid for one year, requiring renewal thereafter.
+#' `bold.apikey` creates a variable called `apikey` that stores the access token provided by BOLD (The access token has to be procured from BOLD before using the function/package). The `apikey` variable is then used by the [bold.fetch()] internally so that the user does not have to input it again. The token must be provided as an input for the function before any other functions are used so as to set the apikey. The `api_key` is a UUID v4 hexadecimal string obtained upon request from BOLD at `support@boldsystems.org` and is valid for one year, requiring renewal thereafter.
 #'
 #' @returns Token saved as 'apikey'
 #'

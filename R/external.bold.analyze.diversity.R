@@ -15,11 +15,13 @@
 #'
 #' @details `bold.analyze.diversity` estimates the richness & calculates the Shannon and beta diversity from the BIN counts or presence-absence data. Internally, the function converts the downloaded BCDM data into a community matrix (site X species) which is also generated as a part of the output. `taxon_rank` has to be provided by default while `taxon_name` if given, will create the matrix for that specific taxon/taxa. `site_type` = 'locations' can be used when a profile pertaining to particular geographic category is needed. This category can be specified using the `location_type` argument. `site_type`= grids creates a grid based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the `gridsize` argument. The the Coordinate Reference System (CRS) of this data is converted to a ‘Mollweide’ projection by which distance-based grid can be correctly specified (Gott III et al. 2007). Each grid is also assigned a cell id, with the lowest number given to the lowest latitudinal point in the dataset. The `presence_absence` argument converts the counts (or abundances) to 1s and 0s.
 #' The community matrix is then used to create one of the following `diversity_profile` using functions from `BAT` and `vegan` packages:
+#'
 #' * `richness`(`BAT::alpha.accum()`)
 #' * `preston`(plots and results)(`vegan::prestondistr()`)
 #' * `shannon`(`vegan::diversity()`)
 #' * `beta`(`BAT::beta()`)
-#' The option `all` generates results for all of the above.
+#' * `all` generates results for all of the above.
+#'
 #' `BAT::alpha.accum()` currently offers various richness estimators, including Observed diversity (Obs); Singletons (S1); Doubletons (S2); Uniques (Q1); Duplicates (Q2); Jackknife1 abundance (Jack1ab); Jackknife1 incidence (Jack1in); Jackknife2 abundance (Jack2ab); Jackknife2 incidence (Jack2in); Chao1 and Chao2. The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation.
 #' Preston plots feature cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts.
 #' `BAT::beta()` partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach partitioning the beta diversity into ’species replacement’ and ’richness difference’ components. These results are stored as distance matrices in the output. The type of beta index can be specified using the `beta_index` argument.
@@ -55,9 +57,9 @@
 #' # Search for ids
 #' comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 #'
-#' # Fetch the data using the ids
 #' #1. api_key must be obtained from BOLD support before usage
-#' #2. the function `bold.apikey` should be used to set the apikey in the global env
+#' #2. The function `bold.apikey` should be used to set the apikey
+#' bold.apikey('apikey')
 #'
 #' BCDMdata <- bold.fetch(get_by = "processid",
 #'                        identifiers = comm.mat.data$processid)
@@ -117,6 +119,16 @@
 #'
 #' #Richness difference
 #' beta.res$richnessd
+#'
+#' #5. All profiles
+#' all.diversity.res<-bold.analyze.diversity(bold_df=BCDMdata,
+#'                                           taxon_rank = "species",
+#'                                           site_type = "locations",
+#'                                           location_type = 'country.ocean',
+#'                                           diversity_profile = "all",
+#'                                           beta_index = "jaccard")
+#' #Explore all results
+#' all.diversity.res
 #'}
 #'
 #' @importFrom BAT alpha.accum
@@ -130,6 +142,7 @@
 #' @importFrom ggplot2 element_blank
 #' @importFrom stats fitted
 #' @importFrom BAT beta
+#'
 #' @export
 #'
 bold.analyze.diversity <- function(bold_df,
@@ -262,7 +275,6 @@ bold.analyze.diversity <- function(bold_df,
                output$preston.plot = preston_results$preston.plot
 
                output$preston.res = preston_results$preston.res
-
 
              },
              error = function (e)

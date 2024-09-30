@@ -66,22 +66,23 @@ The community matrix is then used to create one of the following \code{diversity
 \item \code{preston}(plots and results)(\code{vegan::prestondistr()})
 \item \code{shannon}(\code{vegan::diversity()})
 \item \code{beta}(\code{BAT::beta()})
-The option \code{all} generates results for all of the above.
+\item \code{all} generates results for all of the above.
+}
+
 \code{BAT::alpha.accum()} currently offers various richness estimators, including Observed diversity (Obs); Singletons (S1); Doubletons (S2); Uniques (Q1); Duplicates (Q2); Jackknife1 abundance (Jack1ab); Jackknife1 incidence (Jack1in); Jackknife2 abundance (Jack2ab); Jackknife2 incidence (Jack2in); Chao1 and Chao2. The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation.
 Preston plots feature cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts.
 \code{BAT::beta()} partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach partitioning the beta diversity into ’species replacement’ and ’richness difference’ components. These results are stored as distance matrices in the output. The type of beta index can be specified using the \code{beta_index} argument.
 \emph{Note on the community matrix}: Each cell in this matrix contains the counts (or abundances) of the specimens whose sequences have an assigned BIN, in a given a \code{site_type} (\code{locations} or \code{grids}). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including ’bin_uri’. \code{location_type} can refer to any geographic field, and metadata on these fields can be checked using the \code{bold.fields.info()}. Rows lacking latitude and longitude data are removed when \code{site_type} = 'grids', while NULL entries for \code{site_type} = 'locations' are allowed if they have a latitude and longitude value. This is because grids are drawn based on the bounding boxes which only use latitude and longitude values.
 \emph{Important Note}: Results, including species counts, adapt based on taxon_rank argument although the output label remains ‘species’ in case of \code{preston} results.
 }
-}
 \examples{
 \dontrun{
 # Search for ids
 comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
 
-# Fetch the data using the ids
 #1. api_key must be obtained from BOLD support before usage
-#2. the function `bold.apikey` should be used to set the apikey in the global env
+#2. The function `bold.apikey` should be used to set the apikey
+bold.apikey('apikey')
 
 BCDMdata <- bold.fetch(get_by = "processid",
                        identifiers = comm.mat.data$processid)
@@ -141,6 +142,16 @@ beta.res$replace
 
 #Richness difference
 beta.res$richnessd
+
+#5. All profiles
+all.diversity.res<-bold.analyze.diversity(bold_df=BCDMdata,
+                                          taxon_rank = "species",
+                                          site_type = "locations",
+                                          location_type = 'country.ocean',
+                                          diversity_profile = "all",
+                                          beta_index = "jaccard")
+#Explore all results
+all.diversity.res
 }
 
 }
