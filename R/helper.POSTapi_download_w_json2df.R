@@ -25,6 +25,10 @@ post.api.res.fetch<-function (base.url,
     )
   )
 
+  if (httr::status_code(result) != 200)
+  {
+    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
+  }
 
   return(result)
 

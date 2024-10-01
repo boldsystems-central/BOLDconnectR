@@ -30,7 +30,12 @@ bin.dataset.project.pids<-function (get.data.input,
                      add_headers('accept' = 'application/json',
                                  'api-key' = apikey))
 
-  ## Obtain the token as Json strings
+  if (httr::status_code(get.data) != 200)
+    {
+    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
+  }
+
+    ## Obtain the token as Json strings
 
   suppressMessages(
 
