@@ -1,11 +1,13 @@
 #' Search publicly available data on the BOLD database
 #'
-#' @description Retrieves record ids for publicly available data based on taxonomy, geography or bin_uri search.
+#' @description Retrieves record ids for publicly available data based on taxonomy, geography, bin_uris or datasets/project codes search.
 #'
 #' @param taxonomy A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.
 #' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
 #' @param bins A single or multiple character vector specifying the BIN ids. Default value is NULL.
-#' @details `bold.public.search` searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using `bold.fetch`. Search parameters can include one or a combination of taxonomy, geography or bin uris. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results.
+#' @param dataset_codes A single or multiple character vector specifying the dataset codes. Default value is NULL.
+#' @param project_codes A single or multiple character vector specifying the project codes. Default value is NULL.
+#' @details `bold.public.search` searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using `bold.fetch`. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results.
 #'
 #' @returns A data frame containing all the processids and sampleids related to the query search.
 #'
@@ -39,7 +41,9 @@
 #'
 bold.public.search <- function(taxonomy = NULL,
                                geography = NULL,
-                               bins = NULL)
+                               bins = NULL,
+                               dataset_codes=NULL,
+                               project_codes=NULL)
 
 {
 
@@ -47,7 +51,8 @@ bold.public.search <- function(taxonomy = NULL,
 
   args <- list(taxonomy = taxonomy,
                geography = geography,
-               bins = bins)
+               bins = bins,
+               datasets_projects=datasets_projects)
 
   # Filter out NULL values and get their values
 
@@ -84,7 +89,9 @@ bold.public.search <- function(taxonomy = NULL,
 
     trial_query_input<- values_args_vec
 
-    result = fetch.public.data(query = trial_query_input)
+    result = fetch.public.data(query = trial_query_input)%>%
+      dplyr::select(processid,
+                    sampleid)
 
   }
 
@@ -98,7 +105,9 @@ bold.public.search <- function(taxonomy = NULL,
 
     if(length(trial_query_input)<=5)
     {
-      result = fetch.public.data(query = trial_query_input)
+      result = fetch.public.data(query = trial_query_input)%>%
+        dplyr::select(processid,
+                      sampleid)
 
     }
 
@@ -132,9 +141,9 @@ bold.public.search <- function(taxonomy = NULL,
       # Binding the list of dataframes
 
       result=result.post.filter%>%
-        bind_rows(.)
-        # dplyr::select(processid,
-        #               sampleid)
+        bind_rows(.)%>%
+        dplyr::select(processid,
+                      sampleid)
 
     }
 
