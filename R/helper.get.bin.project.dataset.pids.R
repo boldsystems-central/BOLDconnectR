@@ -30,7 +30,7 @@ bin.dataset.project.pids<-function (get.data.input,
                      add_headers('accept' = 'application/json',
                                  'api-key' = apikey))
 
-  if (httr::status_code(get.data) != 200)
+  if (httr::status_code(get.data) < 200 || httr::status_code(get.data)>=300)
     {
     stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
   }
