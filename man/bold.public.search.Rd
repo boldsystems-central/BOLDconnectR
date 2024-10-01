@@ -4,7 +4,13 @@
 \alias{bold.public.search}
 \title{Search publicly available data on the BOLD database}
 \usage{
-bold.public.search(taxonomy = NULL, geography = NULL, bins = NULL)
+bold.public.search(
+  taxonomy = NULL,
+  geography = NULL,
+  bins = NULL,
+  dataset_codes = NULL,
+  project_codes = NULL
+)
 }
 \arguments{
 \item{taxonomy}{A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.}
@@ -12,15 +18,19 @@ bold.public.search(taxonomy = NULL, geography = NULL, bins = NULL)
 \item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 
 \item{bins}{A single or multiple character vector specifying the BIN ids. Default value is NULL.}
+
+\item{dataset_codes}{A single or multiple character vector specifying the dataset codes. Default value is NULL.}
+
+\item{project_codes}{A single or multiple character vector specifying the project codes. Default value is NULL.}
 }
 \value{
 A data frame containing all the processids and sampleids related to the query search.
 }
 \description{
-Retrieves record ids for publicly available data based on taxonomy, geography or bin_uri search.
+Retrieves record ids for publicly available data based on taxonomy, geography, bin_uris or datasets/project codes search.
 }
 \details{
-\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography or bin uris. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results.
+\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined weburl character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s crucial that the parameters are logically combined to ensure accurate and non-empty results.
 }
 \examples{
 

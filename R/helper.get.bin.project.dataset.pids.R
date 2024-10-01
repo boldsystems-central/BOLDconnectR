@@ -99,7 +99,7 @@ get.bin.dataset.project.pids<-function(data.input,
   if(nrow(data.input)<=99)
   {
 
-    bin_dataset_project_ids = data.input[,1]
+    bin_dataset_project_ids = data.input
 
     # get_data_bins is a function to obtain the processids using the BOLD GET API.
 

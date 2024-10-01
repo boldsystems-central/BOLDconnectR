@@ -78,7 +78,7 @@ fetch.bold.id<-function(data.input,
 
     # Declare batch size
 
-    generate.batch.ids = generate.batches(data = data.input,
+    generate.batch.ids = generate.batches(data = data.input[,1],
                                           batch.size = 5000)
 
 

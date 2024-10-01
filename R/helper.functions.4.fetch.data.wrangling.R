@@ -35,7 +35,7 @@ generate.batches<-function (data,
   # Extract the ids to a single character file to be used for the url used for POST
 
 
-  data=data[,1]
+  #data=data[,1]
 
 
   length.data<-seq_len(length(data))
@@ -77,64 +77,6 @@ bold.multirecords.set.csv<-function(edited.json)
   })
 
 }
-
-# bold.multirecords.set.csv <- function(edited.json) {
-#
-#   lapply(edited.json,
-#
-#          function(x) {
-#
-#
-#            if (!is.null(x[["bold_recordset_code_arr"]]))
-#
-#            {
-#
-#              x[["bold_recordset_code_arr"]] <- paste(unlist(x[["bold_recordset_code_arr"]]),
-#                                                      collapse = ",")
-#            }
-#
-#
-#            if(!is.null(x[["coord"]]))
-#
-#            {
-#
-#              x[['coord']]<-paste(unlist(x[["coord"]]),
-#                                  collapse = ",")
-#            }
-#
-#            if(!is.null(x[["marker_code"]]))
-#
-#            {
-#
-#              x[['marker_code']]<-paste(unlist(x[["marker_code"]]),
-#                                        collapse = ",")
-#            }
-#
-#
-#            if(!is.null(x[["primers_forward"]]))
-#
-#            {
-#
-#              x[["primers_forward"]]<-paste(unlist(x[["primers_forward"]]),
-#                                            collapse = ",")
-#            }
-#
-#
-#            if(!is.null(x[["primers_reverse"]]))
-#
-#            {
-#
-#              x[["primers_reverse"]]<-paste(unlist(x[["primers_reverse"]]),
-#                                            collapse = ",")
-#            }
-#
-#
-#            return(x)
-#
-#          })
-# }
-
-
 
 
 #4.Function to reaasign data type based on R standards function

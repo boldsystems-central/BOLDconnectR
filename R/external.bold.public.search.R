@@ -52,7 +52,8 @@ bold.public.search <- function(taxonomy = NULL,
   args <- list(taxonomy = taxonomy,
                geography = geography,
                bins = bins,
-               datasets_projects=datasets_projects)
+               dataset_codes=dataset_codes,
+               project_codes=project_codes)
 
   # Filter out NULL values and get their values
 
@@ -69,29 +70,27 @@ bold.public.search <- function(taxonomy = NULL,
   if (length(non_nulls) > 1)
 
   {
-    values_args <- list()
-
-    for (arg in names(non_nulls))
-
-    {
-      # Fetch value of the argument
-
-      value <- non_nulls[[arg]]
-
-      # Append it in the values_args list
-
-      values_args[[arg]] <- value
-    }
+    # values_args <- list()
+    #
+    # for (arg in names(non_nulls))
+    #
+    # {
+    #   # Fetch value of the argument
+    #
+    #   value <- non_nulls[[arg]]
+    #
+    #   # Append it in the values_args list
+    #
+    #   values_args[[arg]] <- value
+    # }
 
     # Convert the list into a character vector
 
-    values_args_vec = unlist (values_args)|>unname()
+    values_args_vec = unlist (non_nulls)|>unname()
 
     trial_query_input<- values_args_vec
 
-    result = fetch.public.data(query = trial_query_input)%>%
-      dplyr::select(processid,
-                    sampleid)
+    result = fetch.public.data(query = trial_query_input)
 
   }
 
@@ -105,9 +104,7 @@ bold.public.search <- function(taxonomy = NULL,
 
     if(length(trial_query_input)<=5)
     {
-      result = fetch.public.data(query = trial_query_input)%>%
-        dplyr::select(processid,
-                      sampleid)
+      result = fetch.public.data(query = trial_query_input)
 
     }
 
@@ -116,18 +113,19 @@ bold.public.search <- function(taxonomy = NULL,
     {
       # Batch creation
 
-      batch.size=5
+      generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
 
-      length.data<-seq_len(length(trial_query_input))
+      # length.data<-seq_len(length(trial_query_input))
+      #
+      # batch.cutoffs=ceiling(length.data/batch.size)
+      #
+      # batch.indexes=split(length.data,
+      #                     batch.cutoffs)|>
+      #   unname()
+      #
+      # generate.batch.ids=lapply(batch.indexes,
+      #                           function(x) trial_query_input[x])
 
-      batch.cutoffs=ceiling(length.data/batch.size)
-
-      batch.indexes=split(length.data,
-                          batch.cutoffs)|>
-        unname()
-
-      generate.batch.ids=lapply(batch.indexes,
-                                function(x) trial_query_input[x])
 
       result.pre.filter = lapply(generate.batch.ids,
                                  function(x) fetch.public.data(x))
@@ -141,10 +139,7 @@ bold.public.search <- function(taxonomy = NULL,
       # Binding the list of dataframes
 
       result=result.post.filter%>%
-        bind_rows(.)%>%
-        dplyr::select(processid,
-                      sampleid)
-
+        bind_rows(.)
     }
 
   }
@@ -155,6 +150,11 @@ bold.public.search <- function(taxonomy = NULL,
     stop("Data could not be retrieved. Please re-check the parameters.")
 
   }
+
+  result = result%>%
+    dplyr::select(processid,
+                  sampleid)
+
 
   return(result)
 
