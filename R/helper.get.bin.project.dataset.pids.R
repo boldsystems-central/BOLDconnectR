@@ -32,7 +32,7 @@ bin.dataset.project.pids<-function (get.data.input,
 
   if (httr::status_code(get.data) < 200 || httr::status_code(get.data)>=300)
     {
-    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
+    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
   }
 
     ## Obtain the token as Json strings
@@ -63,6 +63,7 @@ bin.dataset.project.pids<-function (get.data.input,
   get.data.pids=httr::GET(url=url_get_pids_from_token,
                           add_headers('accept' = 'application/json',
                                       'api-key' = apikey))
+
 
   ## Obtain the content as Json strings
 
