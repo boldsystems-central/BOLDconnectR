@@ -12,7 +12,7 @@
 #' @param pre.abs A logical value specifying whether the generated matrix should be converted into a 'presence-absence' matrix.
 #' @param view.grids A logical value specifying viewing the grids overlaid on a map with respective cell ids. Default value is FALSE.
 #'
-#' @details The function transforms the [bold.fetch()] downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a `site.cat` site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular `site.cat` or 'grid'). `site.cat` can be any of the `geography` fields (Meta data on fields can be checked using the [bold.fields.info()]). Alternatively, `grids` = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For `grids` generation, rows with no latitude and longitude data are removed (even if a corresponding `site.cat` information is available) while NULL entries for `site.cat` are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).`grids` converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the `grids_final` `sf` data frame stored in the output. The grids can be visualized with `view.grids`=TRUE. The plot obtained is a visualization of the grid centroids with their respective names. Please note that a) if the data has many closely located grids, visualization with `view.grids` can get confusing. The argument `pre.abs` will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like `vegan` for biodiversity analyses.
+#' @details The function transforms the [bold.fetch()] downloaded data into a site X species like matrix. Instead of species counts (or abundances) though, values in each cell are the counts (or abundances) of a specific BIN from a `site.cat` site category or a ‘grid’. These counts can be generated at any taxonomic hierarchical level for a single or multiple taxa (This can also be done for 'bin_uri'; the difference being that the numbers in each cell would be the number of times that respective BIN is found at a particular `site.cat` or 'grid'). `site.cat` can be any of the `geography` fields (Meta data on fields can be checked using the [bold.fields.info()]). Alternatively, `grids` = TRUE will generate grids based on the BIN occurrence data (latitude, longitude) with the size of the grid determined by the user (in sq.m.). For `grids` generation, rows with no latitude and longitude data are removed (even if a corresponding `site.cat` information is available) while NULL entries for `site.cat` are allowed if they have a latitude and longitude value (This is done because grids are drawn based on the bounding boxes which only use latitude and longitude values).`grids` converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide' projection by which distance based grid can be correctly specified. A cell id is also given to each grid with the lowest number assigned to the lowest latitudinal point in the dataset. The cellids can be changed as per the user by making changes in the `grids_final` `sf` data frame stored in the output. The grids can be visualized with `view.grids`=TRUE. The plot obtained is a visualization of the grids with their respective names. Please note that a) if the data has many closely located grids, visualization with `view.grids` can get confusing. The argument `pre.abs` will convert the counts (or abundances) to 1 and 0. This dataset can then directly be used as the input data for functions from packages like `vegan` for biodiversity analyses.
 #'
 #' @returns An 'output' list containing:
 #' * comm.matrix = A site X species like matrix based on BINs.
@@ -37,8 +37,6 @@
 #' @importFrom sf st_make_grid
 #' @importFrom sf st_intersects
 #' @importFrom sf st_sf
-#' @importFrom sf st_centroid
-#' @importFrom rnaturalearth ne_countries
 #' @importFrom ggplot2 theme_minimal
 #' @importFrom ggplot2 geom_sf_text
 #' @importFrom ggplot2 labs
@@ -376,7 +374,9 @@ gen.comm.mat<-function(bold.df,
 
     {
 
-      overview_map <- rnaturalearth::ne_countries(scale = 110)
+      overview_map <-sf::st_as_sf(maps::map('world',
+                                            plot = FALSE,
+                                            fill = TRUE))
 
       overview_map<-st_transform(overview_map,crs = st_crs(grids_final))
 

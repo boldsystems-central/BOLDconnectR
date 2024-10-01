@@ -48,7 +48,7 @@
 #'
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_simplify
-#' @importFrom rnaturalearth ne_countries
+#' @importFrom maps map
 #' @importFrom sf st_set_crs
 #' @importFrom ape njs
 #' @importFrom ape write.tree
@@ -110,9 +110,24 @@ bold.analyze.map<-function(bold_df,
     st_simplify(dTolerance = 0.001)
 
 
-  # Generate a base map with a low resolution
+  # Generate a base map with a low resolution. Some map_data country names (ID column) are changed to suit the BCDM country.ocean names
 
-  map_data <- rnaturalearth::ne_countries(scale = 110)
+   map_data <- sf::st_as_sf(maps::map('world',
+                                     plot = FALSE,
+                                     fill = TRUE))%>%
+    dplyr::mutate(ID=case_when(ID=='USA'~'United States',
+                               ID=='North Macedonia'~'Macedonia',
+                               ID=="Republic of Congo"~'Republic of the Congo',
+                               ID=='UK'~'United Kingdom',
+                               ID=='Antigua'~'Antigua and Barbuda',
+                               ID=='Barbuda'~'Antigua and Barbuda',
+                               ID=="Trinidad"~"Trinidad and Tobago",
+                               ID=="Tobago"~"Trinidad and Tobago",
+                               ID=="Cote d'Ivoire"~"Ivory Coast",
+                               TRUE~ID))
+
+   map_data <- st_transform(map_data,
+                            4326)
 
   # IF country is not specified. All points will be mapped by default on a world map
 
@@ -129,12 +144,9 @@ bold.analyze.map<-function(bold_df,
     bin.geo.df<-geo_data%>%
       dplyr::filter(country.ocean %in% !!country)
 
-   # US names mismatch is corrected
 
-    map_data[which(map_data$name_en=="United States of America"),"name_en"]<-"United States"
-
-    map_data<-map_data%>%
-      dplyr::filter(name_en %in% !!country)
+  map_data<-map_data%>%
+      dplyr::filter(ID %in% !!country)
 
     map_data <- st_set_crs(map_data,
                            4326)

@@ -31,7 +31,7 @@ Imports:
     jsonlite(>= 1.7),
     methods,
     reshape2,
-    rnaturalearth(>= 0.1),
+    maps(>= 3.3),
     sf(>= 0.9.4),
     skimr(>= 2.1.2),
     tidyr(>= 1.1.1),
