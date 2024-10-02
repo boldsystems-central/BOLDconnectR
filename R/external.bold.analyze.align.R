@@ -82,23 +82,14 @@ bold.analyze.align<-function (bold_df,
   if(!is.null(marker))
 
   {
-
-    # Check if marker code is available in the dataset
-
-    tryCatch({
-
-      stopifnot(all(marker %in% bold_df[['marker_code']]))
+    # Check if marker code is available in the dataser
+    if(any(!(marker %in% bold_df[['marker_code']]))) stop("Marker provided is not available in the dataset. Please re-check if the code is correct and available in the BOLD database")
 
       # Obtain the specific columns from the data frame
       obtain.data <- seq.data %>%
         dplyr::filter(!is.na(marker_code)) %>%
         dplyr::filter(marker_code %in% !!marker)
      obtain.data
-     },
-     error = function(e) {
-      message("Marker is not available in the dataset. Please re-check the marker code.")
-      NULL
-    })
   }
 
   else
