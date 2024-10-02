@@ -178,8 +178,8 @@ bold.analyze.tree<-function(bold_df,
                           type=tree_plot_type,
                           cex=0.8,
                           font=1,
-                          tip.color = "darkblue",
-                          edge.color = "orangered2",
+                          tip.color = "lightseagreen",
+                          edge.color = "sienna1",
                           edge.width=1.5)
     # Get the plot limits
     plot_limits <- par("usr")
