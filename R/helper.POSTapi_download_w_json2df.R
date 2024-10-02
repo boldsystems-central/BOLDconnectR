@@ -62,7 +62,8 @@ fetch.data<-function(result)
   #4. Convert the cleaned list to data.frame. Records have differences in the information that is available and filled for the different fields. This would result in rows having varying number of elements. To ensure a consistency, 'fill' argument has a default TRUE value here so that all such empty cells will be converted to NA's
 
   suppressWarnings(json.df<-data.table::rbindlist(edited.json.w.multi.entries,
-                                      fill=TRUE)%>%
+                                      fill=TRUE,
+                                      use.names = TRUE)%>%
                      data.frame())
 
 

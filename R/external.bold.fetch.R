@@ -155,11 +155,7 @@ bold.fetch<-function(get_by,
              data.input = input_data,
              query_param = get_by)
 
-             json.df = json.df%>%
-               dplyr::select(-tidyr::starts_with('specimendetails'),
-                             -tidyr::starts_with('location.'))
-
-         },
+          },
 
 
          "dataset_codes" =,
@@ -182,14 +178,16 @@ bold.fetch<-function(get_by,
              json.df = fetch.bold.id(data.input = processids,
                                      query_param = "processid")
 
-             json.df = json.df%>%
-               dplyr::select(-tidyr::starts_with('specimendetails'),
-                             -tidyr::starts_with('location.'))
-           },
+             },
 
          # Default case for invalid input
          stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris")
   )
+
+
+  # Select only the core BCDM fields
+
+  json.df = json.df[,intersect(names(json.df),bold.fields.info()$field)]
 
  # a separate filter function is used to filter the retrieved data
 

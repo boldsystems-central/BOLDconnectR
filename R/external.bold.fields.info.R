@@ -32,6 +32,7 @@ bold.fields.info<-function (print.output=FALSE) {
   bold.fields.data= suppressMessages(data.table::fread("https://github.com/DNAdiversity/BCDM/raw/main/field_definitions.tsv",
                                                        sep = '\t',
                                                        quote = "",
+                                                       check.names = FALSE,
                                                        verbose = FALSE,
                                                        showProgress = FALSE,
                                                        data.table = FALSE,
@@ -41,13 +42,15 @@ bold.fields.info<-function (print.output=FALSE) {
                   dplyr::matches("definition",ignore.case=TRUE),
                   dplyr::matches("data_type",ignore.case=TRUE))%>%
     dplyr::mutate(R_field_types=dplyr::case_when(data_type=="string"~"character",
-                                          data_type %in% c("char","array") ~"character",
-                                          data_type=="float"~"numeric",
-                                          data_type=="number"~"numeric",
-                                          data_type=="integer"~"integer",
-                                          data_type=="string:date"~"Date"))%>%
-    dplyr::select(-dplyr::matches("data_type",ignore.case=TRUE))
-
+                                                 data_type %in% c("char","array") ~"character",
+                                                 data_type=="float"~"numeric",
+                                                 data_type=="number"~"numeric",
+                                                 data_type=="integer"~"integer",
+                                                 data_type=="string:date"~"Date"))%>%
+    dplyr::select(-dplyr::matches("data_type",ignore.case=TRUE))%>%
+    dplyr::mutate(field=case_when(field=='country/ocean'~'country.ocean',
+                                  field=='province/state'~'province.state',
+                                  TRUE~field))
 
 
   if(print.output==TRUE)

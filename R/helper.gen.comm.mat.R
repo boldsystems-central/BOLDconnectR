@@ -41,6 +41,7 @@
 #' @importFrom ggplot2 geom_sf_text
 #' @importFrom ggplot2 labs
 #' @importFrom stats as.formula
+#' @importFrom rnaturalearth ne_countries
 #'
 #' @keywords internal
 #'
@@ -374,16 +375,14 @@ gen.comm.mat<-function(bold.df,
 
     {
 
-      overview_map <-sf::st_as_sf(maps::map('world',
-                                            plot = FALSE,
-                                            fill = TRUE))
+      overview_map <- rnaturalearth::ne_countries(scale = 110)
 
       overview_map<-st_transform(overview_map,crs = st_crs(grids_final))
 
       #centroids_for_mapping = suppressWarnings(st_centroid(grids_final))
 
       grid_plot=ggplot(data=overview_map) +
-        geom_sf(linewidth=0.3,
+        geom_sf(linewidth=0.1,
                 col='black',
                 fill='white') +
         geom_sf(data = grids_final,
