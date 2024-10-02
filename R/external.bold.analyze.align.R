@@ -57,7 +57,7 @@ bold.analyze.align<-function (bold_df,
 
   # Check if data is a non empty data frame object
 
-  if(any(is.data.frame(bold_df)==FALSE, nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
   # Check if the necessary columns are present in the dataframe for further analysis
 
@@ -85,14 +85,20 @@ bold.analyze.align<-function (bold_df,
 
     # Check if marker code is available in the dataset
 
-    if(any(!(marker %in% bold_df[['marker_code']]))) stop("Marker is not available in the dataset.Please re-check the marker code")
+    tryCatch({
 
-    ## Obtain the specific columns from the data frame
+      stopifnot(all(marker %in% bold_df[['marker_code']]))
 
-    obtain.data<-seq.data%>%
-      dplyr::filter(!is.na(marker_code))%>%
-      dplyr::filter(marker_code %in% !!marker)
-
+      # Obtain the specific columns from the data frame
+      obtain.data <- seq.data %>%
+        dplyr::filter(!is.na(marker_code)) %>%
+        dplyr::filter(marker_code %in% !!marker)
+     obtain.data
+     },
+     error = function(e) {
+      message("Marker is not available in the dataset. Please re-check the marker code.")
+      NULL
+    })
   }
 
   else
@@ -111,7 +117,6 @@ bold.analyze.align<-function (bold_df,
   if(!is.null(cols_for_seq_names))
 
   {
-
     obtain.seq.from.data=seq.data%>%
       dplyr::rowwise()%>%
       dplyr::mutate(across(all_of(cols_for_seq_names),
@@ -130,24 +135,19 @@ bold.analyze.align<-function (bold_df,
                     processid)%>%
       dplyr::ungroup()%>%
       data.frame(.)
-
   }
-
   else
 # just processids are used if no columns are given
   {
-
     obtain.seq.from.data<-seq.data%>%
       dplyr::select(processid,nuc)%>%
       dplyr::rename("msa.seq.name"="processid")%>%
       dplyr::mutate(processid=seq.data$processid)
-  }
-
+    }
 
  msa_dna_string_obj=gen.msa.res(df=obtain.seq.from.data,
                                  alignmethod=align_method,
                                  ...)
-
   # Multiple sequence alignment result joined to the original fetched data
 
   # #1. DNAStringset object 'msa_dna_string_obj' is converted into a dataframe
@@ -156,12 +156,12 @@ bold.analyze.align<-function (bold_df,
     data.frame(.)%>%
     dplyr::rename("aligned_seq"=".")
 
-  # #2. The processid as rownames are converted into a column
-  #
+  #2. The processid as rownames are converted into a column
+
   stringset.2.df$msa.seq.name<-names(msa_dna_string_obj)
 
-  # #3. Rownames are deleted
-  #
+  #3. Rownames are deleted
+
   rownames(stringset.2.df)<-NULL
 
   #4. This df is joined to the original fetched data
