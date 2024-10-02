@@ -32,13 +32,12 @@ preston_profile <- function (df,
       dplyr::mutate(rownum=as.numeric(rownum))%>%
       dplyr::mutate(Octaves=as.factor(2^rownum))
 
-
     preston.plot=pres_res%>%
       ggplot(aes(x=Octaves,
                  y=observed))+
       geom_bar(stat = "identity",
                position = 'dodge',
-               fill="darkcyan",
+               fill="lightseagreen",
                col="black",
                width = 1) +
       geom_point(data = pres_res,
@@ -47,7 +46,7 @@ preston_profile <- function (df,
                      group=1),
                  pch=21,
                  color = "black",
-                 fill="orangered",
+                 fill="sienna1",
                  size=4) +
       geom_line(data = pres_res,
                 aes(x = Octaves,
@@ -64,7 +63,6 @@ preston_profile <- function (df,
       ylab(y_label)+
       ggtitle("Preston plot")
 
-
     preston_results$preston.plot = preston.plot
 
     preston_results$preston.res = preston.res
@@ -78,7 +76,6 @@ shannon_div_profile<-function(df)
 
   {
 
-
   # Shannon diversity
 
   shannon_div=vegan::diversity(df)%>%
@@ -86,7 +83,6 @@ shannon_div_profile<-function(df)
     dplyr::rename("Shannon_values"=".")
 
   return(shannon_div)
-
 
 }
 
@@ -105,8 +101,6 @@ beta_div_profile<-function(df,
                          runs=10,
                          comp = T)
 
-
-
   beta.total = beta.bin.div$Btotal
 
   beta.replace = beta.bin.div$Brepl
@@ -122,6 +116,5 @@ beta_div_profile<-function(df,
   beta_div_res$richnessd = beta.richnessd
 
   return(beta_div_res)
-
 
 }

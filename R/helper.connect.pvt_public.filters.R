@@ -32,8 +32,6 @@ bold.connectr.filters<-function (bold.df,
                                  depth=NULL)
 {
 
-
-
 #1. specific taxon name
 
 # condition to check if the taxon name is of the correct data type
@@ -41,11 +39,9 @@ bold.connectr.filters<-function (bold.df,
 if(!is.null(taxon.name))
 
 {
-
   # condition to check if taxonomy filters are of the correct data type
 
-  stopifnot("taxon name should be character",is.character(taxon.name))
-
+  stopifnot(is.character(taxon.name))
 
   # filter condition to select the specific taxon name.
 
@@ -59,22 +55,16 @@ if(!is.null(taxon.name))
                            "genus",
                            "species"),
                          ~.x %in% !!taxon.name))
-
 }
 
-
-#3. specific country/region/site/sector
-
+#2. specific country/region/site/sector
 
 if(!is.null(location.name))
 
 {
-
-
   # condition to check if geography filters are of the correct data type
 
   stopifnot(is.character(location.name))
-
 
   bold.df=bold.df%>%
     dplyr::filter(if_any(c("country.ocean",
@@ -83,30 +73,18 @@ if(!is.null(location.name))
                            "sector",
                            "site"),
                          ~.x %in% !!location.name))
-
 }
 
-
-#4. Latitude
-
+#3. Latitude
 
 if(!is.null(latitude))
 
 {
   # condition to check if Latitude is of the correct data type
 
-  if(is.numeric(latitude)==FALSE)
+  if(!is.numeric(latitude)) stop("Latitude should be a numeric data type")
 
-  {
-    stop("Latitude should be a numeric data type")
-  }
-
-
-  if(length(latitude)!=2)
-
-  {
-    stop("Latitude should be a range separated by a comma (start date, end date)")
-  }
+  if(length(latitude)!=2) stop("Latitude should be a range separated by a comma (start date, end date)")
 
   # Latitude is a vector of length two giving a latitudinal extent
 
@@ -121,7 +99,6 @@ if(!is.null(latitude))
 
 }
 
-
 #5. Longitude
 
 
@@ -131,18 +108,9 @@ if(!is.null(longitude))
 
   # condition to check if Latitude is of the correct data type
 
-  if(is.numeric(longitude)==FALSE)
+  if(!is.numeric(longitude)) stop("longitude should be a numeric data type")
 
-  {
-    stop("longitude should be a numeric data type")
-  }
-
-
-  if(length(longitude)!=2)
-
-  {
-    stop("Longitude should be a range separated by a comma (start date, end date)")
-  }
+  if(length(longitude)!=2) stop("Longitude should be a range separated by a comma (start date, end date)")
 
   # Longitude is a vector of length two giving a longitudinal extent
 
@@ -169,19 +137,9 @@ if (!is.null(shapefile))
   if(is.character(shapefile))
 
   {
-
     # make sure that the file is csv or txt
 
-
-    if(!grepl("*.shp$",shapefile))
-
-    {
-
-      warning("Check input file. File should be a shapefile")
-
-      return(FALSE)
-
-    }
+    if(!grepl("*.shp$",shapefile)) stop("Check input file. File should be a shapefile")
 
     # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
 
@@ -196,7 +154,6 @@ if (!is.null(shapefile))
   else if (class(shapefile)[1]=="sf")
 
   {
-
     # Import the csv data
 
     shp_input=shapefile
@@ -204,15 +161,12 @@ if (!is.null(shapefile))
     shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
 
     shp_input=suppressWarnings(suppressMessages(shp_input%>%st_simplify(dTolerance = 0.001)))
-
   }
 
   else
 
   {
-
     stop("Please check the Input")
-
   }
 
 
@@ -224,16 +178,13 @@ if (!is.null(shapefile))
                  crs=4326,
                  remove=FALSE)))
 
-
   spatial.bold.df=suppressWarnings(suppressMessages(st_transform(spatial.bold.df,
                                st_crs(shp_input))))
-
 
   bold.df=suppressWarnings(suppressMessages(st_intersection(spatial.bold.df,
                           shp_input)%>%
     sf::st_drop_geometry(.)%>%
     data.frame(.)))
-
 
 }
 
@@ -245,17 +196,7 @@ if(!is.null(institutes))
 
 {
 
-
-  if(is.character(institutes)==FALSE)
-
-  {
-
-    warning("Institute names should be character")
-
-    return(FALSE)
-
-  }
-
+  if(!is.character(institutes)) stop ("Institute names should be character")
 
   bold.df=bold.df%>%
     dplyr::filter(inst %in% !!institutes)
@@ -270,20 +211,10 @@ if(!is.null(identified.by))
 
 {
 
-
-  if(is.character(identified.by)==FALSE)
-
-  {
-
-    warning("identified by should be a character data type")
-
-    return(FALSE)
-
-  }
+  if(!is.character(identified.by)) stop ("identified by should be a character data type")
 
   bold.df=bold.df%>%
     dplyr::filter(identified_by %in% !!identified.by)
-
 }
 
 
@@ -293,21 +224,10 @@ if(!is.null(identified.by))
 if(!is.null(seq.source))
 
 {
-
-
-  if(is.character(seq.source)==FALSE)
-
-  {
-
-    warning("Sequence source should be character")
-
-    return(FALSE)
-
-  }
+  if(!is.character(seq.source)) stop ("Sequence source should be character")
 
   bold.df=bold.df%>%
     dplyr::filter(sequence_run_site %in% !!seq.source)
-
 }
 
 
@@ -318,16 +238,7 @@ if(!is.null(marker))
 
 {
 
-
-  if(is.character(marker)==FALSE)
-
-  {
-
-    warning("Marker names should be character")
-
-    return(FALSE)
-
-  }
+  if(!is.character(marker)) warning("Marker names should be character")
 
   bold.df=bold.df%>%
     dplyr::filter(marker_code %in% !!marker)
@@ -342,17 +253,7 @@ if(!is.null(basecount))
 
 {
 
-
-  if(is.numeric(basecount)==FALSE)
-
-  {
-
-    warning("Basecount/s should either be a single number of a range separated by a comma")
-
-    return(FALSE)
-
-  }
-
+  if(!is.numeric(basecount)) stop("Basecount/s should either be a single number of a range separated by a comma")
 
   if(length(basecount)==1)
 
@@ -362,7 +263,6 @@ if(!is.null(basecount))
       dplyr::filter(nuc_basecount %in% basecount)
 
   }
-
 
   else if (length(basecount)==2)
 
@@ -378,15 +278,11 @@ if(!is.null(basecount))
                                      last_val)))
   }
 
-
   else
 
   {
-
     stop("Incorrect value input")
-
   }
-
 
 }
 
@@ -395,26 +291,9 @@ if(!is.null(collection.period))
 
 {
 
+  if(as.Date(collection.period[1],"%Y-%m-%d")==FALSE & as.Date(collection.period[2],"%Y-%m-%d")==FALSE) stop ("Collection period should be a date object in %Y-%m-%d format ")
 
-  if(as.Date(collection.period[1],"%Y-%m-%d")==FALSE & as.Date(collection.period[2],"%Y-%m-%d")==FALSE) {
-
-    warning("Collection period should be a date object in %Y-%m-%d format ")
-
-    return(FALSE)
-
-  }
-
-
-  if(length(collection.period)<2)
-
-  {
-
-    warning("Collection period should be a range of date data type separated by a comma (start date, end date)")
-
-    return(FALSE)
-
-
-  }
+  if(length(collection.period)<2) stop ("Collection period should be a range of date data type separated by a comma (start date, end date)")
 
   start_date=as.Date(collection.period[1])
 
@@ -425,39 +304,24 @@ if(!is.null(collection.period))
                            collection_date_end),
                          ~ between(.x,start_date,
                                    end_date)))
-
 }
 
 #12. elevation
-
 
 if(!is.null(altitude))
 
 {
 
-  if(is.numeric(altitude)==FALSE)
-
-
-  {
-
-    warning("Altitude should either be a single number of a range separated by a comma")
-
-    return(FALSE)
-
-  }
-
+  if(is.numeric(altitude)==FALSE) stop("Altitude should either be a single number of a range separated by a comma")
 
   if(length(altitude)==1)
 
   {
-
     bold.df=bold.df%>%
       dplyr::filter(elev == altitude)
-
   }
 
   else if (length(altitude)==2)
-
   {
 
     first_val=altitude[1]
@@ -468,18 +332,15 @@ if(!is.null(altitude))
       dplyr::filter(if_all(elev,
                            ~ between(.x,first_val,
                                      last_val)))
-  }
+    }
 
   else
 
   {
-
     stop("Please check input")
-
   }
 
 }
-
 
 #13. depth
 
@@ -488,24 +349,13 @@ if(!is.null(depth))
 
 {
 
-  if(is.numeric(depth)==FALSE)
-
-  {
-
-    warning("Depth should either be a single number of a range separated by a comma")
-
-    return(FALSE)
-
-  }
-
+  if(!is.numeric(depth)) stop("Depth should either be a single number of a range separated by a comma")
 
   if(length(depth)==1)
 
   {
-
     bold.df=bold.df%>%
       dplyr::filter(depth == depth)
-
   }
 
   else if (length(depth)==2)
@@ -514,9 +364,7 @@ if(!is.null(depth))
 
     first_val=depth[1]
 
-
     last_val=depth[2]
-
 
     bold.df=bold.df%>%
       dplyr::filter(if_all(depth,
@@ -527,13 +375,10 @@ if(!is.null(depth))
   else
 
   {
-
     stop("Please check input")
 
   }
 
 }
-
   return(bold.df)
-
 }
