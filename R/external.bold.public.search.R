@@ -70,20 +70,6 @@ bold.public.search <- function(taxonomy = NULL,
   if (length(non_nulls) > 1)
 
   {
-    # values_args <- list()
-    #
-    # for (arg in names(non_nulls))
-    #
-    # {
-    #   # Fetch value of the argument
-    #
-    #   value <- non_nulls[[arg]]
-    #
-    #   # Append it in the values_args list
-    #
-    #   values_args[[arg]] <- value
-    # }
-
     # Convert the list into a character vector
 
     values_args_vec = unlist (non_nulls)|>unname()
@@ -115,17 +101,6 @@ bold.public.search <- function(taxonomy = NULL,
 
       generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
 
-      # length.data<-seq_len(length(trial_query_input))
-      #
-      # batch.cutoffs=ceiling(length.data/batch.size)
-      #
-      # batch.indexes=split(length.data,
-      #                     batch.cutoffs)|>
-      #   unname()
-      #
-      # generate.batch.ids=lapply(batch.indexes,
-      #                           function(x) trial_query_input[x])
-
 
       result.pre.filter = lapply(generate.batch.ids,
                                  function(x) fetch.public.data(x))
@@ -135,12 +110,11 @@ bold.public.search <- function(taxonomy = NULL,
       result.post.filter = Filter(function(df) nrow(df) > 0,
                                   result.pre.filter)
 
-
       # Binding the list of dataframes
 
       result=result.post.filter%>%
         bind_rows(.)
-    }
+      }
 
   }
 

@@ -72,20 +72,9 @@ bold.analyze.map<-function(bold_df,
                        bbox=NULL)
 {
 
+  # Check if data is a non empty data frame object
 
-  # Check if data is a data frame object
-
-  if(is.data.frame(bold_df)==FALSE)
-  {
-    stop("Input is not a data frame")
-  }
-
-  # Check whether the data frame is empty
-
-  if(nrow(bold_df)==0)
-    {
-    stop("Dataframe is empty")
-  }
+  if(any(is.data.frame(bold_df)==FALSE, nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
   # Output list (empty)
 
@@ -102,12 +91,11 @@ bold.analyze.map<-function(bold_df,
   geo_data = convert_coord_2_lat_lon(geo_df)%>%
     dplyr::filter(!is.na(lat),
                   !is.na(lon))%>%
-    #dplyr::filter(!is.na(bin_uri))%>%
-    st_as_sf(.,
+    sf::st_as_sf(.,
              coords = c("lon","lat"),
              crs=4326,
              remove=FALSE)%>%
-    st_simplify(dTolerance = 0.001)
+    sf::st_simplify(dTolerance = 0.001)
 
 
   # Generate a base map with a low resolution. Some map_data country names (ID column) are changed to suit the BCDM country.ocean names
@@ -125,6 +113,8 @@ bold.analyze.map<-function(bold_df,
                                ID=="Tobago"~"Trinidad and Tobago",
                                ID=="Cote d'Ivoire"~"Ivory Coast",
                                TRUE~ID))
+
+   # Convert the data to WGS84
 
    map_data <- st_transform(map_data,
                             4326)
@@ -144,12 +134,9 @@ bold.analyze.map<-function(bold_df,
     bin.geo.df<-geo_data%>%
       dplyr::filter(country.ocean %in% !!country)
 
-
   map_data<-map_data%>%
       dplyr::filter(ID %in% !!country)
 
-    map_data <- st_set_crs(map_data,
-                           4326)
   }
 
   # plot
@@ -173,8 +160,6 @@ bold.analyze.map<-function(bold_df,
     ylab("Latitude") +
    coord_sf(expand = FALSE) +
   ggtitle("Distribution map")
-   # scale_y_continuous(limits = c(-80, 80))
-
 
   # If a specific region is defined by a bbox
 
@@ -204,7 +189,11 @@ bold.analyze.map<-function(bold_df,
 
     output$plot=map_plot
 
+  # Print the plot
+
   print(map_plot)
+
+  # Output is invisible (not printed in the console)
 
   invisible(output)
 

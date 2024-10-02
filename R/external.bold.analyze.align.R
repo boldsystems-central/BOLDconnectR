@@ -55,17 +55,9 @@ bold.analyze.align<-function (bold_df,
 {
 
 
-  # Check if data is a data frame object
+  # Check if data is a non empty data frame object
 
-  if (!is.data.frame(bold_df)) {
-    stop("Input data should be a BCDM dataframe")
-  }
-
-  # Check whether the data frame is empty
-
-  if (nrow(bold_df)==0) {
-    stop("Input data should be a BCDM dataframe")
-  }
+  if(any(is.data.frame(bold_df)==FALSE, nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
   # Check if the necessary columns are present in the dataframe for further analysis
 
@@ -93,11 +85,7 @@ bold.analyze.align<-function (bold_df,
 
     # Check if marker code is available in the dataset
 
-
-    if(any(!(marker %in% bold_df[['marker_code']])))
-    {
-      stop("Marker is not available in the dataset.Please re-check the marker code")
-    }
+    if(any(!(marker %in% bold_df[['marker_code']]))) stop("Marker is not available in the dataset.Please re-check the marker code")
 
     ## Obtain the specific columns from the data frame
 
@@ -107,7 +95,6 @@ bold.analyze.align<-function (bold_df,
 
   }
 
-
   else
 
   {
@@ -115,13 +102,9 @@ bold.analyze.align<-function (bold_df,
 
   }
 
-
 # Check if the result is not empty
 
- if(nrow(obtain.data)==0)
- {
-   stop("The result obtained does not have any data")
- }
+ if(nrow(obtain.data)==0) stop("The result obtained does not have any data")
 
 # if specific columns are provided for sequence names
 
@@ -164,7 +147,6 @@ bold.analyze.align<-function (bold_df,
  msa_dna_string_obj=gen.msa.res(df=obtain.seq.from.data,
                                  alignmethod=align_method,
                                  ...)
-
 
   # Multiple sequence alignment result joined to the original fetched data
 

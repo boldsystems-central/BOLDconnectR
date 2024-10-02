@@ -87,6 +87,10 @@ bold.analyze.tree<-function(bold_df,
 
 {
 
+  # Check if data is a non empty data frame object
+
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
+
   # check if the minimum fields required for the analysis are present
 
   check_and_return_preset_df(df=bold_df,
@@ -106,7 +110,7 @@ bold.analyze.tree<-function(bold_df,
     dplyr::mutate(nuc=gsub("-","",nuc))%>%
     dplyr::filter(nuc!="")
 
-  #2. as.DNAbin accepts matrices so the above dataframe is converted into a matrix with each column being one alphabet of the basepair in lower case.
+  #2. as.DNAbin accepts matrices so the above dataframe is converted into a matrix with each column being one alphabet (using strsplit) of the basepair in lower case.
 
   ape.matrix<-t(sapply(strsplit(ape_df[['aligned_seq']],""), tolower))
 
@@ -134,34 +138,23 @@ bold.analyze.tree<-function(bold_df,
 
   # Based on the type of clus, clustering is carried out on the dist object
 
-  if (length(clus_method)!=1)
-  {
-    stop("clus_method argument empty. Please select either 'nj' or 'njs'")
-  }
+  if (length(clus_method)!=1) stop("clus_method argument empty. Please select either 'nj' or 'njs'")
 
   # Swtich for either nj or njs
 
     switch(clus_method,
 
-
            # nj (when there are no NAs)
 
            "nj" = {
-
-
              for_plot=ape::nj(dnabin.dist)
-
            },
 
            # when there could be potential NAs
 
            "njs" = {
-
-
              for_plot=ape::njs(dnabin.dist)
-
            }
-
     )
 
   # Save a newick tree format for output
@@ -172,19 +165,15 @@ bold.analyze.tree<-function(bold_df,
 
   if(!is.null(newick_tree_export))
   {
-
     # save the file
     ape::write.tree(tree_obj,
                     file = newick_tree_export,
                     tree.names = F)
-
-  }
-
+    }
 
   if(tree_plot)
 
   {
-
     plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,
                           cex=0.8,
@@ -192,10 +181,9 @@ bold.analyze.tree<-function(bold_df,
                           tip.color = "darkblue",
                           edge.color = "orangered2",
                           edge.width=1.5)
-
     # Get the plot limits
     plot_limits <- par("usr")
-
+    # Set the old limits back
     on.exit(plot_limits)
 
     # Add a scale bar dynamically
@@ -215,7 +203,6 @@ bold.analyze.tree<-function(bold_df,
   # If save_dist_mat = TRUE
 
   if(save_dist_mat)
-
   {
     output$save_dist_mat=round(dnabin.dist,3)
   }

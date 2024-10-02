@@ -85,21 +85,11 @@ bold.data.summarize<-function(bold_df,
                               presets = NULL,
                               na.rm=FALSE) {
 
-  # Check for data structure
+  # Check if data is a non empty data frame object
 
-  # Check if data is a data frame object
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
-  if (!is.data.frame(bold_df)) {
-    stop("Input data should be a BCDM dataframe")
-  }
-
-
-  # Check whether the data frame is empty
-
-  if (nrow(bold_df)==0) {
-    stop("Input data should be a BCDM dataframe")
-  }
-
+  # If NA values should be removed
 
   if(na.rm)
   {
@@ -160,9 +150,6 @@ bold.data.summarize<-function(bold_df,
                                 features=='complete_rate' ~ values * 100,
                                 TRUE~values))
 
-      # result_df$features<-factor(result_df$features,
-      #                               levels=c("complete_rate","n_missing","n_unique","mean"))
-
       results$result_df=result_df
 
       return(results)
@@ -174,17 +161,17 @@ bold.data.summarize<-function(bold_df,
   summary_plot<-function(summ.df)  {
 
     suppressWarnings({
-
+      # Custom names of the facets
       facetlabels <- c(
         'complete_rate'="Complete cases (%)",
         'n_missing'="Missing values (Total)",
         'n_unique'="Unique values",
         'mean'= 'Mean value (numerical fields)')
 
-
-
+      # Plot function
       summ_plot=summ.df%>%
-        dplyr::filter(features %in% c('complete_rate','n_missing'))%>%
+        dplyr::filter(features %in% c('complete_rate',
+                                      'n_missing'))%>%
         ggplot(aes(x=skim_variable,
                    y=values))+
         geom_bar(stat = "identity",
@@ -222,22 +209,11 @@ bold.data.summarize<-function(bold_df,
           "fields" =
 
             {
-
-              if (is.null(columns)) {
-                stop("Columns should not be NULL when summarize_by=fields")
-              }
-
+              if (is.null(columns)) stop("Columns should not be NULL when summarize_by=fields")
 
               # Verification of column names
 
-              if (any(!columns %in% colnames(bold_df)))
-
-              {
-                stop("Column names given are not present in the input BCDM dataframe")
-              }
-
-
-
+              if (any(!columns %in% colnames(bold_df))) stop("Column names given are not present in the input BCDM dataframe")
               summary.bold.df = obtain.long.summ.df (df = bold_df,
                                                      cols = columns)
 
@@ -246,18 +222,11 @@ bold.data.summarize<-function(bold_df,
           "presets" =
 
             {
-              if (is.null(presets))
-
-              {
-                stop("Presets should not be NULL when summarize_by=presets")
-              }
-
-
+              if (is.null(presets)) stop("Presets should not be NULL when summarize_by=presets")
 
               data_for_summary = check_and_return_preset_df(df=bold_df,
                                                             category = "check_return",
                                                             preset = presets)
-
 
               summary.bold.df=suppressWarnings(suppressMessages(obtain.long.summ.df(df = data_for_summary,
                                                                                     cols = names(data_for_summary))))
@@ -267,18 +236,11 @@ bold.data.summarize<-function(bold_df,
           "all_data" =
 
             {
-              if (all(!is.null(columns),!is.null(presets)))
-
-              {
-                stop("columns and presets should be NULL when summarize_by=all_data")
-              }
-
-
+              if (all(!is.null(columns),!is.null(presets))) stop("columns and presets should be NULL when summarize_by=all_data")
               summary.bold.df=obtain.long.summ.df(df = bold_df,
                                                   cols = names(bold_df))
-
             }
-  )
+          )
 
 
   # Plot of the result

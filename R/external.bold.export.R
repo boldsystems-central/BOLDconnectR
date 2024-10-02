@@ -74,18 +74,10 @@ bold.export<-function(bold_df,
                       export_to)
 
 {
-  # Check if data is a data frame object
+  # Check if data is a non empty data frame object
 
-  if (!is.data.frame(bold_df)) {
-    stop("Input data should be a BCDM dataframe")
-  }
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
-
-  # Check whether the data frame is empty
-
-  if (nrow(bold_df)==0) {
-    stop("Input data should be a BCDM dataframe")
-  }
 
   switch(export_type,
 
@@ -93,32 +85,23 @@ bold.export<-function(bold_df,
 
            {
 
-             if (is.null(presets))
-             {
-               stop("One of the presets must be provided when export_type = preset_df")
-             }
-
+             if (is.null(presets)) stop("One of the presets must be provided when export_type = preset_df")
 
              preset_data=check_and_return_preset_df(bold_df,
                                                     category = "check_return",
                                                     preset = presets)
-
              utils::write.table(preset_data,
                                 paste0(export_to,".tsv",sep=""),
                                 sep = "\t",
                                 row.names = FALSE,
                                 quote = FALSE)
-
-           },
+             },
 
          "msa" =
 
            {
 
-             if (any(!is.null(cols_for_fas_names),!is.null(presets)))
-             {
-               stop("Please remove any presets or field names provided in the presets or 'cols_for_fas_names' arguments.")
-             }
+             if (any(!is.null(cols_for_fas_names),!is.null(presets))) stop("Please remove any presets or field names provided in the presets or 'cols_for_fas_names' arguments.")
 
              stopifnot(any(names(bold_df)=='msa.seq.name'))
 
@@ -131,26 +114,19 @@ bold.export<-function(bold_df,
                              matches("^msa.seq.name$",ignore.case=TRUE))%>%
                dplyr::rename('seq.name'='msa.seq.name')
 
-
-
              ## Export the result as a fasta file.
 
              result=generate_ape_file(data = seq.data,
                                       align_unaligned = "aligned_seq")
 
-
              ape::write.FASTA(result,
                               file=paste0(export_to,".fas",sep=""))
-
            },
 
          "fas" =
 
            {
-             if (is.null(presets)==FALSE)
-             {
-               stop("Please remove any presets provided in the 'presets' arguments.")
-             }
+             if (is.null(presets)==FALSE) stop("Please remove any presets provided in the 'presets' arguments.")
 
              seq.data=bold_df%>%
                dplyr::select(matches("^nuc$",ignore.case=TRUE),
@@ -168,12 +144,10 @@ bold.export<-function(bold_df,
                                                    collapse = "|")))%>%
                dplyr::ungroup()
 
-
              # Export the result as a raw fasta file.
 
              result=generate_ape_file(data = seq.data,
                                       align_unaligned = "nuc")
-
 
              ape::write.FASTA(result,
                               file=paste0(export_to,".fas",sep=""))
@@ -181,6 +155,5 @@ bold.export<-function(bold_df,
            }
 
   )
-
 
 }

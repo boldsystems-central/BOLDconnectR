@@ -68,9 +68,5 @@ bold.fields.info<-function (print.output=FALSE) {
     # This is so that the whole output is not printed in the console
 
     invisible(bold.fields.data)
-
-
-
-  }
-
+      }
 }

@@ -163,21 +163,13 @@ bold.analyze.diversity <- function(bold_df,
 
 {
 
-  # Check if data is a data frame object
+  # Check if data is a non empty data frame object
 
-  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0))
-
-  {
-    stop("Please re-check data input. Input needs to be a non-empty data frame")
-  }
+  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
   # Check if taxon_rank is empty
 
-  if(is.null(taxon_rank))
-  {
-    ## Taxon rank cannot be empty
-    stop ("Taxon rank cannot be left empty")
-  }
+  if(is.null(taxon_rank)) stop ("Taxon rank cannot be left empty")
 
   # Empty output list
 
@@ -185,16 +177,12 @@ bold.analyze.diversity <- function(bold_df,
 
   # Condition to check if grids.cat is specified or whether site.cat will be used
 
-
   switch(site_type,
 
          "locations"=
 
            {
-             if(!is.null(gridsize))
-             {
-               stop("Grid size must only be specified when site_type='grids'")
-             }
+             if(!is.null(gridsize)) stop("Grid size must only be specified when site_type='grids'")
 
              bin.comm.res = gen.comm.mat(bold.df=bold_df,
                                          taxon.rank=taxon_rank,
@@ -203,16 +191,12 @@ bold.analyze.diversity <- function(bold_df,
 
              bin.comm = bin.comm.res$comm.matrix
 
-
            },
 
          "grids"=
 
            {
-             if(is.null(gridsize))
-             {
-               stop("When site_type='grids',gridsize must be specified.")
-             }
+             if(is.null(gridsize)) stop("When site_type='grids',gridsize must be specified.")
 
              bin.comm.res = gen.comm.mat(bold.df=bold_df,
                                          taxon.rank=taxon_rank,
@@ -231,9 +215,8 @@ bold.analyze.diversity <- function(bold_df,
              output$grids.data=grids.data
 
              output$grid.map=grids.map
-           }
+             }
   )
-
 
   # Check if the data is presence-absence
 
@@ -243,18 +226,13 @@ bold.analyze.diversity <- function(bold_df,
     bin.comm=ifelse(bin.comm>=1,1,0)%>%data.frame(.)
   }
 
-  if (all(bin.comm==0|bin.comm==1))
-
-  {
-    warning("Data is presence absence data. Preston and/or Shannon results if calculated, are based on the assumption that the community data has counts.")
-  }
+  if (all(bin.comm==0|bin.comm==1)) warning("Data is presence absence data. Preston and/or Shannon results if calculated, are based on the assumption that the community data has counts.")
 
   # Output the community data
 
   output$comm.matrix = bin.comm
 
   # Richness results
-
 
   switch(diversity_profile,
 
@@ -309,8 +287,6 @@ bold.analyze.diversity <- function(bold_df,
                                                beta.index=beta_index,
                                                pre_abs=presence_absence)
 
-
-
              # Add results to output
 
              output$total.beta = beta_div_results$total.beta
@@ -321,7 +297,6 @@ bold.analyze.diversity <- function(bold_df,
            },
 
          "all"=
-
 
            {
 
@@ -337,7 +312,6 @@ bold.analyze.diversity <- function(bold_df,
                                                beta.index=beta_index,
                                                pre_abs=presence_absence)
 
-
              output$richness = richness_res
 
              output$preston.plot = preston_results$preston.plot
@@ -352,9 +326,8 @@ bold.analyze.diversity <- function(bold_df,
 
              output$richnessd = beta_div_results$richnessd
 
-
            }
-  )
+         )
 
   invisible(output)
 
