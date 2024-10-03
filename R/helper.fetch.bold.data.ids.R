@@ -23,9 +23,7 @@ fetch.bold.id<-function(data.input,
 
   reset_col <- "\033[0m"
 
-
-
-  ## Check to assess the number of requests
+  # Check to assess the number of requests
 
   # < 5000
 
