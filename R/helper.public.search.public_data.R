@@ -141,6 +141,11 @@ fetch.public.data<-function (query)
                            "/download?format=tsv",
                            sep="")
 
+  original_timeout = getOption('timeout')
+
+  options(timeout=1800)
+
+  on.exit(original_timeout)
 
   temp_file <- tempfile()
 
