@@ -88,55 +88,10 @@ bold.public.search <- function(taxonomy = NULL,
       bind_rows(.)
   }
 
-  # if (length(non_null_args) > 1)
-  #
-  # {
-  #   # Convert the list into a character vector
-  #
-  #   values_args_vec = unlist (non_null_args)|>unname()
-  #
-  #   trial_query_input<- values_args_vec
-  #
-  #   result = fetch.public.data(query = trial_query_input)
-  #
-  # }
-  #
-  # else if (length(non_null_args)==1)
-  #
-  #   # If only a single input is provided
-  #
-  # {
-  #
-  #   trial_query_input = unlist(non_null_args)|>unname()
-  #
-  #   if(length(trial_query_input)<=5)
-  #   {
-  #     result = fetch.public.data(query = trial_query_input)
-  #
-  #   }
-  #
-  #   else
-  #
-  #   {
-  #     # Batch creation
-  #
-  #     generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
-  #
-  #     result.pre.filter = lapply(generate.batch.ids,
-  #                                function(x) fetch.public.data(x))
-  #
-  #
-  #     # Binding the list of dataframes
-  #
-  #     result=result.pre.filter%>%
-  #       bind_rows(.)
-  #     }
-  #
-  # }
 
   if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the parameters.")
 
-  if(nrow(result)>1050000) warning("Data cap of 1 million records reached. All records might not have been retrieved. Please rephrase the search")
+  if(nrow(result)>1000000) warning("Data cap of 1 million records reached. All records might not have been retrieved. Please rephrase the search")
 
   result = result%>%
     dplyr::select(processid,
