@@ -1,6 +1,7 @@
 #' Helper function to retrieve public data
 #' @param query the output of any of the id fetch functions
 #' @importFrom dplyr %>%
+#' @importFrom utils download.file
 #' @keywords internal
 
 fetch.public.data<-function (query)
