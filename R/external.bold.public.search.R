@@ -101,34 +101,25 @@ bold.public.search <- function(taxonomy = NULL,
 
       generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
 
-
       result.pre.filter = lapply(generate.batch.ids,
                                  function(x) fetch.public.data(x))
 
-      # removing empty results
-
-      result.post.filter = Filter(function(df) nrow(df) > 0,
-                                  result.pre.filter)
 
       # Binding the list of dataframes
 
-      result=result.post.filter%>%
+      result=result.pre.filter%>%
         bind_rows(.)
       }
 
   }
 
-  if(nrow(result)==0)
+  if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the parameters.")
 
-  {
-    stop("Data could not be retrieved. Please re-check the parameters.")
-
-  }
+  if(nrow(result)>1050000) warning("Data cap of 1 million records reached. All records might not have been retrieved. Please rephrase the search")
 
   result = result%>%
     dplyr::select(processid,
                   sampleid)
-
 
   return(result)
 

@@ -118,7 +118,7 @@ fetch.public.data<-function (query)
 
   if (get.data.query$status_code==422)
 
-   stop ("Query limit exceeded. Please reduce the number of search terms")
+    stop ("Query limit exceeded. Please reduce the number of search terms")
 
   # Convert the data into text
 
@@ -140,26 +140,26 @@ fetch.public.data<-function (query)
                            "/download?format=tsv",
                            sep="")
 
-  suppressWarnings(final_data<-data.table::fread(url_download_data,
-                                                 sep = '\t',
-                                                 quote = "",
-                                                 data.table = FALSE,
-                                                 showProgress = F)%>%
-                     data.frame())
+
+  temp_file <- tempfile()
+
+  suppressWarnings(download_data<-download.file(url_download_data,
+                               destfile = temp_file,
+                               quiet = TRUE))
+
+  final_data<-read.delim(temp_file,
+                         sep='\t')
 
   # Some of the column data types are reassigned
 
-  # final_data.pre=reassign.data.type(final_data)
+  final_data=reassign.data.type(final_data)
+
+  final_data=final_data[,intersect(names(final_data),bold.fields.info()$field)]
 
   final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
 
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
 
-  final_data_preset=check_and_return_preset_df(final_data,
-                             category = "check_return",
-                             preset = 'public.data.fields')
-
-  return(final_data_preset)
+  return(final_data)
 
 }
-
