@@ -59,59 +59,80 @@ bold.public.search <- function(taxonomy = NULL,
 
   # Null arguments
 
-  nulls=sapply(args,is.null)
+  null_args=sapply(args,is.null)
 
   # Selecting the non null arguments
 
-  non_nulls = args[!nulls]
+  non_null_args = args[!null_args]
 
-  # Check if at least one parameter is provided
+  # The query input
 
-  if (length(non_nulls) > 1)
+  trial_query_input = unlist(non_null_args)|>unname()
 
+  # Condition to see whether non null arguments are 1 or more than 1 and what the length of the query based on the arguments is
+
+  if(length(non_null_args)>1||length(non_null_args)==1 && length(trial_query_input)<=5)
   {
-    # Convert the list into a character vector
-
-    values_args_vec = unlist (non_nulls)|>unname()
-
-    trial_query_input<- values_args_vec
-
     result = fetch.public.data(query = trial_query_input)
-
   }
-
-  else if (length(non_nulls)==1)
-
-    # If only a single input is provided
-
+  else
   {
+    generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
 
-    trial_query_input = unlist(non_nulls)|>unname()
+    result.pre.filter = lapply(generate.batch.ids,
+                               function(x) fetch.public.data(x))
 
-    if(length(trial_query_input)<=5)
-    {
-      result = fetch.public.data(query = trial_query_input)
+    # Binding the list of dataframes
 
-    }
-
-    else
-
-    {
-      # Batch creation
-
-      generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
-
-      result.pre.filter = lapply(generate.batch.ids,
-                                 function(x) fetch.public.data(x))
-
-
-      # Binding the list of dataframes
-
-      result=result.pre.filter%>%
-        bind_rows(.)
-      }
-
+    result=result.pre.filter%>%
+      bind_rows(.)
   }
+
+  # if (length(non_null_args) > 1)
+  #
+  # {
+  #   # Convert the list into a character vector
+  #
+  #   values_args_vec = unlist (non_null_args)|>unname()
+  #
+  #   trial_query_input<- values_args_vec
+  #
+  #   result = fetch.public.data(query = trial_query_input)
+  #
+  # }
+  #
+  # else if (length(non_null_args)==1)
+  #
+  #   # If only a single input is provided
+  #
+  # {
+  #
+  #   trial_query_input = unlist(non_null_args)|>unname()
+  #
+  #   if(length(trial_query_input)<=5)
+  #   {
+  #     result = fetch.public.data(query = trial_query_input)
+  #
+  #   }
+  #
+  #   else
+  #
+  #   {
+  #     # Batch creation
+  #
+  #     generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
+  #
+  #     result.pre.filter = lapply(generate.batch.ids,
+  #                                function(x) fetch.public.data(x))
+  #
+  #
+  #     # Binding the list of dataframes
+  #
+  #     result=result.pre.filter%>%
+  #       bind_rows(.)
+  #     }
+  #
+  # }
 
   if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the parameters.")
 
