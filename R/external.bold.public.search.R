@@ -95,7 +95,9 @@ bold.public.search <- function(taxonomy = NULL,
 
   result = result%>%
     dplyr::select(processid,
-                  sampleid)
+                  sampleid)%>%
+    dplyr::distinct(processid,
+                    sampleid)
 
   return(result)
 
