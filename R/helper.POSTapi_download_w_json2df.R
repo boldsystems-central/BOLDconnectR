@@ -30,6 +30,8 @@ post.api.res.fetch<-function (base.url,
     stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
   }
 
+  gc()
+
   return(result)
 
 }
@@ -75,6 +77,8 @@ fetch.data<-function(result)
   #6. The above function provides a default long unusable rowname; that is changed to NULL
 
   rownames(json.df)<-NULL
+
+  gc()
 
   return(json.df)
 
