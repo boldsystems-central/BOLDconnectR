@@ -91,7 +91,7 @@ bold.public.search <- function(taxonomy = NULL,
 
   if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the parameters.")
 
-  if(nrow(result)>1000000) warning("Data cap of 1 million records reached. All records might not have been retrieved. Please rephrase the search")
+  if(nrow(result)>1000000) warning("Data cap of 1 million records reached. All records might not have been retrieved. Please rephrase the search.")
 
   result = result%>%
     dplyr::select(processid,
