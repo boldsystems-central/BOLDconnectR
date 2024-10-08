@@ -31,9 +31,10 @@ This function creates basic maps of BIN occurrence data at different scales.
 #Download the ids
 geo_data.ids <- bold.public.search(taxonomy = "Musca domestica")
 
-# Fetch the data using the ids
-#1. api_key must be obtained from BOLD support before usage
-#2. The function `bold.apikey` should be used to set the apikey
+# Fetch the data using the ids.
+#1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#2. Use the `bold.apikey` function  to set the apikey in the global env.
+
 bold.apikey('apikey')
 
 geo_data <- bold.fetch(get_by = "processid",

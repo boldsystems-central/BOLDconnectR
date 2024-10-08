@@ -42,8 +42,10 @@ The function is used to obtain a detailed summary of the data obtained by \code{
 bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before usage
-#2. the function `bold.apikey` should be used to set the apikey in the global env
+#1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#2. Use the `bold.apikey` function  to set the apikey in the global env.
+
+bold.apikey('apikey')
 
 bold.data <- bold.fetch(get_by = "processid",
                         identifiers = bold_data.ids$processid)

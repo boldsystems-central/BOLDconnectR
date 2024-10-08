@@ -13,8 +13,19 @@ bold.apikey(apikey)
 Token saved as 'apikey'
 }
 \description{
-Generates an 'apikey' variable in the R session
+Stores the BOLD-provided access token ‘api key’ in a variable, making it available for use in other function within the R session.
 }
 \details{
-\code{bold.apikey} creates a variable called \code{apikey} that stores the access token provided by BOLD (The access token has to be procured from BOLD before using the function/package). The \code{apikey} variable is then used by the \code{\link[=bold.fetch]{bold.fetch()}} internally so that the user does not have to input it again. The token must be provided as an input for the function before any other functions are used so as to set the apikey. The \code{api_key} is a UUID v4 hexadecimal string obtained upon request from BOLD at \code{support@boldsystems.org} and is valid for one year, requiring renewal thereafter.
+\code{bold.apikey} creates a variable called \code{apikey} that stores the access token provided by BOLD. This apikey variable is then used internally by the \code{\link[=bold.fetch]{bold.fetch()}} function, so that the user does not have need to input it again. To set the \code{apikey}, the token must be provided as an input for the function before any other functions are called. The api_key is a UUID v4 hexadecimal string obtained upon request from BOLD at \code{support@boldsystems.org} and is valid for one year,  after which it must be renewed.
+}
+\examples{
+\dontrun{
+
+#This example below is for documentation only
+
+bold_apykey(‘00000000-0000-0000-0000-000000000000’)
+
+}
+
+
 }

@@ -21,7 +21,7 @@ bold.export(
 
 \item{cols_for_fas_names}{A single or multiple character vector indicating the column headers that should be used to name each sequence for the unaligned FASTA file. Default is NULL; in this case, only the processid is used as the name.}
 
-\item{export_to}{A character value specifying the data path and the name for the file. Extension should not be provided}
+\item{export_to}{A character value specifying the data file path and the name for the file. Extension should not be included.}
 }
 \value{
 It exports a .fas or a tsv file based on the export argument.
@@ -48,16 +48,21 @@ Only one preset can be used at a time. The name for individual sequences in the 
 # Download the records
 data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata")
 
+# Fetch the data using the ids.
+#1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#2. Use the `bold.apikey` function  to set the apikey in the global env.
+
+bold.apikey('apikey')
+
 # Fetching the data using the ids
 data_for_export <- bold.fetch(get_by = "processid",
                               identifiers = data_for_export_ids$processid)
 
 #1. Export the BCDM data using 'presets'
-# (Using getwd() as the path and trial_export as the name)
 bold.export(bold_df=data_for_export,
             export_type = "preset_df",
             presets = 'taxonomy',
-            export_to = paste(getwd(),'/','trial_export',sep=""))
+            export_to = "file_path_with_intended_name")
 
 #2. Export multiple sequence alignment
 #a. Align the data
@@ -71,14 +76,14 @@ seq_align<-bold.analyze.align(data_for_export,
 # Note the input data here is the modified BCDM data (seq_align)
 bold.export(bold_df=seq_align,
            export_type = "msa",
-            export_to = paste(getwd(),'/','trial_export',sep=""))
+            export_to = "file_path_with_intended_name")
 
 #3. Export the fasta file (unaligned)
 # Note that input data here is the original BCDM data (data_for_export)
 bold.export(bold_df = data_for_export,
             export_type = "fas",
             cols_for_fas_names = c("bin_uri","genus","species"),
-            export_to = paste(getwd(),'/','trial_export',sep=""))
+            export_to = "file_path_with_intended_name")
 }
 
 }
