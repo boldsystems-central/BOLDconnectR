@@ -4,6 +4,13 @@
 #'
 #' @keywords internal
 #'
+# check_and_return_preset_df is used by these external functions
+# 1. bold.analyze.align
+# 2. bold.analyze.map
+# 3. bold.analyze.tree
+# 4. bold.data.summarize
+# 5. bold.export
+
 presets<-function(col_groups)
 {
   bold_fields<-bold.fields.info()

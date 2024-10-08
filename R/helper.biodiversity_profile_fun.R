@@ -1,8 +1,11 @@
 #' Helper functions for generating a diversity profile
 #' @keywords internal
 #'
+# This function is used by
+# 1. bold.analyze.diversity
+#
 # Function: Richness profile
-
+#
 richness_profile <- function (df)
 {
 

@@ -1,4 +1,8 @@
-##################################### fetch.bold.id for all params ##################################################
+#' @keywords internal
+#'
+# This function is used by
+# #1. bold.fetch
+# #2. bold.public.search
 
 fetch.bold.id<-function(data.input,
                                query_param)

@@ -15,6 +15,9 @@
 #' @param altitude A number or a vector of two numbers indicating the altitude range. Values separated by a comma. Default value is NULL.
 #' @param depth A number or a vector of two numbers indicating the depth range. Values separated by a comma. Default value is NULL.
 #' @keywords internal
+#'
+# This function is used by
+# #1. bold.fetch
 
 bold.connectr.filters<-function (bold.df,
                                  taxon.name=NULL,
