@@ -3,6 +3,10 @@
 #'
 #' @keywords internal
 #'
+# This function is used by
+# #1. bold.fetch
+# #2. bold.public.search
+
 #1. Function for creating temp files for POST.
 
 id.files<-function (ids)
@@ -24,6 +28,10 @@ id.files<-function (ids)
 
 
 }
+
+# This function is used by
+# #1. bold.fetch
+# #2. bold.public.search
 
 #2. Function to generate batches
 
@@ -59,6 +67,10 @@ generate.batches<-function (data,
 #3. Function to convert the multi-record fields into a single character.
 # These columns in the downloaded data are arrays which are converted into a comma separated value
 
+# This function is used by
+# #1. bold.fetch
+# #2. bold.public.search
+
 bold.multirecords.set.csv<-function(edited.json)
 {
 
@@ -80,6 +92,10 @@ bold.multirecords.set.csv<-function(edited.json)
 
 
 #4.Function to reaasign data type based on R standards function
+
+# This function is used by
+# #1. bold.fetch
+# #2. bold.public.search
 
 reassign.data.type<-function (x)
 
@@ -131,6 +147,10 @@ reassign.data.type<-function (x)
 }
 
 #5. Function to convert the 'coord' column to lat and lon columns
+
+# This function is used by
+# #1. bold.fetch
+# #2. bold.analyze.map
 
 convert_coord_2_lat_lon<-function (df)
 
