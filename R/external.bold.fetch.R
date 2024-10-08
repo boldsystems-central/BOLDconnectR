@@ -3,7 +3,7 @@
 #' @description
 #' Retrieves public and private user data based on different parameters (processid, sampleid, dataset or project codes & bin_uri) input.
 #'
-#' @param get_by The parameter on which the data should be fetched (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes")
+#' @param get_by The parameter used to fetch data (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes")
 #' @param identifiers A vector (or a data frame column) pointing to the `get_by` parameter specified.
 #' @param filt_taxonomy A single or multiple character vector of taxonomic names at any hierarchical level. Default value is NULL.
 #' @param filt_geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
@@ -30,8 +30,10 @@
 #' #Test data with processids
 #' data(test.data)
 #'
-#' #1. api_key must be obtained from BOLD support before usage
-#' #2. The function `bold.apikey` should be used to set the apikey
+#' # Fetch the data using the ids.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#'
 #' bold.apikey('apikey')
 #'
 #' # With processids

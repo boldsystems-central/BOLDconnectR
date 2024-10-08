@@ -29,8 +29,10 @@
 #' #Download the data ids
 #' seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"))
 #'
-#' #1. api_key must be obtained from BOLD support before usage
-#' #2. The function `bold.apikey` should be used to set the apikey
+#' # Fetch the data using the ids.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#'
 #' bold.apikey('apikey')
 #'
 #' seq.data <- bold.fetch(get_by = "processid",

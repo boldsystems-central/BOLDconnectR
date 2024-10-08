@@ -7,8 +7,8 @@
 #' @param export_type A character input specifying the type of output required. Should be either of "preset_df","msa" or "fas".
 #' @param presets A single character vector specifying a preset for which a data summary is sought (Check the `details` section for more information). Default value is NULL.
 #' @param cols_for_fas_names A single or multiple character vector indicating the column headers that should be used to name each sequence for the unaligned FASTA file. Default is NULL; in this case, only the processid is used as the name.
-#' @param export_to A character value specifying the data path and the name for the file. Extension should not be provided
-#
+#' @param export_to A character value specifying the data file path and the name for the file. Extension should not be included.
+#'
 #' @details
 #' `bold.export` offers an export option for some of the sequence-based outputs obtained from functions within the `BOLDconnectR` package as well as a `preset` defined modified BCDM dataframe. Sequence information downloaded using [bold.fetch()] or the aligned sequences obtained using `bold.analyze.align` can be exported as a FASTA file for any third party tool (via `export_type`=’fas’ or ’msa’). Data fetched by [bold.fetch()] can be directly used to export the unaligned FASTA file, while the modified dataframe from `bold.analyze.align` is required for exporting the multiple sequence alignment. `presets` here can be considered as collections of predefined columns from the BCDM data that relate to a common theme. The number of columns in each preset varies based on data availability. There are six presets currently available in the package (`taxonomy`, `geography`, `sequences`, `attributions`, `ecology_biogeography` & `other_meta_data`). Fields included in each preset is as follows:
 #' * taxonomy = "kingdom", "phylum", "class", "order", "family", "subfamily", "genus", "species", "bin_uri".
@@ -26,16 +26,21 @@
 #' # Download the records
 #' data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata")
 #'
+#' # Fetch the data using the ids.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#'
+#' bold.apikey('apikey')
+#'
 #' # Fetching the data using the ids
 #' data_for_export <- bold.fetch(get_by = "processid",
 #'                               identifiers = data_for_export_ids$processid)
 #'
 #' #1. Export the BCDM data using 'presets'
-#' # (Using getwd() as the path and trial_export as the name)
 #' bold.export(bold_df=data_for_export,
 #'             export_type = "preset_df",
 #'             presets = 'taxonomy',
-#'             export_to = paste(getwd(),'/','trial_export',sep=""))
+#'             export_to = "file_path_with_intended_name")
 #'
 #' #2. Export multiple sequence alignment
 #' #a. Align the data
@@ -49,14 +54,14 @@
 #' # Note the input data here is the modified BCDM data (seq_align)
 #' bold.export(bold_df=seq_align,
 #'            export_type = "msa",
-#'             export_to = paste(getwd(),'/','trial_export',sep=""))
+#'             export_to = "file_path_with_intended_name")
 #'
 #' #3. Export the fasta file (unaligned)
 #' # Note that input data here is the original BCDM data (data_for_export)
 #' bold.export(bold_df = data_for_export,
 #'             export_type = "fas",
 #'             cols_for_fas_names = c("bin_uri","genus","species"),
-#'             export_to = paste(getwd(),'/','trial_export',sep=""))
+#'             export_to = "file_path_with_intended_name")
 #' }
 #'
 #' @returns It exports a .fas or a tsv file based on the export argument.

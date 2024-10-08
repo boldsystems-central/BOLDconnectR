@@ -9,7 +9,8 @@
 #' @param ... additional arguments that can be passed to `msa::msa()` function.
 #'
 #' @details
-#' `bold.analyze.align` retrieves the sequence information obtained using `bold.fetch` function and performs a multiple sequence alignment. It utilizes the `msa::msa()` function with default settings. Type of clustering method can be specified using the `align_method` argument (`Muscle`, `ClustalW` and `ClustalOmega` are available using the `msa` package). Additional arguments from the `msa` function can be passed via the `...` argument (arguments like `gapOpening`, `gapExtension`, `maxiters`, `substitutionMatrix`,`type`). Marker name provided must match with the standard marker names (Ex. COI-5P) available on the \href{https://boldsystems.org/}{BOLD webpage} (Ratnasingham et al. 2024; pg.404). Name for individual sequences in the output can be customized by using the `cols_for_seq_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not provide any checks on issues like STOP codons and indels within the data by default. The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and another for the names given to the sequences.
+#' `bold.analyze.align` takes the sequence information obtained using [bold.fetch()] function and performs a multiple sequence alignment. It uses the `msa::msa()` function with default settings but additional arguments from the `msa` function can be passed through the `...` argument. The clustering method can be specified using the `align_method` argument, with options including  `Muscle`,`ClustalW` and `ClustalOmega` (available via the `msa` package). The provided marker name must match the standard marker names (Ex. COI-5P) available on the BOLD webpage (Ratnasingham et al. 2024; pg.404). The name for individual sequences in the output can be customized by using the `cols_for_seq_names` argument. If multiple fields are specified, the sequence name will follow the order of fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not automatically checks for issues like STOP codons and indels within the data.
+#' The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and one for the customized sequence names.
 #'
 #' \emph{Note: }. Users are required to install and load the `Biostrings` and `msa` packages using `BiocManager` before running this function.
 #'
@@ -26,9 +27,10 @@
 #' # Search for ids
 #' seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae",
 #'                                                 "Oreochromis karongae"))
-#' # Fetch the data using the ids
-#' #1. api_key must be obtained from BOLD support before usage
-#' #2. The function `bold.apikey` should be used to set the apikey
+#' # Fetch the data using the ids.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
+#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#'
 #' bold.apikey('apikey')
 #'
 #' seq.data<-bold.fetch(get_by = "processid",
