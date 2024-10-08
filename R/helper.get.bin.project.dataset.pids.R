@@ -1,5 +1,9 @@
-################## Obtain processids for bin_uri, dataset_codes and project codes using GET API ######################
+#' @keywords internal
 
+# Helper functions to obtain processids for bin_uri, dataset_codes and project codes using GET API
+# These functions are used by
+# #1. bold.fetch
+#
 # Function 1: The function that uses GET to retrieve pids (First a token is generated which is then used for obtaining the processids)
 
 bin.dataset.project.pids<-function (get.data.input,

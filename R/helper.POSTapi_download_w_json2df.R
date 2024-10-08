@@ -2,7 +2,10 @@
 #' @importFrom httr POST
 #'
 #' @keywords internal
-
+# These functions are used by
+# #1. bold.fetch
+# #2. bold.public.search
+#
 # Function 1: Retrieve data using the POST API
 
 post.api.res.fetch<-function (base.url,

@@ -2,6 +2,9 @@
 #'
 #' @keywords internal
 #'
+# # These functions are used by
+# #1. bold.analyze.align
+#
 # Function 1: Function to obtain the multiple sequence alignment from the BCDM dataframe
 gen.msa.res<-function(df,
                       alignmethod,

@@ -3,7 +3,9 @@
 #' @importFrom dplyr %>%
 #' @importFrom utils download.file
 #' @keywords internal
-
+# This function is used by
+# #1. bold.public.search
+#
 fetch.public.data<-function (query)
 
 {

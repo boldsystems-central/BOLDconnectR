@@ -45,6 +45,9 @@
 #'
 #' @keywords internal
 #'
+# This function is used by
+# #1. bold.analyze.diversity
+#
 gen.comm.mat<-function(bold.df,
                        taxon.rank,
                        taxon.name=NULL,
