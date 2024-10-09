@@ -176,9 +176,14 @@ bold.analyze.tree<-function(bold_df,
   if(tree_plot)
 
   {
+
+    no_of_tips = ape::Ntip(for_plot)
+
+    cex_range <- max(0.5, 1 / sqrt(no_of_tips))
+
     plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,
-                          cex=0.8,
+                          cex=cex_range,
                           font=1,
                           tip.color = "lightseagreen",
                           edge.color = "sienna1",
