@@ -58,37 +58,9 @@ gen.comm.mat<-function(bold.df,
                        view.grids=FALSE)
 {
 
-
   # Check if data is a non empty data frame object
 
-  if(any(is.data.frame(bold.df)==FALSE,nrow(bold.df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
-
-  # if the site category is not null
-
-  if (!(is.null(site.cat)))
-
-  {
-    # The following columns have to be present in the input data frame in order to get the results
-
-    if(any((c("bin_uri",taxon.rank,site.cat)%in% names(bold.df)))==FALSE)
-
-    {
-      stop("bin ids, taxon rank & site.cat fields have to be present in the dataset. Please re-check data")
-    }
-  }
-
-  # If site category is not specified but grids are TRUE
-
-  else if (is.null(site.cat) & !is.null(grids))
-  {
-    # The following columns have to be present in the input data frame in order to get the results
-
-    if(any((c("bin_uri",taxon.rank,"lat","lon")%in% names(bold.df)))==FALSE)
-
-    {
-      stop("bin ids, taxon rank, latitude and longitude columns have to be present in the dataset for defining grids. Please re-check data")
-    }
-  }
+  df_checks(bold.df)
 
   # Empty list for output
 
@@ -111,204 +83,100 @@ gen.comm.mat<-function(bold.df,
     #dplyr::filter(!(!!site.cat==""))%>%
     dplyr::arrange(!!site.cat)
 
-  bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
+  #bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
 
   ## Taxon rank condition to get the necessary data
 
+  if(is.null(taxon.rank)) stop("Taxon rank cannot be empty.")
 
-  if(is.null(taxon.rank))
-
+  ## Is site.cat is provided
+  if(!is.null(site.cat))
   {
-    ## Taxon rank cannot be empty
-
-    warning ("Taxon rank cannot be empty")
-
-  }
-
-  # Condition for when Taxon rank is specified but taxon name not specified
-
-  else if (!is.null(taxon.rank) & is.null(taxon.name))
-
-
-  {
-
-    bin.comm.trial=bin.comm.trial
-
-  }
-
-  # Condition for when both Taxon rank and taxon name are specified
-
-  else if(!is.null(taxon.rank) & !is.null(taxon.name))
-
-
-  {
-    # The taxon name/s are filtered
-
-    bin.comm.trial=bin.comm.trial%>%
-      dplyr::filter(!!sym(taxon.rank)%in% taxon.name)
-  }
-
-
-  # The formula used for converting long to wide data
-
-  dcast.formula=as.formula(paste(site.cat,"~",taxon.rank))
-
-  # If the site category is not specified
-
-  if(is.null(site.cat))
-
-
-  {
-    # if Grids is TRUE and grid size is defined
-
-    if (grids==TRUE & !is.null(gridsize))
-
-    {
-
-      # NA lat lon values are filtered out
-
-      bin.comm.trial=bin.comm.trial%>%
-        dplyr::filter(!(is.na(lat))|!(is.na(lon)))
-
-      # In case the resulting data is empty
-
-      if (nrow(bin.comm.trial)==0)
-
-      {
-        stop("Dataset is empty.This could be due to no latitude and longitude data available for the taxa selected in the dataset")
-
-      }
-
-      # If the dataset is not empty
-
-      else
-
-      {
-
-        # Mollweide CRS variable (This projection is used so that gridsize can be defined as a distance metric)
-
-        mollweide<-st_crs("+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84")
-
-        # Creating a Spatial data frame based filtered data above
-
-        data_sf<-st_as_sf(x=bin.comm.trial,
-                          coords = c("lon","lat"),
-                          crs=4326,
-                          remove=FALSE)%>%
-          st_simplify(dTolerance = 0.001)%>%
-          st_transform(.,
-                       crs = mollweide)
-
-        ## If the geometry ( lat lon points) are unique (as in just one location),bbox  drawing a grid subsequently wont be possible. A check for that
-
-        if(length(unique(data_sf$geometry))<2)
-
-        {
-
-          stop("There arent enough distinct geographical points for creating an effective grid.Please re-check the data or use site_type + location_type categories instead.")
-
-        }
-
-
-        # Creating a bounding box based on the geographical extent of the input data
-
-        bbox_data<-st_bbox(data_sf)%>%
-          st_as_sfc(.)
-
-        # Creating a square grid based on the bounding box and the cellsize provided by the user. Cellsize here represents distance in sq. meters.
-        data_sf_grid <- tryCatch({
-          st_make_grid(bbox_data,
-                       cellsize = gridsize,
-                       what = 'polygons',
-                       square = TRUE) %>%
-            st_simplify(dTolerance = 0.001) %>%
-            st_transform(.,
-                         crs = mollweide)
-        },
-
-        error = function(e)
-
-        {
-
-          message(paste("An error occurred while creating the grids: ", e$message))
-
-          stop("This could likely be due to the very small grid size being added. Please select a bigger area for grids")
-        }
-
-        )
-
-        # Generating an index of the grids which overlap the sampled data
-
-        grids_selected_indexes<-st_intersects(data_sf_grid,
-                                              data_sf,
-                                              sparse = TRUE)
-
-
-        # Using the index to filter the spatial data to obtain the grids for the input data. st_centroid is used to get a c
-
-        grids_selected<-data_sf_grid[lengths(grids_selected_indexes)>0]%>%
-          st_sf(.)%>%
-          # arrange(grid_cent)%>%
-          dplyr::mutate(index=1:nrow(.))%>%  # Generating a row id based on the selected grids
-          dplyr::mutate(cell.id=paste("cell",
-                                      "_",
-                                      index,
-                                      sep=''))
-
-        # Extracting out the input data based on the filtered data
-
-        bin.comm.trial=suppressWarnings(st_intersection(data_sf,
-                                                        grids_selected,
-                                                        sparse = T))
-
-        # Adding the grid cell ids and removing the grid numbers
-
-        grids_final=grids_selected%>%
-          dplyr::select(geometry,
-                        cell.id)
-
-
-        # Adding the grid data to the output
-
-        output$grids=grids_final
-
-      }
-
-      # Formula for cell id and taxon rank
-
-      dcast.formula=as.formula(paste("cell.id","~",taxon.rank))
-
-    }
-
-    # In case grids = FALSE and still grid size is provided
-
-    else if (grids==TRUE & is.null(gridsize))
-
-    {
-      stop("If grids = TRUE, gridsize needs to be specified")
-    }
-
-  }
-
-  # If site.cat is not null and grids = T or gridsize is given
-
-  else if (!is.null(site.cat) & grids==TRUE|!is.null(gridsize))
-
-  {
-    stop("Either site.cat or grid information should be used at one time")
-  }
-
-  else
-
-    # If the site.cat is not null, bin.comm.trial created at the taxon condition level will be returned
-
-  {
-
     bin.comm.trial=bin.comm.trial
 
     dcast.formula=as.formula(paste(site.cat,"~",taxon.rank))
+  }
+  # If grids and gridsize are provided
+  else if (is.null(site.cat) && all(grids==TRUE & !is.null(gridsize)))
+  {
+    bin.comm.trial=bin.comm.trial
+
+    mollweide<-st_crs("+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84")
+
+    # Creating a Spatial data frame based filtered data above
+
+    data_sf<-st_as_sf(x=bin.comm.trial,
+                      coords = c("lon","lat"),
+                      crs=4326,
+                      remove=FALSE,
+                      na.fail = FALSE)%>%
+      st_simplify(dTolerance = 0.001)%>%
+      st_transform(.,
+                   crs = mollweide)
+
+    if(length(unique(data_sf$geometry))<2) stop("There arent enough distinct geographical points for creating an effective grid.Please re-check the data or use site_type + location_type categories instead.")
+
+    bbox_data<-st_bbox(data_sf)%>%
+      st_as_sfc(.)
+
+    # Creating a square grid based on the bounding box and the cellsize provided by the user. Cellsize here represents distance in sq. meters.
+
+    data_sf_grid <- tryCatch({
+      st_make_grid(bbox_data,
+                   cellsize = gridsize,
+                   what = 'polygons',
+                   square = TRUE) %>%
+        st_simplify(dTolerance = 0.001) %>%
+        st_transform(.,
+                     crs = mollweide)
+    },
+    error = function(e)
+    {
+      message(paste("An error occurred while creating the grids: ", e$message))
+      stop("This could likely be due to the very small grid size being added. Please select a bigger area for grids")
+    }
+    )
+
+    # Generating an index of the grids which overlap the sampled data
+
+    grids_selected_indexes<-st_intersects(data_sf_grid,
+                                          data_sf,
+                                          sparse = TRUE)
+
+    # Using the index to filter the spatial data to obtain the grids for the input data. st_centroid is used to get a c
+
+    grids_selected<-data_sf_grid[lengths(grids_selected_indexes)>0]%>%
+      st_sf(.)%>%
+      # arrange(grid_cent)%>%
+      dplyr::mutate(index=1:nrow(.))%>%  # Generating a row id based on the selected grids
+      dplyr::mutate(cell.id=paste("cell",
+                                  "_",
+                                  index,
+                                  sep=''))
+
+    # Extracting out the input data based on the filtered data
+
+    bin.comm.trial=suppressWarnings(st_intersection(data_sf,
+                                                    grids_selected,
+                                                    sparse = T))
+
+    # Adding the grid cell ids and removing the grid numbers
+
+    grids_final=grids_selected%>%
+      dplyr::select(geometry,
+                    cell.id)
+    # Adding the grid data to the output
+
+    output$grids=grids_final
+
+    # Formula for cell id and taxon rank
+
+    dcast.formula=as.formula(paste("cell.id","~",taxon.rank))
 
   }
+  else if (grids==TRUE & is.null(gridsize)) stop("If grids = TRUE, gridsize needs to be specified")
+
+  else if (!is.null(site.cat) & grids==TRUE|!is.null(gridsize)) stop("Either site.cat or grid information should be used at one time")
 
   # The long to wide function which converts the long data into wide one by taking the counts of BINS based on the site category or grid cells and the taxon rank used
 
@@ -322,6 +190,7 @@ gen.comm.mat<-function(bold.df,
                       fun.aggregate = length)|>
       data.frame()
   }
+
 
   result=long.2.wide.coversn(bin.comm.trial,
                              dcast.form = dcast.formula)
@@ -349,53 +218,42 @@ gen.comm.mat<-function(bold.df,
     result = result
   }
 
+  # If grids.view=T
+
   if(view.grids)
 
   {
-    if(grids==TRUE & is.null(gridsize))
+    if(grids==TRUE & is.null(gridsize)) stop("Grids can be viewed only when grids = T and gridsize is specified")
 
-    {
-      stop("Grids can be viewed only when grids = T and gridsize is specified")
+    overview_map <- rnaturalearth::ne_countries(scale = 110)
 
-    }
+    overview_map<-st_transform(overview_map,crs = st_crs(grids_final))
 
-    else
+    grid_plot=ggplot(data=overview_map) +
+      geom_sf(linewidth=0.3,
+              col='black',
+              fill='white') +
+      geom_sf(data = grids_final,
+              linewidth=0.3,
+              col="black",
+              fill='white',
+              alpha=0.4) +
+      geom_sf_text(data = grids_final,
+                   aes(label = cell.id),
+                   size = 2.5,
+                   col='black',
+                   alpha=0.7,
+                   nudge_y = 300000) +
+      theme_minimal(base_size = 15) +
+      labs(title = "Grid map of the data",
+           x = "Longitude",
+           y = "Latitude")
 
-    {
+    output$grid_plot = grid_plot
 
-      overview_map <- rnaturalearth::ne_countries(scale = 110)
+    # Adding the grid data to the output
 
-      overview_map<-st_transform(overview_map,crs = st_crs(grids_final))
-
-      #centroids_for_mapping = suppressWarnings(st_centroid(grids_final))
-
-      grid_plot=ggplot(data=overview_map) +
-        geom_sf(linewidth=0.1,
-                col='black',
-                fill='white') +
-        geom_sf(data = grids_final,
-                linewidth=0.3,
-                col="black",
-                fill='white',
-                alpha=0.4) +
-        geom_sf_text(data = grids_final,
-                     aes(label = cell.id),
-                     size = 2.5,
-                     col='black',
-                     alpha=0.7,
-                     nudge_y = 300000) +
-        theme_minimal(base_size = 15) +
-        labs(title = "Grid map of the data",
-             x = "Longitude",
-             y = "Latitude")
-
-      output$grid_plot = grid_plot
-
-      # Adding the grid data to the output
-
-      output$grids=grids_final
-
-    }
+    output$grids=grids_final
 
   }
 
