@@ -175,3 +175,17 @@ convert_coord_2_lat_lon<-function (df)
 
   return(result)
 }
+
+#6. Check if the input data is a dataframe and is non-empty
+# This function is used by
+# #1. bold.analyze.align
+# #2. bold.analyze.tree
+# #3. bold.analyze.map
+# #4. bold.export
+# #5. bold.data.summarize
+
+df_checks<-function(df){
+
+  if(any(is.data.frame(df)==FALSE,nrow(df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
+
+}

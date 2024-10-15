@@ -91,7 +91,7 @@ bold.analyze.tree<-function(bold_df,
 
   # Check if data is a non empty data frame object
 
-  if(any(is.data.frame(bold_df)==FALSE,nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
+  df_checks(bold_df)
 
   # check if the minimum fields required for the analysis are present
 
@@ -140,7 +140,7 @@ bold.analyze.tree<-function(bold_df,
 
   # Based on the type of clus, clustering is carried out on the dist object
 
-  if (length(clus_method)!=1) stop("clus_method argument empty. Please select either 'nj' or 'njs'")
+  if (length(clus_method)!=1) stop("Please select either 'nj' or 'njs'")
 
   # Swtich for either nj or njs
 

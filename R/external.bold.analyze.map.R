@@ -75,7 +75,7 @@ bold.analyze.map<-function(bold_df,
 
   # Check if data is a non empty data frame object
 
-  if(any(is.data.frame(bold_df)==FALSE, nrow(bold_df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
+  df_checks(bold_df)
 
   # Output list (empty)
 
