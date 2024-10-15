@@ -205,7 +205,7 @@ gen.comm.mat<-function(bold.df,
 
         {
 
-          stop("There arent enough distinct geographical points for creating an effective grid.Please re-check the data or use any of ther other site.cat categories instead")
+          stop("There arent enough distinct geographical points for creating an effective grid.Please re-check the data or use site_type + location_type categories instead.")
 
         }
 
