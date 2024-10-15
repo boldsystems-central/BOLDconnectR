@@ -62,7 +62,7 @@ preston_profile <- function (df,
             panel.grid.minor = element_blank())+
       ylab("Species")+
       xlab("Frequency") +
-      scale_y_continuous(expand = c(0,0)) +
+      scale_y_continuous(expand = c(0,0),,breaks = ~round(unique(pretty(.)))) +
       ylab(y_label)+
       ggtitle("Preston plot")
 

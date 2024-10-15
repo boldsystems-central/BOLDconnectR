@@ -310,7 +310,6 @@ gen.comm.mat<-function(bold.df,
 
   }
 
-
   # The long to wide function which converts the long data into wide one by taking the counts of BINS based on the site category or grid cells and the taxon rank used
 
   long.2.wide.coversn = function (df,
@@ -323,7 +322,6 @@ gen.comm.mat<-function(bold.df,
                       fun.aggregate = length)|>
       data.frame()
   }
-
 
   result=long.2.wide.coversn(bin.comm.trial,
                              dcast.form = dcast.formula)
