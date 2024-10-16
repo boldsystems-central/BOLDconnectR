@@ -176,10 +176,13 @@ bold.analyze.tree<-function(bold_df,
   if(tree_plot)
 
   {
+    # Total number of tips
 
     no_of_tips = ape::Ntip(for_plot)
 
-    cex_range <- max(0.5, 1 / sqrt(no_of_tips))
+    # Dynamically adjust the cex size based on the number of tips
+
+    cex_range <- max(0.7, 1 / sqrt(no_of_tips))
 
     plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,

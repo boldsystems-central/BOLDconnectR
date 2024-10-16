@@ -98,7 +98,6 @@ bold.analyze.map<-function(bold_df,
              remove=FALSE)%>%
     sf::st_simplify(dTolerance = 0.001)
 
-
   # Generate a base map with a low resolution. Some map_data country names (ID column) are changed to suit the BCDM country.ocean names
 
    map_data <- sf::st_as_sf(maps::map('world',
@@ -125,24 +124,24 @@ bold.analyze.map<-function(bold_df,
   if(is.null(country))
 
   {
-    bin.geo.df<-geo_data
+    bin.geo.df=geo_data
   }
 
   else
     # Specific countries that are listed in the function will be mapped
   {
 
-    bin.geo.df<-geo_data%>%
+    bin.geo.df=geo_data%>%
       dplyr::filter(country.ocean %in% !!country)
 
-  map_data<-map_data%>%
+    map_data=map_data%>%
       dplyr::filter(ID %in% !!country)
 
   }
 
   # plot
 
-  map_plot<-ggplot() +
+  map_plot=ggplot() +
     geom_sf(data = map_data,
             alpha=0.3,
             linewidth=0.4) +
@@ -175,7 +174,7 @@ bold.analyze.map<-function(bold_df,
 
     # Using the default map created above, a specific part of that map is the plotted
 
-    map_plot<-map_plot +
+    map_plot=map_plot +
       coord_sf(xlim = lon_coord,
                ylim = lat_coord)
   }
@@ -183,7 +182,7 @@ bold.analyze.map<-function(bold_df,
   else
 
   {
-    map_plot<-map_plot
+    map_plot=map_plot
   }
 
     output$geo.df=bin.geo.df
