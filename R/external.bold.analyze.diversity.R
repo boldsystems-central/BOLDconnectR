@@ -162,7 +162,7 @@ bold.analyze.diversity <- function(bold_df,
 
   # Check if taxon_rank is empty
 
-  if(is.null(taxon_rank)) stop ("Taxon rank cannot be left empty")
+  if(is.null(taxon_rank)) stop ("Taxon rank cannot be left empty.")
 
   # Empty output list
 
@@ -293,10 +293,10 @@ bold.analyze.diversity <- function(bold_df,
 
            {
 
-             richness_res= richness_profile(df=bin.comm)
+             richness_res=richness_profile(df=bin.comm)
 
 
-             preston_results<-preston_profile(df=bin.comm,
+             preston_results=preston_profile(df=bin.comm,
                                               y_label = taxon_rank)
 
              shannon_results=shannon_div_profile(df=bin.comm)
