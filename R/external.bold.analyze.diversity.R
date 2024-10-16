@@ -225,7 +225,7 @@ bold.analyze.diversity <- function(bold_df,
 
   output$comm.matrix = bin.comm
 
-  # Richness results
+  # Diversity results based on the profile selection
 
   switch(diversity_profile,
 
@@ -293,15 +293,15 @@ bold.analyze.diversity <- function(bold_df,
 
            {
 
-             richness_res=richness_profile(df=bin.comm)
+             richness_res = richness_profile(df=bin.comm)
 
 
-             preston_results=preston_profile(df=bin.comm,
+             preston_results = preston_profile(df=bin.comm,
                                               y_label = taxon_rank)
 
-             shannon_results=shannon_div_profile(df=bin.comm)
+             shannon_results = shannon_div_profile(df=bin.comm)
 
-             beta_div_results=beta_div_profile(df=bin.comm,
+             beta_div_results = beta_div_profile(df=bin.comm,
                                                beta.index=beta_index,
                                                pre_abs=presence_absence)
 
