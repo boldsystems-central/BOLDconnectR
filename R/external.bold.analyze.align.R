@@ -85,7 +85,7 @@ bold.analyze.align<-function (bold_df,
 
   {
     # Check if marker code is available in the dataser
-    if(any(!(marker %in% bold_df[['marker_code']]))) stop("Marker provided is not available in the dataset. Please re-check if the code is correct and available in the BOLD database")
+    if(any(!(marker %in% bold_df[['marker_code']]))) stop("Marker provided is not available in the dataset. Please re-check if the name of the marker is correct and available in the BOLD database.")
 
       # Obtain the specific columns from the data frame
       obtain.data <- seq.data %>%
@@ -103,7 +103,7 @@ bold.analyze.align<-function (bold_df,
 
 # Check if the result is not empty
 
- if(nrow(obtain.data)==0) stop("The result obtained does not have any data")
+ if(nrow(obtain.data)==0) stop("The result obtained does not have any data.")
 
 # if specific columns are provided for sequence names
 
@@ -119,10 +119,8 @@ bold.analyze.align<-function (bold_df,
                     all_of(cols_for_seq_names))%>%
       dplyr::mutate(msa.seq.name.pre=paste0(paste(as.character(c_across(all_of(cols_for_seq_names))),
                                                   collapse = "|")))%>%
-      dplyr::mutate(msa.seq.name=paste0(processid,
-                                        "_",
-                                        msa.seq.name.pre,
-                                        sep="|"))%>%
+      dplyr::mutate(msa.seq.name=paste0(processid,"_",
+                                        msa.seq.name.pre))%>%
       dplyr::select(msa.seq.name,
                     nuc,
                     processid)%>%
