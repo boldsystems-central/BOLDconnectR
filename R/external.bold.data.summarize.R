@@ -211,11 +211,11 @@ bold.data.summarize<-function(bold_df,
           "fields" =
 
             {
-              if (is.null(columns)) stop("Columns should not be NULL when summarize_by=fields")
+              if (is.null(columns)) stop("Columns should not be NULL when summarize_by=fields.")
 
               # Verification of column names
 
-              if (any(!columns %in% colnames(bold_df))) stop("Column names given are not present in the input BCDM dataframe")
+              if (any(!columns %in% colnames(bold_df))) stop("Column names given are not present in the input BCDM dataframe.".)
               summary.bold.df = obtain.long.summ.df (df = bold_df,
                                                      cols = columns)
 
@@ -224,7 +224,7 @@ bold.data.summarize<-function(bold_df,
           "presets" =
 
             {
-              if (is.null(presets)) stop("Presets should not be NULL when summarize_by=presets")
+              if (is.null(presets)) stop("Presets should not be NULL when summarize_by=presets.")
 
               data_for_summary = check_and_return_preset_df(df=bold_df,
                                                             category = "check_return",
@@ -238,7 +238,7 @@ bold.data.summarize<-function(bold_df,
           "all_data" =
 
             {
-              if (all(!is.null(columns),!is.null(presets))) stop("columns and presets should be NULL when summarize_by=all_data")
+              if (all(!is.null(columns),!is.null(presets))) stop("columns and presets should be NULL when summarize_by=all_data.")
               summary.bold.df=obtain.long.summ.df(df = bold_df,
                                                   cols = names(bold_df))
             }

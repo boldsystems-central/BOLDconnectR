@@ -90,7 +90,7 @@ bold.export<-function(bold_df,
 
            {
 
-             if (is.null(presets)) stop("One of the presets must be provided when export_type = preset_df")
+             if (is.null(presets)) stop("One of the presets must be provided when export_type = preset_df.")
 
              preset_data=check_and_return_preset_df(bold_df,
                                                     category = "check_return",
@@ -106,7 +106,7 @@ bold.export<-function(bold_df,
 
            {
 
-             if (any(!is.null(cols_for_fas_names),!is.null(presets))) stop("Please remove any presets or field names provided in the presets or 'cols_for_fas_names' arguments.")
+             if (any(!is.null(cols_for_fas_names),!is.null(presets))) stop("Please remove any presets or field names provided in the 'presets' or 'cols_for_fas_names' arguments.")
 
              stopifnot(any(names(bold_df)=='msa.seq.name'))
 

@@ -148,10 +148,7 @@ bold.fetch<-function(get_by,
 
            # Check if the input going in fetch has data
 
-           if(!nrow(input_data)>0)
-           {
-             stop("Please re-check the column name specified in the identifiers.")
-           }
+           if(!nrow(input_data)>0)stop("Please re-check the data provided in the identifiers argument.")
 
              json.df = fetch.bold.id(
              data.input = input_data,
@@ -169,21 +166,20 @@ bold.fetch<-function(get_by,
            {
              # Check if the input going in fetch has data
 
-             if(!nrow(input_data)>0)
-             {
-               stop("Please re-check the data specified in the identifiers.")
-             }
+             if(!nrow(input_data)>0)stop("Please re-check the data provided in the identifiers argument.")
 
+             #1. Processids are retrieved based on the get_by argument using the get.bin.dataset.project.pids helper function
              processids = get.bin.dataset.project.pids(data.input=input_data,
                                                           query_param = get_by)
 
+             #2. BCDM data is then fetched using the processids obtained above using the fetch.bold.id function
              json.df = fetch.bold.id(data.input = processids,
                                      query_param = "processid")
 
              },
 
          # Default case for invalid input
-         stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris")
+         stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris.")
   )
 
 
@@ -191,7 +187,7 @@ bold.fetch<-function(get_by,
 
   json.df = json.df[,intersect(names(json.df),bold.fields.info()$field)]
 
- # a separate filter function is used to filter the retrieved data
+ # The helper filter function is used to filter the retrieved data
 
   json.df = bold.connectr.filters(bold.df = json.df,
                                   taxon.name=filt_taxonomy,
@@ -213,15 +209,11 @@ bold.fetch<-function(get_by,
   if(!is.null(cols))
 
   {
-    ## add a check here to compare the column names specified with the BCDM fields using bold.fields.info()
 
     bold_field_data = bold.fields.info(print.output = F)%>%
       dplyr::select(field)
 
-    if(!all(cols %in% bold_field_data$field))
-    {
-      stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function. Column name match currently")
-    }
+    if(!all(cols %in% bold_field_data$field)) stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function.")
 
     json.df=json.df%>%
       dplyr::select(all_of(cols))
@@ -234,9 +226,8 @@ bold.fetch<-function(get_by,
   {
     json.df = json.df%>%
       tidyr::drop_na(.)
-     #dplyr::filter(if_all(everything(),~.!="")) # if empty rows should also be removed
-    # print the number of rows removed from the dataset. Add filter to remove empty (not NA) cells
-  }
+
+    }
 
   # If the user wants to export the data
   if (!is.null(export))
