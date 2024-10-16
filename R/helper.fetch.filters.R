@@ -85,9 +85,9 @@ if(!is.null(latitude))
 {
   # condition to check if Latitude is of the correct data type
 
-  if(!is.numeric(latitude)) stop("Latitude should be a numeric data type")
+  if(!is.numeric(latitude)) stop("Latitude should be a numeric data type.")
 
-  if(length(latitude)!=2) stop("Latitude should be a range separated by a comma (start date, end date)")
+  if(length(latitude)!=2) stop("Latitude should be a range separated by a comma (start date, end date).")
 
   # Latitude is a vector of length two giving a latitudinal extent
 
@@ -111,9 +111,9 @@ if(!is.null(longitude))
 
   # condition to check if Latitude is of the correct data type
 
-  if(!is.numeric(longitude)) stop("longitude should be a numeric data type")
+  if(!is.numeric(longitude)) stop("longitude should be a numeric data type.")
 
-  if(length(longitude)!=2) stop("Longitude should be a range separated by a comma (start date, end date)")
+  if(length(longitude)!=2) stop("Longitude should be a range separated by a comma (start date, end date).")
 
   # Longitude is a vector of length two giving a longitudinal extent
 
@@ -142,7 +142,7 @@ if (!is.null(shapefile))
   {
     # make sure that the file is csv or txt
 
-    if(!grepl("*.shp$",shapefile)) stop("Check input file. File should be a shapefile")
+    if(!grepl("*.shp$",shapefile)) stop("Check input file. File should be a shapefile.")
 
     # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
 
@@ -169,7 +169,7 @@ if (!is.null(shapefile))
   else
 
   {
-    stop("Please check the Input")
+    stop("Please check the Input.")
   }
 
 
@@ -199,7 +199,7 @@ if(!is.null(institutes))
 
 {
 
-  if(!is.character(institutes)) stop ("Institute names should be character")
+  if(!is.character(institutes)) stop ("Institute names should be character.")
 
   bold.df=bold.df%>%
     dplyr::filter(inst %in% !!institutes)
@@ -214,7 +214,7 @@ if(!is.null(identified.by))
 
 {
 
-  if(!is.character(identified.by)) stop ("identified by should be a character data type")
+  if(!is.character(identified.by)) stop ("identified by should be a character data type.")
 
   bold.df=bold.df%>%
     dplyr::filter(identified_by %in% !!identified.by)
@@ -227,7 +227,7 @@ if(!is.null(identified.by))
 if(!is.null(seq.source))
 
 {
-  if(!is.character(seq.source)) stop ("Sequence source should be character")
+  if(!is.character(seq.source)) stop ("Sequence source should be character.")
 
   bold.df=bold.df%>%
     dplyr::filter(sequence_run_site %in% !!seq.source)
@@ -241,7 +241,7 @@ if(!is.null(marker))
 
 {
 
-  if(!is.character(marker)) warning("Marker names should be character")
+  if(!is.character(marker)) warning("Marker names should be character.")
 
   bold.df=bold.df%>%
     dplyr::filter(marker_code %in% !!marker)
@@ -256,7 +256,7 @@ if(!is.null(basecount))
 
 {
 
-  if(!is.numeric(basecount)) stop("Basecount/s should either be a single number of a range separated by a comma")
+  if(!is.numeric(basecount)) stop("Basecount/s should either be a single number of a range separated by a comma.")
 
   if(length(basecount)==1)
 
@@ -284,7 +284,7 @@ if(!is.null(basecount))
   else
 
   {
-    stop("Incorrect value input")
+    stop("Incorrect value input.")
   }
 
 }
@@ -294,9 +294,9 @@ if(!is.null(collection.period))
 
 {
 
-  if(as.Date(collection.period[1],"%Y-%m-%d")==FALSE & as.Date(collection.period[2],"%Y-%m-%d")==FALSE) stop ("Collection period should be a date object in %Y-%m-%d format ")
+  if(as.Date(collection.period[1],"%Y-%m-%d")==FALSE & as.Date(collection.period[2],"%Y-%m-%d")==FALSE) stop ("Collection period should be a date object in %Y-%m-%d format.")
 
-  if(length(collection.period)<2) stop ("Collection period should be a range of date data type separated by a comma (start date, end date)")
+  if(length(collection.period)<2) stop ("Collection period should be a range of date data type separated by a comma (start date, end date).")
 
   start_date=as.Date(collection.period[1])
 
@@ -315,7 +315,7 @@ if(!is.null(altitude))
 
 {
 
-  if(is.numeric(altitude)==FALSE) stop("Altitude should either be a single number of a range separated by a comma")
+  if(is.numeric(altitude)==FALSE) stop("Altitude should either be a single number of a range separated by a comma.")
 
   if(length(altitude)==1)
 
@@ -340,7 +340,7 @@ if(!is.null(altitude))
   else
 
   {
-    stop("Please check input")
+    stop("Please check input.")
   }
 
 }
@@ -352,7 +352,7 @@ if(!is.null(depth))
 
 {
 
-  if(!is.numeric(depth)) stop("Depth should either be a single number of a range separated by a comma")
+  if(!is.numeric(depth)) stop("Depth should either be a single number of a range separated by a comma.")
 
   if(length(depth)==1)
 
@@ -378,7 +378,7 @@ if(!is.null(depth))
   else
 
   {
-    stop("Please check input")
+    stop("Please check input.")
 
   }
 

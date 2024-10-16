@@ -104,11 +104,12 @@ fetch.bold.id<-function(data.input,
 
       # Print the index and total number of files using sprintf
 
-      #a
+      #a Creating the message
 
       download_message<-sprintf("Downloading batch: %d of %d", f, length(temp_file))
 
-      #b
+      #b Using 'cat' to print in the console
+
       cat(red_col,download_message,reset_col,'\r')
 
       # Download data (list of data frames)
@@ -131,7 +132,7 @@ fetch.bold.id<-function(data.input,
       dplyr::bind_rows(.)
 
     # Stop if there is no data
-    stopifnot("The output generated has no data. Please re-check whether the correct get_by and corresponding identifier argument has been specified." = nrow(json.df) > 0)
+    stopifnot("The output generated has no data. Please re-check whether the correct 'get_by' and corresponding identifier argument has been specified." = nrow(json.df) > 0)
 
     cat(green_col,"BCDM dataframe generated",reset_col,"\n",sep="")
   }
