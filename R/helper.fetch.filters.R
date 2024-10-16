@@ -44,7 +44,8 @@ if(!is.null(taxon.name))
 {
   # condition to check if taxonomy filters are of the correct data type
 
-  stopifnot(is.character(taxon.name))
+  data_type_check(col = taxon.name,
+                  type = "character")
 
   # filter condition to select the specific taxon name.
 
@@ -67,7 +68,8 @@ if(!is.null(location.name))
 {
   # condition to check if geography filters are of the correct data type
 
-  stopifnot(is.character(location.name))
+  data_type_check(col = location.name,
+                  type = "character")
 
   bold.df=bold.df%>%
     dplyr::filter(if_any(c("country.ocean",
@@ -85,7 +87,8 @@ if(!is.null(latitude))
 {
   # condition to check if Latitude is of the correct data type
 
-  if(!is.numeric(latitude)) stop("Latitude should be a numeric data type.")
+  data_type_check(col = latitude,
+                  type = "numeric")
 
   if(length(latitude)!=2) stop("Latitude should be a range separated by a comma (start date, end date).")
 
@@ -111,7 +114,8 @@ if(!is.null(longitude))
 
   # condition to check if Latitude is of the correct data type
 
-  if(!is.numeric(longitude)) stop("longitude should be a numeric data type.")
+  data_type_check(col = longitude,
+                  type = "numeric")
 
   if(length(longitude)!=2) stop("Longitude should be a range separated by a comma (start date, end date).")
 
@@ -130,76 +134,74 @@ if(!is.null(longitude))
 
 #6. Shapefile data
 
-
-if (!is.null(shapefile))
-
-{
-
-  # Check for whether the input is a read.delim file or a file path
-
-  if(is.character(shapefile))
+  if (!is.null(shapefile))
 
   {
-    # make sure that the file is csv or txt
 
-    if(!grepl("*.shp$",shapefile)) stop("Check input file. File should be a shapefile.")
+    data_type_check(col = shapefile,
+                    type = "character")
 
-    # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
+    # Check for whether the input is a read.delim file or a file path
 
-    shp_input= suppressWarnings(suppressMessages(sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)))
+    if(is.character(shapefile) && grepl("*.shp$",shapefile))
 
-    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
+    {
+      # Input data as a file path. The shapefile is simplified to avoid large shapefile issues
+
+      shp_input= suppressWarnings(suppressMessages(sf::st_read(shapefile)%>%st_simplify(dTolerance = 0.001)))
+
+      shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
+
+    }
+    # If its a R object, condition to check if its a 'Simple features' object
+
+    else if (class(shapefile)[1]=="sf")
+
+    {
+      # Import the csv data
+
+      shp_input=shapefile
+
+      shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
+
+      shp_input=suppressWarnings(suppressMessages(shp_input%>%st_simplify(dTolerance = 0.001)))
+    }
+
+    else
+
+    {
+      stop("Please check the Input.")
+    }
+
+
+    spatial.bold.df= suppressWarnings(suppressMessages(bold.df%>%
+                                                         convert_coord_2_lat_lon(.)%>%
+                                                         tidyr::drop_na(lat,lon)%>%
+                                                         sf::st_as_sf(x=.,
+                                                                      coords = c("lon","lat"),
+                                                                      crs=4326,
+                                                                      remove=FALSE)))
+
+    spatial.bold.df=suppressWarnings(suppressMessages(st_transform(spatial.bold.df,
+                                                                   st_crs(shp_input))))
+
+    bold.df=suppressWarnings(suppressMessages(st_intersection(spatial.bold.df,
+                                                              shp_input)%>%
+                                                sf::st_drop_geometry(.)%>%
+                                                data.frame(.)))
 
   }
 
-  # If its a R object, condition to check if its a 'Simple features' object
 
-  else if (class(shapefile)[1]=="sf")
-
-  {
-    # Import the csv data
-
-    shp_input=shapefile
-
-    shp_input = suppressWarnings(suppressMessages(st_transform(shp_input,4326)))
-
-    shp_input=suppressWarnings(suppressMessages(shp_input%>%st_simplify(dTolerance = 0.001)))
-  }
-
-  else
-
-  {
-    stop("Please check the Input.")
-  }
-
-
-  spatial.bold.df= suppressWarnings(suppressMessages(bold.df%>%
-    convert_coord_2_lat_lon(.)%>%
-    tidyr::drop_na(lat,lon)%>%
-    sf::st_as_sf(x=.,
-                 coords = c("lon","lat"),
-                 crs=4326,
-                 remove=FALSE)))
-
-  spatial.bold.df=suppressWarnings(suppressMessages(st_transform(spatial.bold.df,
-                               st_crs(shp_input))))
-
-  bold.df=suppressWarnings(suppressMessages(st_intersection(spatial.bold.df,
-                          shp_input)%>%
-    sf::st_drop_geometry(.)%>%
-    data.frame(.)))
-
-}
-
-
-#6. Institutes storing the specimen
+#7. Institutes storing the specimen
 
 
 if(!is.null(institutes))
 
 {
 
-  if(!is.character(institutes)) stop ("Institute names should be character.")
+  data_type_check(col = institutes,
+                  type = "character")
 
   bold.df=bold.df%>%
     dplyr::filter(inst %in% !!institutes)
@@ -214,7 +216,8 @@ if(!is.null(identified.by))
 
 {
 
-  if(!is.character(identified.by)) stop ("identified by should be a character data type.")
+  data_type_check(col = identified.by,
+                  type = "character")
 
   bold.df=bold.df%>%
     dplyr::filter(identified_by %in% !!identified.by)
@@ -227,7 +230,8 @@ if(!is.null(identified.by))
 if(!is.null(seq.source))
 
 {
-  if(!is.character(seq.source)) stop ("Sequence source should be character.")
+  data_type_check(col = seq.source,
+                  type = "character")
 
   bold.df=bold.df%>%
     dplyr::filter(sequence_run_site %in% !!seq.source)
@@ -241,7 +245,8 @@ if(!is.null(marker))
 
 {
 
-  if(!is.character(marker)) warning("Marker names should be character.")
+  data_type_check(col = marker,
+                  type = "character")
 
   bold.df=bold.df%>%
     dplyr::filter(marker_code %in% !!marker)
@@ -256,7 +261,8 @@ if(!is.null(basecount))
 
 {
 
-  if(!is.numeric(basecount)) stop("Basecount/s should either be a single number of a range separated by a comma.")
+  data_type_check(col = basecount,
+                  type = "numeric")
 
   if(length(basecount)==1)
 
@@ -315,7 +321,8 @@ if(!is.null(altitude))
 
 {
 
-  if(is.numeric(altitude)==FALSE) stop("Altitude should either be a single number of a range separated by a comma.")
+  data_type_check(col = altitude,
+                  type = "numeric")
 
   if(length(altitude)==1)
 
@@ -352,7 +359,8 @@ if(!is.null(depth))
 
 {
 
-  if(!is.numeric(depth)) stop("Depth should either be a single number of a range separated by a comma.")
+  data_type_check(col = depth,
+                  type = "numeric")
 
   if(length(depth)==1)
 

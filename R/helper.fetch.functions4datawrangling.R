@@ -189,3 +189,30 @@ df_checks<-function(df){
   if(any(is.data.frame(df)==FALSE,nrow(df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
 
 }
+
+#7. Check the data type
+# This function is used by
+# #1. bold.connectr.filters
+
+data_type_check<-function (col,type = c("character","numeric"))
+{
+
+  switch(type,
+
+         "character" =
+           {
+             if(!is.character(col)) stop ("Data type should be character. Please re-check the filter input.")
+
+           },
+
+         "numeric" =
+           {
+
+             if(!is.numeric(col)) stop("Data type should be numeric. Please re-check the filter input.")
+
+           }
+
+  )
+
+
+}
