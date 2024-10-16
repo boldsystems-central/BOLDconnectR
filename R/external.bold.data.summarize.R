@@ -215,7 +215,7 @@ bold.data.summarize<-function(bold_df,
 
               # Verification of column names
 
-              if (any(!columns %in% colnames(bold_df))) stop("Column names given are not present in the input BCDM dataframe.".)
+              if (any(!columns %in% colnames(bold_df))) stop("Column names given are not present in the input BCDM dataframe.")
               summary.bold.df = obtain.long.summ.df (df = bold_df,
                                                      cols = columns)
 
