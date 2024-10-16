@@ -23,9 +23,15 @@
 #'
 bold.fields.info<-function (print.output=FALSE) {
 
+  # Saving the original options of the user
+
   original_timeout = getOption('timeout')
 
+  # Setting new options for the function
+
   options(timeout=350)
+
+  # Reset the options on exit
 
   on.exit(original_timeout)
 
@@ -64,7 +70,6 @@ bold.fields.info<-function (print.output=FALSE) {
   else
 
     {
-
     # This is so that the whole output is not printed in the console
 
     invisible(bold.fields.data)
