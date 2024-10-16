@@ -27,15 +27,6 @@ bold.apikey<-function(apikey)
 
   default_options<-options()
 
-  # ## API key format check
-  #
-  # api_key_format<-"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-  #
-  # if(grepl(api_key_format,
-  #          apikey)==FALSE) {
-  #   stop("Incorrect api key format. Please re-check the API key")
-  # }
-
   assign("apikey",
          apikey,
          envir=.GlobalEnv)
