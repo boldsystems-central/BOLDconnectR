@@ -85,11 +85,12 @@ gen.comm.mat<-function(bold.df,
 
   #bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
 
-  ## Taxon rank condition to get the necessary data
+  # Taxon rank condition to get the necessary data
 
   if(is.null(taxon.rank)) stop("Taxon rank cannot be empty.")
 
-  ## Is site.cat is provided
+  # Is site.cat is provided
+
   if(!is.null(site.cat))
   {
     bin.comm.trial=bin.comm.trial
@@ -97,13 +98,14 @@ gen.comm.mat<-function(bold.df,
     dcast.formula=as.formula(paste(site.cat,"~",taxon.rank))
   }
   # If grids and gridsize are provided
+
   else if (is.null(site.cat) && all(grids==TRUE & !is.null(gridsize)))
   {
     bin.comm.trial=bin.comm.trial
 
     mollweide<-st_crs("+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84")
 
-    # Creating a Spatial data frame based filtered data above
+  # Creating a Spatial data frame based filtered data above
 
     data_sf<-st_as_sf(x=bin.comm.trial,
                       coords = c("lon","lat"),
@@ -147,7 +149,6 @@ gen.comm.mat<-function(bold.df,
 
     grids_selected<-data_sf_grid[lengths(grids_selected_indexes)>0]%>%
       st_sf(.)%>%
-      # arrange(grid_cent)%>%
       dplyr::mutate(index=1:nrow(.))%>%  # Generating a row id based on the selected grids
       dplyr::mutate(cell.id=paste("cell",
                                   "_",
