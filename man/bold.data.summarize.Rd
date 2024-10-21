@@ -55,13 +55,10 @@ bold.data <- bold.fetch(get_by = "processid",
 test.data.summary <- bold.data.summarize(bold_df=bold.data,
                                          summarize_by = "all_data")
 
-# All summary
+# All summary (Data aggregates/profile of each field)
 test.data.summary$summary
 
-# plot
-test.data.summary$plot
-
-# concise summary
+# concise summary (Overall data profile)
 test.data.summary$concise_summ
 
 #2. Generate summary for specific fields (cols)

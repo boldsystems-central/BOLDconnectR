@@ -23,7 +23,7 @@ Stores the BOLD-provided access token ‘api key’ in a variable, making it ava
 
 #This example below is for documentation only
 
-bold_apykey(‘00000000-0000-0000-0000-000000000000’)
+bold_apikey(‘00000000-0000-0000-0000-000000000000’)
 
 }
 
