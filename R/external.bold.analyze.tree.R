@@ -182,7 +182,7 @@ bold.analyze.tree<-function(bold_df,
 
     # Dynamically adjust the cex size based on the number of tips
 
-    cex_range <- max(0.7, 1 / sqrt(no_of_tips))
+    cex_range <- max(0.55, 1 / log1p(no_of_tips))
 
     plot.phylo(ape::ladderize(for_plot,right = FALSE),
                           type=tree_plot_type,
@@ -190,7 +190,8 @@ bold.analyze.tree<-function(bold_df,
                           font=1,
                           tip.color = "lightseagreen",
                           edge.color = "sienna1",
-                          edge.width=1.5)
+                          edge.width=1,
+               no.margin = T)
     # Get the plot limits
     plot_limits <- par("usr")
     # Set the old limits back
