@@ -92,7 +92,7 @@ API key function must be run prior to using the fetch function (bold.apikey())
 bold.apikey('58EEAA88-D681-49AB-A4AC-79779E1AF3D9')
 ```
 
-```{r fetch data}
+```{r fetch data,message=F,warning=F}
 
 BCDM_data<-bold.fetch(get_by = "processid",
                       identifiers = test.data$processid)
