@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="25%" />
+<img src="man/figures/boldconnectr_logo.png" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -43,8 +43,9 @@ library(BOLDconnectR)
 9.  bold.analyze.map
 10. bold.export
 
-*Function 5 requires the packages `msa` and `Biostrings` to be installed
-and imported beforehand.*
+*Function 6 requires the packages `msa` and `Biostrings` to be installed
+and imported beforehand. Function 7 also uses the the output generated
+from function 6.*
 
 *NOTE* `msa` and `Biostrings` can be installed using using `BiocManager`
 package.
