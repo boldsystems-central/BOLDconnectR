@@ -55,6 +55,14 @@ bold.public.search <- function(taxonomy = NULL,
                dataset_codes=dataset_codes,
                project_codes=project_codes)
 
+  # Colors for printing the progress on the console
+
+  green_col <- "\033[32m"
+
+  red_col<-"\033[31m"
+
+  reset_col <- "\033[0m"
+
   # Filter out NULL values and get their values
 
   # Null arguments
@@ -73,11 +81,18 @@ bold.public.search <- function(taxonomy = NULL,
 
   if(length(non_null_args)>1||length(non_null_args)==1 && length(trial_query_input)<=5)
   {
+    cat(red_col,"Downloading ids.",reset_col,'\r')
+
     result = fetch.public.data(query = trial_query_input)
+
+    cat("\n", green_col, "Download complete.", reset_col, sep = "")
+
   }
   else
   {
     generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
+
+    cat(red_col,"Downloading ids.",reset_col,'\r')
 
     result.pre.filter = lapply(generate.batch.ids,
                                function(x) fetch.public.data(x))
@@ -86,6 +101,8 @@ bold.public.search <- function(taxonomy = NULL,
 
     result=result.pre.filter%>%
       bind_rows(.)
+
+    cat("\n", green_col, "Download complete.", reset_col, sep = "")
   }
 
 
