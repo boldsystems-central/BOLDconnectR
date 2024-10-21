@@ -248,9 +248,9 @@ bold.data.summarize<-function(bold_df,
 
   output$summary<-summary.bold.df$all_skim_summ
 
-  print(output$plot)
-
   print(output$concise_summ)
+
+  print(output$plot)
 
   # Summary
 
