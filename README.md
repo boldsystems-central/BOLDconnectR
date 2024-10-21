@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="30%" />
+<img src="man/figures/boldconnectr_logo.png" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -13,7 +13,9 @@ the functionality to obtain public and private user data available in
 the database in the *Barcode Core Data Model (BCDM)* format. Data
 include information on the
 **taxonomy**,**geography**,**collection**,**identification** and **DNA
-barcode sequence** of every submission.
+barcode sequence** of every submission. The manual is currently hosted
+here
+(<https://github.com/boldsystems-central/BOLDconnectR_examples/blob/main/BOLDconnectR_1.0.0.pdf>)
 
 ## Installation
 
