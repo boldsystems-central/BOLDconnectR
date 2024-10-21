@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="35%" />
+<img src="man/figures/boldconnectr_logo.png" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -24,27 +24,62 @@ installing BOLDConnectR).
 ``` r
 
 devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR/tree/v0.0.1-beta")
+#> glue       (1.7.0   -> 1.8.0 ) [CRAN]
+#> digest     (0.6.36  -> 0.6.37) [CRAN]
+#> jsonlite   (1.8.8   -> 1.8.9 ) [CRAN]
+#> xfun       (0.47    -> 0.48  ) [CRAN]
+#> evaluate   (1.0.0   -> 1.0.1 ) [CRAN]
+#> wk         (0.9.2   -> 0.9.4 ) [CRAN]
+#> e1071      (1.7-14  -> 1.7-16) [CRAN]
+#> sys        (3.4.2   -> 3.4.3 ) [CRAN]
+#> askpass    (1.2.0   -> 1.2.1 ) [CRAN]
+#> curl       (5.2.1   -> 5.2.3 ) [CRAN]
+#> igraph     (2.0.3   -> 2.1.1 ) [CRAN]
+#> phangorn   (2.11.1  -> 2.12.1) [CRAN]
+#> terra      (1.7-78  -> 1.7-83) [CRAN]
+#> data.table (1.15.4  -> 1.16.2) [CRAN]
+#> mvtnorm    (1.2-6   -> 1.3-1 ) [CRAN]
+#> ks         (1.14.2  -> 1.14.3) [CRAN]
+#> geometry   (0.4.7   -> 0.5.0 ) [CRAN]
+#> raster     (3.6-26  -> 3.6-30) [CRAN]
+#> sf         (1.0-16  -> 1.0-18) [CRAN]
+#> vegan      (2.6-6.1 -> 2.6-8 ) [CRAN]
+#> package 'glue' successfully unpacked and MD5 sums checked
+#> package 'digest' successfully unpacked and MD5 sums checked
+#> package 'jsonlite' successfully unpacked and MD5 sums checked
+#> package 'xfun' successfully unpacked and MD5 sums checked
+#> package 'evaluate' successfully unpacked and MD5 sums checked
+#> package 'wk' successfully unpacked and MD5 sums checked
+#> package 'e1071' successfully unpacked and MD5 sums checked
+#> package 'sys' successfully unpacked and MD5 sums checked
+#> package 'askpass' successfully unpacked and MD5 sums checked
+#> package 'curl' successfully unpacked and MD5 sums checked
+#> package 'igraph' successfully unpacked and MD5 sums checked
+#> package 'phangorn' successfully unpacked and MD5 sums checked
+#> package 'terra' successfully unpacked and MD5 sums checked
+#> package 'data.table' successfully unpacked and MD5 sums checked
+#> package 'mvtnorm' successfully unpacked and MD5 sums checked
+#> package 'ks' successfully unpacked and MD5 sums checked
+#> package 'geometry' successfully unpacked and MD5 sums checked
+#> package 'raster' successfully unpacked and MD5 sums checked
+#> package 'sf' successfully unpacked and MD5 sums checked
+#> package 'vegan' successfully unpacked and MD5 sums checked
+#> 
+#> The downloaded binary packages are in
+#>  C:\Users\samee\AppData\Local\Temp\RtmpWYE8px\downloaded_packages
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#>       ✔  checking for file 'C:\Users\samee\AppData\Local\Temp\RtmpWYE8px\remotes61b446e01699\boldsystems-central-BOLDconnectR-6115602/DESCRIPTION'
+#>       ─  preparing 'BOLDconnectR': (612ms)
+#>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
+#>       ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building 'BOLDconnectR_1.0.0.tar.gz'
+#>      
+#> 
 ```
 
 ``` r
 library(BOLDconnectR)
-```
-
-*NOTE* One of the functions in the package requires `msa` and
-`Biostrings` packages installed and imported beforehand. `msa` is
-installed using `BiocManager` package (Details of the function given
-below).
-
-``` r
-
-if (!requireNamespace("BiocManager", quietly=TRUE))
-install.packages("BiocManager")
-
-BiocManager::install("msa")
-BiocManager::install("Biostrings")
-
-library(msa)
-library(Biostrings)
 ```
 
 ## BOLDconnectR has 10 functions currently:
@@ -60,8 +95,23 @@ library(Biostrings)
 9.  bold.analyze.map
 10. bold.export
 
-*Function 5 requires the packages `msa` and ‘Biostrings’ to be installed
+*Function 5 requires the packages `msa` and `Biostrings` to be installed
 and imported beforehand.*
+
+*NOTE* `msa` and `Biostrings` can be installed using using `BiocManager`
+package.
+
+``` r
+
+if (!requireNamespace("BiocManager", quietly=TRUE))
+install.packages("BiocManager")
+
+BiocManager::install("msa")
+BiocManager::install("Biostrings")
+
+library(msa)
+library(Biostrings)
+```
 
 ### Note on API key
 
@@ -71,8 +121,7 @@ obtained by emailing the BOLD support (<support@boldsystems.org>). API
 key can be saved in the R session using `bold.apikey()` function.
 
 ``` r
-# The key can be added in place of "api.key" 
-# bold.apikey ("api.key")
+# bold_apikey(‘00000000-0000-0000-0000-000000000000’)
 ```
 
 *BOLDconnectR* is able to fetch public as well as private user data very

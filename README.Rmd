@@ -46,20 +46,6 @@ devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR/tr
 library(BOLDconnectR)
 ```
 
-*NOTE* One of the functions in the package requires `msa` and `Biostrings` packages installed and imported beforehand. `msa` is installed using `BiocManager` package (Details of the function given below).
-```{r msa install,warning=FALSE,message=FALSE}
-
-if (!requireNamespace("BiocManager", quietly=TRUE))
-install.packages("BiocManager")
-
-BiocManager::install("msa")
-BiocManager::install("Biostrings")
-
-library(msa)
-library(Biostrings)
-
-```
-
 ## BOLDconnectR has 10 functions currently:
 
 1. bold.fields.info
@@ -73,15 +59,28 @@ library(Biostrings)
 9. bold.analyze.map
 10. bold.export
 
-*Function 5 requires the packages `msa` and 'Biostrings' to be installed and imported beforehand.*
+*Function 5 requires the packages `msa` and `Biostrings` to be installed and imported beforehand.*
+
+*NOTE* `msa` and `Biostrings` can be installed using using `BiocManager` package.
+```{r msa install,warning=FALSE,message=FALSE}
+
+if (!requireNamespace("BiocManager", quietly=TRUE))
+install.packages("BiocManager")
+
+BiocManager::install("msa")
+BiocManager::install("Biostrings")
+
+library(msa)
+library(Biostrings)
+
+```
 
 ### Note on API key
 
 The function `bold.fetch` requires an `api key` internally in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key can be saved in the R session using `bold.apikey()` function.  
 
 ```{r api_key setenv}
-# The key can be added in place of "api.key" 
-# bold.apikey ("api.key")
+# bold_apikey(‘00000000-0000-0000-0000-000000000000’)
 ```
 
 
