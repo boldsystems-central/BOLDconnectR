@@ -13,7 +13,7 @@ the functionality to obtain public and private user data available in
 the database in the *Barcode Core Data Model (BCDM)* format. Data
 include information on the
 **taxonomy**,**geography**,**collection**,**identification** and **DNA
-sequence** of every submission.
+barcode sequence** of every submission.
 
 ## Installation
 
