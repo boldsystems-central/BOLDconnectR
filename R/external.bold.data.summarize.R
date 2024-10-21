@@ -38,11 +38,9 @@
 #' test.data.summary <- bold.data.summarize(bold_df=bold.data,
 #'                                          summarize_by = "all_data")
 #'
-#' # All summary (Data aggregates/profile of each field)
+#' # All summary
 #' test.data.summary$summary
 #'
-#' # concise summary (Overall data profile)
-#' test.data.summary$concise_summ
 #'
 #' #2. Generate summary for specific fields (cols)
 #' test.data.summary.cols <- bold.data.summarize(bold_df=bold.data,
@@ -51,13 +49,11 @@
 #'                                                           "nuc_basecount",
 #'                                                           "inst",
 #'                                                           "elev"),
-#'                                              na.rm = F)
+#'                                               na.rm = F)
 #'
-#' # Character data fields summary
-#' test.data.summary.cols$character
+#' # All summary
+#' test.data.summary.cols$summary
 #'
-#' # Numerical data fields summary
-#' test.data.summary.cols$numeric
 #'
 #' #3. Preset based summary
 #' test.data.summary.preset <- bold.data.summarize(bold_df=bold.data,
@@ -66,7 +62,7 @@
 #'                                                 na.rm = F)
 #'
 #' # All summary with respect to geography related fields in the BCDM data
-#' test.data.summary.preset
+#' test.data.summary.preset$summary
 #'}
 #'
 #' @importFrom skimr skim
