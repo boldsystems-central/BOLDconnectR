@@ -75,7 +75,6 @@ library(msa)
 library(Biostrings)
 
 ```
-
 ### Note on API key
 
 The function `bold.fetch` requires an `api key` internally in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key can be saved in the R session using `bold.apikey()` function.  
@@ -85,32 +84,36 @@ The function `bold.fetch` requires an `api key` internally in order to access an
 ```
 
 
-### A working example of basic BOLDConnectR functionality
+### Basic usage of BOLDConnectR functionality
 
 API key function must be run prior to using the fetch function (bold.apikey())
 ```{r apikey,include=F,warning=FALSE,message=F}
 bold.apikey('58EEAA88-D681-49AB-A4AC-79779E1AF3D9')
 ```
 
+#### Fetch data
 ```{r fetch data,message=F,warning=F}
-
 BCDM_data<-bold.fetch(get_by = "processid",
                       identifiers = test.data$processid)
 
 knitr::kable(head(BCDM_data,4))
-
 ```
+Similarly, sampleids or dataset_codes or project_codes can also be used to fetch data. The data can also be filtered on different parameters such as Geography, Attributions and DNA Sequence information using the `_filt` arguments available in the function
 
-Downloaded data can then be summarized in differnt ways 
+#### Summarize downloaded data
+
+Downloaded data can then be summarized in differnt ways
 ```{r summarize the data,message=F,warning=F}
-
 BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
                                summarize_by = 'presets',
                                presets = "geography")
 
 BCDM_data_summary$summary
-
 ```
+A data summary profile containing aggregates and completeness information is provided as a combination of tabular output and visualization
+
+
+#### Export the downloaded data
 
 Downloaded data can also be exported to the local machine either as a flat file or as a FASTA file for any third party sequence analysis tools.The flat file contents can be modified as per user requirements (entire data or specific presets or individual fields). 
 
@@ -119,11 +122,12 @@ Downloaded data can also be exported to the local machine either as a flat file 
 #             export_type = "preset_df",
 #             presets = 'taxonomy',
 #             export_to = "file_path_with_intended_name")
-
 ```
 
 
-The package also has analyses functions that provide sequence alignment, NJ clustering, biodiversity analysis, occurrence mapping using the downloaded BCDM data. Additionally, these functions also output objects that are commonly used by other R packages ('sf' dataframe, occurrence matrix). 
+#### Other functions
+
+The package also has analyses functions that provide sequence alignment, NJ clustering, biodiversity analysis, occurrence mapping using the downloaded BCDM data. Additionally, these functions also output objects that are commonly used by other R packages ('sf' dataframe, occurrence matrix). Please go through the help manual (Link provided above) for detailed usage of all the functions of BOLDConnectR with examples.
 
 *BOLDconnectR* is able to fetch public as well as private user data very fast (~100k records in a minute on a fast wired connection) and also offers functionality for data transformation and analysis. 
 
