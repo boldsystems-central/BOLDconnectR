@@ -110,7 +110,7 @@ BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
 
 BCDM_data_summary$summary
 ```
-A data summary profile containing aggregates and completeness information is provided as a combination of tabular output and visualization
+A data summary profile containing aggregates and completeness information is provided as a combination of tabular output and visualization 
 
 #### Export the downloaded data
 
