@@ -187,8 +187,7 @@ convert_coord_2_lat_lon<-function (df)
 df_checks<-function(df){
 
   if(any(is.data.frame(df)==FALSE,nrow(df)==0)) stop("Please re-check data input. Input needs to be a non-empty BCDM data frame")
-
-}
+  }
 
 #7. Check the data type
 # This function is used by
