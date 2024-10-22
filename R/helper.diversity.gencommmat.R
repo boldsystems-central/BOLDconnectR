@@ -91,8 +91,6 @@ gen.comm.mat<-function(bold.df,
 
   #bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
 
-
-
   # Is site.cat is provided
 
   if(!is.null(site.cat))
