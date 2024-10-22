@@ -66,6 +66,12 @@ gen.comm.mat<-function(bold.df,
 
   output = list()
 
+ # Taxon rank condition to get the necessary data
+
+  if(is.null(taxon.rank)) stop("Taxon rank cannot be empty.")
+
+  if(!any(names(bold.df) %in% presets('taxonomy')[3:11,])) stop ("Please re-check if the required taxonomic fields are available in the dataset.")
+
   # Obtaining the data from the fetched data for the transformation. NAs in site.cat and taxon.rank are removed
 
   bin.comm.trial=bold.df%>%
@@ -85,9 +91,7 @@ gen.comm.mat<-function(bold.df,
 
   #bin.comm.trial=bin.comm.trial[!is.na(bin.comm.trial[[taxon.rank]]), ]
 
-  # Taxon rank condition to get the necessary data
 
-  if(is.null(taxon.rank)) stop("Taxon rank cannot be empty.")
 
   # Is site.cat is provided
 
