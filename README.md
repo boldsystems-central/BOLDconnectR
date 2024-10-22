@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="25%" />
+<img src="man/figures/boldconnectr_logo.png" width="100%" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -184,9 +184,16 @@ tools.The flat file contents can be modified as per user requirements
 (entire data or specific presets or individual fields).
 
 ``` r
+# Preset dataframe
 # bold.export(bold_df = BCDM_data,
 #             export_type = "preset_df",
 #             presets = 'taxonomy',
+#             export_to = "file_path_with_intended_name")
+
+# Unaligned fasta file
+# bold.export(bold_df = BCDM_data,
+#             export_type = "fas",
+#             cols_for_fas_names = c("bin_uri","genus","species"),
 #             export_to = "file_path_with_intended_name")
 ```
 
@@ -199,9 +206,8 @@ that are commonly used by other R packages (‘sf’ dataframe, occurrence
 matrix). Please go through the help manual (Link provided above) for
 detailed usage of all the functions of BOLDConnectR with examples.
 
-*BOLDconnectR* is able to fetch public as well as private user data very
-fast (~100k records in a minute on a fast wired connection) and also
-offers functionality for data transformation and analysis.
+*BOLDconnectR* is able to retrieve data very fast (~100k records in a
+minute on a fast wired connection).
 
 *Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL,
 Ratnasingham S. BOLDconnectR: An R package for interacting with the

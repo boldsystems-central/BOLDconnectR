@@ -117,16 +117,24 @@ A data summary profile containing aggregates and completeness information is pro
 Downloaded data can also be exported to the local machine either as a flat file or as a FASTA file for any third party sequence analysis tools.The flat file contents can be modified as per user requirements (entire data or specific presets or individual fields). 
 
 ```{r export the data}
+# Preset dataframe
 # bold.export(bold_df = BCDM_data,
 #             export_type = "preset_df",
 #             presets = 'taxonomy',
 #             export_to = "file_path_with_intended_name")
+
+# Unaligned fasta file
+# bold.export(bold_df = BCDM_data,
+#             export_type = "fas",
+#             cols_for_fas_names = c("bin_uri","genus","species"),
+#             export_to = "file_path_with_intended_name")
+
 ```
 
 #### Other functions
 
 The package also has analyses functions that provide sequence alignment, NJ clustering, biodiversity analysis, occurrence mapping using the downloaded BCDM data. Additionally, these functions also output objects that are commonly used by other R packages ('sf' dataframe, occurrence matrix). Please go through the help manual (Link provided above) for detailed usage of all the functions of BOLDConnectR with examples.
 
-*BOLDconnectR* is able to fetch public as well as private user data very fast (~100k records in a minute on a fast wired connection) and also offers functionality for data transformation and analysis. 
+*BOLDconnectR* is able to retrieve data very fast (~100k records in a minute on a fast wired connection).
 
 *Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL, Ratnasingham S. BOLDconnectR: An R package for interacting with the Barcode of Life Data (BOLD) system.(MS in prep)
