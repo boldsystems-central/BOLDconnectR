@@ -19,7 +19,7 @@
 # This function is used by
 # #1. bold.fetch
 
-bold.connectr.filters<-function (bold.df,
+bold.fetch.filters<-function (bold.df,
                                  taxon.name=NULL,
                                  location.name=NULL,
                                  latitude=NULL,

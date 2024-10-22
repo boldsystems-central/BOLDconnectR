@@ -189,7 +189,7 @@ bold.fetch<-function(get_by,
 
  # The helper filter function is used to filter the retrieved data
 
-  json.df = bold.connectr.filters(bold.df = json.df,
+  json.df = bold.fetch.filters(bold.df = json.df,
                                   taxon.name=filt_taxonomy,
                                   location.name=filt_geography,
                                   latitude=filt_latitude,

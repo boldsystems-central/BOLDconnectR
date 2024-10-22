@@ -192,7 +192,7 @@ df_checks<-function(df){
 
 #7. Check the data type
 # This function is used by
-# #1. bold.connectr.filters
+# #1. bold.fetch.filters
 
 data_type_check<-function (col,type = c("character","numeric"))
 {
