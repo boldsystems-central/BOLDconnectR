@@ -18,7 +18,7 @@
 #' * A data frame of detailed summary statistics of the columns (based on the summarize_by argument).
 #' * A bar plot of some of the summary statistics
 #' * A concise overview giving the total rows, columns and data types of the data based on the summarize_by argument
-#'
+#' @importFrom grid unit
 #' @examples
 #' \dontrun{
 # Download data
@@ -179,6 +179,7 @@ bold.data.summarize<-function(bold_df,
         theme(axis.text.x = element_text(angle = 90,
                                          vjust = 0.5,
                                          hjust=1),
+              panel.spacing=grid::unit(1,"lines"),
               strip.background = ggplot2::element_rect(fill="lightseagreen"),
               text = element_text(family = "arial"))+
         scale_y_continuous(expand = c(0,0)) +
