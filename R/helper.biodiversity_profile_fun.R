@@ -48,13 +48,13 @@ preston_profile <- function (df,
                      y = fitted,
                      group=1),
                  pch=21,
-                 color = "black",
-                 fill="sienna1",
+                 color = "#011B26",
+                 fill="#CC4945",
                  size=4) +
       geom_line(data = pres_res,
                 aes(x = Octaves,
                     y = fitted,group=1),
-                color = "black",
+                color = "#011B26",
                 lty=2,
                 linewidth=1) +
       theme_bw(base_size = 16) +

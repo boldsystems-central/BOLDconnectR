@@ -165,7 +165,7 @@ bold.data.summarize<-function(bold_df,
                    y=values))+
         geom_bar(stat = "identity",
                  position = "dodge",
-                 fill='sienna1',
+                 fill='#F78E1E',
                  alpha=0.9,
                  col='black')+
         ggplot2::facet_wrap(~features,

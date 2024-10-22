@@ -234,17 +234,17 @@ gen.comm.mat<-function(bold.df,
 
     grid_plot=ggplot(data=overview_map) +
       geom_sf(linewidth=0.3,
-              col='black',
+              col='#011B26',
               fill='white') +
       geom_sf(data = grids_final,
               linewidth=0.3,
-              col="black",
+              col="#011B26",
               fill='white',
               alpha=0.4) +
       geom_sf_text(data = grids_final,
                    aes(label = cell.id),
                    size = 2.5,
-                   col='black',
+                   col='#011B26',
                    alpha=0.7,
                    nudge_y = 300000) +
       theme_minimal(base_size = 15) +

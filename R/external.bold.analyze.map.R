@@ -148,8 +148,8 @@ bold.analyze.map<-function(bold_df,
     geom_point(data = bin.geo.df,
                mapping = aes(x = lon,
                              y = lat),
-               colour = "black",
-               fill="orangered2",
+               colour = "#011B26",
+               fill="#F78E1E",
                size=3,
                pch=21) +
     theme_bw(base_size = 15) +

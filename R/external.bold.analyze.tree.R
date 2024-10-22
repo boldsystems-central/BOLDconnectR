@@ -189,7 +189,7 @@ bold.analyze.tree<-function(bold_df,
                           cex=cex_range,
                           font=1,
                           tip.color = "lightseagreen",
-                          edge.color = "sienna1",
+                          edge.color = "#CC4945",
                           edge.width=1,
                no.margin = T)
     # Get the plot limits
