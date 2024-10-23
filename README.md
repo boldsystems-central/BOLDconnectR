@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width=25% />
+<img src="man/figures/boldconnectr_logo.png" width="25" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -67,9 +67,15 @@ library(Biostrings)
 ### Note on API key
 
 The function `bold.fetch` requires an `api key` internally in order to
-access and download all public + private user data. API key can be
-obtained by emailing the BOLD support (<support@boldsystems.org>). API
-key can be saved in the R session using `bold.apikey()` function.
+access and download all public + private user data. The API key needed
+to retrieve BOLD records is found in the BOLD ‘Workbench’
+<https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>.
+After logging in, navigate to ‘Your Name’ (located at the top left-hand
+side of the window) and click ‘Edit User Preferences’. You can find the
+API key in the ‘User Data’ section. Please note that to have an API key
+available in the workbench, a user must have uploaded at least 10,000
+records to BOLD. API key can be saved in the R session using
+`bold.apikey()` function.
 
 ``` r
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
@@ -129,7 +135,7 @@ BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
 #> Group variables            None
 ```
 
-<img src="man/figures/summarize_data.png" width="100%" />
+<img src="man/figures/README-summarize the data-1.png" width="100%" />
 
 ``` r
 

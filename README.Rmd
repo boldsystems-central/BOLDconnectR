@@ -77,7 +77,8 @@ library(Biostrings)
 ```
 ### Note on API key
 
-The function `bold.fetch` requires an `api key` internally in order to access and download all public + private user data. API key can be obtained by emailing the BOLD support (support@boldsystems.org). API key can be saved in the R session using `bold.apikey()` function.  
+The function `bold.fetch` requires an `api key` internally in order to access and download all public + private user data. The API key needed to retrieve BOLD records is found in the BOLD 'Workbench' <https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>. After logging in, navigate to 'Your Name' (located at the top left-hand side of the window) and click 'Edit User Preferences'. You can find the API key in the 'User Data' section. Please note that to have an API key available in the workbench, a user must have uploaded at least 10,000 records to BOLD.
+API key can be saved in the R session using `bold.apikey()` function.  
 
 ```{r api_key setenv}
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
