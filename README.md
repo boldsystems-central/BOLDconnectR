@@ -135,7 +135,7 @@ BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
 #> Group variables            None
 ```
 
-<img src="man/figures/README-summarize the data-1.png" width="100%" />
+<img src="man/figures/summarize_data.png" width="100%" />
 
 ``` r
 
