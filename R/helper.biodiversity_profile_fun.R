@@ -28,14 +28,28 @@ preston_profile <- function (df,
 
     pres_res=data.frame(observed=as.matrix(preston.res$freq),
                         fitted=round(preston.res$fitted,2))
+    pres_res_coef=data.frame(values=round(preston.res$coefficients,3))
 
-    pres_res$rownum = rownames(pres_res)
+    #pres_res$rownum = rownames(pres_res)
 
-    pres_res=pres_res%>%
+    # Data summary printed on the console
+      cat("Preston results:\n\n")
+      cat(preston.res$method, '\n\n')
+      cat('Total number of taxa:', sum(preston.res$freq), '\n\n')
+      cat("Coefficients:\n")
+      print(pres_res_coef)
+      cat('\n')
+      cat("Frequencies by Octave:\n\n")
+      print(pres_res)
+
+    # Plot
+
+    pres_res_plot=pres_res%>%
+      dplyr::mutate(rownum=rownames(.))%>%
       dplyr::mutate(rownum=as.numeric(rownum))%>%
       dplyr::mutate(Octaves=as.factor(2^rownum))
 
-    preston.plot=pres_res%>%
+    preston.plot=pres_res_plot%>%
       ggplot(aes(x=Octaves,
                  y=observed))+
       geom_bar(stat = "identity",
@@ -43,7 +57,7 @@ preston_profile <- function (df,
                fill="lightseagreen",
                col="black",
                width = 1) +
-      geom_point(data = pres_res,
+      geom_point(data = pres_res_plot,
                  aes(x = Octaves,
                      y = fitted,
                      group=1),
@@ -51,7 +65,7 @@ preston_profile <- function (df,
                  color = "#011B26",
                  fill="#CC4945",
                  size=4) +
-      geom_line(data = pres_res,
+      geom_line(data = pres_res_plot,
                 aes(x = Octaves,
                     y = fitted,group=1),
                 color = "#011B26",
