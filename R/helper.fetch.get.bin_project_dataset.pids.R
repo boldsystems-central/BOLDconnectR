@@ -63,10 +63,8 @@ bin.dataset.project.pids<-function (get.data.input,
                           add_headers('accept' = 'application/json',
                                       'api-key' = apikey))
 
-  if (httr::status_code(get.data.pids) < 200 || httr::status_code(get.data.pids)>=300)
-  {
-    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
-  }
+  if (httr::status_code(get.data.pids) < 200 || httr::status_code(get.data.pids)>=300) stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
+
 
   ## Obtain the content as Json strings
 
@@ -90,6 +88,7 @@ bin.dataset.project.pids<-function (get.data.input,
   pids_for_POST_api<-json_bins_datasets_project_pids %>%
     data.frame(.)
 
+  if (nrow(pids_for_POST_api)==0) stop(paste("Data could not be retrieved. Please check if the correct get_by & identifiers were provided. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
 
   return(pids_for_POST_api)
 
