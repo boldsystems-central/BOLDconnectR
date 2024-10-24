@@ -119,9 +119,9 @@ fetch.public.data<-function (query)
   get.data.query=httr::GET(url=full_query,
                            add_headers('accept' = 'application/json'))
 
-  if (get.data.query$status_code==422)
+  if (get.data.query$status_code==422) stop ("Query limit exceeded. Please reduce the number of search terms")
 
-    stop ("Query limit exceeded. Please reduce the number of search terms")
+  if (get.data.query$status_code==502) stop ("Download request failed. Please try again in a few minutes.")
 
   # Convert the data into text
 
