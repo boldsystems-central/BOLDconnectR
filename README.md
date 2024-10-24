@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="25%" />
+<img src="man/figures/boldconnectr_logo.png" width="25" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -79,7 +79,7 @@ records to BOLD. API key can be saved in the R session using
 
 ``` r
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
-# bold_apikey(‘00000000-0000-0000-0000-000000000000’)
+# bold.apikey(‘00000000-0000-0000-0000-000000000000’)
 ```
 
 ### Basic usage of BOLDConnectR functionality
@@ -135,7 +135,7 @@ BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
 #> Group variables            None
 ```
 
-<img src="man/figures/summarize_data.png" width="100%" />
+<img src="man/figures/README-summarize the data-1.png" width="100%" />
 
 ``` r
 

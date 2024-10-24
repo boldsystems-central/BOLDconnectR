@@ -82,7 +82,7 @@ API key can be saved in the R session using `bold.apikey()` function.
 
 ```{r api_key setenv}
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
-# bold_apikey(‘00000000-0000-0000-0000-000000000000’)
+# bold.apikey(‘00000000-0000-0000-0000-000000000000’)
 ```
 
 ### Basic usage of BOLDConnectR functionality
