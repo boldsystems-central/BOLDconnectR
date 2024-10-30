@@ -121,7 +121,7 @@ get.bin.dataset.project.pids<-function(data.input,
 
     # The generate batches function is just for generating batches of 99 which will then be used to get the processids.
 
-    batches_ids = generate.batches(data=data.input,
+    batches_ids = generate.batches(data=data.input[,1],
                                    batch.size = 99)
 
     # get_data_bins is used in combination with lapply to generate a list of processids for all batches
