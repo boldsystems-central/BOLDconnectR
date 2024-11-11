@@ -56,7 +56,7 @@ library(BOLDconnectR)
 10. bold.export
 
 *Function 6 requires the packages `msa` and `Biostrings` to be installed
-and imported beforehand. Function 7 also uses the the output generated
+and imported beforehand. Function 7 also uses the output generated
 from function 6.*
 
 *NOTE* `msa` and `Biostrings` can be installed using using `BiocManager`
