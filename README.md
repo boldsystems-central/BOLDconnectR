@@ -55,7 +55,7 @@ library(BOLDconnectR)
 9.  bold.analyze.map
 10. bold.export
 
-**Note on Suggested packages**
+### Note on *Suggested packages*
 
 *bold.analyze.align* requires the packages `msa` and `Biostrings` to be installed and imported in the R session beforehand. Function 7 also uses the output generated from function 6.
 `msa` and `Biostrings` can be installed using using `BiocManager` package.
