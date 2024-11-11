@@ -27,6 +27,12 @@ given here ('Imports' and 'Suggests' section)
 (<https://github.com/boldsystems-central/BOLDconnectR/blob/main/DESCRIPTION>).
 More details on how to install the *Suggested packages* are provided below.
 
+## Checking the R version and installed packages on the system
+
+R version can be checked quickly by running the `R.version` command in your console.
+
+All the installed packages with their respective versions can be checked using the `installed.packages()` function.
+
 ## Installation
 
 The package can be installed using `devtools::install_github` function
