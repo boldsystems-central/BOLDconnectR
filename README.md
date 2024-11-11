@@ -18,7 +18,7 @@ here
 (<https://github.com/boldsystems-central/BOLDconnectR_examples/blob/main/BOLDconnectR_1.0.0.pdf>)
 
 **BOLDconnectR** requires **R** version **4.0** or above to function
-properly. The versions of dependent packages have also been set to
+properly. The versions of the dependent packages, therefore, have also been set to
 work with **R \>= 4.0**. In addition, there are a few
 suggested packages that are not mandatory for BOLDconnectR to download
 and install properly, but, are essential for a couple of functions to
