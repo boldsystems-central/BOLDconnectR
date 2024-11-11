@@ -33,7 +33,7 @@ R version can be checked quickly by running the `R.version` command in your cons
 
 All the installed packages with their respective versions can be checked using the `installed.packages()` function.
 
-## Installation
+## BOLDconnectR Installation
 
 The package can be installed using `devtools::install_github` function
 from the `devtools` package in R (which needs to be installed before
