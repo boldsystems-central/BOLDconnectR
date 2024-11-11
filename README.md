@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="25%" />
+<img src="man/figures/boldconnectr_logo.png" width="25" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -16,6 +16,16 @@ include information on the
 barcode sequence** of every submission. The manual is currently hosted
 here
 (<https://github.com/boldsystems-central/BOLDconnectR_examples/blob/main/BOLDconnectR_1.0.0.pdf>)
+
+**BOLDconnectR** requires **R** version **4.0** or above to function
+properly. The versions of dependent packages have also been set such
+that they would work with **R \>= 4.0**. In addition, there are a few
+suggested packages that are not mandatory for the package to download
+and install properly, but, are essential for a couple of functions to
+work. The names and exact versions of the dependencies/suggestions are
+given here
+(<https://github.com/boldsystems-central/BOLDconnectR/blob/main/DESCRIPTION>).
+More details on *Suggestions* provided below.
 
 ## Installation
 
