@@ -168,7 +168,7 @@ BCDM_data_summary$summary
 | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |            |
 | Group variables                                  | None       |
 
-Data summary
+Detailed data summary
 
 **Variable type: character**
 
@@ -199,9 +199,9 @@ visualization
 #### Export the downloaded data
 
 Downloaded data can also be exported to the local machine either as a
-flat file or as a FASTA file for any third party sequence analysis
-tools.The flat file contents can be modified as per user requirements
-(entire data or specific presets or individual fields).
+flat file or as a FASTA file for any third-party sequence analysis
+tools. The flat file contents can be modified as per user requirements
+(entire data/specific presets/individual fields).
 
 ``` r
 # Preset dataframe
