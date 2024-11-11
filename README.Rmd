@@ -27,7 +27,7 @@ knitr::include_graphics("C:/Users/samee/OneDrive/Desktop/BOLDConnectR/BOLDconnec
 
 **BOLDconnectR** is a package designed for **retrieval**, **transformation** and **analysis** of the data available in the *Barcode Of Life Data Systems (BOLD)* database. This package provides the functionality to obtain public and private user data available in the database in the *Barcode Core Data Model (BCDM)* format. Data include information on the **taxonomy**,**geography**,**collection**,**identification** and **DNA barcode sequence** of every submission. The manual is currently hosted here (https://github.com/boldsystems-central/BOLDconnectR_examples/blob/main/BOLDconnectR_1.0.0.pdf)
 
-**BOLDconnectR** requires **R** version **4.0** or above to function properly. The versions of dependent packages have also been set such that they would work with **R >= 4.0**. In addition, there are a few suggested packages that are not mandatory for the package to download and install properly, but, are essential for a couple of functions to work. The names and exact versions of the dependencies/suggestions are given here (https://github.com/boldsystems-central/BOLDconnectR/blob/main/DESCRIPTION). More details on *Suggestions* provided below.
+**BOLDconnectR** requires **R** version **4.0** or above to function properly. The versions of dependent packages have also been set such that they would work with **R >= 4.0**. In addition, there are a few suggested packages that are not mandatory for the package to download and install properly, but, are essential for a couple of functions to work. The names and exact versions of the dependencies/suggestions are given here (https://github.com/boldsystems-central/BOLDconnectR/blob/main/DESCRIPTION). More details on *Suggested packages* provided below.
 
 ```{r necessary packages install,include=FALSE}
 library(devtools)
@@ -62,9 +62,9 @@ library(BOLDconnectR)
 9. bold.analyze.map
 10. bold.export
 
-*Function 6 requires the packages `msa` and `Biostrings` to be installed and imported beforehand. Function 7 also uses the the output generated from function 6.*
-
-*NOTE* `msa` and `Biostrings` can be installed using using `BiocManager` package.
+**Note on Suggested packages**
+*Function 6*: *bold.analyze.align* requires the packages `msa` and `Biostrings` to be installed and imported in the R session beforehand. Function 7 also uses the the output generated from function 6.*
+`msa` and `Biostrings` can be installed using using `BiocManager` package.
 ```{r msa install,warning=FALSE,message=FALSE}
 
 if (!requireNamespace("BiocManager", quietly=TRUE))
