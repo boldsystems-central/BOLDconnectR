@@ -16,6 +16,8 @@ fetch.public.data<-function (query)
 
   base_url_preprocess<-'https://portal.boldsystems.org/api/query/preprocessor?query='
 
+  base_url_summary<-'https://portal.boldsystems.org/api/summary?query='
+
   base_url_query<-'https://portal.boldsystems.org/api/query?query='
 
   #1.trial_query parse
@@ -53,10 +55,7 @@ fetch.public.data<-function (query)
 
   get.data_parse=fromJSON(url(full_url_parse))
 
-
-
   #2. Preprocess
-
 
   query_preprocess<-gsub(",",
                          "%2C",
@@ -75,34 +74,61 @@ fetch.public.data<-function (query)
 
 
 
-  if (get.data.pre$status_code==422)
-
-    stop ("Query limit exceeded. Please reduce the number of search terms")
+  if (get.data.pre$status_code==422) stop ("Query limit exceeded. Please reduce the number of search terms")
 
   # Extracting the content as jsonlines
 
   suppressWarnings(suppressMessages(json_preprocess<-content(get.data.pre,
                                                              "text")))
 
-
-  json_preprocess_data<-lapply(strsplit(json_preprocess,
-                                        "\n")[[1]], # split the content (here each process or sample id)
-                               function(x) fromJSON(x))
-
-
-
-  json_preprocess_data_final<-json_preprocess_data[[1]]$successful_terms
-
-  # Here only the first hit of the matched column is selected so that the search query can accommodate more names,ids
+  json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
 
   json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
 
+  json_preprocess_data_final=json_preprocess_data_final%>%
+    dplyr::mutate(query_terms=gsub("^na:na:",'',.$submitted))
+
+
+  #2b. Counts of the records available for every matched query
+
+  query_preprocess_summ<-gsub(":","%3A",json_preprocess_data_final$matched)%>%
+    gsub(";","%3B",.)%>%
+    gsub(' ','%20',.)
+
+  query_search_counts <- sapply(query_preprocess_summ, function (x){
+
+    full_url_preprocess_summ<-paste0(base_url_summary,
+                                     x,
+                                     "&fields=specimens&reduce_operation=count",
+                                     sep="")
+
+    get.data.pre.summ=httr::GET(url=full_url_preprocess_summ,
+                                add_headers('accept' = 'application/json'))
+
+    suppressWarnings(suppressMessages(json_preprocess_summ<-content(get.data.pre.summ,
+                                                                    "text")))
+
+    json_preprocess_summ_counts<-fromJSON(json_preprocess_summ)$counts$specimens
+
+    json_preprocess_summ_counts <- if (is.null(json_preprocess_summ_counts)) 0 else json_preprocess_summ_counts
+
+    result=unname(json_preprocess_summ_counts)
+
+    result
+
+  })
+
+  json_preprocess_data_final=json_preprocess_data_final%>%
+    dplyr::mutate(matched_terms_no=query_search_counts)
+
+  json_preprocess_data_final_sel=json_preprocess_data_final%>%
+    dplyr::filter(matched_terms_no>0)
 
   #3. query generation
 
   query_url_part1<-gsub(",",
                         "%2C",
-                        paste(json_preprocess_data_final$matched,
+                        paste(json_preprocess_data_final_sel$matched,
                               collapse = ";"))%>%
     gsub(";","%3B",.)%>%
     gsub(":","%3A",.)%>%
@@ -130,16 +156,14 @@ fetch.public.data<-function (query)
 
   # Extract the data
 
-  json_query_data<-lapply(strsplit(json_query,
-                                   "\n")[[1]], # split the content (here each process or sample id)
-                          function(x) fromJSON(x))
+  json_query_data<-fromJSON(json_query)$query_id
 
   #4. Obtain the data based on the query
 
   url_download_data<-paste("https://portal.boldsystems.org/api/documents/",
                            gsub("=",
                                 "%3D",
-                                json_query_data[[1]][1]),
+                                json_query_data),
                            "/download?format=tsv",
                            sep="")
 
@@ -155,6 +179,8 @@ fetch.public.data<-function (query)
                                destfile = temp_file,
                                quiet = TRUE))
 
+  if(file.size(temp_file)==0)stop("Data could not be downloaded properly. Please re-check the search terms.")
+
   final_data<-read.delim(temp_file,
                          sep='\t')
 
@@ -167,6 +193,15 @@ fetch.public.data<-function (query)
   final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
 
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
+
+  if(any(json_preprocess_data_final$matched_terms_no==0))
+  {
+    cat("The following query terms did not yield any results. Please re-check the names and/or data availability on BOLD.\n\n")
+
+    print(json_preprocess_data_final%>%
+            dplyr::filter(matched_terms_no==0)%>%
+            dplyr::select(query_terms))
+  }
 
   return(final_data)
 

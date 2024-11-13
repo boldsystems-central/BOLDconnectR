@@ -85,7 +85,7 @@ bold.public.search <- function(taxonomy = NULL,
 
     result = fetch.public.data(query = trial_query_input)
 
-    cat("\n", green_col, "Download complete.", reset_col, sep = "")
+    cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
 
   }
   else
@@ -102,7 +102,7 @@ bold.public.search <- function(taxonomy = NULL,
     result=result.pre.filter%>%
       bind_rows(.)
 
-    cat("\n", green_col, "Download complete.", reset_col, sep = "")
+    cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
   }
 
 
