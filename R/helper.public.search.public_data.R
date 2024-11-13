@@ -85,11 +85,12 @@ fetch.public.data<-function (query)
 
   json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
 
+  # A separate column for query terms is created that will be used to print the terms for which there is no data available on BOLD. The terms might also be misspelled or old names of the organisms
+
   json_preprocess_data_final=json_preprocess_data_final%>%
     dplyr::mutate(query_terms=gsub("^na:na:",'',.$submitted))
 
-
-  #2b. Counts of the records available for every matched query
+  #2b. Counts of the records available for every matched query. This is used here to first check how many records for the query term exist. Each term is assessed separately irrespective of the combination of queries used in the search. This is used internally to filter out the terms for which no data is available.
 
   query_preprocess_summ<-gsub(":","%3A",json_preprocess_data_final$matched)%>%
     gsub(";","%3B",.)%>%
@@ -118,8 +119,12 @@ fetch.public.data<-function (query)
 
   })
 
+  # Adding the counts to the data
+
   json_preprocess_data_final=json_preprocess_data_final%>%
     dplyr::mutate(matched_terms_no=query_search_counts)
+
+  # Filtering the data to keep data having counts 1 or above. A separate variable is created so that the original df can be used for other tasks
 
   json_preprocess_data_final_sel=json_preprocess_data_final%>%
     dplyr::filter(matched_terms_no>0)
@@ -179,6 +184,8 @@ fetch.public.data<-function (query)
                                destfile = temp_file,
                                quiet = TRUE))
 
+  # Check to see if there is data downloaded
+
   if(file.size(temp_file)==0)stop("Data could not be downloaded properly. Please re-check the search terms.")
 
   final_data<-read.delim(temp_file,
@@ -193,6 +200,8 @@ fetch.public.data<-function (query)
   final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
 
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
+
+  # The name/s of the query terms having no available data are printed on the console
 
   if(any(json_preprocess_data_final$matched_terms_no==0))
   {
