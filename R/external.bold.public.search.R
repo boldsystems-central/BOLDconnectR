@@ -115,6 +115,6 @@ bold.public.search <- function(taxonomy = NULL,
                   sampleid)
     # dplyr::distinct(sampleid)
 
-  return(result)
+  invisible(result)
 
 }
