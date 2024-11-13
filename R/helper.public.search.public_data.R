@@ -186,7 +186,7 @@ fetch.public.data<-function (query)
 
   # Check to see if there is data downloaded
 
-  if(file.size(temp_file)==0)stop("Please re-check the search terms and their combinations if/any. Data could be retrieved based on the query terms.")
+  if(file.size(temp_file)==0)stop("Please re-check the search terms and their combinations if/any. Data could not be retrieved based on the query terms.")
 
   final_data<-read.delim(temp_file,
                          sep='\t')
