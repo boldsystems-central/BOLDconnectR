@@ -77,6 +77,10 @@ bold.public.search <- function(taxonomy = NULL,
 
   trial_query_input = unlist(non_null_args)|>unname()
 
+  # Empty list for the data if downloaded in batches
+
+  downloaded_data<-list()
+
   # Condition to see whether non null arguments are 1 or more than 1 and what the length of the query based on the arguments is
 
   if(length(non_null_args)>1||length(non_null_args)==1 && length(trial_query_input)<=5)
@@ -94,8 +98,21 @@ bold.public.search <- function(taxonomy = NULL,
 
     cat(red_col,"Downloading ids.",reset_col,'\r')
 
-    result.pre.filter = lapply(generate.batch.ids,
-                               function(x) fetch.public.data(x))
+    result.pre.filter = lapply(generate.batch.ids,function(x){
+      result <- tryCatch(
+        {
+          # Download the data
+          fetch.public.data(x)
+        },
+        error = function(e) {
+          # Error
+          # message(paste("Error with", batch, ":", e$message))
+          return(NULL)
+        }
+      )
+     # appending the result to the empty list
+      downloaded_data[[length(downloaded_data) + 1]] = result
+    })
 
     # Binding the list of dataframes
 
@@ -106,14 +123,13 @@ bold.public.search <- function(taxonomy = NULL,
   }
 
 
-  if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the parameters.")
+  if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the query terms.")
 
-  if(nrow(result)>1000000) warning("Data cap of 1 million records reached.")
+  if(nrow(result)>1000000) warning("Data cap of 1 million records has been reached. If there is still more data available on BOLD, please contact BOLD support for obtaining the same.")
 
   result = result%>%
     dplyr::select(processid,
                   sampleid)
-    # dplyr::distinct(sampleid)
 
   invisible(result)
 

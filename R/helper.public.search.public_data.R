@@ -74,7 +74,7 @@ fetch.public.data<-function (query)
 
 
 
-  if (get.data.pre$status_code==422) stop ("Query limit exceeded. Please reduce the number of search terms")
+  if (get.data.pre$status_code==422) stop ("Please reduce the number of search terms.")
 
   # Extracting the content as jsonlines
 
@@ -150,7 +150,7 @@ fetch.public.data<-function (query)
   get.data.query=httr::GET(url=full_query,
                            add_headers('accept' = 'application/json'))
 
-  if (get.data.query$status_code==422) stop ("Query limit exceeded. Please reduce the number of search terms")
+  # if (get.data.query$status_code==422)stop("Download was not successful.Please check the number of query terms and/or availability of the terms on BOLD (Names of taxa, places code numbers etc.).")
 
   if (get.data.query$status_code==502) stop ("Download request failed. Please try again in a few minutes.")
 
@@ -201,17 +201,5 @@ fetch.public.data<-function (query)
 
   final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
 
-  # The name/s of the query terms having no available data are printed on the console
-
-  if(any(json_preprocess_data_final$matched_terms_no==0))
-  {
-    cat("The following query terms did not yield any results. Please re-check the names and/or data availability on BOLD.\n\n")
-
-    print(json_preprocess_data_final%>%
-            dplyr::filter(matched_terms_no==0)%>%
-            dplyr::select(query_terms))
-  }
-
   return(final_data)
-
 }
