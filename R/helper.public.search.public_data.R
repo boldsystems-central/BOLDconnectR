@@ -163,6 +163,10 @@ fetch.public.data<-function (query)
 
   json_query_data<-fromJSON(json_query)$query_id
 
+  # If the query id is not generated due to absence of any matched query terms, the output should be NULL implying no record is available currently
+
+  if(is.null(json_query_data)) return(NULL)
+
   #4. Obtain the data based on the query
 
   url_download_data<-paste("https://portal.boldsystems.org/api/documents/",
