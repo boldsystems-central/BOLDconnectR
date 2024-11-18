@@ -122,8 +122,9 @@ bold.public.search <- function(taxonomy = NULL,
     cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
   }
 
+  # If the query doesnt return anything due to query terms not existing in the database or the combination of search returning zero
 
-  if(nrow(result)==0) stop("Data could not be retrieved. Please re-check the query terms.")
+  if(is.null(result)||nrow(result)==0) return(NULL)
 
   if(nrow(result)>1000000) warning("Data cap of 1 million records has been reached. If there is still more data available on BOLD, please contact BOLD support for obtaining the same.")
 
