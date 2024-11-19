@@ -98,6 +98,8 @@ bold.public.search <- function(taxonomy = NULL,
 
     cat(red_col,"Downloading ids.",reset_col,'\r')
 
+    # The tryCatch here has been added such that for every loop, if the search terms do not fetch any results, those will return NULL instead of the function entirely stopping and no output generated.
+
     result.pre.filter = lapply(generate.batch.ids,function(x){
       result <- tryCatch(
         {

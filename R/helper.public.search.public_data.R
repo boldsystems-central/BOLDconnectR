@@ -161,18 +161,32 @@ fetch.public.data<-function (query)
 
   # Extract the data
 
-  json_query_data<-fromJSON(json_query)$query_id
+  json_query_data<-fromJSON(json_query)
 
   # If the query id is not generated due to absence of any matched query terms, the output should be NULL implying no record is available currently
 
   if(is.null(json_query_data)) return(NULL)
+
+  # Creating an empty vector for the query id
+
+  query_id = c()
+
+  # If else logic to check if the query id has been successfully generated or if the search query string is too long. Using the output of fromJSON
+
+  if("query_id" %in% names(json_query_data))
+  {
+    query_id = json_query_data$query_id
+  }else
+  {
+    stop(paste("Search query is too long. ",json_query_data$detail$msg,".",sep=''))
+  }
 
   #4. Obtain the data based on the query
 
   url_download_data<-paste("https://portal.boldsystems.org/api/documents/",
                            gsub("=",
                                 "%3D",
-                                json_query_data),
+                                query_id),
                            "/download?format=tsv",
                            sep="")
 
