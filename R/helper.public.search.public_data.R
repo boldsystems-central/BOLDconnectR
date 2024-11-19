@@ -163,22 +163,23 @@ fetch.public.data<-function (query)
 
   json_query_data<-fromJSON(json_query)
 
-  # If the query id is not generated due to absence of any matched query terms, the output should be NULL implying no record is available currently
-
-  if(is.null(json_query_data)) return(NULL)
+   # If the query id is not generated due to absence of any matched query terms, the output should be NULL implying no record is available currently. If else logic used to check the above statement as well as whether the query id has been successfully generated or if the search query string is too long. Using the output of fromJSON
 
   # Creating an empty vector for the query id
 
   query_id = c()
 
-  # If else logic to check if the query id has been successfully generated or if the search query string is too long. Using the output of fromJSON
-
   if("query_id" %in% names(json_query_data))
   {
     query_id = json_query_data$query_id
-  }else
+  }
+  else if (grepl(".*250*.",json_query_data$detail$msg))
   {
     stop(paste("Search query is too long. ",json_query_data$detail$msg,".",sep=''))
+
+  }else if (is.null(json_query_data$query_id))
+  {
+    return(NULL)
   }
 
   #4. Obtain the data based on the query
