@@ -74,21 +74,37 @@ fetch.public.data<-function (query)
 
 
 
-  if (get.data.pre$status_code==422) stop ("Please reduce the number of search terms.")
-
   # Extracting the content as jsonlines
 
   suppressWarnings(suppressMessages(json_preprocess<-content(get.data.pre,
                                                              "text")))
 
-  json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
+  json_preprocess_data_final<-fromJSON(json_preprocess)
 
-  json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
+  if("successful_terms" %in% names(json_preprocess_data_final))
+  {
+    json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
 
-  # A separate column for query terms is created that will be used to print the terms for which there is no data available on BOLD. The terms might also be misspelled or old names of the organisms
+    json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
 
-  json_preprocess_data_final=json_preprocess_data_final%>%
-    dplyr::mutate(query_terms=gsub("^na:na:",'',.$submitted))
+    # A separate column for names is created that will be used to print the query terms
+
+    json_preprocess_data_final=json_preprocess_data_final%>%
+      dplyr::mutate(names=gsub("^na:na:",'',.$submitted))
+
+  }else
+  {
+    stop(paste("Search query is too long. ",json_preprocess_data_final$detail$msg,".",sep=''))
+  }
+
+  # json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
+  #
+  # json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
+  #
+  # # A separate column for query terms is created that will be used to print the terms for which there is no data available on BOLD. The terms might also be misspelled or old names of the organisms
+  #
+  # json_preprocess_data_final=json_preprocess_data_final%>%
+  #   dplyr::mutate(query_terms=gsub("^na:na:",'',.$submitted))
 
   #2b. Counts of the records available for every matched query. This is used here to first check how many records for the query term exist. Each term is assessed separately irrespective of the combination of queries used in the search. This is used internally to filter out the terms for which no data is available.
 
