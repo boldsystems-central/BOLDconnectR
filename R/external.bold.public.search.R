@@ -36,6 +36,7 @@
 #'
 #' @importFrom utils URLencode
 #' @importFrom dplyr %>%
+#' @importFrom dplyr distinct
 #'
 #' @export
 #'
@@ -132,7 +133,9 @@ bold.public.search <- function(taxonomy = NULL,
 
   result = result%>%
     dplyr::select(processid,
-                  sampleid)
+                  sampleid)%>%
+    dplyr::distinct(sampleid,
+                    .keep_all = TRUE)
 
   invisible(result)
 
