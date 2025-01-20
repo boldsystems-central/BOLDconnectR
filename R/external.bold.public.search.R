@@ -133,9 +133,7 @@ bold.public.search <- function(taxonomy = NULL,
 
   result = result%>%
     dplyr::select(processid,
-                  sampleid)%>%
-    dplyr::distinct(sampleid,
-                    .keep_all = TRUE)
+                  sampleid)
 
   invisible(result)
 
