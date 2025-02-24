@@ -162,7 +162,8 @@ bold.analyze.align<-function (bold_df,
 
   bold_df.mod=stringset.2.df.w.pid%>%
     left_join(bold_df,
-              join_by(processid))
+              join_by(processid))%>%
+    dplyr::mutate(msa.seq.name=sub(".*_","",msa.seq.name))
 
   # The output is not printed in the console
 
