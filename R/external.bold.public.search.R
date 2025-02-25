@@ -136,7 +136,8 @@ bold.public.search <- function(taxonomy = NULL,
 
   result = result%>%
     dplyr::select(processid,
-                  sampleid)%>%
+                  sampleid,
+                  marker_code)%>%
     dplyr::filter(sampleid!='')
 
   invisible(result)
