@@ -14,10 +14,7 @@ id.files<-function (ids)
 {
 
 
-  step1=ids|>
-    unlist()|>
-    unname()|>
-    paste(collapse = ",")
+  step1=paste(unname(unlist(ids)), collapse = ",")
 
   temp_file <- tempfile()
 
