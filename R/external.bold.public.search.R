@@ -88,7 +88,7 @@ bold.public.search <- function(taxonomy = NULL,
   {
     cat(red_col,"Downloading ids.",reset_col,'\r')
 
-    result = fetch.public.data(query = trial_query_input)
+    result = suppressWarnings(fetch.public.data(query = trial_query_input))
 
     cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
 
@@ -105,7 +105,7 @@ bold.public.search <- function(taxonomy = NULL,
       result <- tryCatch(
         {
           # Download the data
-          fetch.public.data(x)
+          suppressWarnings(fetch.public.data(x))
         },
         error = function(e) {
           # Error
