@@ -299,10 +299,7 @@ bold.full.search <- function(taxonomy=NULL,
     downloaded_ids<-fromJSON(json_content_step3_text1)
 
 
-    downloaded_ids_clean<-downloaded_ids|>
-      unlist()|>
-      unname()|>
-      as.character()
+    downloaded_ids_clean<-as.character(unname(unlist(downloaded_ids)))
 
     downloaded_ids_fordf<-gsub('\\..*','',downloaded_ids_clean)
 
