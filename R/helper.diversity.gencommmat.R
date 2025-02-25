@@ -190,7 +190,7 @@ gen.comm.mat<-function(bold.df,
     result.df=df%>%
       reshape2::dcast(dcast.formula,
                       value.var = "bin_uri",
-                      fun.aggregate = length)|>
+                      fun.aggregate = length)%>%
       data.frame()
   }
 
