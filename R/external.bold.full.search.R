@@ -57,7 +57,7 @@ bold.full.search <- function(taxonomy=NULL,
 
   url_step_1 = "https://data.boldsystems.org/api/search/terms"
 
-  url_step_2 = "https://data.boldsystems.org/api/search/records"
+  url_step_2 = "https://data.boldsystems.org/api/search/records??include_public=true"
 
 
   # Colors for printing the progress on the console
@@ -253,25 +253,25 @@ bold.full.search <- function(taxonomy=NULL,
     return(NULL)
   }
 
-  # The total number of records available based on the search are printed on the console.
-
-  cat("\nBased on the search query with db='full',total number of records available are:",json_content_step2_text2$num_of_records,"\n")
-
-  # Given the number of records, the user is prompted to whether the data download should proceed or not
-
-  proceed_or_not<-readline(prompt = "Given the number of records, do you want to download the data? (yes/no):")
-
-  if(tolower(proceed_or_not)!='yes')
-
-  {
-
-    cat("Download aborted.\n")
-
-    return(NULL)
-
-  } else
-
-  {
+  # # The total number of records available based on the search are printed on the console.
+  #
+  # cat("\nBased on the search query,total number of records available are:",json_content_step2_text2$num_of_accessible,"\n")
+  #
+  # # Given the number of records, the user is prompted to whether the data download should proceed or not
+  #
+  # proceed_or_not<-readline(prompt = "Given the number of records, do you want to download the data? (yes/no):")
+  #
+  # if(tolower(proceed_or_not)!='yes')
+  #
+  # {
+  #
+  #   cat("Download aborted.\n")
+  #
+  #   return(NULL)
+  #
+  # } else
+  #
+  # {
 
     # Initating download print in the console
 
@@ -309,7 +309,7 @@ bold.full.search <- function(taxonomy=NULL,
 
     if(!is.null(input_data)) cat("\n", green_col, "Processids downloaded.\n", reset_col, sep = "")
 
-  }
+  #}
 
   invisible(input_data)
 
