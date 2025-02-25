@@ -4,6 +4,7 @@
 #'
 #' @param taxonomy A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.
 #' @param geography A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.
+#' @param institutes A single or multiple character vector specifying the institutes. Default value is NULL.
 #' @param bins A single or multiple character vector specifying the BIN ids. Default value is NULL.
 #' @param dataset_codes A single or multiple character vector specifying the dataset codes. Default value is NULL.
 #' @param project_codes A single or multiple character vector specifying the project codes. Default value is NULL.
@@ -42,6 +43,7 @@
 #'
 bold.public.search <- function(taxonomy = NULL,
                                geography = NULL,
+                               institutes = NULL,
                                bins = NULL,
                                dataset_codes=NULL,
                                project_codes=NULL)
@@ -53,6 +55,7 @@ bold.public.search <- function(taxonomy = NULL,
   args <- list(taxonomy = taxonomy,
                geography = geography,
                bins = bins,
+               institutes = institutes,
                dataset_codes=dataset_codes,
                project_codes=project_codes)
 

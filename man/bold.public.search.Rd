@@ -7,6 +7,7 @@
 bold.public.search(
   taxonomy = NULL,
   geography = NULL,
+  institutes = NULL,
   bins = NULL,
   dataset_codes = NULL,
   project_codes = NULL
@@ -16,6 +17,8 @@ bold.public.search(
 \item{taxonomy}{A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.}
 
 \item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
+
+\item{institutes}{A single or multiple character vector specifying the institutes. Default value is NULL.}
 
 \item{bins}{A single or multiple character vector specifying the BIN ids. Default value is NULL.}
 
