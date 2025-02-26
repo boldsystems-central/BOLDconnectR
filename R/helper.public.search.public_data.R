@@ -205,6 +205,7 @@ fetch.public.data<-function (query)
                                 "%3D",
                                 query_id),
                            "/download?format=tsv",
+                           "&fields=processid,sampleid,marker_code",
                            sep="")
 
   original_timeout = getOption('timeout')
@@ -228,15 +229,15 @@ fetch.public.data<-function (query)
   final_data<-read.delim(temp_file,
                          sep='\t')
 
-  # Some of the column data types are reassigned
-
-  final_data=reassign.data.type(final_data)
-
-  final_data=final_data[,intersect(names(final_data),bold.fields.info()$field)]
-
-  final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
-
-  final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
+  # # Some of the column data types are reassigned
+  #
+  # final_data=reassign.data.type(final_data)
+  #
+  # final_data=final_data[,intersect(names(final_data),bold.fields.info()$field)]
+  #
+  # final_data$collection_date_start<-as.Date(final_data$collection_date_start,format("%Y-%m-%d"))
+  #
+  # final_data$collection_date_end<-as.Date(final_data$collection_date_end,format("%Y-%m-%d"))
 
   return(final_data)
 }

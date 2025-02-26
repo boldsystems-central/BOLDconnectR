@@ -134,11 +134,11 @@ bold.public.search <- function(taxonomy = NULL,
 
   if(nrow(result)>1000000) warning("Data cap of 1 million records has been reached. If there are still more data available on BOLD, please contact BOLD support for obtaining the same OR (if applicable) break the query into subsets and use the function to loop through it.")
 
-  result = result%>%
-    dplyr::select(processid,
-                  sampleid,
-                  marker_code)%>%
-    dplyr::filter(sampleid!='')
+  # result = result%>%
+  #   dplyr::select(processid,
+  #                 sampleid,
+  #                 marker_code)%>%
+  #   dplyr::filter(sampleid!='')
 
   invisible(result)
 
