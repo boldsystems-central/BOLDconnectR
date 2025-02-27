@@ -12,8 +12,11 @@ fetch.bold.id<-function(data.input,
   # query parameters for API
 
   query_params <- list('input_type'= query_param,
+                       "batch_size"= 10000,
+                       "offset"=0,
                        'record_sep' = ",",
                        last_updated_threshold=0)
+
 
   # base url for API
 
