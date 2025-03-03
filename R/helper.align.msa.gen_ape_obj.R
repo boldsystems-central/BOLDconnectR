@@ -30,10 +30,36 @@ gen.msa.res<-function(df,
 
   # A try catch here to check if the users have 'msa' installed or not
 
-  alignment_seq<-DNAStringSet(seq.from.data)%>%
-    msa(.,
-        method = alignmethod,
-        ...)
+  # alignment_seq<-DNAStringSet(seq.from.data)%>%
+  #   msa(.,
+  #       method = alignmethod,
+  #       ...)
+
+  # Create a DNAStringSet object for alignment
+
+  dna.4.align=Biostrings::DNAStringSet(seq.from.data)
+
+  switch(alignmethod,
+
+         "ClustalOmega"=
+           {
+
+             alignment_seq<-dna.4.align%>%
+               msa(.,
+                   method = "ClustalOmega",
+                   ...)
+
+           },
+
+         "Muscle"=
+
+           {
+
+             alignment_seq<-muscle::muscle(dna.4.align,
+                                           quiet=T,
+                                           ...)
+
+           })
 
   #4. Converting the output into a DNAstringset object
 

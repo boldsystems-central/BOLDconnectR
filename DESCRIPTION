@@ -41,6 +41,7 @@ Imports:
 Suggests:
     Biostrings,
     BiocManager,
-    msa
+    msa,
+    muscle
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
