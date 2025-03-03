@@ -7,7 +7,7 @@
 bold.analyze.align(
   bold_df,
   marker = NULL,
-  align_method,
+  align_method = c("ClustalOmega", "Muscle"),
   cols_for_seq_names = NULL,
   ...
 )

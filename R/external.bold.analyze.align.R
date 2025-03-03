@@ -50,7 +50,7 @@
 #'
 bold.analyze.align<-function (bold_df,
                               marker=NULL,
-                              align_method,
+                              align_method=c("ClustalOmega","Muscle"),
                               cols_for_seq_names=NULL,
                       ...)
 
@@ -66,6 +66,8 @@ bold.analyze.align<-function (bold_df,
   check_and_return_preset_df(df=bold_df,
                              category = "check",
                              preset = 'bold_analyze_align_fields')
+
+  stopifnot(align_method%in%c("ClustalOmega","Muscle"))
 
   # Data for sequences to be pulled from the bold data frame
 
@@ -135,6 +137,7 @@ bold.analyze.align<-function (bold_df,
       dplyr::rename("msa.seq.name"="processid")%>%
       dplyr::mutate(processid=seq.data$processid)
     }
+
 
  msa_dna_string_obj=gen.msa.res(df=obtain.seq.from.data,
                                  alignmethod=align_method,
