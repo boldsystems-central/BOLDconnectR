@@ -96,7 +96,7 @@ bold.export<-function(bold_df,
                                                     category = "check_return",
                                                     preset = presets)
              utils::write.table(preset_data,
-                                paste0(export_to,".tsv",sep=""),
+                                paste0(export_to,sep=""),
                                 sep = "\t",
                                 row.names = FALSE,
                                 quote = FALSE)
@@ -125,7 +125,7 @@ bold.export<-function(bold_df,
                                       align_unaligned = "aligned_seq")
 
              ape::write.FASTA(result,
-                              file=paste0(export_to,".fas",sep=""))
+                              file=paste0(export_to,sep=""))
            },
 
          "fas" =
@@ -155,7 +155,7 @@ bold.export<-function(bold_df,
                                       align_unaligned = "nuc")
 
              ape::write.FASTA(result,
-                              file=paste0(export_to,".fas",sep=""))
+                              file=paste0(export_to,sep=""))
 
            }
 

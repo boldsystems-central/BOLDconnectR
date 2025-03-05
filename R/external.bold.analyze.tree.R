@@ -168,7 +168,7 @@ bold.analyze.tree<-function(bold_df,
   if(!is.null(newick_tree_export))
   {
     # save the file
-    ape::write.tree(tree_obj,
+    ape::write.tree(for_plot,
                     file = newick_tree_export,
                     tree.names = F)
     }
