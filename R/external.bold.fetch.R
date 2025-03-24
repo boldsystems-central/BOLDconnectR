@@ -234,42 +234,72 @@ bold.fetch<-function(get_by,
 
   {
 
-    # export_type = tools::file_ext(export)
-    #
-    # switch(export_type,
-    #
-    #        "csv" =
-    #
-    #          {
-    #
-    #            utils::write.table(json.df,
-    #                               paste0(export,'.',export_type,sep=""),
-    #                               sep = ",",
-    #                               row.names = FALSE,
-    #                               quote = FALSE)
-    #          },
-    #
-    #        "tsv" =
-    #
-    #          {
-    #
-    #            utils::write.table(json.df,
-    #                               paste0(export,'.',export_type,sep=""),
-    #                               sep = "\t",
-    #                               row.names = FALSE,
-    #                               quote = FALSE)
-    #
-    #          }
-    #
-    #        #stop("Unsupported export type: ", export_type)
-    # )
+    # If file path is not provided, working directory is taken as default
+
+    if (!grepl("[/\\\\]", export)) {
+
+      export <- file.path(getwd(), export)
+    }
+
+    # Determine file extension
+
+    file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE))
+
+    {
+
+      "csv"
+
+    }
+
+    else if (grepl("\\.tsv$", export, ignore.case = TRUE))
+
+    {
+
+      "tsv"
+    }
+
+    else
+
+    {
+      stop("Unsupported file type. Please provide a valid '.csv' or '.tsv' filename.")
+    }
+
+    # Write data based on file type
+    switch(
+
+      file.type,
+
+      "csv" =
+
+        {
+          utils::write.table(
+            json.df,
+            export,
+            sep = ",",
+            row.names = FALSE,
+            quote = FALSE)
+        },
+
+      "tsv" =
+        {
+          utils::write.table(
+            json.df,
+            export,
+            sep = "\t",
+            row.names = FALSE,
+            quote = FALSE)
+        }
+
+    )
 
 
-      utils::write.table(json.df,
-                         paste0(export,sep=""),
-                         sep = "\t",
-                         row.names = FALSE,
-                         quote = FALSE)
+
+
+      # utils::write.table(json.df,
+      #                    paste0(export,sep=""),
+      #                    sep = "\t",
+      #                    row.names = FALSE,
+      #                    quote = FALSE)
 
 
   }
