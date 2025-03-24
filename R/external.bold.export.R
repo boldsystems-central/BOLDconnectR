@@ -95,11 +95,63 @@ bold.export<-function(bold_df,
              preset_data=check_and_return_preset_df(bold_df,
                                                     category = "check_return",
                                                     preset = presets)
-             utils::write.table(preset_data,
-                                paste0(export_to,sep=""),
-                                sep = "\t",
-                                row.names = FALSE,
-                                quote = FALSE)
+             # If file path is not provided, working directory is taken as default
+
+             if (!grepl("[/\\\\]", export_to)) {
+
+               export_to <- file.path(getwd(), export_to)
+             }
+
+             # Determine file extension
+
+             file.type <- if (grepl("\\.csv$", export_to, ignore.case = TRUE))
+
+             {
+
+               "csv"
+
+             }
+
+             else if (grepl("\\.tsv$", export_to, ignore.case = TRUE))
+
+             {
+
+               "tsv"
+             }
+
+             else
+
+             {
+               stop("Unsupported file type. Please provide a valid '.csv' or '.tsv' filename.")
+             }
+
+             # Write data based on file type
+             switch(
+
+               file.type,
+
+               "csv" =
+
+                 {
+                   utils::write.table(
+                     preset_data,
+                     export_to,
+                     sep = ",",
+                     row.names = FALSE,
+                     quote = FALSE)
+                 },
+
+               "tsv" =
+                 {
+                   utils::write.table(
+                     preset_data,
+                     export_to,
+                     sep = "\t",
+                     row.names = FALSE,
+                     quote = FALSE)
+                 }
+
+             )
              },
 
          "msa" =
