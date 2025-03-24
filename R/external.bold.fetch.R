@@ -234,35 +234,44 @@ bold.fetch<-function(get_by,
 
   {
 
-    export_type = tools::file_ext(export)
+    # export_type = tools::file_ext(export)
+    #
+    # switch(export_type,
+    #
+    #        "csv" =
+    #
+    #          {
+    #
+    #            utils::write.table(json.df,
+    #                               paste0(export,'.',export_type,sep=""),
+    #                               sep = ",",
+    #                               row.names = FALSE,
+    #                               quote = FALSE)
+    #          },
+    #
+    #        "tsv" =
+    #
+    #          {
+    #
+    #            utils::write.table(json.df,
+    #                               paste0(export,'.',export_type,sep=""),
+    #                               sep = "\t",
+    #                               row.names = FALSE,
+    #                               quote = FALSE)
+    #
+    #          }
+    #
+    #        #stop("Unsupported export type: ", export_type)
+    # )
 
-    switch(export_type,
 
-           "csv" =
+      utils::write.table(json.df,
+                         paste0(export,sep=""),
+                         sep = "\t",
+                         row.names = FALSE,
+                         quote = FALSE)
 
-             {
 
-               utils::write.table(json.df,
-                                  paste0(export,sep=""),
-                                  sep = ",",
-                                  row.names = FALSE,
-                                  quote = FALSE)
-             },
-
-           "tsv" =
-
-             {
-
-               utils::write.table(json.df,
-                                  paste0(export,sep=""),
-                                  sep = "\t",
-                                  row.names = FALSE,
-                                  quote = FALSE)
-
-             },
-
-           stop("Unsupported export type: ", export_type)
-    )
   }
 
   return(json.df)
