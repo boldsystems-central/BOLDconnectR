@@ -7,10 +7,10 @@
 #' @param export_type A character input specifying the type of output required. Should be either of "preset_df","msa" or "fas".
 #' @param presets A single character vector specifying a preset for which a data summary is sought (Check the `details` section for more information). Default value is NULL.
 #' @param cols_for_fas_names A single or multiple character vector indicating the column headers that should be used to name each sequence for the unaligned FASTA file. Default is NULL; in this case, only the processid is used as the name.
-#' @param export_to A character value specifying the data file path and the name for the file. Extension should not be included.
+#' @param export A character value specifying the data file path and the name for the file. Extension should not be included.
 #'
 #' @details
-#' `bold.export` offers an export option for some of the sequence-based outputs obtained from functions within the `BOLDconnectR` package as well as a `preset` defined modified BCDM dataframe. Sequence information downloaded using [bold.fetch()] or the aligned sequences obtained using `bold.analyze.align` can be exported as a FASTA file for any third party tool (via `export_type`=’fas’ or ’msa’). Data fetched by [bold.fetch()] can be directly used to export the unaligned FASTA file, while the modified dataframe from `bold.analyze.align` is required for exporting the multiple sequence alignment. `presets` here can be considered as collections of predefined columns from the BCDM data that relate to a common theme. The number of columns in each preset varies based on data availability. There are six presets currently available in the package (`taxonomy`, `geography`, `sequences`, `attributions`, `ecology_biogeography` & `other_meta_data`). Fields included in each preset is as follows:
+#' `bold.export` offers an added export option for some of the sequence-based outputs obtained from functions within the `BOLDconnectR` package as well as a `preset` defined modified BCDM dataframe. Sequence information downloaded using [bold.fetch()] or the aligned sequences obtained using `bold.analyze.align` can be exported as a FASTA file for any third party tool (via `export_type`=’fas’ or ’msa’). Data fetched by [bold.fetch()] can be directly used to export the unaligned FASTA file, while the modified dataframe from `bold.analyze.align` is required for exporting the multiple sequence alignment. `presets` here can be considered as collections of predefined columns from the BCDM data that relate to a common theme. The number of columns in each preset varies based on data availability. There are six presets currently available in the package (`taxonomy`, `geography`, `sequences`, `attributions`, `ecology_biogeography` & `other_meta_data`). Fields included in each preset is as follows:
 #' * taxonomy = "kingdom", "phylum", "class", "order", "family", "subfamily", "genus", "species", "bin_uri".
 #' * geography = "country.ocean", "country_iso", "province.state", "region", "sector", "site", "site_code", "coord", "coord_accuracy", "coord_source".
 #' * sequences =  "nuc", "nuc_basecount", "marker_code", "sequence_run_site", "sequence_upload_date".
@@ -19,7 +19,7 @@
 #' * other_meta_data = "notes", "taxonomy_notes", "funding_src", "voucher_type", "tissue_type", "sampling_protocol".
 #'
 #' "processids" and "sampleids" are present in all the presets.
-#' Only one preset can be used at a time. The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Additionally, this function allows for the export of user-edited data (in taxonomy, geography etc.) as a csv/tsv file while retaining its BCDM format. This functionality is developed with the future potential of uploading data to BOLD using the package. Edits to the BCDM data can be made using any other R packages so long as it maintains the BCDM format.
+#' Only one preset can be used at a time. The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Tabular data can be exported as a csv/tsv file. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). This functionality is developed with the future potential of uploading data to BOLD using the package. Edits to the BCDM data can be made using any other R packages so long as it maintains the BCDM format.
 #'
 #' @examples
 #' \dontrun{
@@ -40,7 +40,7 @@
 #' bold.export(bold_df=data_for_export,
 #'             export_type = "preset_df",
 #'             presets = 'taxonomy',
-#'             export_to = "file_path_with_intended_name")
+#'             export = "file_path_with_intended_name.csv")
 #'
 #' #2. Export multiple sequence alignment
 #' #a. Align the data
@@ -54,14 +54,14 @@
 #' # Note the input data here is the modified BCDM data (seq_align)
 #' bold.export(bold_df=seq_align,
 #'            export_type = "msa",
-#'             export_to = "file_path_with_intended_name")
+#'             export = "file_path_with_intended_name")
 #'
 #' #3. Export the fasta file (unaligned)
 #' # Note that input data here is the original BCDM data (data_for_export)
 #' bold.export(bold_df = data_for_export,
 #'             export_type = "fas",
 #'             cols_for_fas_names = c("bin_uri","genus","species"),
-#'             export_to = "file_path_with_intended_name")
+#'             export = "file_path_with_intended_name")
 #' }
 #'
 #' @returns It exports a .fas or a tsv file based on the export argument.
@@ -76,7 +76,7 @@ bold.export<-function(bold_df,
                       export_type=c("preset_df","msa","fas"),
                       presets=NULL,
                       cols_for_fas_names=NULL,
-                      export_to)
+                      export)
 
 {
   # Check if data is a non empty data frame object
@@ -97,14 +97,14 @@ bold.export<-function(bold_df,
                                                     preset = presets)
              # If file path is not provided, working directory is taken as default
 
-             if (!grepl("[/\\\\]", export_to)) {
+             if (!grepl("[/\\\\]", export)) {
 
-               export_to <- file.path(getwd(), export_to)
+               export <- file.path(getwd(), export)
              }
 
              # Determine file extension
 
-             file.type <- if (grepl("\\.csv$", export_to, ignore.case = TRUE))
+             file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE))
 
              {
 
@@ -112,7 +112,7 @@ bold.export<-function(bold_df,
 
              }
 
-             else if (grepl("\\.tsv$", export_to, ignore.case = TRUE))
+             else if (grepl("\\.tsv$", export, ignore.case = TRUE))
 
              {
 
@@ -135,7 +135,7 @@ bold.export<-function(bold_df,
                  {
                    utils::write.table(
                      preset_data,
-                     export_to,
+                     export,
                      sep = ",",
                      row.names = FALSE,
                      quote = FALSE)
@@ -145,7 +145,7 @@ bold.export<-function(bold_df,
                  {
                    utils::write.table(
                      preset_data,
-                     export_to,
+                     export,
                      sep = "\t",
                      row.names = FALSE,
                      quote = FALSE)
@@ -177,7 +177,7 @@ bold.export<-function(bold_df,
                                       align_unaligned = "aligned_seq")
 
              ape::write.FASTA(result,
-                              file=paste0(export_to,sep=""))
+                              file=paste0(export,sep=""))
            },
 
          "fas" =
@@ -207,7 +207,7 @@ bold.export<-function(bold_df,
                                       align_unaligned = "nuc")
 
              ape::write.FASTA(result,
-                              file=paste0(export_to,sep=""))
+                              file=paste0(export,sep=""))
 
            }
 
