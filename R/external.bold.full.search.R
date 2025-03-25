@@ -5,7 +5,7 @@
 #' @param taxonomy A list of single or multiple character strings specifying the taxonomic names at any hierarchical level. Default value is NULL.
 #' @param geography A list of single or multiple character strings any of the country/province/state/region/sector codes. Default value is NULL.
 #' @param institutes A list of single or multiple character strings specifying the institute names. Default value is NULL.
-#' @param marker A list of character string specifying the particular marker gene. Default value is NULL.
+#' @param marker A character string specifying the particular marker gene. Default value is NULL.
 #' @param marker_min_length A numerical value of the minimum length of the specified marker gene. Default value is NULL.
 #' @param marker_max_length A numerical value of the maximum length of the specified marker gene. Default value is NULL.
 #' @param collection_start_date A date value specifying the start date of a date range. Default value is NULL.
