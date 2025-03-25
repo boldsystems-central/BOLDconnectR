@@ -205,7 +205,7 @@ fetch.public.data<-function (query)
                                 "%3D",
                                 query_id),
                            "/download?format=tsv",
-                           "&fields=processid,sampleid,marker_code",
+                           "&fields=processid,marker_code",
                            sep="")
 
   original_timeout = getOption('timeout')

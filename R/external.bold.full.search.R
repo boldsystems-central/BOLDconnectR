@@ -110,7 +110,7 @@ bold.full.search <- function(taxonomy=NULL,
 
     marker_max_length = ifelse(is.null(marker_max_length),2000,marker_max_length)
 
-    # the marker list is then compiled in accordance with the JSON requriments of the API
+    # the marker list is then compiled in accordance with the JSON requirements of the API
 
     marker_final =  setNames(list(list(min = marker_min_length,
                                        max = marker_max_length)),
@@ -303,11 +303,15 @@ bold.full.search <- function(taxonomy=NULL,
 
     downloaded_ids_fordf<-gsub('\\..*','',downloaded_ids_clean)
 
+    downloaded_markers_df<-gsub('.*\\.','',downloaded_ids_clean)
+    #
     # The id vector will be converted to a dataframe so that bold.fetch.ids can be used here internally. Here the column name 'processid' is hard coded since the output of full search API is always a processid
 
-    input_data=data.frame(processid=base::unique(downloaded_ids_fordf))
+    input_data=data.frame(processid=downloaded_ids_fordf,
+                          marker_code=downloaded_markers_df)
 
-    if(!is.null(input_data)) cat("\n", green_col, "Processids downloaded.\n", reset_col, sep = "")
+    if(!is.null(input_data)) cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
+
 
   #}
 
