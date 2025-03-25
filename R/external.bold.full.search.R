@@ -39,7 +39,8 @@
 #' bold.data.taxo.geo.marker
 #'
 #' # Input as a dataframe column
-#' df_test<-data.frame(taxon_name=c("Panthera leo","Panthera uncia"),locations = c("India","Sri Lanka"))
+#' df_test<-data.frame(taxon_name=c("Panthera leo","Panthera uncia"),
+#' locations = c("India","Sri Lanka"))
 #'
 #' # Result (correct way)
 #' bold.data.taxo.geo.df.col <- bold.full.search(taxonomy = as.list(df_test$taxon_name),
