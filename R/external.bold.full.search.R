@@ -318,7 +318,9 @@ bold.full.search <- function(taxonomy=NULL,
 
     downloaded_ids_fordf<-gsub('\\..*','',downloaded_ids_clean)
 
-    downloaded_markers_df<-gsub('.*\\.','',downloaded_ids_clean)
+    downloaded_markers_df <- ifelse(grepl('\\.', downloaded_ids_clean),
+                                    gsub('.*\\.', '', downloaded_ids_clean),
+                                    NA)
     #
     # The id vector will be converted to a dataframe so that bold.fetch.ids can be used here internally. Here the column name 'processid' is hard coded since the output of full search API is always a processid
 
