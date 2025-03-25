@@ -27,13 +27,13 @@ bold.public.search(
 \item{project_codes}{A single or multiple character vector specifying the project codes. Default value is NULL.}
 }
 \value{
-A data frame containing all the processids and sampleids related to the query search.
+A data frame containing all the processids and marker codes related to the query search.
 }
 \description{
 Retrieves record ids for publicly available data based on taxonomy, geography, bin_uris or datasets/project codes search.
 }
 \details{
-\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and sampleids, which can then be accessed using \code{bold.fetch}. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. Single parameters (proccessid or sampleid or bin_uri or dataset_codes or project_codes) can either be a list of single or multiple characters pertaining to that parameter. A dataframe column can also be used as an input using the '$' operator (e.g., df$column_name).While there is no limit on the amount of ID data that can be downloaded, complex combinations of the search parameters may exceed the predetermined web URL character length (2048 characters). Searches using a single parameter are not subject to this limit. For multiparameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s important to logically  combine the parameters to ensure accurate and non-empty results.
+\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and marker codes. All the BCDM data can then be retrieved using the processids as inputs for the \code{bold.fetch} function. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. Each input should be provided as a separate list (Ex. taxonomy = list("Panthera", "Poecilia"), geography = list("India)). A dataframe column can also be used as an input using the '$' operator (e.g., df$column_name). If this is the case (i.e. df$colum_name), \code{as.list} should be used instead of just \code{list} (Ex. taxonomy = as.list (df$column_name), geography = as.list(df$column_name)). Complex combinations of the search parameters may exceed the predetermined web URL character length (2048 characters) because of which no data will be returned. Searches using a single parameter are not subject to this limit. For multi-parameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s important to logically  combine the parameters to ensure accurate and non-empty results. There is a hard limit of 1 million records downloads for every search.
 }
 \examples{
 
