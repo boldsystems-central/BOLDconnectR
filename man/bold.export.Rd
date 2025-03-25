@@ -21,7 +21,7 @@ bold.export(
 
 \item{cols_for_fas_names}{A single or multiple character vector indicating the column headers that should be used to name each sequence for the unaligned FASTA file. Default is NULL; in this case, only the processid is used as the name.}
 
-\item{export}{A character value specifying the data file path and the name for the file. Extension should not be included.}
+\item{export}{A character value specifying the data file path and the name for the file. Extension should be included.}
 }
 \value{
 It exports a .fas or a tsv file based on the export argument.
