@@ -167,6 +167,13 @@ bold.full.search <- function(taxonomy=NULL,
 
   non_null_args = data_list[!null_args]
 
+  # If condition to check if the input arguments is/are list/s
+
+  if (any(!sapply(non_null_args, is.list))) {
+
+    stop("Input data must be a list.")
+  }
+
   # The final list is then used to compile a JSON that is used by the API.
 
   json_output <- jsonlite::toJSON(non_null_args,
