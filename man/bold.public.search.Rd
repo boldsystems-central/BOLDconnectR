@@ -14,17 +14,17 @@ bold.public.search(
 )
 }
 \arguments{
-\item{taxonomy}{A single or multiple character vector specifying the taxonomic names at any hierarchical level. Default value is NULL.}
+\item{taxonomy}{A list of single or multiple characters specifying the taxonomic names at any hierarchical level. Default value is NULL.}
 
-\item{geography}{A single or multiple character vector specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
+\item{geography}{A list of single or multiple characters specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 
-\item{institutes}{A single or multiple character vector specifying the institutes. Default value is NULL.}
+\item{institutes}{A list of single or multiple characters specifying the institutes. Default value is NULL.}
 
-\item{bins}{A single or multiple character vector specifying the BIN ids. Default value is NULL.}
+\item{bins}{A list of single or multiple characters specifying the BIN ids. Default value is NULL.}
 
-\item{dataset_codes}{A single or multiple character vector specifying the dataset codes. Default value is NULL.}
+\item{dataset_codes}{A list of single or multiple characters specifying the dataset codes. Default value is NULL.}
 
-\item{project_codes}{A single or multiple character vector specifying the project codes. Default value is NULL.}
+\item{project_codes}{A list of single or multiple characters specifying the project codes. Default value is NULL.}
 }
 \value{
 A data frame containing all the processids and marker codes related to the query search.
@@ -33,7 +33,7 @@ A data frame containing all the processids and marker codes related to the query
 Retrieves record ids for publicly available data based on taxonomy, geography, bin_uris or datasets/project codes search.
 }
 \details{
-\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and marker codes. All the BCDM data can then be retrieved using the processids as inputs for the \code{bold.fetch} function. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. Each input should be provided as a separate list (Ex. taxonomy = list("Panthera", "Poecilia"), geography = list("India)). A dataframe column can also be used as an input using the '$' operator (e.g., df$column_name). If this is the case (i.e. df$colum_name), \code{as.list} should be used instead of just \code{list} (Ex. taxonomy = as.list (df$column_name), geography = as.list(df$column_name)). Complex combinations of the search parameters may exceed the predetermined web URL character length (2048 characters) because of which no data will be returned. Searches using a single parameter are not subject to this limit. For multi-parameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s important to logically  combine the parameters to ensure accurate and non-empty results. There is a hard limit of 1 million record downloads for each search.
+\code{bold.public.search} searches publicly available data on BOLD, retrieving associated proccessids and marker codes. All the BCDM data can then be retrieved using the processids as inputs for the \code{bold.fetch} function. Search parameters can include one or a combination of taxonomy, geography, bin uris, dataset or project codes. Each input should be provided as a separate list (Ex. taxonomy = list("Panthera", "Poecilia"), geography = list("India)). A dataframe column can also be used as an input using the '$' operator (e.g., df$column_name). If this is the case (i.e. df$colum_name), \code{as.list} should be used instead of just \code{list} (Ex. taxonomy = as.list (df$column_name), geography = as.list(df$column_name)). The character length of a search query should also be considered as the function wont be able to retrieve records if that exceeds the predetermined web URL character length (2048 characters). For multi-parameter searches (e.g. taxonomy + geography + bins; see the example: Taxonomy + Geography + BIN id), it’s important to logically  combine the parameters to ensure accurate and non-empty results. There is a hard limit of 1 million record downloads for each search.
 }
 \examples{
 
