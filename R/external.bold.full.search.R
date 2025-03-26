@@ -213,6 +213,26 @@ bold.full.search <- function(taxonomy=NULL,
 
   json_content_step1_text2<-fromJSON(json_content_step1_text1)
 
+
+  # Condition to check if the search query terms have issues (non availability,misspellings etc)
+
+  # If condition added in case the search query combination does not yield any result
+
+  if(any(names(json_content_step1_text2)=="detail"))
+
+  {
+
+    return(NULL)
+
+  }
+
+  else
+
+  {
+    json_content_step1_text2
+  }
+
+
   if(any(names(json_content_step1_text2)=="collection_date"))
   {
 
