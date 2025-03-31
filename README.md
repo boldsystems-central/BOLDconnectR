@@ -207,13 +207,13 @@ tools. The flat file contents can be modified as per user requirements
 # bold.export(bold_df = BCDM_data,
 #             export_type = "preset_df",
 #             presets = 'taxonomy',
-#             export_to = "file_path_with_intended_name")
+#             export = "file_path_with_intended_name")
 
 # Unaligned fasta file
 # bold.export(bold_df = BCDM_data,
 #             export_type = "fas",
 #             cols_for_fas_names = c("bin_uri","genus","species"),
-#             export_to = "file_path_with_intended_name")
+#             export = "file_path_with_intended_name")
 ```
 
 #### Other functions
