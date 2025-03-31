@@ -68,7 +68,7 @@ Beta diversity values are calculated using \code{BAT::beta()} function, which pa
 \examples{
 \dontrun{
 # Search for ids
-comm.mat.data <- bold.public.search(taxonomy = "Poecilia")
+comm.mat.data <- bold.public.search(taxonomy = list("Poecilia"))
 
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.

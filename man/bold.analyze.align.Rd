@@ -40,7 +40,7 @@ The output of this function is a modified Barcode Core Data Model (BCDM) datafra
 \examples{
 \dontrun{
 # Search for ids
-seq.data.ids <- bold.public.search(taxonomy = c("Oreochromis tanganicae",
+seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
                                                 "Oreochromis karongae"))
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.

@@ -18,7 +18,7 @@
 #' @examples
 #' \dontrun{
 #' #Download the ids
-#' geo_data.ids <- bold.public.search(taxonomy = "Musca domestica")
+#' geo_data.ids <- bold.public.search(taxonomy = list("Musca domestica"))
 #'
 #' # Fetch the data using the ids.
 #' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.

@@ -52,7 +52,7 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 \examples{
 \dontrun{
 #Download the data ids
-seq.data.ids <- bold.public.search(taxonomy = c("Eulimnadia"))
+seq.data.ids <- bold.public.search(taxonomy = list("Eulimnadia"))
 
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.

@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' # Download the records
-#' data_for_export_ids <- bold.public.search(taxonomy = "Poecilia reticulata")
+#' data_for_export_ids <- bold.public.search(taxonomy = list("Poecilia reticulata"))
 #'
 #' # Fetch the data using the ids.
 #' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.

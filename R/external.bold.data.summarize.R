@@ -22,7 +22,7 @@
 #' @examples
 #' \dontrun{
 # Download data
-#' bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
+#' bold_data.ids <- bold.public.search(taxonomy = list("Oreochromis"))
 #'
 #' # Fetch the data using the ids.
 #' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
