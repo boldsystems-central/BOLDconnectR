@@ -96,7 +96,7 @@ bold.public.search <- function(taxonomy = NULL,
 
   # The query input
 
-  trial_query_input = unlist(non_null_args)|>unname()
+  trial_query_input = unname(unlist(non_null_args))
 
   # Empty list for the data if downloaded in batches
 

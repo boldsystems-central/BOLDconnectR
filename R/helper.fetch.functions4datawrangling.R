@@ -49,9 +49,8 @@ generate.batches<-function (data,
   batch.cutoffs=ceiling(length.data/batch.size)
 
 
-  batch.indexes=split(length.data,
-                      batch.cutoffs)|>
-    unname()
+  batch.indexes=unname(split(length.data,batch.cutoffs))
+
 
 
   generate.batch.ids=lapply(batch.indexes,
