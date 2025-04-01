@@ -228,6 +228,6 @@ detailed usage of all the functions of BOLDConnectR with examples.
 *BOLDconnectR* is able to retrieve data very fast (~100k records in a
 minute on a fast wired connection).
 
-*Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia CL,
+*Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia L,
 Ratnasingham S. BOLDconnectR: An R package for interacting with the
 Barcode of Life Data (BOLD) system.(MS in prep)
