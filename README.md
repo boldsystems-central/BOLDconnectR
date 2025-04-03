@@ -218,15 +218,14 @@ tools. The flat file contents can be modified as per user requirements
 
 #### Other functions
 
-The package also has analyses functions that provide sequence alignment,
-NJ clustering, biodiversity analysis, occurrence mapping using the
+The package also has analysis functions that provide sequence alignment,
+NJ clustering, biodiversity analysis and occurrence mapping using the
 downloaded BCDM data. Additionally, these functions also output objects
 that are commonly used by other R packages (‘sf’ dataframe, occurrence
 matrix). Please go through the help manual (Link provided above) for
 detailed usage of all the functions of BOLDConnectR with examples.
 
-*BOLDconnectR* can retrieve data very fast (~100k records in a
-minute on a fast-wired connection).
+*BOLDconnectR* can retrieve data very fast (~100k records in a few minutes on a fast-wired connection).
 
 __*Funding:*__ The authors thank *Canada Foundation for Innovation Major Science Initiatives Fund (MSIF)*, *Genome Canada & Ontario Genomics*, *Ontario Ministry of Colleges and Universities* and the *New Frontiers in Research Fund (NFRF)-Transformation* for providing the funding.
 
