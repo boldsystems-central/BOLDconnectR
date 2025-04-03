@@ -228,8 +228,8 @@ detailed usage of all the functions of BOLDConnectR with examples.
 *BOLDconnectR* can retrieve data very fast (~100k records in a
 minute on a fast-wired connection).
 
-**Funding:** The authors thank *Canada Foundation for Innovation Major Science Initiatives Fund (MSIF)*, *Genome Canada & Ontario Genomics*, *Ontario Ministry of Colleges and Universities* and the *New Frontiers in Research Fund (NFRF)-Transformation* for providing the funding.
+__*Funding:*__ The authors thank *Canada Foundation for Innovation Major Science Initiatives Fund (MSIF)*, *Genome Canada & Ontario Genomics*, *Ontario Ministry of Colleges and Universities* and the *New Frontiers in Research Fund (NFRF)-Transformation* for providing the funding.
 
-*Citation:* Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia L,
+__*Citation:*__ Padhye SM, Agda TJA, Agda JRA, Ballesteros-Mejia L,
 Ratnasingham S. BOLDconnectR: An R package for interacting with the
 Barcode of Life Data (BOLD) system.(MS in prep)
