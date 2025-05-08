@@ -2,44 +2,46 @@
 % Please edit documentation in R/external.bold.data.summarize.R
 \name{bold.data.summarize}
 \alias{bold.data.summarize}
-\title{Generate a summary of the data downloaded from BOLD}
+\title{Generate specific summaries from the downloaded BCDM data}
 \usage{
 bold.data.summarize(
   bold_df,
-  summarize_by = c("fields", "presets", "all_data"),
-  columns = NULL,
-  presets = NULL,
-  na.rm = FALSE
+  summary_type = c("concise_summary", "detailed_taxon_counts", "barcode_summary",
+    "data_completeness", "all"),
+  primer_f = NULL,
+  primer_r = NULL,
+  rem_na_bin = FALSE
 )
 }
 \arguments{
 \item{bold_df}{the data.frame retrieved from the \code{bold.fetch} function.}
 
-\item{summarize_by}{A single character value specifying the type of summary required ("fields","presets","all_data" currently available)}
+\item{summary_type}{A single character value specifying the type of summary required (concise_summary, detailed_taxon_counts,barcode_summary,data_completeness,all)}
 
-\item{columns}{A single or multiple character vector specifying the columns for which a data summary is sought. Default value is NULL.}
+\item{primer_f}{A character vector specifying the forward primer. Default value is NULL.}
 
-\item{presets}{A single character vector specifying a preset for which a data summary is sought (Check the \code{details} section for more information). Default value is NULL.}
+\item{primer_r}{A character vector specifying the reverse primer. Default value is NULL.}
 
-\item{na.rm}{A logical value specifying whether NA values should be removed from the BCDM dataframe. Default value is FALSE.}
+\item{rem_na_bin}{A logical value specifying whether NA BINs should be removed from the BCDM dataframe. Default value is FALSE.}
 }
 \value{
 An output list containing:
 \itemize{
-\item A data frame of detailed summary statistics of the columns (based on the summarize_by argument).
-\item A bar plot of some of the summary statistics
-\item A concise overview giving the total rows, columns and data types of the data based on the summarize_by argument
+\item A data frame of detailed summary based on the \code{summary_type}
+\item A bar chart in case \code{summary_type=data_completeness} in addition to the dataframe.
 }
 }
 \description{
-The function is used to obtain a detailed summary of the data obtained by \code{bold.fetch} function.
+The function is used to obtain a different types of data summaries for the downloaded BCDM data via \code{bold.fetch} function.
 }
 \details{
-\code{bold.data.summarize} provides summaries for the retrieved BOLD BCDM data. The function uses the \code{skimr::skim()} function to generate summary metrics based on the data types available in the downloaded data. Summaries can be created by one of three \code{summarize_by} options, a) \code{all_data} that considers all data that is entered, b) \code{presets}that are defined set of columns representing a specific aspect of the BOLD BCDM data (currently available are: \code{taxonomy}, \code{geography},\code{sequences}, \code{attributions}, \code{ecology_biogeography} and \code{other_meta_data}; For more information on the presets, please read the details for the \code{bold.export} function) and c) \code{fields} which lets the user select any specific columns. \code{na.rm}= TRUE removes all NA values (Please note that this might result into empty data frames sometimes due to lot of missing data). The summary includes detailed summary statistics (includes counts for NULL values, unique values and the proportion of complete cases), a bar chart showing some of these statistics, especially pertaining to the completeness of the data and a concise summary that has a high level dataset profile (number of rows, columns, data type). Both \code{presets} and \code{fields} are set to NULL by default. Please note that if the \code{cols} argument from \code{\link[=bold.fetch]{bold.fetch()}} has been used to filter for specific columns, only those will be summarized even if \code{all_data} option is selected. Similarly, \code{presets} option will not work in cases where the input data by default doesn't have the respective fields. Units for some of the fields can be checked using the \code{bold.field.info()}. For specific details on the \code{skim} output, refer to the \code{skimr} package documentation.
+\code{bold.data.summarize} provides different types of data summaries for the downloaded BCDM dataset. The function uses the \code{skimr::skim()} function to generate summary metrics based on the data types available in the downloaded data. Summaries can be created by one of three \code{summarize_by} options, a) \code{all_data} that considers all data that is entered, b) \code{presets}that are defined set of columns representing a specific aspect of the BOLD BCDM data (currently available are: \code{taxonomy}, \code{geography},\code{sequences}, \code{attributions}, \code{ecology_biogeography} and \code{other_meta_data}; For more information on the presets, please read the details for the \code{bold.export} function) and c) \code{fields} which lets the user select any specific columns. \code{na.rm}= TRUE removes all NA values (Please note that this might result into empty data frames sometimes due to lot of missing data). The summary includes detailed summary statistics (includes counts for NULL values, unique values and the proportion of complete cases), a bar chart showing some of these statistics, especially pertaining to the completeness of the data and a concise summary that has a high level dataset profile (number of rows, columns, data type). Both \code{presets} and \code{fields} are set to NULL by default. Please note that if the \code{cols} argument from \code{\link[=bold.fetch]{bold.fetch()}} has been used to filter for specific columns, only those will be summarized even if \code{all_data} option is selected. Similarly, \code{presets} option will not work in cases where the input data by default doesn't have the respective fields. Units for some of the fields can be checked using the \code{bold.field.info()}. For specific details on the \code{skim} output, refer to the \code{skimr} package documentation.
+
+\emph{Note: }. Users are required to install and load the \code{Biostrings} package in case they want to generate the \code{barcode_summary} before running this function.
 }
 \examples{
 \dontrun{
-bold_data.ids <- bold.public.search(taxonomy = list("Oreochromis"))
+bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
 
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
@@ -50,36 +52,43 @@ bold.apikey('apikey')
 bold.data <- bold.fetch(get_by = "processid",
                         identifiers = bold_data.ids$processid)
 
-#1. Generate summary for the whole data
+#1. Generate a concise summary of the data
+
+test.data.summary.concise <- bold.data.summarize(bold_df=bold.data,
+                                       summarize_type = "concise_summary")
+# Result
+ test.data.summary.concise$concise_summary
+
+
+#2. Generate a detailed taxon counts summary
 
 test.data.summary <- bold.data.summarize(bold_df=bold.data,
-                                         summarize_by = "all_data")
+                                         summarize_type = "detailed_taxon_counts")
 
-# All summary
-test.data.summary$summary
-
-
-#2. Generate summary for specific fields (cols)
-test.data.summary.cols <- bold.data.summarize(bold_df=bold.data,
-                                              summarize_by = "fields",
-                                              columns = c("country.ocean",
-                                                          "nuc_basecount",
-                                                          "inst",
-                                                          "elev"),
-                                              na.rm = F)
-
-# All summary
-test.data.summary.cols$summary
+# Result
+test.data.summary$detailed_taxon_counts
 
 
-#3. Preset based summary
-test.data.summary.preset <- bold.data.summarize(bold_df=bold.data,
-                                                summarize_by = "presets",
-                                                presets = 'geography',
-                                                na.rm = F)
+#3. Generate data completeness profile
 
-# All summary with respect to geography related fields in the BCDM data
-test.data.summary.preset$summary
+test.data.summary.completeness <- bold.data.summarize(bold_df=bold.data,
+                                              summarize_type = "data_completeness")
+
+# Results
+# Summary
+test.data.summary.completeness$completeness_summary
+
+# Plot
+test.data.summary.completeness$completeness_plot
+
+
+#4. Barcode summary (forward primer LCO1490)
+test.data.summary.barcode <- bold.data.summarize(bold_df=bold.data,
+                                                summarize_by = "barcode_summary",
+                                                primer_f='GGTCAACAAATCATAAAGATATTGG')
+
+# Results
+test.data.summary.barcode$barcode_summary
 }
 
 }

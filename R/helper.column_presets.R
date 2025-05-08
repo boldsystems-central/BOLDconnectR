@@ -19,12 +19,15 @@ presets<-function(col_groups)
 
   switch(col_groups,
 
+         # for bold export
+
          "public.data.fields"=
            {
              preset<-bold_fields%>%
                dplyr::select(field)%>%
                dplyr::filter(field %in% c(common_ids))
            },
+
          "taxonomy" =
            {
              preset<-bold_fields%>%
@@ -40,6 +43,7 @@ presets<-function(col_groups)
                                           "species",
                                           "bin_uri"))
            },
+
          "geography" =
            {
              preset<-bold_fields%>%
@@ -56,6 +60,7 @@ presets<-function(col_groups)
                                           "coord_accuracy",
                                           "coord_source"))
            },
+
          "sequences"=
            {
              preset<-bold_fields%>%
@@ -67,6 +72,7 @@ presets<-function(col_groups)
                                           "sequence_run_site",
                                           "sequence_upload_date"))
            },
+
          "attributions"=
            {
              preset<-bold_fields%>%
@@ -79,6 +85,7 @@ presets<-function(col_groups)
                                           "identified_by",
                                           "collectors"))
            },
+
          "ecology_biogeography"=
            {
              preset<-bold_fields%>%
@@ -95,6 +102,7 @@ presets<-function(col_groups)
                                           "coord",
                                           "coord_source"))
            },
+
          "other_meta_data"=
            {
              preset<-bold_fields%>%
@@ -107,6 +115,9 @@ presets<-function(col_groups)
                                           "tissue_type",
                                           "sampling_protocol"))
            },
+
+         # for bold analyze align
+
          "bold_analyze_align_fields" =
            {
              preset<-bold_fields%>%
@@ -115,12 +126,18 @@ presets<-function(col_groups)
                                           "marker_code",
                                           "nuc"))
            },
+
+         # for bold analyze tree
+
          "bold_analyze_tree_fields" =
            {
              preset<-data.frame(field = c("processid",
                                           "aligned_seq",
                                           "msa.seq.name"))
              },
+
+         # for bold analyze map
+
          "bol_analyze_map_fields" =
            {
              preset<-bold_fields%>%
@@ -129,7 +146,63 @@ presets<-function(col_groups)
                                           "bin_uri",
                                           "marker_code",
                                           "nuc"))
-             }
+             },
+
+         # for bold data summarize
+
+         "bold_concise_summary" =
+
+           {
+
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c("bin_uri",
+                                          "nuc",
+                                          "species",
+                                          "country.ocean",
+                                          "identified_by",
+                                          "inst",
+                                          "sequence_run_site",
+                                          "marker_code",
+                                          "nuc_basecount"))
+           },
+
+         "bold_barcode_summary" =
+
+           {
+             # processid,bin_uri,country.ocean,inst,marker_code,nuc_basecount
+
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c("processid",
+                                          "bin_uri",
+                                          "nuc",
+                                          "country.ocean",
+                                          "inst",
+                                          "marker_code",
+                                          "nuc_basecount"))
+
+
+           },
+
+         "bold_detailed_taxon_count" =
+           {
+
+             preset<-bold_fields%>%
+               dplyr::select(field)%>%
+               dplyr::filter(field %in% c(common_ids,
+                                          "kingdom",
+                                          "phylum",
+                                          "class",
+                                          "order",
+                                          "family",
+                                          "subfamily",
+                                          "genus",
+                                          "species",
+                                          "bin_uri",
+                                          "country.ocean",
+                                          "inst"))
+           }
 )
 
   return(preset)

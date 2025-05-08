@@ -26,16 +26,14 @@ bold.apikey<-function(apikey)
 
   {
 
-  default_options<-options()
-
   assign("apikey",
          apikey,
          envir=.GlobalEnv)
 
-  return(get("apikey",
+   return(get("apikey",
              envir = .GlobalEnv))
 
-  on.exit(default_options)
+
 }
 
 

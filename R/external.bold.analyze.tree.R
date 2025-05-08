@@ -1,6 +1,7 @@
 #' Analyze and visualize the multiple sequence alignment
 #'
 #' @importFrom ape add.scale.bar
+#' @importFrom graphics par
 #'
 #' @description
 #' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align`.
