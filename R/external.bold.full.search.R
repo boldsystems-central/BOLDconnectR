@@ -72,7 +72,7 @@ bold.full.search <- function(taxonomy=NULL,
 
   url_step_1 = "https://data.boldsystems.org/api/search/terms"
 
-  url_step_2 = "https://data.boldsystems.org/api/search/records??include_public=true"
+  url_step_2 = "https://data.boldsystems.org/api/search/records?include_public=true"
 
 
   # Colors for printing the progress on the console
@@ -189,6 +189,10 @@ bold.full.search <- function(taxonomy=NULL,
   writeLines(json_output,
              temp_file_step1)
 
+  # Initating download print in the console
+
+  cat(red_col,"Downloading ids.",reset_col,'\r')
+
   # STEP1:  This json output will used for the first POST call
 
   step1 = POST(
@@ -280,6 +284,7 @@ bold.full.search <- function(taxonomy=NULL,
       type = "application/json")
   )
 
+
   # Data API token is generated
 
   suppressMessages(json_content_step2_text1<-httr::content(step2,"text"))
@@ -295,66 +300,43 @@ bold.full.search <- function(taxonomy=NULL,
     return(NULL)
   }
 
-  # # The total number of records available based on the search are printed on the console.
+
+  # STEP3: The token is used to make a GET call to get list of ids based on the search
+
+
+  ids_download<-paste('https://data.boldsystems.org/api/sets/retrieve/',
+                      json_content_step2_text2$token,
+                      "?",
+                      'filter=str:marker_code:*',
+                      sep='')
+
+  step3=httr::GET(
+    url = ids_download,
+    add_headers(
+      'accept' = 'application/json',
+      'api-key' = apikey))
+
+
+  suppressMessages(json_content_step3_text1<-httr::content(step3,
+                                                           "text"))
+
+  downloaded_ids<-fromJSON(json_content_step3_text1)
+
+
+  downloaded_ids_clean<-as.character(unname(unlist(downloaded_ids$records)))
+
+  downloaded_ids_fordf<-gsub('\\..*','',downloaded_ids_clean)
+
+  downloaded_markers_df <- ifelse(grepl('\\.', downloaded_ids_clean),
+                                  gsub('.*\\.', '', downloaded_ids_clean),
+                                  NA)
   #
-  # cat("\nBased on the search query,total number of records available are:",json_content_step2_text2$num_of_accessible,"\n")
-  #
-  # # Given the number of records, the user is prompted to whether the data download should proceed or not
-  #
-  # proceed_or_not<-readline(prompt = "Given the number of records, do you want to download the data? (yes/no):")
-  #
-  # if(tolower(proceed_or_not)!='yes')
-  #
-  # {
-  #
-  #   cat("Download aborted.\n")
-  #
-  #   return(NULL)
-  #
-  # } else
-  #
-  # {
+  # The id vector will be converted to a dataframe so that bold.fetch.ids can be used here internally. Here the column name 'processid' is hard coded since the output of full search API is always a processid
 
-    # Initating download print in the console
+  input_data=data.frame(processid=downloaded_ids_fordf,
+                        marker_code=downloaded_markers_df)
 
-    cat(red_col,"Downloading ids.",reset_col,'\r')
-
-    # STEP3: The token is used to make a GET call to get list of ids based on the search
-
-
-    ids_download<-paste('https://data.boldsystems.org/api/sets/retrieve/',
-                        json_content_step2_text2$token,
-                        "?",
-                        "check_exists=false",
-                        sep='')
-
-    step3=httr::GET(
-      url = ids_download,
-      add_headers(
-        'accept' = 'application/json',
-        'api-key' = apikey))
-
-
-    suppressMessages(json_content_step3_text1<-httr::content(step3,
-                                                             "text"))
-
-    downloaded_ids<-fromJSON(json_content_step3_text1)
-
-
-    downloaded_ids_clean<-as.character(unname(unlist(downloaded_ids)))
-
-    downloaded_ids_fordf<-gsub('\\..*','',downloaded_ids_clean)
-
-    downloaded_markers_df <- ifelse(grepl('\\.', downloaded_ids_clean),
-                                    gsub('.*\\.', '', downloaded_ids_clean),
-                                    NA)
-    #
-    # The id vector will be converted to a dataframe so that bold.fetch.ids can be used here internally. Here the column name 'processid' is hard coded since the output of full search API is always a processid
-
-    input_data=data.frame(processid=downloaded_ids_fordf,
-                          marker_code=downloaded_markers_df)
-
-    if(!is.null(input_data)) cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
+  if(!is.null(input_data)) cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
 
 
   #}
