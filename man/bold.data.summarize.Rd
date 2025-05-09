@@ -28,14 +28,22 @@ bold.data.summarize(
 An output list containing:
 \itemize{
 \item A data frame of detailed summary based on the \code{summary_type}
-\item A bar chart in case \code{summary_type=data_completeness} in addition to the dataframe.
+\item A bar chart in case \code{summary_type = data_completeness} in addition to the dataframe.
 }
 }
 \description{
 The function is used to obtain a different types of data summaries for the downloaded BCDM data via \code{bold.fetch} function.
 }
 \details{
-\code{bold.data.summarize} provides different types of data summaries for the downloaded BCDM dataset. The function uses the \code{skimr::skim()} function to generate summary metrics based on the data types available in the downloaded data. Summaries can be created by one of three \code{summarize_by} options, a) \code{all_data} that considers all data that is entered, b) \code{presets}that are defined set of columns representing a specific aspect of the BOLD BCDM data (currently available are: \code{taxonomy}, \code{geography},\code{sequences}, \code{attributions}, \code{ecology_biogeography} and \code{other_meta_data}; For more information on the presets, please read the details for the \code{bold.export} function) and c) \code{fields} which lets the user select any specific columns. \code{na.rm}= TRUE removes all NA values (Please note that this might result into empty data frames sometimes due to lot of missing data). The summary includes detailed summary statistics (includes counts for NULL values, unique values and the proportion of complete cases), a bar chart showing some of these statistics, especially pertaining to the completeness of the data and a concise summary that has a high level dataset profile (number of rows, columns, data type). Both \code{presets} and \code{fields} are set to NULL by default. Please note that if the \code{cols} argument from \code{\link[=bold.fetch]{bold.fetch()}} has been used to filter for specific columns, only those will be summarized even if \code{all_data} option is selected. Similarly, \code{presets} option will not work in cases where the input data by default doesn't have the respective fields. Units for some of the fields can be checked using the \code{bold.field.info()}. For specific details on the \code{skim} output, refer to the \code{skimr} package documentation.
+\code{bold.data.summarize} provides different types of data summaries for the downloaded BCDM dataset. Current options include:
+\itemize{
+\item concise_summary = A high level overview of the downloaded data that would include total records, counts of unique BINs, countries , institutes etc.
+\item data_completeness = A data profile that includes information on missing data, proportion of complete cases for each field in the BCDM data along with data type specific insights like distribution, average and median values for numeric data. Also provides a bar chart visualizing the missing data and total records.
+\item detailed_taxon_counts = Taxonomy focused counts of total records with and without BINs, unique countries and institutes.
+\item barcode_summary = BIN focused summary of nucleotide basepair length, ambiguous basepair number (if present), presence of primer sequences (forward and reverse) in the sequence along with the processid, country and institute associated with the BIN.
+\item all = Summary containing all of the above results.
+\code{rem_na_bin}= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). \code{barcode_summary} requires the \code{Biostrings} package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the \code{bold.field.info()}.
+}
 
 \emph{Note: }. Users are required to install and load the \code{Biostrings} package in case they want to generate the \code{barcode_summary} before running this function.
 }
