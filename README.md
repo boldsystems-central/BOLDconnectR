@@ -127,15 +127,14 @@ such as Geography, Attributions and DNA Sequence information using the
 
 #### Summarize downloaded data
 
-Downloaded data can then be summarized in differnt ways. Summaries are
+Downloaded data can then be summarized in different ways. Summaries are
 generated either on the whole dataset, specific presets (please check
 the details section of `bold.export()` function in the package manual
 for details) or specific columns.
 
 ``` r
 BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
-                               summarize_by = 'presets',
-                               presets = "geography")
+                               summarize_type = 'data_completeness')
 #> ── Data Summary ────────────────────────
 #>                            Values    
 #> Name                       Piped data
