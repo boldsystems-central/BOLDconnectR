@@ -52,17 +52,18 @@ library(BOLDconnectR)
 1.  bold.fields.info
 2.  bold.apikey
 3.  bold.fetch
-4.  bold.public.search
-5.  bold.data.summarize
-6.  *bold.analyze.align*
-7.  bold.analyze.tree
-8.  bold.analyze.diversity
-9.  bold.analyze.map
-10. bold.export
+4.  bold.full.search
+5.  bold.public.search
+6.  *bold.data.summarize*
+7.  *bold.analyze.align*
+8.  bold.analyze.tree
+9.  bold.analyze.diversity
+10. bold.analyze.map
+11. bold.export
 
 ### Note on *Suggested packages*
 
-*bold.analyze.align* requires the packages `msa` and `Biostrings` to be installed and imported in the R session beforehand. Function 7 also uses the output generated from function 6.
+*bold.analyze.align* and some functionality of *bold.data.summarize* requires the packages `msa` and `Biostrings` to be installed and imported in the R session beforehand. Function 8 also uses the output generated from function 7.
 `msa` and `Biostrings` can be installed using using `BiocManager` package.
 
 ``` r
