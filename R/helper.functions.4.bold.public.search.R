@@ -1,5 +1,7 @@
-# Helper functions for bold.public.search
-
+#' Helper functions for bold.public.search
+#' @keywords internal
+#' @importFrom utils download.file
+#'
 # URLs
 
 base_url_parse<- "https://portal.boldsystems.org/api/query/parse?query="

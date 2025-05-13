@@ -12,6 +12,8 @@ gen.msa.res<-function(df,
 
 {
 
+  if(!requireNamespace(c('Biostrings','msa','muscle'),quietly = TRUE)) stop('Biostrings, msa and muscle packages are required to generate the output')
+
   #1. Obtain the data
 
   seq.from.data<-df%>%

@@ -150,12 +150,8 @@ bold.data.summarize <- function(bold_df,
 
            {
 
-             if (summary_type %in% c('barcode_compliance','all') && is.null(primer_f) && is.null(primer_r))
+             if (is.null(primer_f) && is.null(primer_r))stop("primers (either F/R or both) must be specified for the summary")
 
-             {
-
-               stop("primers (either F/R or both) must be specified for the summary")
-             }
 
              else
 
@@ -164,6 +160,8 @@ bold.data.summarize <- function(bold_df,
                data_for_summary = check_and_return_preset_df(df=bold_df,
                                                              category = "check_return",
                                                              preset = 'bold_barcode_summary')
+
+               if(!requireNamespace('Biostrings',quietly = TRUE)) stop('Biostrings package is required to generate this summary.')
 
                barcode_df = barcode_compliance (bold_df=data_for_summary,
                                                 primer_f = primer_f,
@@ -201,6 +199,9 @@ bold.data.summarize <- function(bold_df,
 
 
              # barcode compliance
+
+             if (is.null(primer_f) && is.null(primer_r))stop("primers (either F/R or both) must be specified for the summary")
+
              barcode_df = barcode_compliance (bold_df=bold_df,
                                               primer_f = primer_f,
                                               primer_r = primer_r)
