@@ -80,7 +80,7 @@ library(Biostrings)
 
 ### Note on API key
 
-The function `bold.fetch` requires an `api key` internally in order to
+The function `bold.fetch` and `bold.full.search` require an `api key` internally in order to
 access and download all public + private user data. The API key needed
 to retrieve BOLD records is found in the BOLD ‘Workbench’
 <https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>.
