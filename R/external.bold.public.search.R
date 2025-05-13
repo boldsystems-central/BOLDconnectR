@@ -52,8 +52,8 @@
 #'
 bold.public.search <- function(taxonomy = NULL,
                                geography = NULL,
-                               institutes = NULL,
                                bins = NULL,
+                               institutes = NULL,
                                dataset_codes=NULL,
                                project_codes=NULL)
 
@@ -87,76 +87,110 @@ bold.public.search <- function(taxonomy = NULL,
   non_null_args = args[!null_args]
 
   # If condition to check if the input arguments is/are list/s
-
+  #
   if (any(!sapply(non_null_args, is.list))) {
 
     stop("Input data must be a list.")
   }
 
-
   # The query input
+
+  # trial_query_input = unlist(non_null_args)|>unname()
 
   trial_query_input = unname(unlist(non_null_args))
 
-  # Empty list for the data if downloaded in batches
+  ## Multi-parameter query (taxonomy + geography + ids; will follow AND principle)
 
-  downloaded_data<-list()
+  if(length(non_null_args)>1)
 
-  # Condition to see whether non null arguments are 1 or more than 1 and what the length of the query based on the arguments is
-
-  if(length(non_null_args)>1||length(non_null_args)==1 && length(trial_query_input)<=5)
   {
     cat(red_col,"Downloading ids.",reset_col,'\r')
 
-    result = suppressWarnings(fetch.public.data(query = trial_query_input))
+    # Parsing the query
 
-    cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
+    step1 = parse_query(trial_query_input)
 
-  }
-  else
-  {
-    generate.batch.ids = generate.batches(trial_query_input,batch.size = 5)
+    step2 = preprocess_query(step1)
 
-    cat(red_col,"Downloading ids.",reset_col,'\r')
+    result = tryCatch({
 
-    # The tryCatch here has been added such that for every loop, if the search terms do not fetch any results, those will return NULL instead of the function entirely stopping and no output generated.
+      # Pre-processing the query
 
-    result.pre.filter = lapply(generate.batch.ids,function(x){
-      result <- tryCatch(
-        {
-          # Download the data
-          suppressWarnings(fetch.public.data(x))
-        },
-        error = function(e) {
-          # Error
-          # message(paste("Error with", batch, ":", e$message))
-          return(NULL)
-        }
-      )
-     # appending the result to the empty list
-      downloaded_data[[length(downloaded_data) + 1]] = result
+      # Adding counts (data points) for each query
+
+      step3 = counts_query(step2)
+
+      # Function checks whether the input query terms entered are in their respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the functions finds such a placement, the code will stop and the final result obtained will be NULL
+
+      parameter_validation(step3,
+                           non_null_args)
+
+      # Generate the query id
+
+      step4 = generate_query_id(step3)
+
+      # Download the data using the query id
+
+      obtain_data(step4)
+
+    },
+
+    error = function(e) {
+
+      message("No records found with given criteria")
+
+      return(NULL)
     })
 
-    # Binding the list of dataframes
-
-    result=result.pre.filter%>%
-      bind_rows(.)
-
-    cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
   }
 
-  # If the query doesnt return anything due to query terms not existing in the database or the combination of search returning zero
+  ## Single parameter query (just taxonomy or geography or codes etc.; will follow OR principle)
 
-  if(is.null(result)||nrow(result)==0) return(NULL)
+  else if (length(non_null_args)==1)
+  {
+    cat(red_col,"Downloading ids.",reset_col,'\r')
 
-  if(nrow(result)>1000000) warning("Data cap of 1 million records has been reached. If there are still more data available on BOLD, please contact BOLD support for obtaining the same OR (if applicable) break the query into subsets and use the function to loop through it.")
+    # To capture the query being too long error (character limit)
 
-  # result = result%>%
-  #   dplyr::select(processid,
-  #                 sampleid,
-  #                 marker_code)%>%
-  #   dplyr::filter(sampleid!='')
+    step1 = parse_query(trial_query_input)
+
+    step2 = preprocess_query(step1)
+
+    result = tryCatch(
+
+      {
+        step3 = counts_query(step2)
+
+        # Function checks whether the input query terms entered are correctly added in the respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the function finds such a placement, the code will stop and the final result obtained will be NULL.
+
+        parameter_validation(step3,non_null_args)
+
+        # Generate the query id
+
+        step4 = generate_query_id(step3)
+
+        # Download the data using the query id
+
+        obtain_data(step4)
+
+      },
+
+      error = function(e) {
+
+        message("No records found with given criteria")
+
+        return(NULL)
+
+      }
+    )
+
+  }
+
+  # Console message only printed when non null result obtained
+
+  if(!is.null(result)) cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
+
+  # Final result
 
   invisible(result)
-
 }

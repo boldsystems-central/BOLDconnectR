@@ -14,6 +14,8 @@ post.api.res.fetch<-function (base.url,
 
 {
 
+if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
+
 
   result <- POST(
     url = base.url,

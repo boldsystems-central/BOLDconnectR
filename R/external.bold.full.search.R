@@ -195,6 +195,8 @@ bold.full.search <- function(taxonomy=NULL,
 
   # STEP1:  This json output will used for the first POST call
 
+  if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
+
   step1 = POST(
     url = url_step_1,
     add_headers(

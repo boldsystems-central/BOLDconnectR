@@ -7,8 +7,8 @@
 bold.public.search(
   taxonomy = NULL,
   geography = NULL,
-  institutes = NULL,
   bins = NULL,
+  institutes = NULL,
   dataset_codes = NULL,
   project_codes = NULL
 )
@@ -18,9 +18,9 @@ bold.public.search(
 
 \item{geography}{A list of single or multiple characters specifying any of the country/province/state/region/sector/site names/codes. Default value is NULL.}
 
-\item{institutes}{A list of single or multiple characters specifying the institutes. Default value is NULL.}
-
 \item{bins}{A list of single or multiple characters specifying the BIN ids. Default value is NULL.}
+
+\item{institutes}{A list of single or multiple characters specifying the institutes. Default value is NULL.}
 
 \item{dataset_codes}{A list of single or multiple characters specifying the dataset codes. Default value is NULL.}
 
