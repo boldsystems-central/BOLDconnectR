@@ -20,56 +20,42 @@ taxon_hierarchy_count<-function (bold_df)
 
 {
   suppressMessages(
-  taxonomy_hierarchy_count<-bold_df%>%
-    pivot_longer(
-      cols = c(kingdom,
+    taxonomy_hierarchy_count<-bold_df%>%
+      group_by(kingdom,
                phylum,
                class,
                order,
                family,
                subfamily,
                genus,
-               species),
-      names_to = "taxonomic_rank",
-      values_to = "taxon_name") %>%
-    mutate(taxonomic_rank = factor(
-      taxonomic_rank,
-      levels = c("kingdom",
-                 "phylum",
-                 "class",
-                 "order",
-                 "family",
-                 "subfamily",
-                 "genus",
-                 "species")))%>%
-    mutate(bin_uri=case_when(is.na(taxon_name)~NA,
-                             TRUE~bin_uri))%>%
-    dplyr::group_by(taxonomic_rank,
-                    taxon_name)%>%
-    summarise(total_records=n(),
-              unique_BINs=n_distinct(bin_uri,
-                                     na.rm = T),
-              unique_countries=n_distinct(country.ocean,
-                                          na.rm = T),
-              unique_institutes=n_distinct(inst,
-                                           na.rm = T))%>%
-    ungroup()%>%
-    mutate(records_wo_bins=case_when(is.na(taxon_name)~total_records,
-                                     TRUE~0),
-           total_records=case_when(is.na(taxon_name)~0,
-                                   TRUE~total_records))%>%
-    select(taxonomic_rank,
-           taxon_name,
-           total_records,
-           records_wo_bins,
-           unique_countries,
-           unique_institutes)
+               species) %>%
+     summarise(total_records=n(),
+                unique_BINs=n_distinct(bin_uri,
+                                             na.rm = T),
+                records_wo_bins=sum(is.na(bin_uri)),
+                unique_countries=n_distinct(country.ocean,
+                                            na.rm = T),
+                unique_institutes=n_distinct(inst,
+                                             na.rm = T))%>%
+      ungroup()%>%
+      dplyr::select(kingdom,
+                    phylum,
+                    class,
+                    order,
+                    family,
+                    subfamily,
+                    genus,
+                    species,
+                    total_records,
+                    unique_BINs,
+                    records_wo_bins,
+                    unique_countries,
+                    unique_institutes)
   )
 
   return(taxonomy_hierarchy_count)
 
 }
-
 # Function: DNA barcode based information summary
 
 barcode_compliance<-function(bold_df,
@@ -89,7 +75,13 @@ barcode_compliance<-function(bold_df,
 
   # Converting the character data to a DNAStringset object
 
-  sequences_set <- DNAStringSet(sequences)
+  sequences_set <- tryCatch(
+    DNAStringSet(sequences),
+    error= function(e)
+    {
+      message("Error creating DNAStringSet. Please check if there are NA values in the 'nuc' column ", e$message)
+    }
+  )
 
   #names(dna_set)<-branchi_barcode_compliance$sampleid
 
@@ -135,7 +127,7 @@ barcode_compliance<-function(bold_df,
   # Final dataset
 
   compliance_df<-bold_df%>%
-    # select(processid,bin_uri,country.ocean,inst,marker_code,nuc_basecount)%>%
+    dplyr::select(processid,bin_uri,country.ocean,inst,marker_code,nuc_basecount)%>%
     mutate(primer_exists_F = if (!is.null(primer_vec_f)) primer_vec_f else NA,
            primer_exists_R = if (!is.null(primer_vec_r)) primer_vec_r else NA,
            ambiguous_bp_no=rowSums(ambiguous_df))
