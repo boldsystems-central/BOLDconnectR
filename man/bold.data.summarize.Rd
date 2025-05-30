@@ -45,7 +45,7 @@ The function is used to obtain a different types of data summaries for the downl
 \code{rem_na_bin}= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). \code{barcode_summary} requires the \code{Biostrings} package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the \code{bold.field.info()}.
 }
 
-\emph{Note: }. Users are required to install and load the \code{Biostrings} package in case they want to generate the \code{barcode_summary} before running this function.
+\emph{Note: }. Users are required to install and load the \code{Biostrings} package in case they want to generate the \code{barcode_summary} before running this function. For the data in the \code{nuc_basecount} column in the \code{barcode_summary}, please refer to the \code{bold.field.info()} for details.
 }
 \examples{
 \dontrun{

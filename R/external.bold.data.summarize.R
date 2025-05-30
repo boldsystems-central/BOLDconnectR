@@ -18,7 +18,7 @@
 #' * all = Summary containing all of the above results.
 #' `rem_na_bin`= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). `barcode_summary` requires the `Biostrings` package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the `bold.field.info()`.
 #'
-#'\emph{Note: }. Users are required to install and load the `Biostrings` package in case they want to generate the `barcode_summary` before running this function.
+#'\emph{Note: }. Users are required to install and load the `Biostrings` package in case they want to generate the `barcode_summary` before running this function. For the data in the `nuc_basecount` column in the `barcode_summary`, please refer to the `bold.field.info()` for details.
 #'
 #' @returns An output list containing:
 #' * A data frame of detailed summary based on the `summary_type`
