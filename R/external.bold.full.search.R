@@ -55,6 +55,7 @@
 #'
 #' @importFrom stats setNames
 #' @importFrom httr GET
+#' @importFrom httr stop_for_status
 #'
 #' @export
 #'
@@ -197,18 +198,29 @@ bold.full.search <- function(taxonomy=NULL,
 
   if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
 
-  step1 = POST(
-    url = url_step_1,
-    add_headers(
-      'accept' = 'application/json',
-      'api-key' = apikey,
-      'Content-Type' = 'multipart/form-data'
-    ),
-    body = list(
-      input_file = upload_file(temp_file_step1),
-      type = "application/json")
-  )
+  step1 = tryCatch({
+    result<-POST(
+      url = url_step_1,
+      add_headers(
+        'accept' = 'application/json',
+        'api-key' = apikey,
+        'Content-Type' = 'multipart/form-data'
+      ),
+      body = list(
+        input_file = upload_file(temp_file_step1),
+        type = "application/json"))
 
+    stop_for_status(result)
+
+    result
+
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",
+               e$message
+    ))
+  }
+  )
   # Extracting the text from the output
 
   #1.
@@ -274,18 +286,27 @@ bold.full.search <- function(taxonomy=NULL,
 
   # STEP2: Uploading the clean JSON to get a search query id
 
-  step2 = POST(
-    url = url_step_2,
-    add_headers(
-      'accept' = 'application/json',
-      'api-key' = apikey,
-      'Content-Type' = 'multipart/form-data'
-    ),
-    body = list(
-      input_file = upload_file(temp_file_step2),
-      type = "application/json")
-  )
+  step2 = tryCatch({
+    result<-POST(
+      url = url_step_2,
+      add_headers(
+        'accept' = 'application/json',
+        'api-key' = apikey,
+        'Content-Type' = 'multipart/form-data'
+      ),
+      body = list(
+        input_file = upload_file(temp_file_step2),
+        type = "application/json"))
 
+    stop_for_status(result)
+
+    result
+
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
+  }
+  )
 
   # Data API token is generated
 
@@ -312,12 +333,22 @@ bold.full.search <- function(taxonomy=NULL,
                       'filter=str:marker_code:*',
                       sep='')
 
-  step3=httr::GET(
-    url = ids_download,
-    add_headers(
-      'accept' = 'application/json',
-      'api-key' = apikey))
+  step3=tryCatch({
+    result<-httr::GET(
+      url = ids_download,
+      add_headers(
+        'accept' = 'application/json',
+        'api-key' = apikey))
 
+    stop_for_status(result)
+
+    result
+
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
+  }
+  )
 
   suppressMessages(json_content_step3_text1<-httr::content(step3,
                                                            "text"))
