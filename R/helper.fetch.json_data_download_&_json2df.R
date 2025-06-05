@@ -17,28 +17,33 @@ post.api.res.fetch<-function (base.url,
 if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
 
 
-  result <- POST(
-    url = base.url,
-    query=query.params,
-    add_headers(
-      'accept' = 'application/json',
-      'api-key' = apikey,
-      'Content-Type' = 'multipart/form-data'
-    ),
-    body = list(
-      input_file = upload_file(temp.file)
-    )
-  )
+  result <- tryCatch({
 
-  if (httr::status_code(result) < 200 || httr::status_code(result)>=300)
-  {
-    stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain the requested data."))
+    res<-POST(
+      url = base.url,
+      query = query.params,
+      add_headers(
+        'accept' = 'application/json',
+        'api-key' = apikey,
+        'Content-Type' = 'multipart/form-data'
+      ),
+      body = list(
+        input_file = upload_file(temp.file)
+      )
+    )
+
+    stop_for_status(res)
+
+    res
+
+  },  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
   }
+  )
 
   gc()
 
   return(result)
-
 }
 
 
