@@ -29,10 +29,19 @@ bin.dataset.project.pids<-function (get.data.input,
 
   # Using the GET API to fetch the token
 
-  get.data=httr::GET(url=base_url_ids,
-                     query=query_ids,
-                     add_headers('accept' = 'application/json',
-                                 'api-key' = apikey))
+  get.data=tryCatch({
+    result<-httr::GET(url=base_url_ids,
+                      query=query_ids,
+                      add_headers('accept' = 'application/json',
+                                  'api-key' = apikey))
+    stop_for_status(result)
+
+    result
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
+  }
+  )
 
   ## Obtain the token as Json strings
 
@@ -59,11 +68,19 @@ bin.dataset.project.pids<-function (get.data.input,
   url_get_pids_from_token<-paste('https://data.boldsystems.org/api/sets/retrieve/',json_bins_datasets_project_data[[1]]$token,'?','check_exists=false',sep='')
 
 
-  get.data.pids=httr::GET(url=url_get_pids_from_token,
-                          add_headers('accept' = 'application/json',
-                                      'api-key' = apikey))
+  get.data.pids=tryCatch({
+    result<-httr::GET(url=url_get_pids_from_token,
+                      add_headers('accept' = 'application/json',
+                                  'api-key' = apikey))
+    stop_for_status(result)
 
-  if (httr::status_code(get.data.pids) < 200 || httr::status_code(get.data.pids)>=300) stop(paste("Data could not be retrieved. Please check the get_by & identifiers. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
+    result
+
+  },
+  error = function(e) {
+    stop(paste(
+      "Download failed.\n",e$message))
+  })
 
 
   ## Obtain the content as Json strings
@@ -88,7 +105,7 @@ bin.dataset.project.pids<-function (get.data.input,
   pids_for_POST_api<-json_bins_datasets_project_pids %>%
     data.frame(.)
 
-  if (nrow(pids_for_POST_api)==0) stop(paste("Data could not be retrieved. Please check if the correct get_by & identifiers were provided. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
+  # if (nrow(pids_for_POST_api)==0) stop(paste("Data could not be retrieved. Please check if the correct get_by & identifiers were provided. Please also re-confirm whether the API key has the necessary permissions to obtain any/all data (esp. datasets and projects)"))
 
   return(pids_for_POST_api)
 
