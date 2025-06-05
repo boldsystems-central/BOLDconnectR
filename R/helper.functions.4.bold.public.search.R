@@ -68,8 +68,19 @@ preprocess_query<-function(parsed_query)
 
   # Downloading the preprocess data
 
-  get.data.pre=httr::GET(url=full_url_preprocess,
+   get.data.pre=tryCatch({
+
+    result<-httr::GET(url=full_url_preprocess,
                          add_headers('accept' = 'application/json'))
+
+    stop_for_status(result)
+
+    result
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
+  }
+  )
 
   #if (get.data.pre$status_code==422) stop ("Please reduce the number of search terms.")
 
@@ -120,8 +131,19 @@ counts_query<-function (preprocessed_query)
                                      "&fields=specimens&reduce_operation=count",
                                      sep="")
 
-    get.data.pre.summ=httr::GET(url=full_url_preprocess_summ,
-                                add_headers('accept' = 'application/json'))
+    get.data.pre.summ=tryCatch({
+
+      result<-httr::GET(url=full_url_preprocess_summ,
+                        add_headers('accept' = 'application/json'))
+
+      stop_for_status(result)
+
+      result
+    },
+    error = function(e) {
+      stop(paste("Download failed.\nDetails:",e$message))
+    }
+    )
 
     suppressWarnings(suppressMessages(json_preprocess_summ<-content(get.data.pre.summ,
                                                                     "text")))
@@ -231,26 +253,24 @@ generate_query_id<-function (matched_terms)
 
   # Download the data
 
-  get.data.query=httr::GET(url=full_query,
-                           add_headers('accept' = 'application/json'))
+  get.data.query=tryCatch({
 
+    result<-httr::GET(url=full_query,
+                      add_headers('accept' = 'application/json'))
 
+    stop_for_status(result)
 
-  if(grepl('^2.',get.data.query$status_code))
-  {
+    result
+  },
+  error = function(e) {
+    stop(paste("Download failed.\nDetails:",e$message))
+  }
+  )
+
     # Extract the data
 
     suppressWarnings(suppressMessages(json_query<-content(get.data.query,
                                                           "text")))
-
-  }
-
-  else
-
-  {
-    stop(paste("Download aborted due to ",get.data.query$status_code," status code.",sep=''))
-
-  }
 
 
   # Convert the data into text
@@ -281,19 +301,14 @@ generate_query_id<-function (matched_terms)
 obtain_data<-function(download_url)
 {
 
-
-  original_timeout = getOption('timeout')
-
-  options(timeout=1800)
-
-  on.exit(original_timeout)
-
   temp_file <- tempfile()
 
   suppressWarnings(download_data<-download.file(download_url,
                                                 destfile = temp_file,
                                                 quiet = TRUE))
+
   unlink(tempdir())
+
   # Check to see if there is data downloaded. If no data is available, it will return NULL
 
   if(file.size(temp_file)==0)return(NULL)
