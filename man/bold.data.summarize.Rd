@@ -49,7 +49,7 @@ The function is used to obtain a different types of data summaries for the downl
 }
 \examples{
 \dontrun{
-bold_data.ids <- bold.public.search(taxonomy = "Oreochromis")
+bold_data.ids <- bold.public.search(taxonomy = list("Oreochromis"))
 
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
@@ -63,15 +63,15 @@ bold.data <- bold.fetch(get_by = "processid",
 #1. Generate a concise summary of the data
 
 test.data.summary.concise <- bold.data.summarize(bold_df=bold.data,
-                                       summarize_type = "concise_summary")
+                                                 summary_type = "concise_summary")
 # Result
- test.data.summary.concise$concise_summary
+test.data.summary.concise$concise_summary
 
 
 #2. Generate a detailed taxon counts summary
 
 test.data.summary <- bold.data.summarize(bold_df=bold.data,
-                                         summarize_type = "detailed_taxon_counts")
+                                         summary_type = "detailed_taxon_counts")
 
 # Result
 test.data.summary$detailed_taxon_counts
@@ -80,7 +80,7 @@ test.data.summary$detailed_taxon_counts
 #3. Generate data completeness profile
 
 test.data.summary.completeness <- bold.data.summarize(bold_df=bold.data,
-                                              summarize_type = "data_completeness")
+                                                      summary_type = "data_completeness")
 
 # Results
 # Summary
@@ -91,9 +91,12 @@ test.data.summary.completeness$completeness_plot
 
 
 #4. Barcode summary (forward primer LCO1490)
+
+library(Biostrings)
+
 test.data.summary.barcode <- bold.data.summarize(bold_df=bold.data,
-                                                summarize_by = "barcode_summary",
-                                                primer_f='GGTCAACAAATCATAAAGATATTGG')
+                                                 summary_type = "barcode_summary",
+                                                 primer_f='GGTCAACAAATCATAAAGATATTGG')
 
 # Results
 test.data.summary.barcode$barcode_summary
