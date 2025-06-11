@@ -149,8 +149,6 @@ concise_summary<-function(bold_df)
               Total_records_w_sequences=sum(!is.na(nuc)),
               Unique_species=n_distinct(species,
                                         na.rm = T),
-              Unique_species_w_BINs=n_distinct(species,
-                                               na.rm = T)-(n_distinct(species[is.na(bin_uri)])),
               Unique_BINs=n_distinct(bin_uri,
                                      na.rm = T),
               Unique_countries=n_distinct(country.ocean,
