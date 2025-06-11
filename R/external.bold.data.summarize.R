@@ -148,33 +148,55 @@ bold.data.summarize <- function(bold_df,
 
            },
 
-         "barcode_summary"=
+         "barcode_summary" = {
 
-           {
+           data_for_summary <- check_and_return_preset_df(df = b_df,
+                                                          category = "check_return",
+                                                          preset = "b_barcode_summary")
 
-             if (is.null(primer_f) && is.null(primer_r))stop("primers (either F/R or both) must be specified for the summary")
+           if (summary_type %in% c("barcode_compliance", "all")) {
 
+             if (is.null(primer_f) && is.null(primer_r)) {
 
-             else
+               # Both primers not provided
 
-             {
+               barcode_df <- data_for_summary
 
-               data_for_summary = check_and_return_preset_df(df=bold_df,
-                                                             category = "check_return",
-                                                             preset = 'bold_barcode_summary')
+               # Adding two columns with NA values
 
-               if(!requireNamespace('Biostrings',quietly = TRUE)) stop('Biostrings package is required to generate this summary.')
+               barcode_df$primer_exists_F <- NA
 
-               barcode_df = barcode_compliance (bold_df=data_for_summary,
+               barcode_df$primer_exists_R <- NA
+
+             } else if (!is.null(primer_f) && is.null(primer_r)) {
+
+               # Only forward primer provided
+
+               barcode_df <- barcode_compliance(bold_df = data_for_summary,
+                                                primer_f = primer_f,
+                                                primer_r = NULL)
+               barcode_df$primer_exists_R <- NA  # Add only reverse primer column
+
+             } else if (is.null(primer_f) && !is.null(primer_r)) {
+
+               # Only reverse primer provided
+
+               barcode_df <- barcode_compliance(bold_df = data_for_summary,
+                                                primer_f = NULL,
+                                                primer_r = primer_r)
+               barcode_df$primer_exists_F <- NA  # Add only forward primer column
+
+             } else {
+
+               # Case 3: Both primers provided
+               barcode_df <- barcode_compliance(b_df = data_for_summary,
                                                 primer_f = primer_f,
                                                 primer_r = primer_r)
-
-               output$barcode_summary = barcode_df
-
              }
 
-
-           },
+             output$barcode_summary <- barcode_df
+           }
+         },
 
          "data_completeness" =
 
