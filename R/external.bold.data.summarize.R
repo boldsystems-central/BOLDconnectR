@@ -150,7 +150,7 @@ bold.data.summarize <- function(bold_df,
 
          "barcode_summary" = {
 
-           data_for_summary <- check_and_return_preset_df(df = b_df,
+           data_for_summary <- check_and_return_preset_df(df = bold_df,
                                                           category = "check_return",
                                                           preset = "b_barcode_summary")
 
@@ -189,7 +189,7 @@ bold.data.summarize <- function(bold_df,
              } else {
 
                # Case 3: Both primers provided
-               barcode_df <- barcode_compliance(b_df = data_for_summary,
+               barcode_df <- barcode_compliance(bold_df = data_for_summary,
                                                 primer_f = primer_f,
                                                 primer_r = primer_r)
              }
