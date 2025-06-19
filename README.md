@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/boldconnectr_logo.png" width="25" />
+<img src="man/figures/boldconnectr_logo.png" width="250" />
 
 <!-- badges: start -->
 
@@ -57,14 +57,13 @@ library(BOLDconnectR)
 10. bold.analyze.map
 11. bold.export
 
-**Note on Suggested packages** *Function 5*: *bold.data.summarize*
-requires the packages `Biostrings` to be installed and imported in the R
-session beforehand for generating the `barcode_summary`. `msa` and
-`Biostrings` can be installed using using `BiocManager` package.
-*Function 6*: *bold.analyze.align* requires the packages `msa` and
+**Note on Suggested packages** *Function 6*: *bold.data.summarize*
+requires the packages `Biostrings` to be installed and imported in R
+session beforehand for generating the `barcode_summary`.
+*Function 7*: *bold.analyze.align* requires the packages `msa` and
 `Biostrings` to be installed and imported in the R session beforehand.
-Function 7 also uses the the output generated from function 6. `msa` and
-`Biostrings` can be installed using using `BiocManager` package.
+Function 8 also uses the output generated from function 7. `msa` and
+`Biostrings` can be installed using the `BiocManager` package.
 
 ``` r
 
@@ -80,7 +79,7 @@ library(Biostrings)
 
 ### Note on API key
 
-The function `bold.fetch` requires an `api key` internally in order to
+The function `bold.fetch` requires an `api key` internally to
 access and download all public + private user data. The API key needed
 to retrieve BOLD records is found in the BOLD ‘Workbench’
 <https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>.
@@ -129,7 +128,7 @@ such as Geography, Attributions and DNA Sequence information using the
 
 Downloaded data can then be summarized in different ways. Options
 currently include a concise summary of all the data, detailed taxonomic
-counts, data completeness and a barcode based summary
+counts, data completeness and a barcode-based summary
 
 ``` r
 BCDM_data_summary<-bold.data.summarize(bold_df = BCDM_data,
@@ -175,17 +174,17 @@ tools.The flat file contents can be modified as per user requirements
 
 #### Other functions
 
-The package also has analyses functions that provide sequence alignment,
-NJ clustering, biodiversity analysis, occurrence mapping using the
-downloaded BCDM data. Additionally, these functions also output objects
+The package also has functions that provide sequence alignment,
+NJ clustering, biodiversity analysis and occurrence mapping using the
+downloaded BCDM data. Additionally, some of these functions also output objects
 that are commonly used by other R packages (Ex. ‘sf’ dataframe,
 occurrence matrix for ‘vegan’ and ‘betapart’). Please go through the
 help manual (Link provided above) for detailed usage of all the
 functions of BOLDConnectR with examples.
 
-*BOLDconnectR* is able to retrieve data very fast (~100k records in a
+*BOLDconnectR* can retrieve data very fast (~100k records in a
 minute on a fast wired connection).
 
-*Citation:* Padhye SM, Ballesteros-Mejia CL,Agda TJA, Agda JRA,
+*Citation:* Padhye SM, Ballesteros-Mejia CL, Agda TJA, Agda JRA,
 Ratnasingham S. BOLDconnectR: An R package for streamlined retrieval,
-transformation and analysis of BOLD DNA barcode data.(MS in prep)
+transformation and analysis of BOLD DNA barcode data (MS in prep).
