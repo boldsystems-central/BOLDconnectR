@@ -40,7 +40,7 @@ The function is used to obtain a different types of data summaries for the downl
 \item concise_summary = A high level overview of the downloaded data that would include total records, counts of unique BINs, countries , institutes etc.
 \item data_completeness = A data profile that includes information on missing data, proportion of complete cases for each field in the BCDM data along with data type specific insights like distribution, average and median values for numeric data. Also provides a bar chart visualizing the missing data and total records.
 \item detailed_taxon_counts = Taxonomy focused counts of total records with and without BINs, unique countries and institutes.
-\item barcode_summary = BIN focused summary of nucleotide basepair length, ambiguous basepair number (if present), presence of primer sequences (forward and reverse) in the sequence along with the processid, country and institute associated with the BIN.
+\item barcode_summary = BIN focused summary of nucleotide basepair length, ambiguous basepair number (if present), presence of primer sequences (forward and/or reverse) in the sequence along with the processid, country and institute associated with the BIN.
 \item all = Summary containing all of the above results.
 \code{rem_na_bin}= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). \code{barcode_summary} requires the \code{Biostrings} package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the \code{bold.field.info()}.
 }

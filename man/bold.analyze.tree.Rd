@@ -26,7 +26,7 @@ bold.analyze.tree(
 
 \item{newick_tree_export}{character value specifying the folder path where the file should be saved along with the name for the file.Default value is NULL.}
 
-\item{tree_plot}{Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.}
+\item{tree_plot}{Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.}
 
 \item{tree_plot_type}{The layout of the tree.}
 
@@ -52,7 +52,8 @@ Calculates genetic distances and performs a Neighbor Joining tree estimation of 
 \examples{
 \dontrun{
 #Download the data ids
-seq.data.ids <- bold.public.search(taxonomy = list("Eulimnadia"))
+seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
+"Oreochromis karongae"))
 
 # Fetch the data using the ids.
 #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
@@ -81,7 +82,8 @@ seq.analysis<-bold.analyze.tree(bold_df=seq.align,
                                 clus_method="nj",
                                 tree_plot=TRUE,
                                 tree_plot_type='p',
-                                save_dist_mat = T)
+                                save_dist_mat = T,
+                                pairwise.deletion=T)
 
 # Output
 # A ‘phylo’ object of the plot
