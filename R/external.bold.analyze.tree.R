@@ -11,7 +11,7 @@
 #' @param clus_method A character vector specifying either `nj` (neighbour joining) or `njs` (neighbour joining with NAs) clustering algorithm.
 #' @param save_dist_mat A logical value specifying whether the distance matrix should be saved in the output. Default is FALSE.
 #' @param newick_tree_export  character value specifying the folder path where the file should be saved along with the name for the file.Default value is NULL.
-#' @param tree_plot Logical value specifying if a neighbour joining plot should be generated. Default value is FALSE.
+#' @param tree_plot Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.
 #' @param tree_plot_type The layout of the tree.
 #' @param ... additional arguments from `ape::dist.dna`.
 #'
@@ -28,7 +28,8 @@
 #' @examples
 #' \dontrun{
 #' #Download the data ids
-#' seq.data.ids <- bold.public.search(taxonomy = list("Eulimnadia"))
+#' seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
+#' "Oreochromis karongae"))
 #'
 #' # Fetch the data using the ids.
 #' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
@@ -57,7 +58,8 @@
 #'                                 clus_method="nj",
 #'                                 tree_plot=TRUE,
 #'                                 tree_plot_type='p',
-#'                                 save_dist_mat = T)
+#'                                 save_dist_mat = T,
+#'                                 pairwise.deletion=T)
 #'
 #' # Output
 #' # A ‘phylo’ object of the plot
