@@ -63,7 +63,7 @@ session beforehand for generating the `barcode_summary`. `msa` and
 `Biostrings` can be installed using using `BiocManager` package.
 *Function 6*: *bold.analyze.align* requires the packages `msa` and
 `Biostrings` to be installed and imported in the R session beforehand.
-Function 7 also uses the the output generated from function 6. `msa` and
+Function 8 also uses the output generated from function 7. `msa` and
 `Biostrings` can be installed using using `BiocManager` package.
 
 ``` r
