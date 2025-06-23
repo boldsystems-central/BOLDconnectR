@@ -15,7 +15,6 @@
 #' * data_completeness = A data profile that includes information on missing data, proportion of complete cases for each field in the BCDM data along with data type specific insights like distribution, average and median values for numeric data. Also provides a bar chart visualizing the missing data and total records.
 #' * detailed_taxon_counts = Taxonomy focused counts of total records with and without BINs, unique countries and institutes.
 #' * barcode_summary = BIN focused summary of nucleotide basepair length, ambiguous basepair number (if present), presence of primer sequences (forward and/or reverse) in the sequence along with the processid, country and institute associated with the BIN.
-#' * all = Summary containing all of the above results.
 #' `rem_na_bin`= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). `barcode_summary` requires the `Biostrings` package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the `bold.field.info()`.
 #'
 #'\emph{Note: }. Users are required to install and load the `Biostrings` package in case they want to generate the `barcode_summary` before running this function. For the data in the `nuc_basecount` column in the `barcode_summary`, please refer to the `bold.field.info()` for details.
@@ -85,8 +84,7 @@ bold.data.summarize <- function(bold_df,
                                 summary_type = c("concise_summary",
                                                  "detailed_taxon_counts",
                                                  "barcode_summary",
-                                                 "data_completeness",
-                                                 "all"),
+                                                 "data_completeness"),
                                 primer_f=NULL,
                                 primer_r=NULL,
                                 rem_na_bin=FALSE)
@@ -207,37 +205,6 @@ bold.data.summarize <- function(bold_df,
              output$completeness_summary = completeness_profile$summary
 
              output$completeness_plot = completeness_profile$plot
-
-           },
-
-
-         "all" =
-
-           {
-             # concise summary
-             concise_summ = concise_summary(bold_df=bold_df)
-
-
-             # taxon counts
-             taxon_counts = taxon_hierarchy_count (bold_df=bold_df)
-
-
-             # barcode compliance
-
-             if (is.null(primer_f) && is.null(primer_r))stop("primers (either F/R or both) must be specified for the summary")
-
-             barcode_df = barcode_compliance (bold_df=bold_df,
-                                              primer_f = primer_f,
-                                              primer_r = primer_r)
-
-             # completeness
-             completeness_profile = bold.completeness.profile(bold_df)
-
-             output = list(concise_summary = concise_summ,
-                           detailed_taxon_counts = taxon_counts,
-                           barcode_summary = barcode_df,
-                           data_completeness=completeness_profile)
-
 
            }
   )
