@@ -88,7 +88,9 @@ side of the window) and click ‘Edit User Preferences’. You can find the
 API key in the ‘User Data’ section. Please note that to have an API key
 available in the workbench, a user must have uploaded at least 10,000
 records to BOLD. API key can be saved in the R session using
-`bold.apikey()` function.
+`bold.apikey()` function. 
+**Please note that the API keys are regenerated periodically 
+and will be updated in the user's workbench account. Using old keys will result in a HTTP 401 error.**
 
 ``` r
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
