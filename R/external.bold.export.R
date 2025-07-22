@@ -19,7 +19,7 @@
 #' * other_meta_data = "notes", "taxonomy_notes", "funding_src", "voucher_type", "tissue_type", "sampling_protocol".
 #'
 #' "processids" and "sampleids" are present in all the presets.
-#' Only one preset can be used at a time. The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Tabular data can be exported as a csv/tsv file. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). This functionality is developed with the future potential of uploading data to BOLD using the package. Edits to the BCDM data can be made using any other R packages so long as it maintains the BCDM format.
+#' Only one preset can be used at a time. The name for individual sequences in the unaligned FASTA file output can be customized by using the `cols_for_fas_names` argument. If more than one field is specified, the name will follow the sequence of the fields given in the vector. The multiple sequence aligned FASTA file uses the same name provided by the user in the `bold.analyze.align` function. Tabular data can be exported as a csv/tsv file. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). This functionality is developed with the future potential of uploading data to BOLD using the package.
 #'
 #' @examples
 #' \dontrun{
@@ -36,13 +36,20 @@
 #' data_for_export <- bold.fetch(get_by = "processid",
 #'                               identifiers = data_for_export_ids$processid)
 #'
-#' #1. Export the BCDM data using 'presets'
+#' #1. Export the BCDM data using 'presets' as a csv file
 #' bold.export(bold_df=data_for_export,
 #'             export_type = "preset_df",
 #'             presets = 'taxonomy',
 #'             export = "file_path_with_intended_name.csv")
 #'
-#' #2. Export multiple sequence alignment
+#' #2. Export the fasta file (unaligned)
+#' # Note that input data here is the original BCDM data (data_for_export)
+#' bold.export(bold_df = data_for_export,
+#'             export_type = "fas",
+#'             cols_for_fas_names = c("bin_uri","genus","species"),
+#'             export = "file_path_with_intended_name.fas")
+#'
+#' #3. Export multiple sequence alignment
 #' #a. Align the data
 #' # (using processid and bin_uri as fields for sequence names)
 #' # Users need to install and load packages `msa` and `Biostrings` before using bold.analyze.align.
@@ -54,17 +61,10 @@
 #' # Note the input data here is the modified BCDM data (seq_align)
 #' bold.export(bold_df=seq_align,
 #'            export_type = "msa",
-#'             export = "file_path_with_intended_name")
-#'
-#' #3. Export the fasta file (unaligned)
-#' # Note that input data here is the original BCDM data (data_for_export)
-#' bold.export(bold_df = data_for_export,
-#'             export_type = "fas",
-#'             cols_for_fas_names = c("bin_uri","genus","species"),
-#'             export = "file_path_with_intended_name")
+#'             export = "file_path_with_intended_name.fas")#'
 #' }
 #'
-#' @returns It exports a .fas or a tsv file based on the export argument.
+#' @returns It exports a .fas or a csv/tsv file based on the export argument.
 #'
 #' @importFrom utils write.table
 #' @importFrom ape read.dna
