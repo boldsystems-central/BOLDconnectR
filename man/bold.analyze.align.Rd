@@ -15,9 +15,9 @@ bold.analyze.align(
 \arguments{
 \item{bold_df}{A data frame obtained from \code{\link[=bold.fetch]{bold.fetch()}}.}
 
-\item{marker}{A single or multiple character vector specifying the gene marker for which the output is generated. Default is NULL (all data is used).}
+\item{marker}{A single character value specifying the gene marker for which the output is generated. Default is NULL (all data is used).}
 
-\item{align_method}{Character vector specifying the type of multiple sequence alignment algorithm to be used.}
+\item{align_method}{Character vector specifying the type of multiple sequence alignment algorithm to be used (ClustalOmega and Muscle available).}
 
 \item{cols_for_seq_names}{A single or multiple character vector specifying the column headers to be used to name each sequence in the fasta file. Default is NULL in which case, only the processid is used as a name.}
 
@@ -32,8 +32,7 @@ bold.analyze.align(
 Function designed to transform and align the sequence data retrieved from the function \code{bold.fetch}.
 }
 \details{
-\code{bold.analyze.align} takes the sequence information obtained using \code{\link[=bold.fetch]{bold.fetch()}} function and performs a multiple sequence alignment. It uses the \code{msa::msa()} function with default settings but additional arguments from the \code{msa} function can be passed through the \code{...} argument. The clustering method can be specified using the \code{align_method} argument, with options including  \code{Muscle},\code{ClustalW} and \code{ClustalOmega} (available via the \code{msa} package). The provided marker name must match the standard marker names (Ex. COI-5P) available on the BOLD webpage (Ratnasingham et al. 2024; pg.404). The name for individual sequences in the output can be customized by using the \code{cols_for_seq_names} argument. If multiple fields are specified, the sequence name will follow the order of fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not automatically check for issues like STOP codons and indels within the data.
-The output of this function is a modified Barcode Core Data Model (BCDM) dataframe, which includes two additional columns: one for the aligned sequences and one for the customized sequence names.
+\code{bold.analyze.align} takes the sequence information obtained using \code{\link[=bold.fetch]{bold.fetch()}} function and performs a multiple sequence alignment. It uses the \code{msa::msa()} function with default settings but additional arguments from the \code{msa} function can be passed through the \code{...} argument. The clustering method can be specified using the \code{align_method} argument, with options including  \code{Muscle} and \code{ClustalOmega} (available via the \code{msa} package). The provided marker name must match the standard marker names (Ex. COI-5P) available on the BOLD webpage (Ratnasingham et al. 2024; pg.404). The name for individual sequences in the output can be customized by using the \code{cols_for_seq_names} argument. If multiple fields are specified, the sequence name will follow the order of fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not automatically check for issues like STOP codons and indels within the data.
 
 \emph{Note: }. Users are required to install and load the \code{Biostrings} and \code{msa} packages using \code{BiocManager} before running this function.
 }
