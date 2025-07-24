@@ -2,7 +2,7 @@
 % Please edit documentation in R/external.bold.analyze.diversity.R
 \name{bold.analyze.diversity}
 \alias{bold.analyze.diversity}
-\title{Create an biodiversity profile of the retrieved data}
+\title{Create a biodiversity profile of the retrieved data}
 \usage{
 bold.analyze.diversity(
   bold_df,
@@ -23,24 +23,31 @@ bold.analyze.diversity(
 
 \item{taxon_name}{A single or multiple character vector specifying the taxonomic names associated with the ‘taxon_rank’. Default value is NULL.}
 
-\item{site_type}{A character vector specifying one of two broad categories of \code{sites} considered here (\code{locations} or \code{grids}).}
+\item{site_type}{A character vector specifying one of two broad categories of \code{sites} (\code{locations} or \code{grids}). Needs to be provided by default.}
 
-\item{location_type}{A single character vector specifying the geographic category for which a community matrix should be created. Default value is NULL.}
+\item{location_type}{A single character vector specifying the geographic category if \code{locations} is selected as the \code{site_type} and for which a community matrix should be created. Default value is NULL.}
 
-\item{gridsize}{A numeric value of the size of the grid if location_type=grid; Size is in sq.m. Default value is NULL.}
+\item{gridsize}{A numeric value of the size of the grid if \code{grids} is selected as the \code{site_type}. Size is in sq.m. Default value is NULL.}
 
-\item{presence_absence}{A logical value specifying whether the generated matrix should be converted into a ’presence-absence’ matrix.}
+\item{presence_absence}{A logical value specifying whether the generated matrix should be converted into a ’presence-absence’ matrix. Default value is FALSE.}
 
-\item{diversity_profile}{A character value specifying the type of diversity profile ("richness","preston","shannon","beta","all").}
+\item{diversity_profile}{A character value specifying the type of diversity profile ("richness","preston","shannon","beta","all"). Needs to be provided by default.}
 
-\item{beta_index}{A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available).}
+\item{beta_index}{A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available) if \code{beta} or \code{all} \code{diversity_profile} selected. Default value is NULL.}
 }
 \value{
 An 'output' list containing results based on the profile selected:
+
 #Common to all
 \itemize{
 \item comm.matrix = site X species like matrix required for the biodiversity results
+#Common to all if \code{site_type}=\code{grids}
+\item comm.matrix = site X species like matrix required for the biodiversity results
+}
+
+#Based on the type of diversity profile
 #1. richness
+\itemize{
 \item richness = A richness profile matrix
 #2. shannon
 \item Shannon_div = Shannon diversity values for the given sites/grids (from gen.comm.mat)
