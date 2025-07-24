@@ -4,15 +4,15 @@
 #' @importFrom graphics par
 #'
 #' @description
-#' Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align`.
+#' Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align`.
 #'
 #' @param bold_df A modified BCDM data frame obtained from [bold.analyze.align()].
 #' @param dist_model A character string specifying the model to generate the distances.
-#' @param clus_method A character vector specifying either `nj` (neighbour joining) or `njs` (neighbour joining with NAs) clustering algorithm.
-#' @param save_dist_mat A logical value specifying whether the distance matrix should be saved in the output. Default is FALSE.
-#' @param newick_tree_export  character value specifying the folder path where the file should be saved along with the name for the file.Default value is NULL.
+#' @param clus_method A character string specifying either `nj` (neighbour joining) or `njs` (neighbour joining with NAs) clustering algorithm.
+#' @param save_dist_mat A logical value specifying whether the distance matrix should be saved in the output. Default value is FALSE.
+#' @param newick_tree_export A character string specifying the folder path where the file should be saved along with the name for the file. Default value is NULL.
 #' @param tree_plot Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.
-#' @param tree_plot_type The layout of the tree.
+#' @param tree_plot_type A character string specifying the layout of the tree. Needs to be provided by default.
 #' @param ... additional arguments from `ape::dist.dna`.
 #'
 #' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Two forms of Neighbor Joining clustering are currently available ([ape::nj()] & [ape::njs()]). Setting `save_dist_mat`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.
