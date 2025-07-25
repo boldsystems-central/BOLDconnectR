@@ -20,15 +20,15 @@ bold.analyze.tree(
 
 \item{dist_model}{A character string specifying the model to generate the distances.}
 
-\item{clus_method}{A character vector specifying either \code{nj} (neighbour joining) or \code{njs} (neighbour joining with NAs) clustering algorithm.}
+\item{clus_method}{A character string specifying either \code{nj} (neighbour joining) or \code{njs} (neighbour joining with NAs) clustering algorithm.}
 
-\item{save_dist_mat}{A logical value specifying whether the distance matrix should be saved in the output. Default is FALSE.}
+\item{save_dist_mat}{A logical value specifying whether the distance matrix should be saved in the output. Default value is FALSE.}
 
-\item{newick_tree_export}{character value specifying the folder path where the file should be saved along with the name for the file.Default value is NULL.}
+\item{newick_tree_export}{A character string specifying the folder path where the file should be saved along with the name for the file. Default value is NULL.}
 
 \item{tree_plot}{Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.}
 
-\item{tree_plot_type}{The layout of the tree.}
+\item{tree_plot_type}{A character string specifying the layout of the tree. Needs to be provided by default.}
 
 \item{...}{additional arguments from \code{ape::dist.dna}.}
 }
@@ -43,7 +43,7 @@ An 'output' list containing:
 }
 }
 \description{
-Calculates genetic distances and performs a Neighbor Joining tree estimation of the multiple sequence alignment output obtained from \code{bold.analyze.align}.
+Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from \code{bold.analyze.align}.
 }
 \details{
 \code{bold.analyze.tree} analyzes the multiple sequence alignment output of the \code{bold.analyze.align} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. Two forms of Neighbor Joining clustering are currently available (\code{\link[ape:nj]{ape::nj()}} & \code{\link[ape:njs]{ape::njs()}}). Setting \code{save_dist_mat}= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.

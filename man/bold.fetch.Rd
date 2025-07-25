@@ -2,7 +2,7 @@
 % Please edit documentation in R/external.bold.fetch.R
 \name{bold.fetch}
 \alias{bold.fetch}
-\title{Retrieve all data from the BOLD database}
+\title{Retrieve data from the BOLD database}
 \usage{
 bold.fetch(
   get_by,
@@ -32,7 +32,7 @@ bold.fetch(
 
 \item{cols}{A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.}
 
-\item{export}{A character value specifying the data path where the file should be exported locally along with the name of the file. Default value is NULL.}
+\item{export}{A character value specifying the data path where the file should be exported locally along with the name of the file with extension (csv or tsv). Default value is NULL.}
 
 \item{na.rm}{A logical value specifying whether NA values should be removed from the BCDM dataframe. Default value is FALSE.}
 
@@ -44,7 +44,7 @@ bold.fetch(
 
 \item{filt_longitude}{A single or a vector of two numbers specifying the longitudinal range in decimal degrees. Values should be separated by a comma. Default value is NULL.}
 
-\item{filt_shapefile}{A file path pointing to a shapefile or name of the shapefile (.shp) imported in the R session. Default value is NULL.}
+\item{filt_shapefile}{A file path pointing to a shapefile. Default value is NULL.}
 
 \item{filt_institutes}{A single or multiple character vector specifying names of institutes. Default value is NULL.}
 
@@ -52,11 +52,11 @@ bold.fetch(
 
 \item{filt_seq_source}{A single or multiple character vector specifying the data portals from where the (sequence) data was mined. Default value is NULL.}
 
-\item{filt_marker}{A single or multiple character vector specifying of gene names. Default value is NULL.}
+\item{filt_marker}{A single or multiple character vector specifying gene names. Default value is NULL.}
 
 \item{filt_collection_period}{A single or a vector of two date values specifying the collection period range (start, end). Values should be separated by a comma. Default value is NULL.}
 
-\item{filt_basecount}{A single or a vector of two numbers specifying range of basepairs number. Val- ues should be separated by a comma. Default value is NULL.}
+\item{filt_basecount}{A single or a vector of two numbers specifying range of number of basepairs. Val- ues should be separated by a comma. Default value is NULL.}
 
 \item{filt_altitude}{A single or a vector of two numbers specifying the altitude range in meters. Values should be separated by a comma. Default value is NULL.}
 
@@ -66,10 +66,10 @@ bold.fetch(
 A data frame containing all the information related to the processids/sampleids and the filters applied (if/any).
 }
 \description{
-Retrieves public and private user data based on different parameters (processid, sampleid, dataset or project codes & bin_uri) input.
+Retrieves public and private user data based on different parameter (processid, sampleid, dataset or project codes & bin_uri) input.
 }
 \details{
-\code{bold.fetch} retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the Barcode Core Data Model (BCDM) format. It supports effective download data in bulk using search parameters like ‘processids’, ‘sampleids’, ‘bin_uris’, ‘dataset_codes’ and 'project_codes' through the \code{get_by} argument. Users must specify only one of the parameters at a time for retrieval. Multi-parameter searches combining fields like ‘processids’+ ‘sampleids’ + ‘bin_uri’ are not supported, regardless of the parameters available. Data input is via the \code{identifier} argument and it can either be a single or multiple character vector containing data for one of the parameters. A dataframe column can be used as an input using the '$' operator (e.g., df$column_name). It is important to correctly match the \code{get_by} and \code{identifiers} arguments to avoid getting any errors. The \code{filt_} or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all \code{filt_}argument names must be written explicitly to avoid any errors (Ex. \code{filt_institutes} = ’CBG’ instead of just ’CBG’). Using the \code{cols} argument allows users to select specific columns for inclusion in the final data frame. If this argument is left as NULL all columns will be downloaded. Providing a data path for the \code{export} argument will save the data locally. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). There is a hard limit of 1 million records that be downloaded in a single instance. This would also depend on the user’s internet connection and computer specifications. Downloaded data includes information (wherever available) for the columns given in the \code{field} column of the \code{bold.fields.info()} in the BCDM format. Metadata on the columns fetched in the downloaded data can also be obtained using \code{bold.fields.info()}.
+\code{bold.fetch} retrieves both public as well as private user data, where private data refers to data that the user has permission to access. The data is downloaded in the Barcode Core Data Model (BCDM) format. It supports effective download data in bulk using search parameters like ‘processid’, ‘sampleid’, ‘bin_uri’, ‘dataset_codes’ and 'project_codes' through the \code{get_by} argument. Users must specify only one of the parameters at a time for retrieval. Multi-parameter searches combining fields like ‘processid’+ ‘sampleid’ + ‘bin_uri’ are not supported, regardless of the parameters available. Data input is via the \code{identifier} argument and it can either be a single or multiple character vector containing data for one of the parameters. A dataframe column can be used as an input using the '$' operator (e.g., df$column_name). It is important to correctly match the \code{get_by} and \code{identifiers} arguments to avoid getting any errors. The \code{filt_} or filter parameter arguments provide further data sorting by which a specific user defined data can be obtained. Note that any/all \code{filt_}argument names must be written explicitly to avoid any errors (Ex. \code{filt_institutes} = ’CBG’ instead of just ’CBG’). Using the \code{cols} argument allows users to select specific columns for inclusion in the final data frame. If this argument is left as NULL all columns will be downloaded. Providing a data path for the \code{export} argument will save the data locally. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). There is a hard limit of 1 million records that can be downloaded in a single instance. This would also depend on the user’s internet connection and computer specifications. Downloaded data includes information (wherever available) for the columns given in the \code{field} column of the \code{bold.fields.info()} in the BCDM format. Metadata on the columns fetched in the downloaded data can also be obtained using \code{bold.fields.info()}.
 \emph{Important Note}: \code{bold.apikey()} should be run prior to running \code{bold.fetch} to setup the \code{apikey} which is needed for the latter.
 }
 \examples{

@@ -19,11 +19,11 @@ bold.analyze.diversity(
 \arguments{
 \item{bold_df}{A data frame obtained from \code{\link[=bold.fetch]{bold.fetch()}}.}
 
-\item{taxon_rank}{A single character value specifying the taxonomic hierarchical rank. Needs to be provided by default.}
+\item{taxon_rank}{A single character string specifying the taxonomic hierarchical rank. Needs to be provided by default.}
 
 \item{taxon_name}{A single or multiple character vector specifying the taxonomic names associated with the ‘taxon_rank’. Default value is NULL.}
 
-\item{site_type}{A character vector specifying one of two broad categories of \code{sites} (\code{locations} or \code{grids}). Needs to be provided by default.}
+\item{site_type}{A character string specifying one of two broad categories of \code{sites} (\code{locations} or \code{grids}). Needs to be provided by default.}
 
 \item{location_type}{A single character vector specifying the geographic category if \code{locations} is selected as the \code{site_type} and for which a community matrix should be created. Default value is NULL.}
 
@@ -31,7 +31,7 @@ bold.analyze.diversity(
 
 \item{presence_absence}{A logical value specifying whether the generated matrix should be converted into a ’presence-absence’ matrix. Default value is FALSE.}
 
-\item{diversity_profile}{A character value specifying the type of diversity profile ("richness","preston","shannon","beta","all"). Needs to be provided by default.}
+\item{diversity_profile}{A character string specifying the type of diversity profile ("richness","preston","shannon","beta","all"). Needs to be provided by default.}
 
 \item{beta_index}{A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available) if \code{beta} or \code{all} \code{diversity_profile} selected. Default value is NULL.}
 }
