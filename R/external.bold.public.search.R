@@ -27,16 +27,8 @@
 #' #Result
 #' head(bold.data.taxo.geo,10)
 #'
-#' #Taxonomy, Geography and BINs
-#' bold.data.taxo.geo.bin <- bold.public.search(taxonomy=list("Panthera leo"),
-#' geography = list("India"),
-#' bins=list("BOLD:AAD6819"))
-#'
-#' #Result
-#' bold.data.taxo.geo.bin
-#'
 #' # Input as a dataframe column
-#' df_test<-data.frame(taxon_name=c("Panthera leo","Panthera uncia"),
+#' df_test<-data.frame(taxon_name=c("Panthera uncia"),
 #' locations = c("India","Sri Lanka"))
 #'
 #' # Result
