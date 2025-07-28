@@ -26,13 +26,13 @@ bold.fetch(
 )
 }
 \arguments{
-\item{get_by}{The parameter used to fetch data (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes")}
+\item{get_by}{A character string specifying the parameter used to fetch data (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes")}
 
 \item{identifiers}{A vector (or a data frame column) pointing to the \code{get_by} parameter specified.}
 
 \item{cols}{A single or multiple character vector specifying columns needed in the final dataframe. Default value is NULL.}
 
-\item{export}{A character value specifying the data path where the file should be exported locally along with the name of the file with extension (csv or tsv). Default value is NULL.}
+\item{export}{A character string specifying the data path where the file should be exported locally along with the name of the file with extension (csv or tsv). Default value is NULL.}
 
 \item{na.rm}{A logical value specifying whether NA values should be removed from the BCDM dataframe. Default value is FALSE.}
 

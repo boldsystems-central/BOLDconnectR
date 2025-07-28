@@ -14,13 +14,13 @@ bold.data.summarize(
 )
 }
 \arguments{
-\item{bold_df}{the data.frame retrieved from the \code{bold.fetch} function.}
+\item{bold_df}{the data.frame retrieved from the \code{\link[=bold.fetch]{bold.fetch()}} function.}
 
-\item{summary_type}{A single character value specifying the type of summary required (concise_summary, detailed_taxon_counts,barcode_summary,data_completeness,all)}
+\item{summary_type}{A character string specifying the type of summary required ('concise_summary', 'detailed_taxon_counts','barcode_summary','data_completeness','all')}
 
-\item{primer_f}{A character vector specifying the forward primer. Default value is NULL.}
+\item{primer_f}{A character string specifying the forward primer. Default value is NULL.}
 
-\item{primer_r}{A character vector specifying the reverse primer. Default value is NULL.}
+\item{primer_r}{A character string specifying the reverse primer. Default value is NULL.}
 
 \item{rem_na_bin}{A logical value specifying whether NA BINs should be removed from the BCDM dataframe. Default value is FALSE.}
 }
@@ -41,7 +41,7 @@ The function is used to obtain a different types of data summaries for the downl
 \item data_completeness = A data profile that includes information on missing data, proportion of complete cases for each field in the BCDM data along with data type specific insights like distribution, average and median values for numeric data. Also provides a bar chart visualizing the missing data and total records.
 \item detailed_taxon_counts = Taxonomy focused counts of total records with and without BINs, unique countries and institutes.
 \item barcode_summary = BIN focused summary of nucleotide basepair length, ambiguous basepair number (if present), presence of primer sequences (forward and/or reverse) in the sequence along with the processid, country and institute associated with the BIN.
-\code{rem_na_bin}= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). \code{barcode_summary} requires the \code{Biostrings} package to be installed and imported in the session. The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the \code{bold.field.info()}.
+\code{rem_na_bin}= TRUE removes all records that don’t have a BIN (Please note that this might result into empty data frames sometimes due to lot of missing data). The forward or reverse primer also needs to be specified. Details on all/specific fields can be checked using the \code{bold.field.info()}.
 }
 
 \emph{Note: }. Users are required to install and load the \code{Biostrings} package in case they want to generate the \code{barcode_summary} before running this function. For the data in the \code{nuc_basecount} column in the \code{barcode_summary}, please refer to the \code{bold.field.info()} for details.
