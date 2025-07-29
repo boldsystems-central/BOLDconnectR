@@ -68,10 +68,10 @@ preprocess_query<-function(parsed_query)
 
   # Downloading the preprocess data
 
-   get.data.pre=tryCatch({
+  get.data.pre=tryCatch({
 
     result<-httr::GET(url=full_url_preprocess,
-                         add_headers('accept' = 'application/json'))
+                      add_headers('accept' = 'application/json'))
 
     stop_for_status(result)
 
@@ -82,28 +82,28 @@ preprocess_query<-function(parsed_query)
   }
   )
 
-  #if (get.data.pre$status_code==422) stop ("Please reduce the number of search terms.")
-
   suppressWarnings(suppressMessages(json_preprocess<-content(get.data.pre,
                                                              "text")))
 
   json_preprocess_data_final<-fromJSON(json_preprocess)
 
-  if("successful_terms" %in% names(json_preprocess_data_final))
-  {
-    json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
+  json_preprocess_data_final<-fromJSON(json_preprocess)$successful_terms
 
-    json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
+  json_preprocess_data_final$matched<-gsub(',.*',"",json_preprocess_data_final$matched)
 
-    # A separate column for names is created that will be used to print the query terms
+  # A separate column for names is created that will be used to print the query terms
 
-    json_preprocess_data_final=json_preprocess_data_final%>%
-      dplyr::mutate(names=gsub("^na:na:",'',.$submitted))
+  json_preprocess_data_final=json_preprocess_data_final%>%
+    dplyr::mutate(names=gsub("^na:na:",'',.$submitted))
 
-  }else
-  {
-    stop(paste("Search query is too long. ",json_preprocess_data_final$detail$msg,".",sep=''))
-  }
+  tryCatch({
+    if (any(grepl("ids:", json_preprocess_data_final$matched))) {
+      stop("Re-check search queries")
+    }
+    # Code continues here if no error
+  }, error = function(e) {
+    stop(e)
+  })
 
   return(json_preprocess_data_final)
 
@@ -185,7 +185,7 @@ counts_query<-function (preprocessed_query)
 }
 
 
-# Query terms validation (correct placement of terms, spelling checks etc)
+# Query terms validation (correct placement of terms)
 
 parameter_validation <- function(df_counts, non_null_args)
 {
