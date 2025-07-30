@@ -43,10 +43,10 @@ An 'output' list containing:
 }
 }
 \description{
-Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from \code{bold.analyze.align}.
+Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from \code{bold.analyze.align()}.
 }
 \details{
-\code{bold.analyze.tree} analyzes the multiple sequence alignment output of the \code{bold.analyze.align} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. Two forms of Neighbor Joining clustering are currently available (\code{\link[ape:nj]{ape::nj()}} & \code{\link[ape:njs]{ape::njs()}}). Setting \code{save_dist_mat}= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.
+\code{bold.analyze.tree} analyzes the multiple sequence alignment output of the \code{bold.analyze.align()} function to generate a distance matrix using the models available in the \code{\link[ape:dist.dna]{ape::dist.dna()}}. Two forms of Neighbor Joining clustering are currently available (\code{\link[ape:nj]{ape::nj()}} & \code{\link[ape:njs]{ape::njs()}}). Setting \code{save_dist_mat}= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.
 \code{newick_tree_export} will save the tree in a newick format locally. Data path with the name of the file should be provided (Ex. 'C:/Users/xyz/Desktop/newickoutput'). Setting \code{tree_plot}= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from \code{\link[ape:dist.dna]{ape::dist.dna()}} and the \code{\link[ape:plot.phylo]{ape::plot.phylo()}} function. \code{tree_plot_type} specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on \code{type} argument of \code{\link[ape:plot.phylo]{ape::plot.phylo()}};The first alphabet can be used instead of the whole word). Both \code{\link[ape:nj]{ape::nj()}} and \code{\link[ape:njs]{ape::njs()}} are available for generating the tree. Additional arguments for calculating distances can be passed to \code{\link[ape:dist.dna]{ape::dist.dna()}} using the \code{...} argument (arguments such as \code{gamma}, \code{pairwise.deletion} & \code{base.freq}). The function also provides base frequencies from the data.
 }
 \examples{
@@ -56,8 +56,8 @@ seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
 "Oreochromis karongae"))
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch` function.
-#2. Use the `bold.apikey` function  to set the apikey in the global env.
+#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
 bold.apikey('apikey')
 
