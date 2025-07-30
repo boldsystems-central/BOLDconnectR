@@ -4,7 +4,7 @@
 #' @importFrom graphics par
 #'
 #' @description
-#' Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align`.
+#' Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimation of the multiple sequence alignment output obtained from `bold.analyze.align()`.
 #'
 #' @param bold_df A modified BCDM data frame obtained from [bold.analyze.align()].
 #' @param dist_model A character string specifying the model to generate the distances.
@@ -15,7 +15,7 @@
 #' @param tree_plot_type A character string specifying the layout of the tree. Needs to be provided by default.
 #' @param ... additional arguments from `ape::dist.dna`.
 #'
-#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Two forms of Neighbor Joining clustering are currently available ([ape::nj()] & [ape::njs()]). Setting `save_dist_mat`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.
+#' @details `bold.analyze.tree` analyzes the multiple sequence alignment output of the `bold.analyze.align()` function to generate a distance matrix using the models available in the [ape::dist.dna()]. Two forms of Neighbor Joining clustering are currently available ([ape::nj()] & [ape::njs()]). Setting `save_dist_mat`= TRUE will store the underlying distance matrix in the output; however, the  default value for the argument is deliberately kept at FALSE to avoid potential memory issues with large data.
 #' `newick_tree_export` will save the tree in a newick format locally. Data path with the name of the file should be provided (Ex. 'C:/Users/xyz/Desktop/newickoutput'). Setting `tree_plot`= TRUE generates a basic visualization of the Neighbor Joining (NJ) tree using the distance matrix from [ape::dist.dna()] and the [ape::plot.phylo()] function. `tree_plot_type` specifies the type of tree and has the following options ("phylogram", "cladogram", "fan", "unrooted", "radial", "tidy" based on `type` argument of [ape::plot.phylo()];The first alphabet can be used instead of the whole word). Both [ape::nj()] and [ape::njs()] are available for generating the tree. Additional arguments for calculating distances can be passed to [ape::dist.dna()] using the `...` argument (arguments such as `gamma`, `pairwise.deletion` & `base.freq`). The function also provides base frequencies from the data.
 #'
 #' @returns An 'output' list containing:
@@ -32,8 +32,8 @@
 #' "Oreochromis karongae"))
 #'
 #' # Fetch the data using the ids.
-#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
-#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#' #2. Use the `bold.apikey()` function  to set the apikey in the global env.
 #'
 #' bold.apikey('apikey')
 #'

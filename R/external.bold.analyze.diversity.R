@@ -54,8 +54,8 @@
 #' comm.mat.data <- bold.public.search(taxonomy = list("Poecilia"))
 #'
 #' # Fetch the data using the ids.
-#' #1. api_key must be obtained from BOLD support before using `bold.fetch` function.
-#' #2. Use the `bold.apikey` function  to set the apikey in the global env.
+#' #1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#' #2. Use the `bold.apikey()` function  to set the apikey in the global env.
 #'
 #' bold.apikey('apikey')
 #'
