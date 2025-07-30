@@ -8,11 +8,11 @@ Authors@R: c(
     person("Sujeevan", "Ratnasingham", , "sratnasi@uoguelph.ca", role = "aut")
   )
 Maintainer: Sameer Padhye <spadhye@uoguelph.ca>
-Description: Facilitate retrieval, transformation and analysis of the data
+Description: Facilitates retrieval, transformation and analysis of the data
     from the Barcode of Life Data Systems (BOLD) database <http:https://boldsystems.org/>. 
-    This package allows both public and private user data to be easily downloaded easily into the R
+    This package allows both public and private user data to be easily downloaded into the R
     environment using a variety of inputs such as: processids, sampleids, 
-    taxonomy, geography etc. It provides the functionality to convert data 
+    taxonomy, geography etc. It provides frictionless data conversion  
     into formats compatible with other R-packages and third-party tools, 
     as well as analysis functions for biodiversity, clustering and mapping.
 License: MIT + file LICENSE
