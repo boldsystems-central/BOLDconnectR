@@ -14,6 +14,8 @@
 #'
 #' @examples
 #'
+#'\dontrun {
+#'
 #' #Taxonomy
 #' bold.data <- bold.public.search(taxonomy = list("Panthera leo"))
 #'
@@ -35,6 +37,7 @@
 #' bold.data.taxo.geo.df.col <- bold.public.search(taxonomy = as.list(df_test$taxon_name),
 #' geography = as.list(df_test$locations))
 #'
+#' }
 #'
 #' @importFrom utils URLencode
 #' @importFrom dplyr %>%

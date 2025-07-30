@@ -37,6 +37,8 @@ Retrieves record ids for publicly available data based on taxonomy, geography, i
 }
 \examples{
 
+\dontrun {
+
 #Taxonomy
 bold.data <- bold.public.search(taxonomy = list("Panthera leo"))
 
@@ -58,5 +60,6 @@ locations = c("India","Sri Lanka"))
 bold.data.taxo.geo.df.col <- bold.public.search(taxonomy = as.list(df_test$taxon_name),
 geography = as.list(df_test$locations))
 
+}
 
 }
