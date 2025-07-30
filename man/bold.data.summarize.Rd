@@ -91,7 +91,7 @@ test.data.summary.completeness$completeness_plot
 
 #4. Barcode summary (forward primer LCO1490)
 
-library(Biostrings)
+# Users need to first load the package `Biostrings`
 
 test.data.summary.barcode <- bold.data.summarize(bold_df=bold.data,
                                                  summary_type = "barcode_summary",

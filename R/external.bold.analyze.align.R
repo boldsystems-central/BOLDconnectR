@@ -11,7 +11,7 @@
 #' @details
 #' `bold.analyze.align` takes the sequence information obtained using [bold.fetch()] function and performs a multiple sequence alignment. It uses the `msa::msa()` function with default settings but additional arguments from the `msa` function can be passed through the `...` argument. The clustering method can be specified using the `align_method` argument, with options including  `Muscle` and `ClustalOmega` (available via the `msa` package). The provided marker name must match the standard marker names (Ex. COI-5P) available on the BOLD webpage (Ratnasingham et al. 2024; pg.404). The name for individual sequences in the output can be customized by using the `cols_for_seq_names` argument. If multiple fields are specified, the sequence name will follow the order of fields given in the vector. Performing a multiple sequence alignment on large sequence data might slow the system. Additionally, users are responsible for verifying the sequence quality and integrity, as the function does not automatically check for issues like STOP codons and indels within the data.
 #'
-#' \emph{Note: }. Users are required to install and load the `Biostrings` and `msa` packages using `BiocManager` before running this function.
+#' \emph{Note: }. Users are required to install and load the `Biostrings`, `msa` and `muscle` packages using `BiocManager` before running this function.
 #'
 #' @returns
 #' * bold_df.mod = A modified BCDM data frame with two additional columns (’aligned_seq’ and ’msa.seq.name’).
@@ -36,6 +36,8 @@
 #'                      identifiers = seq.data.ids$processid)
 #'
 #' # R packages `msa` and `Biostrings` are required for this function to run.
+#' # For `align_method` = "Muscle", package `muscle` is required as well.
+#'
 #' # Both the packages are installed using `BiocManager`.
 #'
 #' # Align the data (using  bin_uri as the name for each sequence)

@@ -46,6 +46,8 @@
 #'
 #' # Align the data
 #' # Users need to install and load packages `msa` and `Biostrings`.
+#' # For `align_method` = "Muscle", package `muscle` is required as well.
+#'
 #' seq.align<-bold.analyze.align(bold_df=seq.data,
 #'                               marker="COI-5P",
 #'                               align_method="ClustalOmega",
