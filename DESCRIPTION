@@ -11,10 +11,10 @@ Maintainer: Sameer Padhye <spadhye@uoguelph.ca>
 Description: Facilitates retrieval, transformation and analysis of the data
     from the Barcode of Life Data Systems (BOLD) database <http:https://boldsystems.org/>. 
     This package allows both public and private user data to be easily downloaded into the R
-    environment using a variety of inputs such as: processids, sampleids, 
-    taxonomy, geography etc. It provides frictionless data conversion  
+    environment using a variety of inputs such as: IDs (processid, sampleid), BINs, dataset codes, 
+    project codes, taxonomy, geography etc. It provides frictionless data conversion  
     into formats compatible with other R-packages and third-party tools, 
-    as well as analysis functions for biodiversity, clustering and mapping.
+    as well as functions for sequence alignment & clustering, biodiversity analysis and spatial mapping.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
