@@ -9,7 +9,7 @@ Authors@R: c(
   )
 Maintainer: Sameer Padhye <spadhye@uoguelph.ca>
 Description: Facilitates retrieval, transformation and analysis of the data
-    from the Barcode of Life Data Systems (BOLD) database <http:https://boldsystems.org/>. 
+    from the Barcode of Life Data Systems (BOLD) database <https://boldsystems.org/>. 
     This package allows both public and private user data to be easily downloaded into the R
     environment using a variety of inputs such as: IDs (processid, sampleid), BINs, dataset codes, 
     project codes, taxonomy, geography etc. It provides frictionless data conversion  

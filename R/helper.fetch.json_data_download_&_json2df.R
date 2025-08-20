@@ -14,7 +14,9 @@ post.api.res.fetch<-function (base.url,
 
 {
 
-if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
+  # Setup API key
+
+  apikey = Sys.getenv("api_key")
 
 
   result <- tryCatch({

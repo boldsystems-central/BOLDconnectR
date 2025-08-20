@@ -22,18 +22,35 @@
 #'
 #' @export
 #'
-bold.apikey<-function(apikey)
+# bold.apikey<-function(apikey)
+#
+#   {
+#
+#   assign("apikey",
+#          apikey,
+#          envir=.GlobalEnv)
+#
+#    return(get("apikey",
+#              envir = .GlobalEnv))
+#
+#
+# }
+bold.apikey <- function(apikey)
+{
+  # check if the key is provided
 
-  {
+  stopifnot(!is.null(apikey))
 
-  assign("apikey",
-         apikey,
-         envir=.GlobalEnv)
+  # check if the format of key is correct
 
-   return(get("apikey",
-             envir = .GlobalEnv))
+  api_key_format <- "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
 
+  if (!grepl(api_key_format, apikey)) {
+    stop("Incorrect API key format. Please re-check the API key")
+  }
 
+  # Set the key in R session
+
+  Sys.setenv(api_key = apikey)
 }
-
 

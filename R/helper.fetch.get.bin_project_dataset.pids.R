@@ -11,6 +11,10 @@ bin.dataset.project.pids<-function (get.data.input,
 
 {
 
+  # Set the API key
+
+  apikey = Sys.getenv("api_key")
+
   # Base url for the obtaining the token that will be used for fetching the processids
 
   base_url_ids<-paste('https://data.boldsystems.org/api/sets/create?',

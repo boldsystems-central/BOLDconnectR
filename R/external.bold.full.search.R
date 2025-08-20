@@ -76,6 +76,10 @@ bold.full.search <- function(taxonomy=NULL,
   url_step_2 = "https://data.boldsystems.org/api/search/records?include_public=true"
 
 
+  # Set up API key
+
+  apikey = Sys.getenv("api_key")
+
   # Colors for printing the progress on the console
 
   green_col <- "\033[32m"
@@ -195,8 +199,6 @@ bold.full.search <- function(taxonomy=NULL,
   cat(red_col,"Downloading ids.",reset_col,'\r')
 
   # STEP1:  This json output will used for the first POST call
-
-  if(!exists("apikey",envir = .GlobalEnv)) stop("API key not found.")
 
   step1 = tryCatch({
     result<-POST(
