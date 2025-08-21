@@ -1,7 +1,7 @@
 #' Retrieve data from the BOLD database
 #'
 #' @description
-#' Retrieves public and private user data based on different parameter (processid, sampleid, dataset or project codes & bin_uri) input.
+#' Retrieves public and private user data based on different parameter (processid, sampleid, dataset or project codes & bin_uris) input.
 #'
 #' @param get_by A character string specifying the parameter used to fetch data (“processid”, “sampleid”, "bin_uris", "dataset_codes" or "project_codes")
 #' @param identifiers A vector (or a data frame column) pointing to the `get_by` parameter specified.
