@@ -1,12 +1,12 @@
 #' Set the BOLD private data API key
 #'
 #' @description
-#' Stores the BOLD-provided access token ‘api key’ in a variable, making it available for use in other function within the R session.
+#' Stores the BOLD-provided access token ‘apikey’ in a variable, making it available for use in other functions within the R session.
 #'
 #' @param apikey A character string required for authentication and data access.
 #'
-#' @details `bold.apikey` creates a variable called `apikey` that stores the access token provided by BOLD. This apikey variable is then used internally by the [bold.fetch()] function, so that the user does not have need to input it again. To set the `apikey`, the token must be provided as an input for the function before any other functions are called. The api_key is a UUID v4 hexadecimal string and is valid for one year,  after which it must be renewed.
-#' \emph{Obtaining the API key}: The API key is found in the BOLD 'Workbench'<https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>. After logging in, navigate to 'Your Name' (located at the top left-hand side of the window) and click 'Edit User Preferences'. You can find the API key in the 'User Data' section. Please note that to have an API key available in the workbench, a user must have uploaded at least 10,000 records to BOLD.
+#' @details `bold.apikey` creates a variable called `apikey` that stores the access token provided by BOLD. This apikey variable is then used internally by the [bold.fetch()] and [bold.full.search()] functions, so that the user does not have to input it again. To set the `apikey`, the token must be provided as an input for the function before any other functions are called. The `apikey` is a UUID v4 hexadecimal string and is valid for few months,  after which it must be renewed.
+#' \emph{Obtaining the API key}: The API key is found in the BOLD 'Workbench'<https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>. After logging in, navigate to 'Your Name' (located at the top left-hand side of the window) and click 'Edit User Preferences'. You can find the API key in the 'User Data' section. Please note that to have an API key available in the workbench, a user must have uploaded ~ 10K records to BOLD, though, in case there aren't those many submissions on BOLD, the user can email BOLD support for a token. Such requests will be assessed on a case by case basis.
 #'
 #' @returns Token saved as 'apikey'
 #'
@@ -15,26 +15,13 @@
 #'
 #' #This example below is for documentation only
 #'
-#' bold_apikey(‘00000000-0000-0000-0000-000000000000’)
+#' bold.apikey(‘00000000-0000-0000-0000-000000000000’)
 #'
 #' }
 #'
 #'
 #' @export
 #'
-# bold.apikey<-function(apikey)
-#
-#   {
-#
-#   assign("apikey",
-#          apikey,
-#          envir=.GlobalEnv)
-#
-#    return(get("apikey",
-#              envir = .GlobalEnv))
-#
-#
-# }
 bold.apikey <- function(apikey)
 {
   # check if the key is provided
