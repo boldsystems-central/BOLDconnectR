@@ -26,7 +26,7 @@ bold.fetch(
 )
 }
 \arguments{
-\item{get_by}{A character string specifying the parameter used to fetch data (“processid”, “sampleid”, "bin_uri", "dataset_codes" or "project_codes")}
+\item{get_by}{A character string specifying the parameter used to fetch data (“processid”, “sampleid”, "bin_uris", "dataset_codes" or "project_codes")}
 
 \item{identifiers}{A vector (or a data frame column) pointing to the \code{get_by} parameter specified.}
 
