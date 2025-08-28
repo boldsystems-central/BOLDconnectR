@@ -62,14 +62,14 @@ data_for_export <- bold.fetch(get_by = "processid",
 bold.export(bold_df=data_for_export,
             export_type = "preset_df",
             presets = 'taxonomy',
-            export = "file_path_with_intended_name.csv")
+            export = file.path(tempdir(), "file_path_with_intended_name.csv"))
 
 #2. Export the fasta file (unaligned)
 # Note that input data here is the original BCDM data (data_for_export)
 bold.export(bold_df = data_for_export,
             export_type = "fas",
             cols_for_fas_names = c("bin_uri","genus","species"),
-            export = "file_path_with_intended_name.fas")
+            export = file.path(tempdir(),"file_path_with_intended_name.fas"))
 
 #3. Export multiple sequence alignment
 #a. Align the data

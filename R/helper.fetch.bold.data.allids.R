@@ -51,9 +51,9 @@ fetch.bold.id<-function(data.input,
 
     # The helper function 'post.api.res.fetch' is used to retrieve the data.
 
-    cat(green_col,"Initiating download",reset_col,'\n',sep="")
+    message(paste0(green_col, "Initiating download", reset_col))
 
-    cat(red_col,"Downloading data in a single batch",reset_col,'\r')
+    message(paste0(red_col,"Downloading data in a single batch",reset_col),appendLF = FALSE)
 
     result=post.api.res.fetch(base.url=base_url,
                               query.params=query_params,
@@ -69,7 +69,7 @@ fetch.bold.id<-function(data.input,
 
     # Else print the output
 
-    cat("\n", green_col, "Download complete & BCDM dataframe generated", reset_col, sep = "")
+    message(paste0("\n", green_col, "Download complete & BCDM dataframe generated", reset_col))
 
   }
 
@@ -97,7 +97,7 @@ fetch.bold.id<-function(data.input,
 
     # Defining the colors for printing download updates on the console
 
-    cat(green_col,"Initiating download in batches",reset_col,'\n',sep='')
+    message(paste0(green_col, "Initiating download in batches", reset_col))
 
     result <- lapply(seq_along(temp_file), function(f) {
 
@@ -113,7 +113,7 @@ fetch.bold.id<-function(data.input,
 
       #b Using 'cat' to print in the console
 
-      cat(red_col,download_message,reset_col,'\r')
+      message(paste0(red_col, download_message, reset_col, "\r"), appendLF = FALSE)
 
       # Download data (list of data frames)
 
@@ -126,10 +126,10 @@ fetch.bold.id<-function(data.input,
 
     })
 
-    cat("\n", green_col, "Batch download complete", reset_col, sep = "")
+    message(paste0("\n", green_col, "Batch download complete", reset_col))
 
     # Generating the final data frame
-    cat("\n", red_col,"Generating the combined BCDM dataframe",reset_col,"\n",sep="")
+    message(paste0("\n", red_col, "Generating the combined BCDM dataframe", reset_col, "\n"))
 
     json.df=result%>%
       dplyr::bind_rows(.)

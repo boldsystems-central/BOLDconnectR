@@ -27,13 +27,13 @@ bold.fields.info<-function (print.output=FALSE) {
 
   original_timeout = getOption('timeout')
 
+  # Reset the options on exit
+
+  on.exit(options(timeout = original_timeout))
+
   # Setting new options for the function
 
   options(timeout=350)
-
-  # Reset the options on exit
-
-  on.exit(original_timeout)
 
   bold.fields.data= suppressMessages(data.table::fread("https://github.com/DNAdiversity/BCDM/raw/main/field_definitions.tsv",
                                                        sep = '\t',

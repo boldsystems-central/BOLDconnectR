@@ -18,7 +18,7 @@
 #'
 #' #This example below is for documentation only
 #'
-#' bold.apikey(‘00000000-0000-0000-0000-000000000000’)
+#' bold.apikey('00000000-0000-0000-0000-000000000000')
 #'
 #' }
 #'

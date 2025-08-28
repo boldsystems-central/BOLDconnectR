@@ -196,7 +196,7 @@ bold.full.search <- function(taxonomy=NULL,
 
   # Initating download print in the console
 
-  cat(red_col,"Downloading ids.",reset_col,'\r')
+  message(paste0(red_col, "Downloading ids.", reset_col, "\r"), appendLF = FALSE)
 
   # STEP1:  This json output will used for the first POST call
 
@@ -371,7 +371,7 @@ bold.full.search <- function(taxonomy=NULL,
   input_data=data.frame(processid=downloaded_ids_fordf,
                         marker_code=downloaded_markers_df)
 
-  if(!is.null(input_data)) cat("\n", green_col, "Download complete.\n", reset_col, sep = "")
+  if(!is.null(input_data)) message(paste0("\n", green_col, "Download complete.\n", reset_col), appendLF = FALSE)
 
 
   #}
