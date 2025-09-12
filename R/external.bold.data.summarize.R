@@ -152,7 +152,7 @@ bold.data.summarize <- function(bold_df,
                                                           category = "check_return",
                                                           preset = "bold_barcode_summary")
 
-           if (summary_type %in% c("barcode_summary", "all")) {
+           if (summary_type %in% c("barcode_summary")) {
 
              if (is.null(primer_f) && is.null(primer_r)) {
 

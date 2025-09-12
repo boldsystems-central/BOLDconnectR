@@ -9,7 +9,7 @@
 #'
 #' \emph{Obtaining the API key}: The API key is found in the BOLD Workbench(<https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>). After logging in, navigate to `Your Name` (located at the top left-hand side of the window) and click `Edit User Preferences`. You can find the API key in the `User Data` section.
 #'
-#' \emph{Please note}: To have an API key available in the workbench, a user must have uploaded ~ 10K records to BOLD, though, in case there aren't those many submissions on BOLD, the user can email BOLD support for a token. Such requests will be assessed on a case by case basis.
+#' \emph{Please note}: To have an API key available in the workbench, a user must have uploaded ~ 10K records to BOLD, though, in case there aren't those many submissions on BOLD, the user can email BOLD support to request for a token. Such requests will be assessed on a case by case basis.
 #'
 #' @returns Token saved as 'apikey'
 #'

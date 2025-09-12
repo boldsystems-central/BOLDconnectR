@@ -18,7 +18,7 @@
 #' * ecology_biogeography = "elev", "elev_accuracy", "depth", "depth_accuracy", "habitat", "ecoregion", "biome", "realm", "coord", "coord_source".
 #' * other_meta_data = "notes", "taxonomy_notes", "funding_src", "voucher_type", "tissue_type", "sampling_protocol".
 #' "processids" and "sampleids" are present in all the presets.
-#' Only one preset can be used at a time. `presets` should be NULL when exporting a FASTA file to avoid errors. Tabular data can be exported as a csv/tsv file. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv'). This functionality is developed with the future potential of uploading data to BOLD using the package.
+#' Only one preset can be used at a time. `presets` should be NULL when exporting a FASTA file to avoid errors . Tabular data can be exported as a csv/tsv file. Data path with the name of the output file with the corresponding file extension (csv or tsv) should be provided (Ex. 'C:/Users/xyz/Desktop/fetch_data_output.csv' for Windows). This functionality is developed with the future potential of uploading data to BOLD using the package.
 #'
 #' @examples
 #' \dontrun{
