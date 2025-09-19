@@ -60,7 +60,7 @@ library(BOLDconnectR)
 **Note on Suggested packages** *Function 6*: *bold.data.summarize*
 requires the packages `Biostrings` to be installed and imported in R
 session beforehand for generating the `barcode_summary`.
-*Function 7*: *bold.analyze.align* requires the packages `msa` and
+*Function 7*: *bold.analyze.align* requires the packages `msa`, `muscle`, and
 `Biostrings` to be installed and imported in the R session beforehand.
 Function 8 also uses the output generated from function 7. `msa` and
 `Biostrings` can be installed using the `BiocManager` package.
@@ -72,9 +72,11 @@ install.packages("BiocManager")
 
 BiocManager::install("msa")
 BiocManager::install("Biostrings")
+BiocManager::install("muscle")
 
 library(msa)
 library(Biostrings)
+library(muscle)
 ```
 
 ### Note on API key
