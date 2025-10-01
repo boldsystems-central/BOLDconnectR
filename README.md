@@ -30,12 +30,15 @@ More details on *Suggested packages* provided below.
 
 ## Installation
 
-The package can be installed using `devtools::install_github` function
-from the `devtools` package in R (which needs to be installed before
-installing BOLDConnectR).
+The package can be installed either using  the `install.packages()` directly or
+the `devtools::install_github` function from the `devtools` package in R (which 
+needs to be installed before installing BOLDConnectR)
 
 ``` r
+# Direct installation
+install.packages('BOLDconnectR')
 
+# devtools installation
 devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
 ```
 
