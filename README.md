@@ -192,7 +192,7 @@ functions of BOLDConnectR with examples.
 *BOLDconnectR* can retrieve data very fast (~100k records in a
 minute on a fast wired connection).
 
-**Funding:** This work was funded by the New Frontiers in Research Fund (NFRF) - Transformation 2020.  Then add a link to <https://sshrc-crsh.canada.ca/funding-financement/nfrf-fnfr/transformation/transformation-eng.aspx>
+**Funding:** This work was funded by the [New Frontiers in Research Fund (NFRF) - Transformation 2020](https://sshrc-crsh.canada.ca/funding-financement/nfrf-fnfr/transformation/transformation-eng.aspx)
 
 *Citation:* Padhye SM, Ballesteros-Mejia CL, Agda TJA, Agda JRA,
 Ratnasingham S. BOLDconnectR: An R package for streamlined retrieval,
