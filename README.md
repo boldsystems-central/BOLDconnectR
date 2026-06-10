@@ -196,4 +196,4 @@ minute on a fast wired connection).
 
 *Citation:* Padhye SM, Ballesteros-Mejia CL, Agda TJA, Agda JRA,
 Ratnasingham S. BOLDconnectR: An R package for streamlined retrieval,
-transformation and analysis of BOLD DNA barcode data (MS in prep).
+transformation and analysis of BOLD DNA barcode data (*Submitted* to PLOS One).
