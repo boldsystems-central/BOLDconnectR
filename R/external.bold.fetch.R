@@ -186,7 +186,6 @@ bold.fetch <- function(get_by,
     stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris.")
   )
 
-
   # Select only the core BCDM fields
 
   json.df <- json.df[, intersect(names(json.df), bold.fields.info()$field)]
@@ -221,7 +220,6 @@ bold.fetch <- function(get_by,
     json.df <- json.df %>%
       dplyr::select(all_of(cols))
   }
-
 
   if (na.rm) {
     json.df <- json.df %>%
@@ -268,12 +266,7 @@ bold.fetch <- function(get_by,
       }
     )
 
-
-    # utils::write.table(json.df,
-    #                    paste0(export,sep=""),
-    #                    sep = "\t",
-    #                    row.names = FALSE,
-    #                    quote = FALSE)
+                   quote = FALSE)
   }
 
   return(json.df)

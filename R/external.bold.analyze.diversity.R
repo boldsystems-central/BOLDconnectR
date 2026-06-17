@@ -262,7 +262,6 @@ bold.analyze.diversity <- function(bold_df,
       )
     },
     "shannon" = {
-      # Shannon diversity
 
       shannon_results <- shannon_div_profile(df = bin.comm)
 
@@ -285,7 +284,6 @@ bold.analyze.diversity <- function(bold_df,
     },
     "all" = {
       richness_res <- richness_profile(df = bin.comm)
-
 
       preston_results <- preston_profile(
         df = bin.comm,

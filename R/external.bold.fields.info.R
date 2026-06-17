@@ -64,7 +64,6 @@ bold.fields.info <- function(print.output = FALSE) {
       TRUE ~ field
     ))
 
-
   if (print.output == TRUE) {
     return(bold.fields.data)
   } else {

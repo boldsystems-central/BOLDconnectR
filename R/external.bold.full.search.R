@@ -82,7 +82,6 @@ bold.full.search <- function(taxonomy = NULL,
 
   url_step_2 <- "https://data.boldsystems.org/api/search/records?include_public=true"
 
-
   # Set up API key
 
   apikey <- Sys.getenv("api_key")
@@ -94,7 +93,6 @@ bold.full.search <- function(taxonomy = NULL,
   red_col <- "\033[31m"
 
   reset_col <- "\033[0m"
-
 
   # Making a list of collection_dates for JSON input
 

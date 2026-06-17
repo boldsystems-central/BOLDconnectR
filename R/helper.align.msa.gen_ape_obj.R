@@ -86,6 +86,5 @@ generate_ape_file <- function(data,
     format = "fasta"
   )
 
-
   return(result)
 }

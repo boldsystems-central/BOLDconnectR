@@ -85,7 +85,7 @@ bold.public.search <- function(taxonomy = NULL,
   non_null_args <- args[!null_args]
 
   # If condition to check if the input arguments is/are list/s
-  #
+
   if (any(!sapply(non_null_args, is.list))) {
     stop("Input data must be a list.")
   }
@@ -123,7 +123,6 @@ bold.public.search <- function(taxonomy = NULL,
         )
 
         # Generate the query id
-
         step4 <- generate_query_id(step3)
 
         # Download the data using the query id
