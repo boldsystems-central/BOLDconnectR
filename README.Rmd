@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r display image, warning=F,message=F,echo=F,out.width=25}
 
-knitr::include_graphics("C:/Users/samee/OneDrive/Desktop/BOLDConnectR/BOLDconnectR/man/figures/boldconnectr_logo.png")
+knitr::include_graphics("/Users/sameerpadhye/Desktop/BOLDconnectR/man/figures/boldconnectr_logo.png")
 
 ```
 
@@ -38,7 +38,7 @@ library(DT)
 
 ## Installation
 
-The package can be installed using `devtools::install_github` function from the `devtools` package in R (which needs to be installed before installing BOLDConnectR). 
+The package can be installed either by `install.packages()` for the CRAN version or using the `devtools::install_github` function from the `devtools` package in R (which needs to be installed before installing BOLDConnectR). 
 ```{r setup,warning=FALSE,message=F}
 
 devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
@@ -94,11 +94,12 @@ API key can be saved in the R session using `bold.apikey()` function.
 
 API key function must be run prior to using the fetch function (Please see above).
 ```{r apikey,include=F,warning=FALSE,message=F}
-bold.apikey('4C3BA477-37F8-4B7E-AA20-D30ACC8491E9')
+bold.apikey('30175D77-5E98-44C6-A959-7BCE944EBDD4')
 ```
 
 #### Fetch data
 ```{r fetch data,message=F,warning=F}
+
 BCDM_data<-bold.fetch(get_by = "processid",
                       identifiers = test.data$processid)
 
@@ -137,10 +138,111 @@ Downloaded data can also be exported to the local machine either as a flat file 
 
 ```
 
-#### Other functions
+#### Sequence Alignment
 
-The package also has analyses functions that provide sequence alignment, NJ clustering, biodiversity analysis, occurrence mapping using the downloaded BCDM data. Additionally, these functions also output objects that are commonly used by other R packages (Ex. 'sf' dataframe, occurrence matrix for 'vegan' and 'betapart'). Please go through the help manual (Link provided above) for detailed usage of all the functions of BOLDConnectR with examples.
+Downloaded data be aligned by either *ClustalOmega* or *muscle* algorithms with custom headers for the aligned sequences. The function uses `msa`, `ape`, `muscle` and `Biostrings` internally for the sequence alignment. The packages `muscle`, `msa` and `Biostrings` must be imported prior to using the align function.
+
+```{r align_sequence,message=F,warning=F}
+
+# bold.apikey('')
+# 
+# fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
+#                                     get_by = "dataset_codes",
+#                                     filt_taxonomy = "Manduca",
+#                                     filt_basecount = c(600,670))
+# 
+# # Sequence is aligned using ClustalOmega with default settings
+# align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
+#                                     marker = "COI-5P",
+#                                     cols_for_seq_names = c("species","bin_uri"),
+#                                     align_method = "ClustalOmega")
+# # Confirm the result
+# head(subset(align.test.data,select = c(aligned_seq,msa.seq.name)),5)
+
+```
+
+#### NJ tree visualization
+
+The aligned sequences cane also be visualized as a Neighbour joining tree. The function uses the `ape` `nj` function to help create the visualization. All additional arguments available for the `nj` function can be passed on to this function as well.
+
+```{r visualize_tree,message=F,warning=F}
+
+# bold.apikey('')
+# 
+# fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
+#                                     get_by = "dataset_codes",
+#                                     filt_taxonomy = "Manduca",
+#                                     filt_basecount = c(600,670))
+# 
+# # Sequence is aligned using ClustalOmega with default settings
+# align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
+#                                     marker = "COI-5P",
+#                                     cols_for_seq_names = c("species","bin_uri"),
+#                                     align_method = "ClustalOmega")
+
+
+# NJ tree with basic settings
+# test.tree<-bold.analyze.tree(bold_df=align.test.data,
+#                                 dist_model = "K80",
+#                                 clus_method = "njs",
+#                                 tree_plot = TRUE,
+#                                 tree_plot_type = 'p')
+# 
+# # The phylo object which can be used for further customization of the plot
+# test.tree$data_for_plot
+# 
+# # base frequencies
+# test.tree$base_freq
+
+```
+
+#### Biodiversity analysis
+
+Basic biodiversity analyses (preston plots, taxa richness estimation, shannon diversity and beta diversity) of the downloaded data can be carried out at any level of taxonomic hierarchy and geographic category. The function uses `vegan`, `BAT` and `betapart` internally. The result also provides an `occurrence matrix` that can be used for other ecological analyses.
+
+```{r biodiversity_analysis,message=F,warning=F}
+
+# bold.apikey('')
+# fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
+#                                get_by = "dataset_codes")
+# 
+# test.richness.diversity<-bold.analyze.diversity(bold_df=fetch.test.data,
+#                                                    taxon_rank = "genus",
+#                                                     site_type = "locations",
+#                                                    location_type = "country.ocean",
+#                                                    diversity_profile = "richness")
+# 
+# # View the richness estimator results
+# View(test.richness.diversity$richness)
+# 
+# # Occurrence matrix (site X species)
+# test.richness.diversity$comm.matrix
+
+```
+
+
+#### Occurrence map
+
+The package also offers functionality to generate occurrence maps of the downloaded data at different scales (Complete geographic extent of the downloaded data, country specific occurrence and a bounding box based occurrenc map). The result also provides an `sf` object that can be used for other spatial analyses.
+
+```{r occurrence_maps,message=F,warning=F}
+
+# bold.apikey('')
+# fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
+#                                get_by = "dataset_codes")
+
+# All occurrences
+# test.map<-bold.analyze.map(fetch.test.data)
+
+# Specific country
+# test.map.brazil=bold.analyze.map(fetch.test.data,country = "Australia")
+
+```
 
 *BOLDconnectR* is able to retrieve data very fast (~100k records in a minute on a fast wired connection).
 
-*Citation:* Padhye SM, Ballesteros-Mejia CL,Agda TJA, Agda JRA, Ratnasingham S. BOLDconnectR: An R package for streamlined retrieval, transformation and analysis of BOLD DNA barcode data.(MS in prep)
+#### Funding 
+This work was funded by the [New Frontiers in Research Fund (NFRF) - Transformation 2020](https://sshrc-crsh.canada.ca/funding-financement/nfrf-fnfr/transformation/transformation-eng.aspx)
+
+#### Citation
+Padhye SM, Ballesteros-Mejia CL,Agda TJA, Agda JRA, Ratnasingham S. BOLDconnectR: An R package for streamlined retrieval, transformation and analysis of BOLD DNA barcode data.(Submitted to *Plos ONE*)
