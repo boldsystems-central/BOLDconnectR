@@ -78,23 +78,27 @@ This function creates a biodiversity profile of the downloaded data using \code{
 comm.mat.data <- bold.public.search(taxonomy = list("Poecilia"))
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#2. Use the `bold.apikey()` function  to set the apikey in the global env.
+# 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+# 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
-bold.apikey('apikey')
+bold.apikey("apikey")
 
-BCDMdata <- bold.fetch(get_by = "processid",
-                       identifiers = comm.mat.data$processid)
+BCDMdata <- bold.fetch(
+  get_by = "processid",
+  identifiers = comm.mat.data$processid
+)
 
 # Remove rows which have no species data
-BCDMdata <- BCDMdata[!BCDMdata$species== "",]
+BCDMdata <- BCDMdata[!BCDMdata$species == "", ]
 
-#1. Analyze richness data
-res.rich <- bold.analyze.diversity(bold_df=BCDMdata,
-                                   taxon_rank = "species",
-                                   site_type = "locations",
-                                   location_type = 'country.ocean',
-                                   diversity_profile = "richness")
+# 1. Analyze richness data
+res.rich <- bold.analyze.diversity(
+  bold_df = BCDMdata,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "richness"
+)
 
 # Community matrix (BCDM data converted to community matrix)
 res.rich$comm.matrix
@@ -102,12 +106,14 @@ res.rich$comm.matrix
 # richness results
 res.rich$richness
 
-#2. Shannon diversity (based on grids)
-res.shannon <- bold.analyze.diversity(bold_df=BCDMdata,
-                                      taxon_rank = "species",
-                                      site_type = "grids",
-                                      gridsize = 1000000,
-                                      diversity_profile = "shannon")
+# 2. Shannon diversity (based on grids)
+res.shannon <- bold.analyze.diversity(
+  bold_df = BCDMdata,
+  taxon_rank = "species",
+  site_type = "grids",
+  gridsize = 1000000,
+  diversity_profile = "shannon"
+)
 
 # Shannon diversity results
 res.shannon$shannon_div
@@ -118,12 +124,14 @@ res.shannon$grids.data
 # grid map
 res.shannon$grid.map
 
-#3. Preston plots and results
-pres.res <- bold.analyze.diversity(bold_df=BCDMdata,
-                                   taxon_rank = "species",
-                                   site_type = "locations",
-                                   location_type = 'country.ocean',
-                                   diversity_profile = "preston")
+# 3. Preston plots and results
+pres.res <- bold.analyze.diversity(
+  bold_df = BCDMdata,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "preston"
+)
 
 # Preston plot
 pres.res$preston.plot
@@ -131,31 +139,35 @@ pres.res$preston.plot
 # Preston plot data
 pres.res$preston.res
 
-#4. beta diversity
-beta.res <- bold.analyze.diversity(bold_df=BCDMdata,
-                                   taxon_rank = "species",
-                                   site_type = "locations",
-                                   location_type = 'country.ocean',
-                                   diversity_profile = "beta",
-                                   beta_index = "jaccard")
+# 4. beta diversity
+beta.res <- bold.analyze.diversity(
+  bold_df = BCDMdata,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "beta",
+  beta_index = "jaccard"
+)
 
-#Total diversity
+# Total diversity
 beta.res$total.beta
 
-#Replacement
+# Replacement
 beta.res$replace
 
-#Richness difference
+# Richness difference
 beta.res$richnessd
 
-#5. All profiles
-all.diversity.res<-bold.analyze.diversity(bold_df=BCDMdata,
-                                          taxon_rank = "species",
-                                          site_type = "locations",
-                                          location_type = 'country.ocean',
-                                          diversity_profile = "all",
-                                          beta_index = "jaccard")
-#Explore all results
+# 5. All profiles
+all.diversity.res <- bold.analyze.diversity(
+  bold_df = BCDMdata,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "all",
+  beta_index = "jaccard"
+)
+# Explore all results
 all.diversity.res
 }
 

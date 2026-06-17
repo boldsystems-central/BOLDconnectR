@@ -20,7 +20,7 @@ The function downloads the latest field (column) meta data (file type and brief 
 }
 \examples{
 
-bold.field.data<-bold.fields.info()
-head(bold.field.data,10)
+bold.field.data <- bold.fields.info()
+head(bold.field.data, 10)
 
 }

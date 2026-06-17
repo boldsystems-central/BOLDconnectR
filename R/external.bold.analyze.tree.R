@@ -26,41 +26,49 @@
 
 #' @examples
 #' \dontrun{
-#' #Download the data ids
-#' seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
-#' "Oreochromis karongae"))
+#' # Download the data ids
+#' seq.data.ids <- bold.public.search(taxonomy = list(
+#'   "Oreochromis tanganicae",
+#'   "Oreochromis karongae"
+#' ))
 #'
 #' # Fetch the data using the ids.
-#' #1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#' #2. Use the `bold.apikey()` function  to set the apikey in the global env.
+#' # 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#' # 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 #'
-#' bold.apikey('apikey')
+#' bold.apikey("apikey")
 #'
-#' seq.data <- bold.fetch(get_by = "processid",
-#'                        identifiers = seq.data.ids$processid,
-#'                        filt_marker = "COI-5P")
+#' seq.data <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = seq.data.ids$processid,
+#'   filt_marker = "COI-5P"
+#' )
 #'
 #' # Remove rows without species name information
-#' seq <- seq.data[seq.data$species!="", ]
+#' seq <- seq.data[seq.data$species != "", ]
 #'
 #' # Align the data
 #' # Users need to install and load packages `msa` and `Biostrings`.
 #' # For `align_method` = "Muscle", package `muscle` is required as well.
 #'
-#' seq.align<-bold.analyze.align(bold_df=seq.data,
-#'                               marker="COI-5P",
-#'                               align_method="ClustalOmega",
-#'                               cols_for_seq_names = c("species","bin_uri"))
+#' seq.align <- bold.analyze.align(
+#'   bold_df = seq.data,
+#'   marker = "COI-5P",
+#'   align_method = "ClustalOmega",
+#'   cols_for_seq_names = c("species", "bin_uri")
+#' )
 #'
-#' #Analyze the data to get a tree
+#' # Analyze the data to get a tree
 #'
-#' seq.analysis<-bold.analyze.tree(bold_df=seq.align,
-#'                                 dist_model = "K80",
-#'                                 clus_method="nj",
-#'                                 tree_plot=TRUE,
-#'                                 tree_plot_type='p',
-#'                                 save_dist_mat = T,
-#'                                 pairwise.deletion=T)
+#' seq.analysis <- bold.analyze.tree(
+#'   bold_df = seq.align,
+#'   dist_model = "K80",
+#'   clus_method = "nj",
+#'   tree_plot = TRUE,
+#'   tree_plot_type = "p",
+#'   save_dist_mat = T,
+#'   pairwise.deletion = T
+#' )
 #'
 #' # Output
 #' # A ‘phylo’ object of the plot
@@ -69,7 +77,7 @@
 #' seq.analysis$save_dist_mat
 #' # Base frequencies of the sequences
 #' seq.analysis$base_freq
-#'}
+#' }
 #'
 #' @importFrom ape dist.dna
 #' @importFrom ape base.freq
@@ -81,150 +89,149 @@
 #'
 #' @export
 #'
-bold.analyze.tree<-function(bold_df,
-                            dist_model,
-                            clus_method=c("nj",
-                                          "njs"),
-                            save_dist_mat=FALSE,
-                            newick_tree_export=NULL,
-                            tree_plot=FALSE,
-                            tree_plot_type,
-                            ...)
-
-{
-
+bold.analyze.tree <- function(bold_df,
+                              dist_model,
+                              clus_method = c(
+                                "nj",
+                                "njs"
+                              ),
+                              save_dist_mat = FALSE,
+                              newick_tree_export = NULL,
+                              tree_plot = FALSE,
+                              tree_plot_type,
+                              ...) {
   # Check if data is a non empty data frame object
 
   df_checks(bold_df)
 
   # check if the minimum fields required for the analysis are present
 
-  check_and_return_preset_df(df=bold_df,
-                             category = "check",
-                             preset = 'bold_analyze_tree_fields')
+  check_and_return_preset_df(
+    df = bold_df,
+    category = "check",
+    preset = "bold_analyze_tree_fields"
+  )
 
-# Generate a dataframe of the aligned_seq and the seq.name and convert it to a ape DNAbin
+  # Generate a dataframe of the aligned_seq and the seq.name and convert it to a ape DNAbin
 
-  #1. Extract out the necessary columns
+  # 1. Extract out the necessary columns
 
-  ape_df<-bold_df%>%
-    dplyr::select(matches("^aligned_seq",ignore.case=TRUE),
-                  matches("^msa.seq.name",ignore.case=TRUE),
-                  matches("^nuc",ignore.case=TRUE))%>%
-    dplyr::filter(!is.na(nuc))%>%
-    dplyr::filter(!is.null(nuc))%>%
-    dplyr::mutate(nuc=gsub("-","",nuc))%>%
-    dplyr::filter(nuc!="")
+  ape_df <- bold_df %>%
+    dplyr::select(
+      matches("^aligned_seq", ignore.case = TRUE),
+      matches("^msa.seq.name", ignore.case = TRUE),
+      matches("^nuc", ignore.case = TRUE)
+    ) %>%
+    dplyr::filter(!is.na(nuc)) %>%
+    dplyr::filter(!is.null(nuc)) %>%
+    dplyr::mutate(nuc = gsub("-", "", nuc)) %>%
+    dplyr::filter(nuc != "")
 
-  #2. as.DNAbin accepts matrices so the above dataframe is converted into a matrix with each column being one alphabet (using strsplit) of the basepair in lower case.
+  # 2. as.DNAbin accepts matrices so the above dataframe is converted into a matrix with each column being one alphabet (using strsplit) of the basepair in lower case.
 
-  ape.matrix<-t(sapply(strsplit(ape_df[['aligned_seq']],""), tolower))
+  ape.matrix <- t(sapply(strsplit(ape_df[["aligned_seq"]], ""), tolower))
 
-  rownames(ape.matrix)<-ape_df$msa.seq.name
+  rownames(ape.matrix) <- ape_df$msa.seq.name
 
-  #3. Converting the matrix to a DNAbin object
+  # 3. Converting the matrix to a DNAbin object
 
-  ape_dnabin<-as.DNAbin(ape.matrix)
+  ape_dnabin <- as.DNAbin(ape.matrix)
 
   # Empty output list defined
 
-  output = list()
+  output <- list()
 
   # base frequencies (overall) of the aligned sequences
 
-  base_freq = ape::base.freq(ape_dnabin)
+  base_freq <- ape::base.freq(ape_dnabin)
 
-  output$base_freq = base_freq
+  output$base_freq <- base_freq
 
   # The distance object using the model (and other arguments if specified) specified is generated
 
-  dnabin.dist=ape::dist.dna(ape_dnabin,
-                            model="K80",
-                            ...)
+  dnabin.dist <- ape::dist.dna(ape_dnabin,
+    model = "K80",
+    ...
+  )
 
   # Based on the type of clus, clustering is carried out on the dist object
 
-  if (length(clus_method)!=1) stop("Please select either 'nj' or 'njs'")
+  if (length(clus_method) != 1) stop("Please select either 'nj' or 'njs'")
 
   # Swtich for either nj or njs
 
-    switch(clus_method,
+  switch(clus_method,
 
-           # nj (when there are no NAs)
+    # nj (when there are no NAs)
+    "nj" = {
+      for_plot <- ape::nj(dnabin.dist)
+    },
 
-           "nj" = {
-             for_plot=ape::nj(dnabin.dist)
-           },
-
-           # when there could be potential NAs
-
-           "njs" = {
-             for_plot=ape::njs(dnabin.dist)
-           }
-    )
+    # when there could be potential NAs
+    "njs" = {
+      for_plot <- ape::njs(dnabin.dist)
+    }
+  )
 
   # Save a newick tree format for output
 
-  tree_obj = ape::write.tree(for_plot)
+  tree_obj <- ape::write.tree(for_plot)
 
   # If user wants to export the tree
 
-  if(!is.null(newick_tree_export))
-  {
+  if (!is.null(newick_tree_export)) {
     # save the file
     ape::write.tree(for_plot,
-                    file = newick_tree_export,
-                    tree.names = F)
-    }
+      file = newick_tree_export,
+      tree.names = F
+    )
+  }
 
-  if(tree_plot)
-
-  {
+  if (tree_plot) {
     # Total number of tips
 
-    no_of_tips = ape::Ntip(for_plot)
+    no_of_tips <- ape::Ntip(for_plot)
 
     # Dynamically adjust the cex size based on the number of tips
 
     cex_range <- max(0.55, 1 / log1p(no_of_tips))
 
-    plot.phylo(ape::ladderize(for_plot,right = FALSE),
-                          type=tree_plot_type,
-                          cex=cex_range,
-                          font=1,
-                          tip.color = "lightseagreen",
-                          edge.color = "#CC4945",
-                          edge.width=1,
-               no.margin = T)
+    plot.phylo(ape::ladderize(for_plot, right = FALSE),
+      type = tree_plot_type,
+      cex = cex_range,
+      font = 1,
+      tip.color = "lightseagreen",
+      edge.color = "#CC4945",
+      edge.width = 1,
+      no.margin = T
+    )
     # Get the plot limits
     plot_limits <- par("usr")
     # Set the old limits back
     on.exit(plot_limits)
 
     # Add a scale bar dynamically
-    add.scale.bar(x = plot_limits[1] + 0.7 * (plot_limits[2] - plot_limits[1]), # Adjust x position
-                  y = plot_limits[3] + 0.05 * (plot_limits[4] - plot_limits[3]), # Adjust y position
-                  cex = 1,
-                  lwd = 3,
-                  font = 2,
-                  col = "black")
+    add.scale.bar(
+      x = plot_limits[1] + 0.7 * (plot_limits[2] - plot_limits[1]), # Adjust x position
+      y = plot_limits[3] + 0.05 * (plot_limits[4] - plot_limits[3]), # Adjust y position
+      cex = 1,
+      lwd = 3,
+      font = 2,
+      col = "black"
+    )
 
     # Save the plot as a phylo object
 
-    output$data_for_plot=for_plot
-
+    output$data_for_plot <- for_plot
   }
 
   # If save_dist_mat = TRUE
 
-  if(save_dist_mat)
-  {
-    output$save_dist_mat=round(dnabin.dist,3)
+  if (save_dist_mat) {
+    output$save_dist_mat <- round(dnabin.dist, 3)
   }
 
   # Output
 
   invisible(output)
-
 }
-

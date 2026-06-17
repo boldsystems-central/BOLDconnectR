@@ -16,17 +16,14 @@
 #' @examples
 #' \dontrun{
 #'
-#' #This example below is for documentation only
+#' # This example below is for documentation only
 #'
-#' bold.apikey('00000000-0000-0000-0000-000000000000')
-#'
+#' bold.apikey("00000000-0000-0000-0000-000000000000")
 #' }
-#'
 #'
 #' @export
 #'
-bold.apikey <- function(apikey)
-{
+bold.apikey <- function(apikey) {
   # check if the key is provided
 
   stopifnot(!is.null(apikey))
@@ -43,4 +40,3 @@ bold.apikey <- function(apikey)
 
   Sys.setenv(api_key = apikey)
 }
-

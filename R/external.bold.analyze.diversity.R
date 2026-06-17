@@ -54,23 +54,27 @@
 #' comm.mat.data <- bold.public.search(taxonomy = list("Poecilia"))
 #'
 #' # Fetch the data using the ids.
-#' #1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#' #2. Use the `bold.apikey()` function  to set the apikey in the global env.
+#' # 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#' # 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 #'
-#' bold.apikey('apikey')
+#' bold.apikey("apikey")
 #'
-#' BCDMdata <- bold.fetch(get_by = "processid",
-#'                        identifiers = comm.mat.data$processid)
+#' BCDMdata <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = comm.mat.data$processid
+#' )
 #'
 #' # Remove rows which have no species data
-#' BCDMdata <- BCDMdata[!BCDMdata$species== "",]
+#' BCDMdata <- BCDMdata[!BCDMdata$species == "", ]
 #'
-#' #1. Analyze richness data
-#' res.rich <- bold.analyze.diversity(bold_df=BCDMdata,
-#'                                    taxon_rank = "species",
-#'                                    site_type = "locations",
-#'                                    location_type = 'country.ocean',
-#'                                    diversity_profile = "richness")
+#' # 1. Analyze richness data
+#' res.rich <- bold.analyze.diversity(
+#'   bold_df = BCDMdata,
+#'   taxon_rank = "species",
+#'   site_type = "locations",
+#'   location_type = "country.ocean",
+#'   diversity_profile = "richness"
+#' )
 #'
 #' # Community matrix (BCDM data converted to community matrix)
 #' res.rich$comm.matrix
@@ -78,12 +82,14 @@
 #' # richness results
 #' res.rich$richness
 #'
-#' #2. Shannon diversity (based on grids)
-#' res.shannon <- bold.analyze.diversity(bold_df=BCDMdata,
-#'                                       taxon_rank = "species",
-#'                                       site_type = "grids",
-#'                                       gridsize = 1000000,
-#'                                       diversity_profile = "shannon")
+#' # 2. Shannon diversity (based on grids)
+#' res.shannon <- bold.analyze.diversity(
+#'   bold_df = BCDMdata,
+#'   taxon_rank = "species",
+#'   site_type = "grids",
+#'   gridsize = 1000000,
+#'   diversity_profile = "shannon"
+#' )
 #'
 #' # Shannon diversity results
 #' res.shannon$shannon_div
@@ -94,12 +100,14 @@
 #' # grid map
 #' res.shannon$grid.map
 #'
-#' #3. Preston plots and results
-#' pres.res <- bold.analyze.diversity(bold_df=BCDMdata,
-#'                                    taxon_rank = "species",
-#'                                    site_type = "locations",
-#'                                    location_type = 'country.ocean',
-#'                                    diversity_profile = "preston")
+#' # 3. Preston plots and results
+#' pres.res <- bold.analyze.diversity(
+#'   bold_df = BCDMdata,
+#'   taxon_rank = "species",
+#'   site_type = "locations",
+#'   location_type = "country.ocean",
+#'   diversity_profile = "preston"
+#' )
 #'
 #' # Preston plot
 #' pres.res$preston.plot
@@ -107,33 +115,37 @@
 #' # Preston plot data
 #' pres.res$preston.res
 #'
-#' #4. beta diversity
-#' beta.res <- bold.analyze.diversity(bold_df=BCDMdata,
-#'                                    taxon_rank = "species",
-#'                                    site_type = "locations",
-#'                                    location_type = 'country.ocean',
-#'                                    diversity_profile = "beta",
-#'                                    beta_index = "jaccard")
+#' # 4. beta diversity
+#' beta.res <- bold.analyze.diversity(
+#'   bold_df = BCDMdata,
+#'   taxon_rank = "species",
+#'   site_type = "locations",
+#'   location_type = "country.ocean",
+#'   diversity_profile = "beta",
+#'   beta_index = "jaccard"
+#' )
 #'
-#' #Total diversity
+#' # Total diversity
 #' beta.res$total.beta
 #'
-#' #Replacement
+#' # Replacement
 #' beta.res$replace
 #'
-#' #Richness difference
+#' # Richness difference
 #' beta.res$richnessd
 #'
-#' #5. All profiles
-#' all.diversity.res<-bold.analyze.diversity(bold_df=BCDMdata,
-#'                                           taxon_rank = "species",
-#'                                           site_type = "locations",
-#'                                           location_type = 'country.ocean',
-#'                                           diversity_profile = "all",
-#'                                           beta_index = "jaccard")
-#' #Explore all results
+#' # 5. All profiles
+#' all.diversity.res <- bold.analyze.diversity(
+#'   bold_df = BCDMdata,
+#'   taxon_rank = "species",
+#'   site_type = "locations",
+#'   location_type = "country.ocean",
+#'   diversity_profile = "all",
+#'   beta_index = "jaccard"
+#' )
+#' # Explore all results
 #' all.diversity.res
-#'}
+#' }
 #'
 #' @importFrom BAT alpha.accum
 #' @importFrom vegan diversity
@@ -151,182 +163,158 @@
 #'
 bold.analyze.diversity <- function(bold_df,
                                    taxon_rank,
-                                   taxon_name=NULL,
-                                   site_type = c("locations","grids"),
-                                   location_type=NULL,
-                                   gridsize=NULL,
-                                   presence_absence=FALSE,
-                                   diversity_profile = c("richness","preston","shannon","beta","all"),
-                                   beta_index=NULL)
-
-{
-
+                                   taxon_name = NULL,
+                                   site_type = c("locations", "grids"),
+                                   location_type = NULL,
+                                   gridsize = NULL,
+                                   presence_absence = FALSE,
+                                   diversity_profile = c("richness", "preston", "shannon", "beta", "all"),
+                                   beta_index = NULL) {
   # Check if data is a non empty data frame object
 
- df_checks(bold_df)
+  df_checks(bold_df)
 
   # Check if taxon_rank is empty
 
-  if(is.null(taxon_rank)) stop ("Taxon rank cannot be left empty.")
+  if (is.null(taxon_rank)) stop("Taxon rank cannot be left empty.")
 
   # Empty output list
 
-  output = list()
+  output <- list()
 
   # Condition to check if grids.cat is specified or whether site.cat will be used
 
   switch(site_type,
+    "locations" = {
+      if (!is.null(gridsize)) stop("Grid size must only be specified when site_type='grids'")
 
-         "locations"=
+      bin.comm.res <- gen.comm.mat(
+        bold.df = bold_df,
+        taxon.rank = taxon_rank,
+        taxon.name = taxon_name,
+        site.cat = location_type
+      )
 
-           {
-             if(!is.null(gridsize)) stop("Grid size must only be specified when site_type='grids'")
+      bin.comm <- bin.comm.res$comm.matrix
+    },
+    "grids" = {
+      if (is.null(gridsize)) stop("When site_type='grids',gridsize must be specified.")
 
-             bin.comm.res = gen.comm.mat(bold.df=bold_df,
-                                         taxon.rank=taxon_rank,
-                                         taxon.name=taxon_name,
-                                         site.cat=location_type)
+      bin.comm.res <- gen.comm.mat(
+        bold.df = bold_df,
+        taxon.rank = taxon_rank,
+        taxon.name = taxon_name,
+        site.cat = NULL,
+        grids = TRUE,
+        gridsize = gridsize,
+        view.grids = TRUE
+      )
 
-             bin.comm = bin.comm.res$comm.matrix
+      bin.comm <- bin.comm.res$comm.matrix
 
-           },
+      grids.map <- bin.comm.res$grid_plot
 
-         "grids"=
+      grids.data <- bin.comm.res$grids
 
-           {
-             if(is.null(gridsize)) stop("When site_type='grids',gridsize must be specified.")
+      output$grids.data <- grids.data
 
-             bin.comm.res = gen.comm.mat(bold.df=bold_df,
-                                         taxon.rank=taxon_rank,
-                                         taxon.name=taxon_name,
-                                         site.cat=NULL,
-                                         grids=TRUE,
-                                         gridsize=gridsize,
-                                         view.grids=TRUE)
-
-             bin.comm = bin.comm.res$comm.matrix
-
-             grids.map=bin.comm.res$grid_plot
-
-             grids.data= bin.comm.res$grids
-
-             output$grids.data=grids.data
-
-             output$grid.map=grids.map
-             }
+      output$grid.map <- grids.map
+    }
   )
 
   # Check if the data is presence-absence
 
-  if(presence_absence)
-
-  {
-    bin.comm=ifelse(bin.comm>=1,1,0)%>%data.frame(.)
+  if (presence_absence) {
+    bin.comm <- ifelse(bin.comm >= 1, 1, 0) %>% data.frame(.)
   }
 
-  if (all(bin.comm==0|bin.comm==1)) warning("Data is presence absence data. Preston and/or Shannon results if calculated, are based on the assumption that the community data has counts.")
+  if (all(bin.comm == 0 | bin.comm == 1)) warning("Data is presence absence data. Preston and/or Shannon results if calculated, are based on the assumption that the community data has counts.")
 
   # Output the community data
 
-  output$comm.matrix = bin.comm
+  output$comm.matrix <- bin.comm
 
   # Diversity results based on the profile selection
 
   switch(diversity_profile,
+    "richness" = {
+      # species richness estimation
 
-         "richness"=
-           {
+      richness_res <- richness_profile(df = bin.comm)
 
-             # species richness estimation
+      output$richness <- richness_res
+    },
+    "preston" = {
+      tryCatch(
+        {
+          preston_results <- preston_profile(
+            df = bin.comm,
+            y_label = taxon_rank
+          )
 
-             richness_res= richness_profile(df=bin.comm)
+          output$preston.plot <- preston_results$preston.plot
 
-             output$richness = richness_res
+          output$preston.res <- preston_results$preston.res
+        },
+        error = function(e) {
+          message("The following error is for the preston results due to an issue with the input data. Please re-check if the values used are abundances or presence-absences: ", e$message)
+        }
+      )
+    },
+    "shannon" = {
+      # Shannon diversity
 
-           },
+      shannon_results <- shannon_div_profile(df = bin.comm)
 
-         "preston"=
+      output$shannon_div <- round(shannon_results, 2)
+    },
+    "beta" = {
+      beta_div_results <- beta_div_profile(
+        df = bin.comm,
+        beta.index = beta_index,
+        pre_abs = presence_absence
+      )
 
-           {
+      # Add results to output
 
-             tryCatch({
+      output$total.beta <- beta_div_results$total.beta
 
-               preston_results<-preston_profile(df=bin.comm,
-                                                y_label = taxon_rank)
+      output$replace <- beta_div_results$replace
 
-               output$preston.plot = preston_results$preston.plot
-
-               output$preston.res = preston_results$preston.res
-
-             },
-             error = function (e)
-             {
-               message("The following error is for the preston results due to an issue with the input data. Please re-check if the values used are abundances or presence-absences: ",e$message)
-             }
-             )
-           },
-
-         "shannon"=
-
-           {
-             # Shannon diversity
-
-             shannon_results=shannon_div_profile(df=bin.comm)
-
-             output$shannon_div = round(shannon_results,2)
-
-           },
-
-         "beta"=
-
-           {
-
-             beta_div_results=beta_div_profile(df=bin.comm,
-                                               beta.index=beta_index,
-                                               pre_abs=presence_absence)
-
-             # Add results to output
-
-             output$total.beta = beta_div_results$total.beta
-
-             output$replace = beta_div_results$replace
-
-             output$richnessd = beta_div_results$richnessd
-           },
-
-         "all"=
-
-           {
-
-             richness_res = richness_profile(df=bin.comm)
+      output$richnessd <- beta_div_results$richnessd
+    },
+    "all" = {
+      richness_res <- richness_profile(df = bin.comm)
 
 
-             preston_results = preston_profile(df=bin.comm,
-                                              y_label = taxon_rank)
+      preston_results <- preston_profile(
+        df = bin.comm,
+        y_label = taxon_rank
+      )
 
-             shannon_results = shannon_div_profile(df=bin.comm)
+      shannon_results <- shannon_div_profile(df = bin.comm)
 
-             beta_div_results = beta_div_profile(df=bin.comm,
-                                               beta.index=beta_index,
-                                               pre_abs=presence_absence)
+      beta_div_results <- beta_div_profile(
+        df = bin.comm,
+        beta.index = beta_index,
+        pre_abs = presence_absence
+      )
 
-             output$richness = richness_res
+      output$richness <- richness_res
 
-             output$preston.plot = preston_results$preston.plot
+      output$preston.plot <- preston_results$preston.plot
 
-             output$preston.res = preston_results$preston.res
+      output$preston.res <- preston_results$preston.res
 
-             output$shannon_div = round(shannon_results,2)
+      output$shannon_div <- round(shannon_results, 2)
 
-             output$total.beta = beta_div_results$total.beta
+      output$total.beta <- beta_div_results$total.beta
 
-             output$replace = beta_div_results$replace
+      output$replace <- beta_div_results$replace
 
-             output$richnessd = beta_div_results$richnessd
-
-           }
-         )
+      output$richnessd <- beta_div_results$richnessd
+    }
+  )
 
   invisible(output)
-
 }

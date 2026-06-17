@@ -50,41 +50,49 @@ Calculates genetic distances and performs a Neighbor Joining (NJ) tree estimatio
 }
 \examples{
 \dontrun{
-#Download the data ids
-seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
-"Oreochromis karongae"))
+# Download the data ids
+seq.data.ids <- bold.public.search(taxonomy = list(
+  "Oreochromis tanganicae",
+  "Oreochromis karongae"
+))
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#2. Use the `bold.apikey()` function  to set the apikey in the global env.
+# 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+# 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
-bold.apikey('apikey')
+bold.apikey("apikey")
 
-seq.data <- bold.fetch(get_by = "processid",
-                       identifiers = seq.data.ids$processid,
-                       filt_marker = "COI-5P")
+seq.data <- bold.fetch(
+  get_by = "processid",
+  identifiers = seq.data.ids$processid,
+  filt_marker = "COI-5P"
+)
 
 # Remove rows without species name information
-seq <- seq.data[seq.data$species!="", ]
+seq <- seq.data[seq.data$species != "", ]
 
 # Align the data
 # Users need to install and load packages `msa` and `Biostrings`.
 # For `align_method` = "Muscle", package `muscle` is required as well.
 
-seq.align<-bold.analyze.align(bold_df=seq.data,
-                              marker="COI-5P",
-                              align_method="ClustalOmega",
-                              cols_for_seq_names = c("species","bin_uri"))
+seq.align <- bold.analyze.align(
+  bold_df = seq.data,
+  marker = "COI-5P",
+  align_method = "ClustalOmega",
+  cols_for_seq_names = c("species", "bin_uri")
+)
 
-#Analyze the data to get a tree
+# Analyze the data to get a tree
 
-seq.analysis<-bold.analyze.tree(bold_df=seq.align,
-                                dist_model = "K80",
-                                clus_method="nj",
-                                tree_plot=TRUE,
-                                tree_plot_type='p',
-                                save_dist_mat = T,
-                                pairwise.deletion=T)
+seq.analysis <- bold.analyze.tree(
+  bold_df = seq.align,
+  dist_model = "K80",
+  clus_method = "nj",
+  tree_plot = TRUE,
+  tree_plot_type = "p",
+  save_dist_mat = T,
+  pairwise.deletion = T
+)
 
 # Output
 # A ‘phylo’ object of the plot

@@ -4,29 +4,28 @@
 # #1. bold.fetch
 # #2. bold.public.search
 
-fetch.bold.id<-function(data.input,
-                               query_param)
-
-{
-
+fetch.bold.id <- function(data.input,
+                          query_param) {
   # query parameters for API
 
-  query_params <- list('input_type'= query_param,
-                       "batch_size"= 10000,
-                       "offset"=0,
-                       'record_sep' = ",",
-                       last_updated_threshold=0)
+  query_params <- list(
+    "input_type" = query_param,
+    "batch_size" = 10000,
+    "offset" = 0,
+    "record_sep" = ",",
+    last_updated_threshold = 0
+  )
 
 
   # base url for API
 
-  base_url= "https://data.boldsystems.org/api/records/retrieve?"
+  base_url <- "https://data.boldsystems.org/api/records/retrieve?"
 
   # Colors for printing the progress on the console
 
   green_col <- "\033[32m"
 
-  red_col<-"\033[31m"
+  red_col <- "\033[31m"
 
   reset_col <- "\033[0m"
 
@@ -34,34 +33,33 @@ fetch.bold.id<-function(data.input,
 
   # < 5000
 
-  if (nrow(data.input) <= 5000)
-
-
-  {
-
+  if (nrow(data.input) <= 5000) {
     # Extract the ids to a single character file to be used for the url used for POST
 
-    id_data<-paste(data.input[,1],
-                   collapse = ",")
+    id_data <- paste(data.input[, 1],
+      collapse = ","
+    )
 
     # Custom function id.files used here. This will generate the ids as a temp_file required by the body of the POST API
 
-    temp_file=id.files(id_data)
+    temp_file <- id.files(id_data)
 
 
     # The helper function 'post.api.res.fetch' is used to retrieve the data.
 
     message(paste0(green_col, "Initiating download", reset_col))
 
-    message(paste0(red_col,"Downloading data in a single batch",reset_col),appendLF = FALSE)
+    message(paste0(red_col, "Downloading data in a single batch", reset_col), appendLF = FALSE)
 
-    result=post.api.res.fetch(base.url=base_url,
-                              query.params=query_params,
-                              temp.file=temp_file)
+    result <- post.api.res.fetch(
+      base.url = base_url,
+      query.params = query_params,
+      temp.file = temp_file
+    )
 
     # Custom function fetch.data used here. The function will convert the POST output to a dataframe (text/jsonlines->json->data.frame). The function also resolves the issues of columns having multiple values in single cells into a single character with values separated by commas using helper function 'bold.multirecords.set'. Helper function 'reassign.data.type' is then used to assign the requisite data types to respective columns.
 
-    json.df=fetch.data(result)
+    json.df <- fetch.data(result)
 
     # Stop if there is no data
 
@@ -70,27 +68,27 @@ fetch.bold.id<-function(data.input,
     # Else print the output
 
     message(paste0("\n", green_col, "Download complete & BCDM dataframe generated", reset_col))
-
   }
 
   # > 5000
 
-  else if (nrow(data.input)>5000)
-
-  {
-
+  else if (nrow(data.input) > 5000) {
     ## If the ids input is more than 5000, a batch of 5000 ids is generated using the 'generate.batches' helper function, output of which is used to create the temp_files for POST.
 
     # Declare batch size
 
-    generate.batch.ids = generate.batches(data = data.input[,1],
-                                          batch.size = 5000)
+    generate.batch.ids <- generate.batches(
+      data = data.input[, 1],
+      batch.size = 5000
+    )
 
 
     # generate the temp_file/s
 
-    temp_file = lapply(generate.batch.ids,
-                       id.files)
+    temp_file <- lapply(
+      generate.batch.ids,
+      id.files
+    )
 
 
     # Obtain the POST result. Here lapply is used with the post.api.res.fetch to generate the output (BOLD data) based on the 5000 processids. A custom message is printed on the console displaying the status of download.
@@ -100,30 +98,29 @@ fetch.bold.id<-function(data.input,
     message(paste0(green_col, "Initiating download in batches", reset_col))
 
     result <- lapply(seq_along(temp_file), function(f) {
-
       # file index
 
       file <- temp_file[[f]]
 
       # Print the index and total number of files using sprintf
 
-      #a Creating the message
+      # a Creating the message
 
-      download_message<-sprintf("Downloading batch: %d of %d", f, length(temp_file))
+      download_message <- sprintf("Downloading batch: %d of %d", f, length(temp_file))
 
-      #b Using 'cat' to print in the console
+      # b Using 'cat' to print in the console
 
       message(paste0(red_col, download_message, reset_col, "\r"), appendLF = FALSE)
 
       # Download data (list of data frames)
 
-      post_res=post.api.res.fetch(
+      post_res <- post.api.res.fetch(
         base.url = base_url,
         query.params = query_params,
-        temp.file = file)
+        temp.file = file
+      )
 
-      result_df=fetch.data(post_res)
-
+      result_df <- fetch.data(post_res)
     })
 
     message(paste0("\n", green_col, "Batch download complete", reset_col))
@@ -131,15 +128,14 @@ fetch.bold.id<-function(data.input,
     # Generating the final data frame
     message(paste0("\n", red_col, "Generating the combined BCDM dataframe", reset_col, "\n"))
 
-    json.df=result%>%
+    json.df <- result %>%
       dplyr::bind_rows(.)
 
     # Stop if there is no data
     stopifnot("The output generated has no data. Please re-check whether the correct 'get_by' and corresponding identifier argument has been specified." = nrow(json.df) > 0)
 
-    cat(green_col,"BCDM dataframe generated",reset_col,"\n",sep="")
+    cat(green_col, "BCDM dataframe generated", reset_col, "\n", sep = "")
   }
 
   return(json.df)
-
 }

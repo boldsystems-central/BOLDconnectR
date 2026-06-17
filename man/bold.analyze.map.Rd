@@ -28,17 +28,19 @@ This function creates basic maps of BIN occurrences at different scales.
 }
 \examples{
 \dontrun{
-#Download the ids
+# Download the ids
 geo_data.ids <- bold.public.search(taxonomy = list("Musca domestica"))
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#2. Use the `bold.apikey()` function  to set the apikey in the global env.
+# 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+# 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
-bold.apikey('apikey')
+bold.apikey("apikey")
 
-geo_data <- bold.fetch(get_by = "processid",
-                       identifiers = geo_data.ids$processid)
+geo_data <- bold.fetch(
+  get_by = "processid",
+  identifiers = geo_data.ids$processid
+)
 
 # All data plotted.
 geo.viz <- bold.analyze.map(geo_data)
@@ -47,15 +49,18 @@ geo.viz$plot
 
 # Data plotted only in one country
 geo.viz.country <- bold.analyze.map(geo_data,
-                                    country = c("Saudi Arabia"))
+  country = c("Saudi Arabia")
+)
 # View plot
 geo.viz.country$plot
 # The sf dataframe of the downloaded data
 geo.viz$geo.df
 
 # Data plotted based on a bounding box
-bold.analyze.map(bold_df = geo_data,
-bbox = c(41,100,20.36501,55.506))
+bold.analyze.map(
+  bold_df = geo_data,
+  bbox = c(41, 100, 20.36501, 55.506)
+)
 }
 
 }

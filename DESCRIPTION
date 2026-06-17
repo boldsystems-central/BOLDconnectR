@@ -5,6 +5,8 @@ Version: 1.0.0
 Authors@R: c(
     person("Sameer", "Padhye", , "spadhye@uoguelph.ca", role = c("aut", "cre")),
     person("Liliana", "Ballesteros-Mejia", , "cballest@uoguelph.ca", role = "aut"),
+    person("Timothy", "Agda", , "tagda@uoguelph.ca", role = "aut"),
+    person("Jireh", "Agda", , "agdaj@uoguelph.ca", role = "aut"),
     person("Sujeevan", "Ratnasingham", , "sratnasi@uoguelph.ca", role = "aut")
   )
 Maintainer: Sameer Padhye <spadhye@uoguelph.ca>
@@ -44,4 +46,4 @@ Suggests:
     msa,
     muscle
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

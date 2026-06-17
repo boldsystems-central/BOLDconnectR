@@ -38,27 +38,32 @@ Retrieves record ids for publicly available data based on taxonomy, geography, i
 \examples{
 \donttest{
 
-#Taxonomy
+# Taxonomy
 bold.data <- bold.public.search(taxonomy = list("Panthera leo"))
 
-#Result
-head(bold.data,10)
+# Result
+head(bold.data, 10)
 
-#Taxonomy and Geography
-bold.data.taxo.geo <- bold.public.search(taxonomy = list("Panthera uncia"),
-geography = list("India"))
-
-#Result
-head(bold.data.taxo.geo,10)
-
-# Input as a dataframe column
-df_test<-data.frame(taxon_name=c("Panthera uncia"),
-locations = c("India","Sri Lanka"))
+# Taxonomy and Geography
+bold.data.taxo.geo <- bold.public.search(
+  taxonomy = list("Panthera uncia"),
+  geography = list("India")
+)
 
 # Result
-bold.data.taxo.geo.df.col <- bold.public.search(taxonomy = as.list(df_test$taxon_name),
-geography = as.list(df_test$locations))
+head(bold.data.taxo.geo, 10)
 
+# Input as a dataframe column
+df_test <- data.frame(
+  taxon_name = c("Panthera uncia"),
+  locations = c("India", "Sri Lanka")
+)
+
+# Result
+bold.data.taxo.geo.df.col <- bold.public.search(
+  taxonomy = as.list(df_test$taxon_name),
+  geography = as.list(df_test$locations)
+)
 }
 
 }

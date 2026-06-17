@@ -25,11 +25,9 @@ Stores the BOLD-provided access token ‘apikey’ in a variable, making it avai
 \examples{
 \dontrun{
 
-#This example below is for documentation only
+# This example below is for documentation only
 
-bold.apikey('00000000-0000-0000-0000-000000000000')
-
+bold.apikey("00000000-0000-0000-0000-000000000000")
 }
-
 
 }

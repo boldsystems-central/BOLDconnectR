@@ -75,45 +75,57 @@ Retrieves public and private user data based on different parameter (processid, 
 }
 \examples{
 \dontrun{
-#Test data with processids
+# Test data with processids
 data(test.data)
 
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#2. Use the `bold.apikey()` function  to set the apikey in the global env.
+# 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+# 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
-bold.apikey('apikey')
+bold.apikey("apikey")
 
 # With processids
-res <- bold.fetch(get_by = "processid",
-                  identifiers = test.data$processid)
+res <- bold.fetch(
+  get_by = "processid",
+  identifiers = test.data$processid
+)
 
 
 # With sampleids
-res<-bold.fetch(get_by = "sampleid",
-                identifiers = test.data$sampleid)
+res <- bold.fetch(
+  get_by = "sampleid",
+  identifiers = test.data$sampleid
+)
 
 # With datasets (publicly available dataset provided)
-res<-bold.fetch(get_by = "dataset_codes",
-                identifiers = "DS-IBOLR24")
+res <- bold.fetch(
+  get_by = "dataset_codes",
+  identifiers = "DS-IBOLR24"
+)
 
 ## Using filters
 
 # Geography
-res <- bold.fetch(get_by = "processid",
-                  identifiers = test.data$processid,
-                  filt_geography = "Churchill")
+res <- bold.fetch(
+  get_by = "processid",
+  identifiers = test.data$processid,
+  filt_geography = "Churchill"
+)
 
 # Sequence length
-res <- bold.fetch(get_by = "processid",
-                  identifiers = test.data$processid,
-                  filt_basecount = c(500,600))
+res <- bold.fetch(
+  get_by = "processid",
+  identifiers = test.data$processid,
+  filt_basecount = c(500, 600)
+)
 
 # Gene marker & sequence length
-res<-bold.fetch(get_by = "processid",
-                identifiers = test.data$processid,
-                filt_marker = "COI-5P",
-                filt_basecount = c(500, 600))
+res <- bold.fetch(
+  get_by = "processid",
+  identifiers = test.data$processid,
+  filt_marker = "COI-5P",
+  filt_basecount = c(500, 600)
+)
 }
 
 }

@@ -39,16 +39,20 @@ Function designed to transform and align the sequence data retrieved from the fu
 \examples{
 \dontrun{
 # Search for ids
-seq.data.ids <- bold.public.search(taxonomy = list("Oreochromis tanganicae",
-                                                "Oreochromis karongae"))
+seq.data.ids <- bold.public.search(taxonomy = list(
+  "Oreochromis tanganicae",
+  "Oreochromis karongae"
+))
 # Fetch the data using the ids.
-#1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#2. Use the `bold.apikey()` function  to set the apikey in the global env.
+# 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+# 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 
-bold.apikey('apikey')
+bold.apikey("apikey")
 
-seq.data<-bold.fetch(get_by = "processid",
-                     identifiers = seq.data.ids$processid)
+seq.data <- bold.fetch(
+  get_by = "processid",
+  identifiers = seq.data.ids$processid
+)
 
 # R packages `msa` and `Biostrings` are required for this function to run.
 # For `align_method` = "Muscle", package `muscle` is required as well.
@@ -57,12 +61,13 @@ seq.data<-bold.fetch(get_by = "processid",
 
 # Align the data (using  bin_uri as the name for each sequence)
 seq.align <- bold.analyze.align(seq.data,
-                                cols_for_seq_names = c("bin_uri"),
-                                align_method="ClustalOmega")
+  cols_for_seq_names = c("bin_uri"),
+  align_method = "ClustalOmega"
+)
 
 # Dataframe of the sequences (aligned) with their corresponding names
-head(seq.align[,c("aligned_seq","msa.seq.name")])
- }
+head(seq.align[, c("aligned_seq", "msa.seq.name")])
+}
 
 }
 \references{

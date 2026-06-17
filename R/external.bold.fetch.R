@@ -28,46 +28,58 @@
 #'
 #' @examples
 #' \dontrun{
-#' #Test data with processids
+#' # Test data with processids
 #' data(test.data)
 #'
 #' # Fetch the data using the ids.
-#' #1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
-#' #2. Use the `bold.apikey()` function  to set the apikey in the global env.
+#' # 1. api_key must be obtained from BOLD support before using `bold.fetch()` function.
+#' # 2. Use the `bold.apikey()` function  to set the apikey in the global env.
 #'
-#' bold.apikey('apikey')
+#' bold.apikey("apikey")
 #'
 #' # With processids
-#' res <- bold.fetch(get_by = "processid",
-#'                   identifiers = test.data$processid)
+#' res <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = test.data$processid
+#' )
 #'
 #'
 #' # With sampleids
-#' res<-bold.fetch(get_by = "sampleid",
-#'                 identifiers = test.data$sampleid)
+#' res <- bold.fetch(
+#'   get_by = "sampleid",
+#'   identifiers = test.data$sampleid
+#' )
 #'
 #' # With datasets (publicly available dataset provided)
-#' res<-bold.fetch(get_by = "dataset_codes",
-#'                 identifiers = "DS-IBOLR24")
+#' res <- bold.fetch(
+#'   get_by = "dataset_codes",
+#'   identifiers = "DS-IBOLR24"
+#' )
 #'
 #' ## Using filters
 #'
 #' # Geography
-#' res <- bold.fetch(get_by = "processid",
-#'                   identifiers = test.data$processid,
-#'                   filt_geography = "Churchill")
+#' res <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = test.data$processid,
+#'   filt_geography = "Churchill"
+#' )
 #'
 #' # Sequence length
-#' res <- bold.fetch(get_by = "processid",
-#'                   identifiers = test.data$processid,
-#'                   filt_basecount = c(500,600))
+#' res <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = test.data$processid,
+#'   filt_basecount = c(500, 600)
+#' )
 #'
 #' # Gene marker & sequence length
-#' res<-bold.fetch(get_by = "processid",
-#'                 identifiers = test.data$processid,
-#'                 filt_marker = "COI-5P",
-#'                 filt_basecount = c(500, 600))
-#'}
+#' res <- bold.fetch(
+#'   get_by = "processid",
+#'   identifiers = test.data$processid,
+#'   filt_marker = "COI-5P",
+#'   filt_basecount = c(500, 600)
+#' )
+#' }
 #'
 #' @returns A data frame containing all the information related to the processids/sampleids and the filters applied (if/any).
 #'
@@ -106,205 +118,163 @@
 #'
 #' @export
 #'
-bold.fetch<-function(get_by,
+bold.fetch <- function(get_by,
                        identifiers,
-                       cols=NULL,
-                       export=NULL,
-                       na.rm=FALSE,
-                       filt_taxonomy=NULL,
-                       filt_geography=NULL,
-                       filt_latitude=NULL,
-                       filt_longitude=NULL,
-                       filt_shapefile=NULL,
-                       filt_institutes=NULL,
-                       filt_identified.by=NULL,
-                       filt_seq_source=NULL,
-                       filt_marker=NULL,
-                       filt_collection_period=NULL,
-                       filt_basecount=NULL,
-                       filt_altitude=NULL,
-                       filt_depth=NULL)
-
-{
-
+                       cols = NULL,
+                       export = NULL,
+                       na.rm = FALSE,
+                       filt_taxonomy = NULL,
+                       filt_geography = NULL,
+                       filt_latitude = NULL,
+                       filt_longitude = NULL,
+                       filt_shapefile = NULL,
+                       filt_institutes = NULL,
+                       filt_identified.by = NULL,
+                       filt_seq_source = NULL,
+                       filt_marker = NULL,
+                       filt_collection_period = NULL,
+                       filt_basecount = NULL,
+                       filt_altitude = NULL,
+                       filt_depth = NULL) {
   # Check if the identifier vector is not empty
 
-  stopifnot(nrow(identifiers)>0)
+  stopifnot(nrow(identifiers) > 0)
 
-  #Input data
+  # Input data
 
-  input_data=data.frame(col1=base::unique(identifiers))
+  input_data <- data.frame(col1 = base::unique(identifiers))
 
- # renaming the headers as per the get_by argument
+  # renaming the headers as per the get_by argument
 
-  names(input_data)[names(input_data)=="col1"]<-get_by
+  names(input_data)[names(input_data) == "col1"] <- get_by
 
   # Using switch for get_by to call the appropriate function based on the value of get_by
 
   switch(get_by,
+    "processid" = ,
+    "sampleid" = {
+      # Check if the input going in fetch has data
 
-         "processid" =,
+      if (!nrow(input_data) > 0) stop("Please re-check the data provided in the identifiers argument.")
 
-         "sampleid" = {
+      json.df <- fetch.bold.id(
+        data.input = input_data,
+        query_param = get_by
+      )
+    },
+    "dataset_codes" = ,
+    "project_codes" = ,
+    "bin_uris" = {
+      # Check if the input going in fetch has data
 
-           # Check if the input going in fetch has data
+      if (!nrow(input_data) > 0) stop("Please re-check the data provided in the identifiers argument.")
 
-           if(!nrow(input_data)>0)stop("Please re-check the data provided in the identifiers argument.")
+      # 1. Processids are retrieved based on the get_by argument using the get.bin.dataset.project.pids helper function
+      processids <- get.bin.dataset.project.pids(
+        data.input = input_data,
+        query_param = get_by
+      )
 
-             json.df = fetch.bold.id(
-             data.input = input_data,
-             query_param = get_by)
+      # 2. BCDM data is then fetched using the processids obtained above using the fetch.bold.id function
+      json.df <- fetch.bold.id(
+        data.input = processids,
+        query_param = "processid"
+      )
+    },
 
-          },
-
-
-         "dataset_codes" =,
-
-         "project_codes" =,
-
-         "bin_uris" =
-
-           {
-             # Check if the input going in fetch has data
-
-             if(!nrow(input_data)>0)stop("Please re-check the data provided in the identifiers argument.")
-
-             #1. Processids are retrieved based on the get_by argument using the get.bin.dataset.project.pids helper function
-             processids = get.bin.dataset.project.pids(data.input=input_data,
-                                                          query_param = get_by)
-
-             #2. BCDM data is then fetched using the processids obtained above using the fetch.bold.id function
-             json.df = fetch.bold.id(data.input = processids,
-                                     query_param = "processid")
-
-             },
-
-         # Default case for invalid input
-         stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris.")
+    # Default case for invalid input
+    stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris.")
   )
 
 
   # Select only the core BCDM fields
 
-  json.df = json.df[,intersect(names(json.df),bold.fields.info()$field)]
+  json.df <- json.df[, intersect(names(json.df), bold.fields.info()$field)]
 
- # The helper filter function is used to filter the retrieved data
+  # The helper filter function is used to filter the retrieved data
 
-  json.df = bold.fetch.filters(bold.df = json.df,
-                                  taxon.name=filt_taxonomy,
-                                  location.name=filt_geography,
-                                  latitude=filt_latitude,
-                                  longitude=filt_longitude,
-                                  shapefile=filt_shapefile,
-                                  institutes=filt_institutes,
-                                  identified.by=filt_identified.by,
-                                  seq.source=filt_seq_source,
-                                  marker=filt_marker,
-                                  collection.period=filt_collection_period,
-                                  basecount=filt_basecount,
-                                  altitude=filt_altitude,
-                                  depth=filt_depth)
+  json.df <- bold.fetch.filters(
+    bold.df = json.df,
+    taxon.name = filt_taxonomy,
+    location.name = filt_geography,
+    latitude = filt_latitude,
+    longitude = filt_longitude,
+    shapefile = filt_shapefile,
+    institutes = filt_institutes,
+    identified.by = filt_identified.by,
+    seq.source = filt_seq_source,
+    marker = filt_marker,
+    collection.period = filt_collection_period,
+    basecount = filt_basecount,
+    altitude = filt_altitude,
+    depth = filt_depth
+  )
 
-  #If the user wants specific fields from the data.
+  # If the user wants specific fields from the data.
 
-  if(!is.null(cols))
-
-  {
-
-    bold_field_data = bold.fields.info(print.output = F)%>%
+  if (!is.null(cols)) {
+    bold_field_data <- bold.fields.info(print.output = F) %>%
       dplyr::select(field)
 
-    if(!all(cols %in% bold_field_data$field)) stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function.")
+    if (!all(cols %in% bold_field_data$field)) stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function.")
 
-    json.df=json.df%>%
+    json.df <- json.df %>%
       dplyr::select(all_of(cols))
-
   }
 
 
-  if(na.rm)
-
-  {
-    json.df = json.df%>%
+  if (na.rm) {
+    json.df <- json.df %>%
       tidyr::drop_na(.)
-
-    }
+  }
 
   # If the user wants to export the data
-  if (!is.null(export))
-
-  {
-
+  if (!is.null(export)) {
     # If file path is not provided, working directory is taken as default
 
     if (!grepl("[/\\\\]", export)) {
-
       export <- file.path(getwd(), export)
     }
 
     # Determine file extension
 
-    file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE))
-
-    {
-
+    file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE)) {
       "csv"
-
-    }
-
-    else if (grepl("\\.tsv$", export, ignore.case = TRUE))
-
-    {
-
+    } else if (grepl("\\.tsv$", export, ignore.case = TRUE)) {
       "tsv"
-    }
-
-    else
-
-    {
+    } else {
       stop("Unsupported file type. Please provide a valid '.csv' or '.tsv' filename.")
     }
 
     # Write data based on file type
-    switch(
-
-      file.type,
-
-      "csv" =
-
-        {
-          utils::write.table(
-            json.df,
-            export,
-            sep = ",",
-            row.names = FALSE,
-            quote = FALSE)
-        },
-
-      "tsv" =
-        {
-          utils::write.table(
-            json.df,
-            export,
-            sep = "\t",
-            row.names = FALSE,
-            quote = FALSE)
-        }
-
+    switch(file.type,
+      "csv" = {
+        utils::write.table(
+          json.df,
+          export,
+          sep = ",",
+          row.names = FALSE,
+          quote = FALSE
+        )
+      },
+      "tsv" = {
+        utils::write.table(
+          json.df,
+          export,
+          sep = "\t",
+          row.names = FALSE,
+          quote = FALSE
+        )
+      }
     )
 
 
-
-
-      # utils::write.table(json.df,
-      #                    paste0(export,sep=""),
-      #                    sep = "\t",
-      #                    row.names = FALSE,
-      #                    quote = FALSE)
-
-
+    # utils::write.table(json.df,
+    #                    paste0(export,sep=""),
+    #                    sep = "\t",
+    #                    row.names = FALSE,
+    #                    quote = FALSE)
   }
 
   return(json.df)
-
 }

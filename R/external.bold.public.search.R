@@ -13,28 +13,33 @@
 #' @examples
 #' \donttest{
 #'
-#' #Taxonomy
+#' # Taxonomy
 #' bold.data <- bold.public.search(taxonomy = list("Panthera leo"))
 #'
-#' #Result
-#' head(bold.data,10)
+#' # Result
+#' head(bold.data, 10)
 #'
-#' #Taxonomy and Geography
-#' bold.data.taxo.geo <- bold.public.search(taxonomy = list("Panthera uncia"),
-#' geography = list("India"))
-#'
-#' #Result
-#' head(bold.data.taxo.geo,10)
-#'
-#' # Input as a dataframe column
-#' df_test<-data.frame(taxon_name=c("Panthera uncia"),
-#' locations = c("India","Sri Lanka"))
+#' # Taxonomy and Geography
+#' bold.data.taxo.geo <- bold.public.search(
+#'   taxonomy = list("Panthera uncia"),
+#'   geography = list("India")
+#' )
 #'
 #' # Result
-#' bold.data.taxo.geo.df.col <- bold.public.search(taxonomy = as.list(df_test$taxon_name),
-#' geography = as.list(df_test$locations))
+#' head(bold.data.taxo.geo, 10)
 #'
-#'}
+#' # Input as a dataframe column
+#' df_test <- data.frame(
+#'   taxon_name = c("Panthera uncia"),
+#'   locations = c("India", "Sri Lanka")
+#' )
+#'
+#' # Result
+#' bold.data.taxo.geo.df.col <- bold.public.search(
+#'   taxonomy = as.list(df_test$taxon_name),
+#'   geography = as.list(df_test$locations)
+#' )
+#' }
 #'
 #' @returns A data frame containing all the processids and marker codes related to the query search.
 #'
@@ -48,25 +53,24 @@ bold.public.search <- function(taxonomy = NULL,
                                geography = NULL,
                                bins = NULL,
                                institutes = NULL,
-                               dataset_codes=NULL,
-                               project_codes=NULL)
-
-{
-
+                               dataset_codes = NULL,
+                               project_codes = NULL) {
   # Arguments list (list used since combination could entail long vectors of any of the 5 arguments in any numbers and combinations)
 
-  args <- list(taxonomy = taxonomy,
-               geography = geography,
-               bins = bins,
-               institutes = institutes,
-               dataset_codes=dataset_codes,
-               project_codes=project_codes)
+  args <- list(
+    taxonomy = taxonomy,
+    geography = geography,
+    bins = bins,
+    institutes = institutes,
+    dataset_codes = dataset_codes,
+    project_codes = project_codes
+  )
 
   # Colors for printing the progress on the console
 
   green_col <- "\033[32m"
 
-  red_col<-"\033[31m"
+  red_col <- "\033[31m"
 
   reset_col <- "\033[0m"
 
@@ -74,16 +78,15 @@ bold.public.search <- function(taxonomy = NULL,
 
   # Null arguments
 
-  null_args=sapply(args,is.null)
+  null_args <- sapply(args, is.null)
 
   # Selecting the non null arguments
 
-  non_null_args = args[!null_args]
+  non_null_args <- args[!null_args]
 
   # If condition to check if the input arguments is/are list/s
   #
   if (any(!sapply(non_null_args, is.list))) {
-
     stop("Input data must be a list.")
   }
 
@@ -91,98 +94,88 @@ bold.public.search <- function(taxonomy = NULL,
 
   # trial_query_input = unlist(non_null_args)|>unname()
 
-  trial_query_input = unname(unlist(non_null_args))
+  trial_query_input <- unname(unlist(non_null_args))
 
   ## Multi-parameter query (taxonomy + geography + ids; will follow AND principle)
 
-  if(length(non_null_args)>1)
-
-  {
+  if (length(non_null_args) > 1) {
     message(paste0(red_col, "Downloading ids.", reset_col, "\r"), appendLF = FALSE)
 
     # Parsing the query
 
-    step1 = parse_query(trial_query_input)
+    step1 <- parse_query(trial_query_input)
 
-    step2 = preprocess_query(step1)
+    step2 <- preprocess_query(step1)
 
-    result = tryCatch({
-
-      # Pre-processing the query
-
-      # Adding counts (data points) for each query
-
-      step3 = counts_query(step2)
-
-      # Function checks whether the input query terms entered are in their respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the functions finds such a placement, the code will stop and the final result obtained will be NULL
-
-      parameter_validation(step3,
-                           non_null_args)
-
-      # Generate the query id
-
-      step4 = generate_query_id(step3)
-
-      # Download the data using the query id
-
-      obtain_data(step4)
-
-    },
-
-    error = function(e) {
-
-      message("No records found with given criteria")
-
-      return(NULL)
-    })
-
-  }
-
-  ## Single parameter query (just taxonomy or geography or codes etc.; will follow OR principle)
-
-  else if (length(non_null_args)==1)
-  {
-    cat(red_col,"Downloading ids.",reset_col,'\r')
-
-    # To capture the query being too long error (character limit)
-
-    step1 = parse_query(trial_query_input)
-
-    step2 = preprocess_query(step1)
-
-    result = tryCatch(
-
+    result <- tryCatch(
       {
-        step3 = counts_query(step2)
+        # Pre-processing the query
 
-        # Function checks whether the input query terms entered are correctly added in the respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the function finds such a placement, the code will stop and the final result obtained will be NULL.
+        # Adding counts (data points) for each query
 
-        parameter_validation(step3,non_null_args)
+        step3 <- counts_query(step2)
+
+        # Function checks whether the input query terms entered are in their respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the functions finds such a placement, the code will stop and the final result obtained will be NULL
+
+        parameter_validation(
+          step3,
+          non_null_args
+        )
 
         # Generate the query id
 
-        step4 = generate_query_id(step3)
+        step4 <- generate_query_id(step3)
 
         # Download the data using the query id
 
         obtain_data(step4)
-
       },
-
       error = function(e) {
-
         message("No records found with given criteria")
 
         return(NULL)
-
       }
     )
+  }
 
+  ## Single parameter query (just taxonomy or geography or codes etc.; will follow OR principle)
+
+  else if (length(non_null_args) == 1) {
+    cat(red_col, "Downloading ids.", reset_col, "\r")
+
+    # To capture the query being too long error (character limit)
+
+    step1 <- parse_query(trial_query_input)
+
+    step2 <- preprocess_query(step1)
+
+    result <- tryCatch(
+      {
+        step3 <- counts_query(step2)
+
+        # Function checks whether the input query terms entered are correctly added in the respective parameter arguments. Example: Costa Rica should be placed in geography and not in taxonomy. If the function finds such a placement, the code will stop and the final result obtained will be NULL.
+
+        parameter_validation(step3, non_null_args)
+
+        # Generate the query id
+
+        step4 <- generate_query_id(step3)
+
+        # Download the data using the query id
+
+        obtain_data(step4)
+      },
+      error = function(e) {
+        message("No records found with given criteria")
+
+        return(NULL)
+      }
+    )
   }
 
   # Console message only printed when non null result obtained
 
-  if(!is.null(result)) message(paste0("\n", green_col, "Download complete.\n", reset_col), appendLF = FALSE)
+  if (!is.null(result)) message(paste0("\n", green_col, "Download complete.\n", reset_col), appendLF = FALSE)
 
   # Final result
 
