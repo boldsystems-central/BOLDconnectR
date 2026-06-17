@@ -266,7 +266,6 @@ bold.fetch <- function(get_by,
       }
     )
 
-                   quote = FALSE)
   }
 
   return(json.df)
