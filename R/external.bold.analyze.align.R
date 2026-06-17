@@ -143,7 +143,6 @@ bold.analyze.align <- function(bold_df,
       dplyr::mutate(processid = seq.data$processid)
   }
 
-
   msa_dna_string_obj <- gen.msa.res(
     df = obtain.seq.from.data,
     alignmethod = align_method,
