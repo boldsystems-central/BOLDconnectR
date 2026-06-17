@@ -14,9 +14,7 @@ the functionality to obtain public and private user data available in
 the database in the *Barcode Core Data Model (BCDM)* format. Data
 include information on the
 **taxonomy**,**geography**,**collection**,**identification** and **DNA
-barcode sequence** of every submission. The manual is currently hosted
-here
-(<https://github.com/boldsystems-central/BOLDconnectR_examples/blob/main/BOLDconnectR_1.0.0.pdf>)
+barcode sequence** of every submission.
 
 **BOLDconnectR** requires **R** version **4.0** or above to function
 properly. The versions of dependent packages have also been set such
@@ -37,7 +35,7 @@ BOLDConnectR).
 
 ``` r
 
-devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
+# devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
 ```
 
 ``` r
@@ -62,10 +60,11 @@ library(BOLDconnectR)
 requires the packages `Biostrings` to be installed and imported in the R
 session beforehand for generating the `barcode_summary`. `msa` and
 `Biostrings` can be installed using using `BiocManager` package.
-*Function 6*: *bold.analyze.align* requires the packages `msa` and
-`Biostrings` to be installed and imported in the R session beforehand.
-Function 7 also uses the the output generated from function 6. `msa` and
-`Biostrings` can be installed using using `BiocManager` package.
+*Function 6*: *bold.analyze.align* requires the packages `msa`, `muscle`
+and `Biostrings` to be installed and imported in the R session
+beforehand. Function 7 also uses the the output generated from function
+6. `msa`, `muscle` and `Biostrings` can be installed using using
+`BiocManager` package.
 
 ``` r
 
@@ -74,9 +73,11 @@ install.packages("BiocManager")
 
 BiocManager::install("msa")
 BiocManager::install("Biostrings")
+BiocManager::install("muscle")
 
 library(msa)
 library(Biostrings)
+library(muscle)
 ```
 
 ### Note on API key
@@ -114,10 +115,10 @@ knitr::kable(head(BCDM_data,4))
 
 | processid | record_id | insdc_acs | sampleid | specimenid | taxid | short_note | identification_method | museumid | fieldid | collection_code | processid_minted_date | inst | funding_src | sex | life_stage | reproduction | habitat | collectors | site_code | specimen_linkout | collection_event_id | sampling_protocol | tissue_type | collection_date_start | collection_time | associated_taxa | associated_specimens | voucher_type | notes | taxonomy_notes | collection_notes | geoid | marker_code | kingdom | phylum | class | order | family | subfamily | tribe | genus | species | subspecies | identification | identification_rank | species_reference | identified_by | sequence_run_site | nuc | nuc_basecount | sequence_upload_date | bin_uri | bin_created_date | elev | depth | coord | coord_source | coord_accuracy | elev_accuracy | depth_accuracy | realm | biome | ecoregion | region | sector | site | country_iso | country.ocean | province.state | bold_recordset_code_arr | collection_date_end |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|---:|:---|:---|:---|---:|---:|:---|:---|---:|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| HPPPD1432-13 | HPPPD1432-13.COI-5P | KP649884 | BIOUG07077-F11 | 3525091 | 30494 | NA | NA | BIOUG07077-F11 | GMP#01736 | BIOUG | 2013-08-13 | Centre for Biodiversity Genomics | iBOL:WG1.9 | NA | NA | NA | NA | Tyler Zemlak | CAN\|NE04_338\|PPleasan | NA | NA | Malaise Trap | NA | 2013-06-29 | NA | NA | NA | Vouchered:Registered Collection | Jun 29 - Jul 6 2013; date range on label was Jun 22-29 but believe it to be mislabeled | CollectionsID | NA | 506 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Naphrys | Naphrys pulex | NA | Naphrys pulex | species | (Hentz, 1846) | NA | Centre for Biodiversity Genomics | AACATTATATTTGATTTTTGGTGCTTGATCAGCTATAGTAGGTACGGCTATAAGAGTTTTGATCCGAATAGAGTTGGGACAGACTGGTAATTTTTTGGGAAATGATCATTTATATAATGTTATTGTAACTGCTCATGCTTTTGTTATAATTTTTTTTATAGTAATACCTATTTTGATTGGTGGTTTTGGTAATTGATTAGTGCCATTAATATTAGGGGCTCCTGATATAGCTTTTCCTCGGATAAATAATCTGAGATTCTGGTTATTGCCTCCTTCATTAATACTTTTATTTATATCTTCAATAGTGGAGATAGGAGTAGGAGCAGGGTGAACAGTATATCCCCCATTAGCTTCTGTTGTGGGTCATAGTGGTAGATCTGTTGATTTTGCTATTTTTTCTTTACATTTAGCGGGGGCTTCTTCTATTATAGGAGCAGTTAATTTTATTTCTACTATTATTAATATGCGTGTATTAGGTATAAGAATAGATAAGATTCCTTTGTTTGTTTGGTCAGTTGGAATTACTGCTGTATTATTGTTATTATCATTACCAGTGTTGGCTGGTGCTATTACAATATTGTTGACTGATCGTAATTTTAATACATC——————————————————- | 606 | 2014-09-05 | BOLD:ACY0365 | 2015-11-16 | 30 | NA | 44.623,-63.5686 | NA | NA | NA | NA | Nearctic | NA | NA | Halifax | Point Pleasant Park | NA | CA | Canada | Nova Scotia | HPPPD,DS-MOB113,DS-SOC2014,DS-ARANCCYH,DS-SPCANADA,DS-GMPC1,DS-JUMPGLOB,DS-20GMP14,DS-MOB112 | 2013-07-06 |
-| ARONT722-10 | ARONT722-10.COI-5P | HQ924577 | CCDB-05292-A09 | 1544690 | 560524 | NA | NA | CCDB-05292-A09 | BIOLOT#22290 | BIOUG | 2010-06-24 | Centre for Biodiversity Genomics | iBOL:WG1.9 | M | A | S | NA | V. Julea | NA | NA | NA | NA | Leg | 2010-06-01 | NA | NA | NA | Vouchered:Registered Collection | NA | NA | NA | 528 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Pelegrina | Pelegrina galathea | NA | Pelegrina galathea | species | (Walckenaer, 1837) | Gergin A. Blagoev | Centre for Biodiversity Genomics | AACTTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGAACCGCTATAAGAGTATTAATTCGTATAGAATTAGGACAGACTGGTTCATTTTTAGGAAATGATCATATGTATAATGTAATTGTAACTGCACATGCTTTTGTTATAATTTTTTTTATAGTAATACCGATTTTAATTGGTGGATTTGGTAATTGATTAGTTCCTTTAATATTGGGAGCTCCTGATATAGCTTTTCCTCGTATAAATAATTTAAGATTTTGGTTATTACCTCCTTCTTTATTTTTATTATTTATTTCTTCTATGGCTGAAATAGGAGTAGGGGCTGGGTGAACTGTATATCCACCTTTAGCTTCTATTGTAGGACATAATGGGAGATCAGTAGACTTTGCAATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATCATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCTTTAGGAATATCTTTTGATAAGGTTCCTTTATTTGTTTGATCCGTTTTAATTACTGCTGTTTTGTTATTACTTTCGTTACCGGTTTTAGCAGGAGCTATTACCATATTATTAACTGATCGAAATTTTAATACTTCTTTTTTTGATCCTGCAGGTGGAGGTGATCCTATTTTATTTCAACATTTATTT | 658 | 2010-09-20 | BOLD:AAB2930 | 2010-07-15 | 335 | NA | 43.535,-80.206 |  | NA | NA | NA | Nearctic | NA | Eastern_Great_Lakes_lowland_forests | Wellington Co. | Arboretum Park, Guelph | NA | CA | Canada | Ontario | ARONT,DS-MOB113,DS-SOC2014,DS-MYBCRED,DS-MYBCA,DS-ARANCCYH,DS-SPCANADA,DS-OLOCC1,DS-JUMPGLOB,DS-MOB112,DS-JALPHA,DS-ARA43210 | NA |
-| SSJAC1235-13 | SSJAC1235-13.COI-5P | KM831898 | BIOUG06123-F06 | 3372074 | 32595 | Jasper NP | BIN based | BIOUG06123-F06 | L#12BIOBUS-0295 | BIOUG | 2013-06-03 | Centre for Biodiversity Genomics | iBOL:WG1.9 | NA | NA | NA | Forest | BIOBus 2012 | BIOUG:JASP-NP:2 | NA | NA | Pitfall Trap | Whole Voucher | 2012-06-08 | NA | NA | NA | Vouchered:Registered Collection | NA | NA | 10 pitfall traps\|birch and spruce forest on a slope, lots of fallen logs | 533 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Neon | Neon nelli | NA | Neon nelli | species | G. W. Peckham & E. G. Peckham, 1888 | Monica R. Young | Centre for Biodiversity Genomics | CACTTTATATTTAATTTTTGGAGCTTGATCTGCTATAGTAGGTACAGCGATGAGAGTATTGATTCGAATAGAATTAGGACAAACTGGTCAT—TTTTTGGGT————AATGATCATTTATATAATGTAATTGTTACTTCTCATGCTTTTATTATGATTTTTTTTATAGTTATACCTATTATAATTGGAGGGTTTGGAAATTGGTTAGTTCCTTTAATGTTAGGGGCTCCTGATATAGCTTTTCCTCGAATGAATAATTTAAGATTTTGATTGTTACCTCCTTCTTTATTATTATTATTTGTATCATCTATAGTGGAAATAGGAGTTGGTGCAGGATGAACTGTTTATCCGCCTTTGGCTTCTGTTATTGGTCATAGAGGAGCATCGGTTGATTTTGCTATTTTTTCTTTACATTTGGCTGGAGCTTCTTCTATTATAGGGGCTATTAATTTTATTTCTACTATTATTAATATGCGTTCTGAAGGGATATTTTTAGATAAAATATCTTTGTTTGTGTGGTCGGTGATTATTACTGCTGTACTATTATTATTATCTTTACCTGTATTAGCAGGTGCTATTACTATATTGCTTACGGAC—————— | 589 | 2013-09-16 | BOLD:AAD9221 | 2010-07-15 | 1131 | NA | 53.195,-117.914 | GPSmap 60Cx | NA | NA | NA | Nearctic | NA | Northern_Rockies_conifer_forests | Jasper National Park | Pocahontas Campground | Site C21 | CA | Canada | Alberta | SSJAC,DS-MOB113,DS-BICNP02,DS-SOC2014,DS-ARANCCYH,DATASET-BBJNP1,DS-SPCANADA,DS-JUMPGLOB,DS-MOB112,DS-CANSS | 2012-06-14 |
-| BBCNP2603-14 | BBCNP2603-14.COI-5P | KP647830 | BIOUG12571-D02 | 4468204 | 9199 | Prince Albert NP | NA | BIOUG12571-D02 | L#12BIOBUS-1007 | BIOUG | 2014-04-21 | Centre for Biodiversity Genomics | iBOL:WG1.9 | NA | I | S | NA | BIOBus 2012 | NA | NA | NA | Free Hand Collection | NA | 2012-07-13 | NA | NA | NA | museum voucher | hand collecting\|sunny with haze\|25C | CollectionsID | NA | 511 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Eris | Eris militaris | NA | Eris militaris | species | (Hentz, 1845) | Gergin A. Blagoev | Centre for Biodiversity Genomics | ACGTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGTACTGCTATAAGAGTATTAATTCGAATAGAATTAGGACAAACTGGATCATTTTTAGGTAATGATCATATATATAATGTAATTGTAACTGCTCATGCTTTTGTAATGATTTTTTTTATAGTAATACCAATTATAATTGGGGGATTTGGTAATTGATTAGTTCCTTTAATGTTAGGGGCTCCGGATATAGCTTTTCCTCGAATAAATAATTTAAGTTTTTGATTATTACCTCCTTCTTTATTTTTATTATTTATTTCTTCTATAGCTGAAATAGGAGTTGGAGCTGGATGAACAGTATATCCTCCTTTGGCATCTATTGTTGGACATAATGGTAGATCAGTAGATTTTGCTATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATTATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCAGTAGGAATATCTTTAGATAAAATTCCTTTATTTGTTTGATCTGTAATAATTACTGCTGTATTATTATTGTTATCATTACCTGTTTTAGCAGGA——————————————————————— | 564 | 2014-06-26 | BOLD:AAA5654 | 2010-07-15 | 549 | NA | 53.59,-106.278 | GPSmap 60Cx | NA | NA | NA | Nearctic | NA | Mid-Canada_Boreal_Plains_forests | Prince Albert NP | Hunters Lake Trail | predominately aspen forest | CA | Canada | Saskatchewan | BBCNP,DS-SOC2014,DS-ARANCCYH,DATASET-BBPANP1,DS-SPCANADA,DS-JUMPGLOB | NA |
+| BBCNP2615-14 | BBCNP2615-14.COI-5P | KP654931 | BIOUG12571-E02 | 4468216 | 9199 | Prince Albert NP | NA | BIOUG12571-E02 | L#12BIOBUS-1007 | BIOUG | 2014-04-21 | Centre for Biodiversity Genomics | iBOL:WG1.9 | NA | I | S | NA | BIOBus 2012 | NA | NA | NA | Free Hand Collection | NA | 2012-07-13 | NA | NA | NA | museum voucher | hand collecting\|sunny with haze\|25C | CollectionsID | NA | 511 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Eris | Eris militaris | NA | Eris militaris | species | (Hentz, 1845) | Gergin A. Blagoev | Centre for Biodiversity Genomics | ACGTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGTACTGCTATAAGAGTATTAATTCGAATAGAATTAGGACAAACTGGATCATTTTTAGGTAATGATCATATATATAATGTAATTGTAACTGCTCATGCTTTTGTAATGATTTTTTTTATAGTAATACCAATTATAATTGGGGGATTTGGTAATTGGTTAGTTCCTTTAATGTTAGGGGCTCCGGATATAGCTTTTCCTCGAATAAATAATTTAAGTTTTTGATTATTACCTCCTTCTTTATTTTTATTGTTTATTTCTTCTATAGCTGAAATAGGGGTTGGAGCTGGATGAACAGTATATCCTCCTTTGGCATCTATTGTTGGACATAATGGTAGATCAGTAGATTTTGCTATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATTATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCAGTAGGAATATCTTTAGATAAAATTCCTTTATTTGTTTGATCTGTAATAATTACTGCTGTATTATTATTGTTATCATTACCTGTTTTAGCAGGA——————————————————————— | 564 | 2014-06-26 | BOLD:AAA5654 | 2010-07-15 | 549 | NA | 53.59,-106.278 | GPSmap 60Cx | NA | NA | NA | Nearctic | NA | Mid-Canada_Boreal_Plains_forests | Prince Albert NP | Hunters Lake Trail | predominately aspen forest | CA | Canada | Saskatchewan | BBCNP,DS-SOC2014,DS-ARANCCYH,DATASET-BBPANP1,DS-SPCANADA,DS-JUMPGLOB | NA |
+| BBCAN226-09 | BBCAN226-09.COI-5P | GU683124 | CCDB-04550-C12 | 1274762 | 9199 | Kouchibouguac NP | BOLD ID Engine | CCDB-04550-C12 | L#09KC-053 | BIOUG | 2009-11-23 | Centre for Biodiversity Genomics | iBOL:WG1.9 | F | I | S | Wetland | BIObus 2009 | NA | NA | NA | Free Hand |  | 2009-08-17 | NA | NA | NA | Vouchered:Registered Collection | NA | NA | Free Hand\|Mixed sun and cloud after rain\|Boardwalk through a bog | 521 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Eris | Eris militaris | NA | Eris militaris | species | (Hentz, 1845) | Gergin A. Blagoev | Centre for Biodiversity Genomics | GACGTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGTACTGCTATAAGAGTATTAATTCGAATAGAATTAGGACAAACTGGATCATTTTTAGGTAATGATCATATATATAATGTAATCGTAACTGCTCATGCTTTTGTAATGATTTTTTTTATAGTAATACCAATTATAATTGGGGGATTTGGTAATTGGTTAGTTCCTTTAATGTTAGGGGCTCCGGATATAGCTTTTCCTCGAATAAATAATTTAAGTTTTTGATTATTACCTCCTTCTTTATTTTTATTATTTATTTCTTCTATAGCTGAAATAGGGGTTGGAGCTGGATGAACAGTATATCCTCCTTTGGCATCTATTGTTGGACATAATGGCAGATCAGTAGATTTTGCTATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATTATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCAGTAGGAATATCTTTAGATAAAATTCCTTTATTTGTTTGATCTGTAATAATTACTGCTGTATTATTATTGTTATCATTACCTGTTTTAGCAGGAGCTATTACTATATTATTAACTGATCGAAATTTTAATACTTCTTTTTTTGATCCTGCAGGAGGAGGAGATCCAATTTTGTTTCAACATTTATTT | 658 | 2011-03-25 | BOLD:AAA5654 | 2010-07-15 | 7 | NA | 46.816,-64.953 | NA | NA | NA | NA | Nearctic | NA | Gulf_of_St.\_Lawrence_lowland_forests | Kouchibouguac NP | The Bog Trail | NA | CA | Canada | New Brunswick | SPIBB,DATASET-BBKCNP1,DATASET-BBCNP1,DS-MOB113,DS-BICNP02,DS-SOC2014,DS-ARANCCYH,DS-DDSG,DS-SPCANADA,DS-JUMPGLOB,DS-MOB112 | NA |
+| ARSO594-09 | ARSO594-09.COI-5P | KM826219 | 08BBARAC-0466 | 990633 | 9199 | Riding Mountain NP |  | 08BBARAC-0466 | L#08RIDMO-097 | BIOUG | NA | Centre for Biodiversity Genomics | NA | F | I | S | NA | BIObus 2008 | NA | NA | NA | Sweep Net | NA | 2009-08-19 | NA | NA | NA | Vouchered:Registered Collection | NA | NA | Sweep Net\|\|Hiking trail | 531 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Eris | Eris militaris | NA | Eris militaris | species | (Hentz, 1845) | Gergin A. Blagoev | Centre for Biodiversity Genomics | AACGTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGTACTGCTATAAGAGTATTAATTCGAATAGAATTAGGACAAACTGGATCATTTTTAGGTAATGATCATATATATAATGTAATTGTAACTGCTCATGCTTTTGTAATGATTTTTTTTATAGTAATACCAATTATAATTGGGGGATTTGGTAATTGGTTAGTTCCTTTAATGTTAGGGGCTCCGGATATAGCTTTTCCTCGAATAAATAATTTAAGTTTTTGATTATTACCTCCTTCTTTATTTTTATTATTTATTTCTTCTATAGCTGAAATAGGGGTTGGAGCTGGATGAACAGTATATCCTCCTTTGGCATCTATTGTTGGACATAATGGTAGATCAGTAGATTTTGCTATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATTATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCAGTAGGAATATCTTTAGATAAAATTCCTTTATTTGTTTGATCTGTAATAATTACTGCTGTATTATTATTGTTATCATTACCTGTTTTAGCAGGAGCTATTACTATATTATTAACTGATCGAAATTTTAATACTTCTTTTTTTGATCCTGCAGGAGGAGGAGATCCAATTTTGTTTCAACATTtaTTt | 658 | 2009-05-30 | BOLD:AAA5654 | 2010-07-15 | 662 | NA | 50.881,-100.056 | NA | NA | NA | NA | Nearctic | NA | Mid-Canada_Boreal_Plains_forests | Riding Mountain NP | Moon Lake | Hiking Trail | CA | Canada | Manitoba | SPIBB,DATASET-BBRMNP1,DS-MOB113,DS-BICNP02,DS-SOC2014,DS-ARANCCYH,DS-SPCANADA,DS-JUMPGLOB,DS-MOB112 | NA |
+| BBCNP1308-14 | BBCNP1308-14.COI-5P | KP648859 | BIOUG09535-G01 | 4141099 | 9199 | Elk Island NP | NA | BIOUG09535-G01 | L#12BIOBUS-0772 | BIOUG | 2014-01-17 | Centre for Biodiversity Genomics | iBOL:WG1.9 | M | A | S | NA | BIOBus 2012 | NA | NA | NA | Free Hand Collection | NA | 2012-07-02 | NA | NA | NA | museum voucher | hand collecting\|mostly sunny\|24C | CollectionsID | NA | 533 | COI-5P | Animalia | Arthropoda | Arachnida | Araneae | Salticidae | NA | NA | Eris | Eris militaris | NA | Eris militaris | species | (Hentz, 1845) | Gergin A. Blagoev | Centre for Biodiversity Genomics | GAACGTTATATTTAATTTTTGGAGCTTGATCAGCTATAGTTGGTACTGCTATAAGAGTATTAATTCGAATAGAATTAGGACAAACTGGATCATTTTTAGGTAATGATCATATATATAATGTGATTGTAACTGCTCATGCTTTTGTAATGATTTTTTTTATAGTAATACCAATTATAATTGGGGGATTTGGTAATTGGTTAGTTCCTTTAATGTTAGGGGCTCCGGATATAGCTTTTCCTCGAATAAATAATTTAAGTTTTTGATTATTACCTCCTTCTTTATTTTTATTATTTATTTCTTCTATAGCTGAAATAGGGGTTGGAGCTGGATGAACAGTATATCCTCCTTTGGCATCTATTGTTGGACATAATGGTAGATCAGTAGATTTTGCTATTTTTTCTTTACATTTAGCTGGTGCTTCATCAATTATAGGAGCTATTAATTTTATTTCTACTATTATTAATATACGATCAGTAGGAATATCTTTAGATAAAATTCCTTTATTTGTTTGATCTGTAATAATTACTGCTGTATTATTATTGTTATCATTACCTGTTTTAGCAGGAGCTATTACTATATTATTAACTGATCGA | 593 | 2014-03-20 | BOLD:AAA5654 | 2010-07-15 | 721 | NA | 53.618,-112.875 | GPSmap 60Cx | NA | NA | NA | Nearctic | NA | Canadian_Aspen_forests_and_parklands | Elk Island NP | Tawayik Lake Trail | aspen, birch, rose bushes, adjacent to wetland/lake | CA | Canada | Alberta | BBCNP,DS-SOC2014,DS-ARANCCYH,DATASET-BBEINP1,DS-SPCANADA,DS-JUMPGLOB,DS-MOB112 | NA |
 
 Similarly, sampleids or dataset_codes or project_codes can also be used
 to fetch data. The data can also be filtered on different parameters
@@ -183,18 +184,19 @@ imported prior to using the align function.
 ``` r
 
 # bold.apikey('')
-# 
+
 # fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
 #                                     get_by = "dataset_codes",
 #                                     filt_taxonomy = "Manduca",
 #                                     filt_basecount = c(600,670))
-# 
-# # Sequence is aligned using ClustalOmega with default settings
+
+# Sequence is aligned using ClustalOmega with default settings
 # align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
 #                                     marker = "COI-5P",
 #                                     cols_for_seq_names = c("species","bin_uri"),
 #                                     align_method = "ClustalOmega")
-# # Confirm the result
+
+# Confirm the result
 # head(subset(align.test.data,select = c(aligned_seq,msa.seq.name)),5)
 ```
 
@@ -208,18 +210,17 @@ can be passed on to this function as well.
 ``` r
 
 # bold.apikey('')
-# 
+
 # fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
 #                                     get_by = "dataset_codes",
 #                                     filt_taxonomy = "Manduca",
 #                                     filt_basecount = c(600,670))
-# 
-# # Sequence is aligned using ClustalOmega with default settings
+
+# Sequence is aligned using ClustalOmega with default settings
 # align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
 #                                     marker = "COI-5P",
 #                                     cols_for_seq_names = c("species","bin_uri"),
 #                                     align_method = "ClustalOmega")
-
 
 # NJ tree with basic settings
 # test.tree<-bold.analyze.tree(bold_df=align.test.data,
@@ -228,10 +229,10 @@ can be passed on to this function as well.
 #                                 tree_plot = TRUE,
 #                                 tree_plot_type = 'p')
 # 
-# # The phylo object which can be used for further customization of the plot
+# The phylo object which can be used for further customization of the plot
 # test.tree$data_for_plot
 # 
-# # base frequencies
+# base frequencies
 # test.tree$base_freq
 ```
 
@@ -249,18 +250,28 @@ ecological analyses.
 # bold.apikey('')
 # fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
 #                                get_by = "dataset_codes")
-# 
+
+# 1. Generic richness
 # test.richness.diversity<-bold.analyze.diversity(bold_df=fetch.test.data,
 #                                                    taxon_rank = "genus",
 #                                                     site_type = "locations",
 #                                                    location_type = "country.ocean",
 #                                                    diversity_profile = "richness")
-# 
-# # View the richness estimator results
+
+# View the richness estimator results
 # View(test.richness.diversity$richness)
-# 
-# # Occurrence matrix (site X species)
+
+# Occurrence matrix (site X species)
 # test.richness.diversity$comm.matrix
+
+# 2. Preston plots
+# test.richness.diversity2<-bold.analyze.diversity(bold_df=fetch.test.data,
+#                                                  taxon_rank = "genus",
+#                                                  site_type = "locations",
+#                                                  location_type = "country.ocean",
+#                                                  diversity_profile = "preston")
+# View the preston plot
+# test.richness.diversity2$preston.plot
 ```
 
 #### Occurrence map
