@@ -10,7 +10,7 @@
 #' @param dist_model A character string specifying the model to generate the distances.
 #' @param clus_method A character string specifying either `nj` (neighbour joining) or `njs` (neighbour joining with NAs) clustering algorithm.
 #' @param save_dist_mat A logical value specifying whether the distance matrix should be saved in the output. Default value is FALSE.
-#' @param newick_tree_export A character string specifying the folder path where the file should be saved along with the name for the file. Default value is NULL.
+#' @param newick_tree_export A character string specifying the folder path where the file should be saved along with the name and extension (`.nwk`) for the file. Default value is NULL.
 #' @param tree_plot Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.
 #' @param tree_plot_type A character string specifying the layout of the tree. Needs to be provided by default.
 #' @param ... additional arguments from `ape::dist.dna`.
@@ -101,21 +101,15 @@ bold.analyze.tree <- function(bold_df,
                               tree_plot_type,
                               ...) {
   # Check if data is a non empty data frame object
-
   df_checks(bold_df)
-
   # check if the minimum fields required for the analysis are present
-
   check_and_return_preset_df(
     df = bold_df,
     category = "check",
     preset = "bold_analyze_tree_fields"
   )
-
   # Generate a dataframe of the aligned_seq and the seq.name and convert it to a ape DNAbin
-
   # 1. Extract out the necessary columns
-
   ape_df <- bold_df %>%
     dplyr::select(
       matches("^aligned_seq", ignore.case = TRUE),
@@ -123,62 +117,41 @@ bold.analyze.tree <- function(bold_df,
       matches("^nuc", ignore.case = TRUE)
     ) %>%
     dplyr::filter(!is.na(nuc)) %>%
-    dplyr::filter(!is.null(nuc)) %>%
     dplyr::mutate(nuc = gsub("-", "", nuc)) %>%
     dplyr::filter(nuc != "")
-
   # 2. as.DNAbin accepts matrices so the above dataframe is converted into a matrix with each column being one alphabet (using strsplit) of the basepair in lower case.
-
   ape.matrix <- t(sapply(strsplit(ape_df[["aligned_seq"]], ""), tolower))
-
   rownames(ape.matrix) <- ape_df$msa.seq.name
-
   # 3. Converting the matrix to a DNAbin object
-
   ape_dnabin <- as.DNAbin(ape.matrix)
-
   # Empty output list defined
-
   output <- list()
-
+  # Attaching the dnabin file to the output
+  output$dnabin <- ape_dnabin
   # base frequencies (overall) of the aligned sequences
-
   base_freq <- ape::base.freq(ape_dnabin)
-
   output$base_freq <- base_freq
-
   # The distance object using the model (and other arguments if specified) specified is generated
-
   dnabin.dist <- ape::dist.dna(ape_dnabin,
     model = "K80",
     ...
   )
-
   # Based on the type of clus, clustering is carried out on the dist object
-
   if (length(clus_method) != 1) stop("Please select either 'nj' or 'njs'")
-
   # Swtich for either nj or njs
-
   switch(clus_method,
-
     # nj (when there are no NAs)
     "nj" = {
       for_plot <- ape::nj(dnabin.dist)
     },
-
     # when there could be potential NAs
     "njs" = {
       for_plot <- ape::njs(dnabin.dist)
     }
   )
-
   # Save a newick tree format for output
-
   tree_obj <- ape::write.tree(for_plot)
-
   # If user wants to export the tree
-
   if (!is.null(newick_tree_export)) {
     # save the file
     ape::write.tree(for_plot,
@@ -186,16 +159,11 @@ bold.analyze.tree <- function(bold_df,
       tree.names = F
     )
   }
-
   if (tree_plot) {
     # Total number of tips
-
     no_of_tips <- ape::Ntip(for_plot)
-
     # Dynamically adjust the cex size based on the number of tips
-
     cex_range <- max(0.55, 1 / log1p(no_of_tips))
-
     plot.phylo(ape::ladderize(for_plot, right = FALSE),
       type = tree_plot_type,
       cex = cex_range,
@@ -209,7 +177,6 @@ bold.analyze.tree <- function(bold_df,
     plot_limits <- par("usr")
     # Set the old limits back
     on.exit(plot_limits)
-
     # Add a scale bar dynamically
     add.scale.bar(
       x = plot_limits[1] + 0.7 * (plot_limits[2] - plot_limits[1]), # Adjust x position
@@ -219,19 +186,13 @@ bold.analyze.tree <- function(bold_df,
       font = 2,
       col = "black"
     )
-
     # Save the plot as a phylo object
-
     output$data_for_plot <- for_plot
   }
-
   # If save_dist_mat = TRUE
-
   if (save_dist_mat) {
     output$save_dist_mat <- round(dnabin.dist, 3)
   }
-
   # Output
-
   invisible(output)
 }

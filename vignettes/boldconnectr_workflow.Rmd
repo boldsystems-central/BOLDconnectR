@@ -1,0 +1,194 @@
+---
+title: "A simple workflow using BOLDconnectR"
+author: "Padhye SM, Ballesteros-Mejia CL,Agda TJA, Agda JRA, Ratnasingham S"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: cosmo
+    highlight: pygments
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: false
+    fig_width: 8
+    fig_height: 5
+    self_contained: true
+vignette: >
+  %\VignetteIndexEntry{Cerambycidae of Canada: A BOLD.NODE + BOLDconnectR Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# A simple workflow using BOLDconnectR
+
+## Retrieval and Analysis of BOLD Data for the Fairy Shrimp Genus *Streptocephalus* (Crustacea: Anostraca)
+
+The following vignette presents a workflow to demonstrate the main functionality of the **BOLDconnectR** package (i.e., `search`, `fetch` and `analyze`). 
+
+Specifically, the workflow will show:
+
+1.  Searching and fetching all public *Streptocephlaus* records available on BOLD in the BCDM format.
+2.  Obtaining a concise summary of the downloaded data.
+3.  Visualizing their occurrence distribution.
+4.  Aligning the COI-5P sequences using `muscle` and visualizing the resulting `NJ` tree.
+5.  Calculating BIN richness estimates and multisite beta diversity measure between different countries.
+
+**BOLDconnectR** can be installed either by `install.packages` (for a stable CRAN version) or the devtools package (for the development version from GitHub)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Installation and Import
+
+```{r install,message=F,warning=F,echo=FALSE}
+# install.packages("devtools")
+# devtools::install_github("boldsystems-central/BOLDconnectR")
+# install.packages('BOLDconnectR')
+library(BOLDconnectR)
+```
+
+### Suggested packages
+
+The sequence alignment and NJ tree functions require additional Bioconductor based packages to be installed and imported.
+
+```{r suggests,message=F,warning=F,echo=FALSE,eval=F}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+BiocManager::install(c("msa", "Biostrings", "muscle"))
+library(msa)
+library(Biostrings)
+library(muscle)
+```
+
+## API key
+
+`bold.fetch()` requires an API key to retrieve the BCDM data.
+
+```{r api-key, eval=T,include=FALSE}
+# bold.apikey("00000000-0000-0000-0000-000000000000")
+
+```
+
+## 1. Searching and fetching
+
+`bold.public.search()` is used to retrieve public record IDs. `bold.full.search` can also be used instead in cases where user has private data stored. The `ids` returned using the `bold.public.search` are used in the `bold.fetch` to get the BCDM data. Here the search is also filtered based on the amplicon basepair number
+
+```{r fetch-data, message=F,warning=F,eval=T}
+# Search
+data_ids <- bold.public.search(taxonomy = list("Streptocephalus"))
+# Fetch
+streptocephalus_data <- bold.fetch(
+  get_by = "processid",
+  identifiers = data_ids$processid,
+  filt_basecount = c(500, 670)
+)
+
+DT::datatable((head(streptocephalus_data, 10)))
+```
+
+## 2. Concise summary of the data
+
+A concise summary of the result is generated to get an idea of what all the data contains (*Note*: The `Amplicon_lenght_range` is now between 500-670)
+
+```{r summarize-data, message=F,warning=F}
+bcdm_summary <- bold.data.summarize(
+  bold_df = streptocephalus_data,
+  summary_type = "concise_summary"
+)
+
+DT::datatable(bcdm_summary$concise_summary)
+```
+
+## 3. Visualizing their occurrence distribution
+
+```{r map-analysis, message=F,warning=F}
+map_res <- bold.analyze.map(bold_df = streptocephalus_data)
+```
+
+## 4. Alignment and visualization
+
+### 4a. Sequence alignment
+
+A `muscle` algorithm is run on the *Streptocephalus* sequence data to get a multiple sequence alignment. The headers for each sequence are customized so as to contain `processid` and `bin_uri` of each sequence. **Please note:** the library `Biostrings`, `muscle` and `msa` need to be imported in the R session prior to sequence alignment.
+
+```{r align-data, message=F,warning=F}
+seq_align <- bold.analyze.align(
+  bold_df = streptocephalus_data,
+  marker = "COI-5P",
+  cols_for_seq_names = c("processid", "bin_uri"),
+  align_method = "Muscle"
+)
+DT::datatable(
+  seq_align[, c("aligned_seq", "msa.seq.name")],
+  options = list(pageLength = 10, scrollX = TRUE)
+)
+
+```
+
+### 4b. Neighbor Joining Tree
+
+The aligned sequences are then visualized via Neighbor Joining Tree. The output from `bold.analyze.align` is directly used for the visualization. **Please note:** the library `Biostrings`, `muscle` and `msa` need to be imported in the R session prior to sequence alignment
+
+```{r tree-analysis,message=F,warning=F}
+seq_tree <- bold.analyze.tree(
+  bold_df = seq_align,
+  dist_model = "K80",
+  clus_method = "nj",
+  tree_plot = TRUE,
+  tree_plot_type = "p",
+  save_dist_mat = TRUE,
+  pairwise.deletion = TRUE
+)
+
+seq_tree$base_freq
+```
+
+## 5. Calculating BIN richness estimates and multisite beta diversity measure between different countries
+
+### 5a. BIN richness
+
+```{r diversity-analysis_alpha, message=F,warning=F}
+diversity_res <- bold.analyze.diversity(
+  bold_df = streptocephalus_data,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "richness"
+)
+DT::datatable(diversity_res$richness)
+```
+
+### 5b. Beta diversity
+
+```{r diversity-analysis_beta, message=F,warning=F}
+beta_diversity_res <- bold.analyze.diversity(
+  bold_df = streptocephalus_data,
+  taxon_rank = "species",
+  site_type = "locations",
+  location_type = "country.ocean",
+  diversity_profile = "beta",
+  beta_index = "jaccard"
+)
+
+beta_diversity_res$total.beta
+```
+
+## Export data
+
+Data can also be exported as a FASTA file, a multiple sequence alignment file (in FASTA format) or customized datasets of BCDM based on certain presets (e.g.,preset = taxonomy will export only taxonomy based information from all the BCDM data)
+
+```{r export-data, eval=FALSE}
+bold.export(
+  bold_df = streptocephalus_data,
+  export_type = "fas",
+  cols_for_fas_names = c("bin_uri", "genus", "species"),
+  export = "~/Desktop/boldconnectr_sequences.fas"
+)
+```
+
+In addition, several analysis functions return commonly used R data structures as part of their outputs, including an `occurrence matrix`, `sf` object, `DNABin` object containing unaligned sequences, and a `phylo` object generated from aligned sequences. These outputs can be readily integrated into workflows from other R packages for downstream analyses (e.g., using an occurrence matrix for ecological or biodiversity analyses with packages such as `vegan` and `betapart`).
+
+For more/detailed information, please visit (<https://github.com/boldsystems-central/BOLDconnectR/tree/main>) or use the `help` function in R.

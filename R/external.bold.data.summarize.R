@@ -101,26 +101,17 @@ bold.data.summarize <- function(bold_df,
                                 primer_r = NULL,
                                 rem_na_bin = FALSE) {
   # Check if data is a data frame object
-
   df_checks(bold_df)
-
   # If data with no BINs should be removed
-
   if (rem_na_bin == TRUE) {
     bold_df <- bold_df %>%
       drop_na(bin_uri)
   } else {
     bold_df
   }
-
-
   # Empty output list
-
   output <- list()
-
   # Condition to check if grids.cat is specified or whether site.cat will be used
-
-
   switch(summary_type,
     "concise_summary" = {
       data_for_summary <- check_and_return_preset_df(
@@ -128,9 +119,7 @@ bold.data.summarize <- function(bold_df,
         category = "check_return",
         preset = "bold_concise_summary"
       )
-
       concise_summ <- concise_summary(bold_df = data_for_summary)
-
       output$concise_summary <- concise_summ
     },
     "detailed_taxon_counts" = {
@@ -139,9 +128,7 @@ bold.data.summarize <- function(bold_df,
         category = "check_return",
         preset = "bold_detailed_taxon_count"
       )
-
       taxon_counts <- taxon_hierarchy_count(bold_df = data_for_summary)
-
       output$detailed_taxon_counts <- taxon_counts
     },
     "barcode_summary" = {
@@ -150,21 +137,15 @@ bold.data.summarize <- function(bold_df,
         category = "check_return",
         preset = "bold_barcode_summary"
       )
-
       if (summary_type %in% c("barcode_summary")) {
         if (is.null(primer_f) && is.null(primer_r)) {
           # Both primers not provided
-
           barcode_df <- data_for_summary
-
           # Adding two columns with NA values
-
           barcode_df$primer_exists_F <- NA
-
           barcode_df$primer_exists_R <- NA
         } else if (!is.null(primer_f) && is.null(primer_r)) {
           # Only forward primer provided
-
           barcode_df <- barcode_compliance(
             bold_df = data_for_summary,
             primer_f = primer_f,
@@ -173,7 +154,6 @@ bold.data.summarize <- function(bold_df,
           barcode_df$primer_exists_R <- NA # Add only reverse primer column
         } else if (is.null(primer_f) && !is.null(primer_r)) {
           # Only reverse primer provided
-
           barcode_df <- barcode_compliance(
             bold_df = data_for_summary,
             primer_f = NULL,
@@ -188,19 +168,15 @@ bold.data.summarize <- function(bold_df,
             primer_r = primer_r
           )
         }
-
         output$barcode_summary <- barcode_df
       }
     },
     "data_completeness" = {
       completeness_profile <- bold.completeness.profile(bold_df)
-
       output$completeness_summary <- completeness_profile$summary
-
       output$completeness_plot <- completeness_profile$plot
     }
   )
-
 
   invisible(output)
 }

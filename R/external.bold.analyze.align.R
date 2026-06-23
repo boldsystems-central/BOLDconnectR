@@ -60,21 +60,15 @@ bold.analyze.align <- function(bold_df,
                                cols_for_seq_names = NULL,
                                ...) {
   # Check if data is a non empty data frame object
-
   df_checks(bold_df)
-
   # Check if the necessary columns are present in the dataframe for further analysis
-
   check_and_return_preset_df(
     df = bold_df,
     category = "check",
     preset = "bold_analyze_align_fields"
   )
-
   stopifnot(align_method %in% c("ClustalOmega", "Muscle"))
-
   # Data for sequences to be pulled from the bold data frame
-
   seq.data <- bold_df %>%
     dplyr::select(
       matches("^processid$", ignore.case = TRUE),
@@ -83,16 +77,12 @@ bold.analyze.align <- function(bold_df,
       all_of(cols_for_seq_names)
     ) %>%
     dplyr::filter(!is.na(nuc)) %>%
-    dplyr::filter(!is.null(nuc)) %>%
     dplyr::mutate(nuc = gsub("-", "", nuc)) %>%
     dplyr::filter(nuc != "")
-
   # If marker is specified
-
   if (!is.null(marker)) {
-    # Check if marker code is available in the dataser
+    # Check if marker code is available in the dataset
     if (any(!(marker %in% bold_df[["marker_code"]]))) stop("Marker provided is not available in the dataset. Please re-check if the name of the marker is correct and available in the BOLD database.")
-
     # Obtain the specific columns from the data frame
     obtain.data <- seq.data %>%
       dplyr::filter(!is.na(marker_code)) %>%
@@ -101,82 +91,64 @@ bold.analyze.align <- function(bold_df,
   } else {
     obtain.data <- seq.data
   }
-
   # Check if the result is not empty
-
   if (nrow(obtain.data) == 0) stop("The result obtained does not have any data.")
-
   # if specific columns are provided for sequence names
-
   if (!is.null(cols_for_seq_names)) {
-    obtain.seq.from.data <- seq.data %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(across(
-        all_of(cols_for_seq_names),
-        as.character
-      )) %>%
-      dplyr::select(
-        nuc,
-        processid,
-        all_of(cols_for_seq_names)
+    obtain.seq.from.data <- obtain.data %>%
+      dplyr::mutate(
+        dplyr::across(
+          all_of(cols_for_seq_names),
+          as.character
+        )
       ) %>%
-      dplyr::mutate(msa.seq.name.pre = paste0(paste(as.character(c_across(all_of(cols_for_seq_names))),
-        collapse = "|"
-      ))) %>%
-      dplyr::mutate(msa.seq.name = paste0(
-        processid, "_",
-        msa.seq.name.pre
-      )) %>%
-      dplyr::select(
-        msa.seq.name,
+      tidyr::unite(
+        "msa.seq.name.pre",
+        all_of(cols_for_seq_names),
+        sep = "|",
+        remove = FALSE
+      ) %>%
+      dplyr::transmute(
+        msa.seq.name = paste0(
+          processid,
+          "_",
+          msa.seq.name.pre
+        ),
         nuc,
         processid
       ) %>%
-      dplyr::ungroup() %>%
       data.frame(.)
   } else
   # just processids are used if no columns are given
   {
-    obtain.seq.from.data <- seq.data %>%
+    obtain.seq.from.data <- obtain.data %>%
       dplyr::select(processid, nuc) %>%
       dplyr::rename("msa.seq.name" = "processid") %>%
       dplyr::mutate(processid = seq.data$processid)
   }
-
   msa_dna_string_obj <- gen.msa.res(
     df = obtain.seq.from.data,
     alignmethod = align_method,
     ...
   )
   # Multiple sequence alignment result joined to the original fetched data
-
   # #1. DNAStringset object 'msa_dna_string_obj' is converted into a dataframe
-
   stringset.2.df <- msa_dna_string_obj %>%
     data.frame(.) %>%
     dplyr::rename("aligned_seq" = ".")
-
   # 2. The processid as rownames are converted into a column
-
   stringset.2.df$msa.seq.name <- names(msa_dna_string_obj)
-
   # 3. Rownames are deleted
-
   rownames(stringset.2.df) <- NULL
-
   # 4. This df is joined to the original fetched data
-
   stringset.2.df.w.pid <- stringset.2.df %>%
     dplyr::mutate(processid = sub("_.*", "", msa.seq.name))
-
   bold_df.mod <- stringset.2.df.w.pid %>%
     left_join(
       bold_df,
       join_by(processid)
     ) %>%
     dplyr::mutate(msa.seq.name = sub(".*_", "", msa.seq.name))
-
   # The output is not printed in the console
-
   invisible(bold_df.mod)
 }

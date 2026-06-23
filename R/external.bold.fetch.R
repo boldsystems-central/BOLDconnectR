@@ -137,26 +137,17 @@ bold.fetch <- function(get_by,
                        filt_altitude = NULL,
                        filt_depth = NULL) {
   # Check if the identifier vector is not empty
-
   stopifnot(nrow(identifiers) > 0)
-
   # Input data
-
   input_data <- data.frame(col1 = base::unique(identifiers))
-
   # renaming the headers as per the get_by argument
-
   names(input_data)[names(input_data) == "col1"] <- get_by
-
   # Using switch for get_by to call the appropriate function based on the value of get_by
-
   switch(get_by,
     "processid" = ,
     "sampleid" = {
       # Check if the input going in fetch has data
-
       if (!nrow(input_data) > 0) stop("Please re-check the data provided in the identifiers argument.")
-
       json.df <- fetch.bold.id(
         data.input = input_data,
         query_param = get_by
@@ -166,32 +157,25 @@ bold.fetch <- function(get_by,
     "project_codes" = ,
     "bin_uris" = {
       # Check if the input going in fetch has data
-
       if (!nrow(input_data) > 0) stop("Please re-check the data provided in the identifiers argument.")
-
       # 1. Processids are retrieved based on the get_by argument using the get.bin.dataset.project.pids helper function
       processids <- get.bin.dataset.project.pids(
         data.input = input_data,
         query_param = get_by
       )
-
       # 2. BCDM data is then fetched using the processids obtained above using the fetch.bold.id function
       json.df <- fetch.bold.id(
         data.input = processids,
         query_param = "processid"
       )
     },
-
     # Default case for invalid input
     stop("Input params can only be processid, sampleid, dataset_codes, project_codes, or bin_uris.")
   )
-
   # Select only the core BCDM fields
-
-  json.df <- json.df[, intersect(names(json.df), bold.fields.info()$field)]
-
+  bold_fields <- bold.fields.info()
+  json.df <- json.df[, intersect(names(json.df), bold_fields$field)]
   # The helper filter function is used to filter the retrieved data
-
   json.df <- bold.fetch.filters(
     bold.df = json.df,
     taxon.name = filt_taxonomy,
@@ -208,34 +192,27 @@ bold.fetch <- function(get_by,
     altitude = filt_altitude,
     depth = filt_depth
   )
-
   # If the user wants specific fields from the data.
-
   if (!is.null(cols)) {
-    bold_field_data <- bold.fields.info(print.output = F) %>%
-      dplyr::select(field)
-
-    if (!all(cols %in% bold_field_data$field)) stop("Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function.")
-
+    if (!all(cols %in% bold_fields$fieldbold_fields$field)) {
+      stop(
+        "Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function."
+      )
+    }
     json.df <- json.df %>%
       dplyr::select(all_of(cols))
   }
-
   if (na.rm) {
     json.df <- json.df %>%
       tidyr::drop_na(.)
   }
-
   # If the user wants to export the data
   if (!is.null(export)) {
     # If file path is not provided, working directory is taken as default
-
     if (!grepl("[/\\\\]", export)) {
       export <- file.path(getwd(), export)
     }
-
     # Determine file extension
-
     file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE)) {
       "csv"
     } else if (grepl("\\.tsv$", export, ignore.case = TRUE)) {
@@ -243,7 +220,6 @@ bold.fetch <- function(get_by,
     } else {
       stop("Unsupported file type. Please provide a valid '.csv' or '.tsv' filename.")
     }
-
     # Write data based on file type
     switch(file.type,
       "csv" = {
@@ -265,8 +241,6 @@ bold.fetch <- function(get_by,
         )
       }
     )
-
   }
-
   return(json.df)
 }

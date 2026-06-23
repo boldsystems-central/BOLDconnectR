@@ -24,7 +24,7 @@ bold.analyze.tree(
 
 \item{save_dist_mat}{A logical value specifying whether the distance matrix should be saved in the output. Default value is FALSE.}
 
-\item{newick_tree_export}{A character string specifying the folder path where the file should be saved along with the name for the file. Default value is NULL.}
+\item{newick_tree_export}{A character string specifying the folder path where the file should be saved along with the name and extension (\code{.nwk}) for the file. Default value is NULL.}
 
 \item{tree_plot}{Logical value specifying if a neighbor joining plot should be generated. Default value is FALSE.}
 

@@ -13,7 +13,7 @@
 #' @param diversity_profile A character string specifying the type of diversity profile ("richness","preston","shannon","beta","all"). Needs to be provided by default.
 #' @param beta_index A character vector specifying the type of beta diversity index (’jaccard’ or ’sorensen’ available) if `beta` or `all` `diversity_profile` selected. Default value is NULL.
 #'
-#' @details `bold.analyze.diversity` estimates the richness, Shannon diversity and beta diversity from the BIN counts or presence-absence data. Internally, the function converts the downloaded BCDM data into a community matrix (site X species) which is also provided as a part of the output. `taxon_rank` refers to a specific taxonomic rank (Ex. class, order, family etc or even BINs) and the `taxon_name` to one or more names of organisms in that specific rank. `taxon_rank` cannot be NULL while all the data will be used if `taxon_name` = `NULL` for a specified `taxon_rank`. The `site_type`=`locations` followed by providing a `location_type` refers to any geographic field (country.ocean,province.state etc.; for more information check the `bold.fields.info()` function help). `site_type`=`grids` generates grids based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the `gridsize` argument. `site_type`=`grids` converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide’ projection by which distance-based grid can be correctly specified (Gott III et al. 2007).Each grid is assigned a cell id, with the lowest number given to the lowest latitudinal point in the dataset. Rows lacking latitude and longitude data (NULL values) are removed when `site_type`=`grids`. Conversely, NULL entries are permitted when `site_type`=`locations`, even if latitude and longitude values are missing. This distinction exists because grids rely on bounding boxes, which require latitude and longitude values. This filtering could impact the richness values and other analyses, as all records for the selected `taxon_rank` that contain `location` information but lack latitude and longitude will be excluded if `site_type`=`grids`. This means that the same dataset could yield different results depending on the chosen `site_type`. `location_type` has to be specified when `site_type`=`locations` to avoid errors. The community matrix generated based on the sites/grids is then used to create richness profiles using `BAT::alpha.accum()` and Preston and Shannon diversity analyses using `vegan::prestondistr()` and `vegan::diversity()` respectively. The `BAT::alpha.accum()` currently offers various richness estimators, including Observed diversity (Obs); Singletons (S1); Doubletons (S2); Uniques (Q1); Duplicates (Q2); Jackknife1 abundance (Jack1ab); Jackknife1 incidence (Jack1in); Jackknife2 abundance (Jack2ab); Jackknife2 incidence (Jack2in); Chao1 and Chao2. The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation. Preston plots are generated using the data from the `prestondistr` results in `ggplot2` featuring cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts. Beta diversity values are calculated using `BAT::beta()` function, which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. These results are stored as distance matrices in the output.
+#' @details `bold.analyze.diversity` estimates the richness, Shannon diversity and beta diversity from the BIN counts or presence-absence data. Internally, the function converts the downloaded BCDM data into a community matrix (site X species) which is also provided as a part of the output. `taxon_rank` refers to a specific taxonomic rank (Ex. class, order, family etc or even BINs) and the `taxon_name` to one or more names of organisms in that specific rank. `taxon_rank` cannot be NULL while all the data will be used if `taxon_name` = `NULL` for a specified `taxon_rank`. A mismatch between `taxon_rank` and `taxon_name` will throw an error (e.g., `taxon_rank` is `species` and `taxon_name` is `Oreochromis` which is a generic name). The `site_type`=`locations` followed by providing a `location_type` refers to any geographic field (country.ocean,province.state etc.; for more information check the `bold.fields.info()` function help). `site_type`=`grids` generates grids based on BIN occurrence data (latitude, longitude) with grid size determined by the user in square meters using the `gridsize` argument. `site_type`=`grids` converts the Coordinate Reference System (CRS) of the data to a ‘Mollweide’ projection by which distance-based grid can be correctly specified (Gott III et al. 2007).Each grid is assigned a cell id, with the lowest number given to the lowest latitudinal point in the dataset. Rows lacking latitude and longitude data (NULL values) are removed when `site_type`=`grids`. Conversely, NULL entries are permitted when `site_type`=`locations`, even if latitude and longitude values are missing. This distinction exists because grids rely on bounding boxes, which require latitude and longitude values. This filtering could impact the richness values and other analyses, as all records for the selected `taxon_rank` that contain `location` information but lack latitude and longitude will be excluded if `site_type`=`grids`. This means that the same dataset could yield different results depending on the chosen `site_type`. `location_type` has to be specified when `site_type`=`locations` to avoid errors. The community matrix generated based on the sites/grids is then used to create richness profiles using `BAT::alpha.accum()` and Preston and Shannon diversity analyses using `vegan::prestondistr()` and `vegan::diversity()` respectively. The `BAT::alpha.accum()` currently offers various richness estimators, including Observed diversity (Obs); Singletons (S1); Doubletons (S2); Uniques (Q1); Duplicates (Q2); Jackknife1 abundance (Jack1ab); Jackknife1 incidence (Jack1in); Jackknife2 abundance (Jack2ab); Jackknife2 incidence (Jack2in); Chao1 and Chao2. The results depend on the input data (true abundances vs counts vs incidences) and users should be careful in the subsequent interpretation. Preston plots are generated using the data from the `prestondistr` results in `ggplot2` featuring cyan bars for observed species (or equivalent taxonomic group) and orange dots for expected counts. Beta diversity values are calculated using `BAT::beta()` function, which partitions the data using the Podani & Schmera (2011)/Carvalho et al. (2012) approach. These results are stored as distance matrices in the output.
 #'
 #' \emph{Note on the community matrix}: Each cell in this matrix contains the counts (or abundances) of the specimens whose sequences have an assigned BIN, in a given `site_type` (`locations` or `grids`). These counts can be generated at any taxonomic hierarchical level, applicable to one or multiple taxa including `bin_uri`. The `presence_absence` argument converts these counts (or abundances) to 1s and 0s.
 #'
@@ -171,30 +171,21 @@ bold.analyze.diversity <- function(bold_df,
                                    diversity_profile = c("richness", "preston", "shannon", "beta", "all"),
                                    beta_index = NULL) {
   # Check if data is a non empty data frame object
-
   df_checks(bold_df)
-
   # Check if taxon_rank is empty
-
   if (is.null(taxon_rank)) stop("Taxon rank cannot be left empty.")
-
   # Empty output list
-
   output <- list()
-
   # Condition to check if grids.cat is specified or whether site.cat will be used
-
   switch(site_type,
     "locations" = {
       if (!is.null(gridsize)) stop("Grid size must only be specified when site_type='grids'")
-
       bin.comm.res <- gen.comm.mat(
         bold.df = bold_df,
         taxon.rank = taxon_rank,
         taxon.name = taxon_name,
         site.cat = location_type
       )
-
       bin.comm <- bin.comm.res$comm.matrix
     },
     "grids" = {
@@ -209,51 +200,36 @@ bold.analyze.diversity <- function(bold_df,
         gridsize = gridsize,
         view.grids = TRUE
       )
-
       bin.comm <- bin.comm.res$comm.matrix
-
       grids.map <- bin.comm.res$grid_plot
-
       grids.data <- bin.comm.res$grids
-
       output$grids.data <- grids.data
-
       output$grid.map <- grids.map
     }
   )
-
   # Check if the data is presence-absence
-
   if (presence_absence) {
     bin.comm <- ifelse(bin.comm >= 1, 1, 0) %>% data.frame(.)
   }
-
   if (all(bin.comm == 0 | bin.comm == 1)) warning("Data is presence absence data. Preston and/or Shannon results if calculated, are based on the assumption that the community data has counts.")
-
   # Output the community data
-
   output$comm.matrix <- bin.comm
-
   # Diversity results based on the profile selection
-
   switch(diversity_profile,
     "richness" = {
       # species richness estimation
-
       richness_res <- richness_profile(df = bin.comm)
-
       output$richness <- richness_res
     },
     "preston" = {
+      # Preston plot
       tryCatch(
         {
           preston_results <- preston_profile(
             df = bin.comm,
             y_label = taxon_rank
           )
-
           output$preston.plot <- preston_results$preston.plot
-
           output$preston.res <- preston_results$preston.res
         },
         error = function(e) {
@@ -262,54 +238,41 @@ bold.analyze.diversity <- function(bold_df,
       )
     },
     "shannon" = {
-
+      # Shannon diversity
       shannon_results <- shannon_div_profile(df = bin.comm)
-
       output$shannon_div <- round(shannon_results, 2)
     },
     "beta" = {
+      # Beta diversity
       beta_div_results <- beta_div_profile(
         df = bin.comm,
         beta.index = beta_index,
         pre_abs = presence_absence
       )
-
       # Add results to output
-
       output$total.beta <- beta_div_results$total.beta
-
       output$replace <- beta_div_results$replace
-
       output$richnessd <- beta_div_results$richnessd
     },
     "all" = {
+      # All of the above
       richness_res <- richness_profile(df = bin.comm)
-
       preston_results <- preston_profile(
         df = bin.comm,
         y_label = taxon_rank
       )
-
       shannon_results <- shannon_div_profile(df = bin.comm)
-
       beta_div_results <- beta_div_profile(
         df = bin.comm,
         beta.index = beta_index,
         pre_abs = presence_absence
       )
-
       output$richness <- richness_res
-
       output$preston.plot <- preston_results$preston.plot
-
       output$preston.res <- preston_results$preston.res
-
       output$shannon_div <- round(shannon_results, 2)
-
       output$total.beta <- beta_div_results$total.beta
-
       output$replace <- beta_div_results$replace
-
       output$richnessd <- beta_div_results$richnessd
     }
   )

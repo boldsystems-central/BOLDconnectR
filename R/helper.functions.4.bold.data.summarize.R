@@ -13,9 +13,8 @@
 #'
 # These functions are used in
 # 1. bold.data.summary
-#
-# Function: Record counts for all levels of taxonomic hierarchy in the dataset
 
+# Function: Record counts for all levels of taxonomic hierarchy in the dataset
 taxon_hierarchy_count <- function(bold_df) {
   suppressMessages(
     taxonomy_hierarchy_count <- bold_df %>%
@@ -59,71 +58,45 @@ taxon_hierarchy_count <- function(bold_df) {
         unique_institutes
       )
   )
-
   return(taxonomy_hierarchy_count)
 }
 # Function: DNA barcode based information summary
-
 barcode_compliance <- function(bold_df,
                                primer_f = NULL,
                                primer_r = NULL) {
   # Create two empty vectors values for which can be dynamically added as per the arguments of the function
-
   primer_vec_f <- NULL
-
   primer_vec_r <- NULL
-
   # Converting the nuc column (sequences) to character data
-
   sequences <- as.character(bold_df$nuc)
-
   # Converting the character data to a DNAStringset object
-
   sequences_set <- tryCatch(
     DNAStringSet(sequences),
     error = function(e) {
       message("Error creating DNAStringSet. Please check if there are NA values in the 'nuc' column ", e$message)
     }
   )
-
-  # names(dna_set)<-branchi_barcode_compliance$sampleid
-
   # Condition when any or both primer arguments are non NULL. The empty vectors are used to populate the results based on the condition
-
   if (!is.null(primer_f)) {
     primer_F <- Biostrings::DNAString(primer_f)
-
     primer_vec_f <- Biostrings::vcountPattern(primer_F, sequences_set) > 0
   }
-
-
   if (!is.null(primer_r)) {
     primer_R <- Biostrings::DNAString(primer_r)
-
     primer_vec_r <- Biostrings::vcountPattern(primer_R, sequences_set) > 0
   }
-
   # Ambiguous codes vector (taken from https://www.bioinformatics.org/sms/iupac.html)
-
   ambiguous_codes <- c("N", "R", "Y", "S", "W", "K", "M", "B", "D", "H", "V")
-
   # Create a data frame to store results
-
   ambiguous_counts <- sapply(ambiguous_codes, function(code) {
     Biostrings::vcountPattern(
       Biostrings::DNAString(code),
       sequences_set
     )
   })
-
   # Convert to data frame
-
   ambiguous_df <- as.data.frame(ambiguous_counts)
-
-  # rownames(ambiguous_df) <- names(dna_set)
-
   # Final dataset
-
   compliance_df <- bold_df %>%
     dplyr::select(processid, bin_uri, country.ocean, inst, marker_code, nuc_basecount) %>%
     mutate(
@@ -131,13 +104,9 @@ barcode_compliance <- function(bold_df,
       primer_exists_R = if (!is.null(primer_vec_r)) primer_vec_r else NA,
       ambiguous_bp_no = rowSums(ambiguous_df)
     )
-  # bind_cols(ambiguous_df)
-
   return(compliance_df)
 }
-
 # Function 3: Concise overview of the data
-
 concise_summary <- function(bold_df) {
   concise_summary <- bold_df %>%
     summarise(
@@ -173,35 +142,22 @@ concise_summary <- function(bold_df) {
       Value,
       Total_records:Amplicon_length_range
     )
-
   return(concise_summary)
 }
-
 # Function 4: Data completeness
-
 bold.completeness.profile <- function(bold_df) {
   # Check if data is a data frame object
-
   df_checks(bold_df)
-
   # skim_summary_features required for the plots
-
   common_summ <- c("n_missing", "complete_rate")
-
   char_date_summ <- c("character.n_unique", "Date.n_unique")
-
   # Output list
-
   output <- list()
-
   # Data profile using skimr
   suppressWarnings({
     all_skim_summ <- bold_df %>%
       skim()
-
-
     # Data frame for plotting the profile
-
     result_df <- all_skim_summ %>%
       tidyr::gather(
         features,
@@ -230,14 +186,11 @@ bold.completeness.profile <- function(bold_df) {
       ))
   })
   # Facet label name change for the plot
-
   facetlabels <- c(
     "complete_rate" = "Complete cases (%)",
     "n_missing" = "Missing values (Total)"
   )
-
   # plot
-
   summ_plot <- result_df %>%
     dplyr::filter(features %in% c(
       "complete_rate",
@@ -275,15 +228,9 @@ bold.completeness.profile <- function(bold_df) {
     ) +
     scale_y_continuous(expand = c(0, 0)) +
     ggtitle("Completness profile of the downloaded data")
-
   suppressMessages(skim_with(numeric = list(digits = 2)))
-
   # Compile output
-
   output$plot <- summ_plot
-
   output$summary <- all_skim_summ
-
-
   invisible(output)
 }

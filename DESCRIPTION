@@ -1,7 +1,7 @@
 Package: BOLDconnectR
 Title: Retrieve, Transform and Analyze the Barcode of Life Data Systems
     Data
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Sameer", "Padhye", , "spadhye@uoguelph.ca", role = c("aut", "cre")),
     person("Liliana", "Ballesteros-Mejia", , "cballest@uoguelph.ca", role = "aut"),
@@ -24,26 +24,30 @@ Depends:
     R (>= 4.0.0)
 biocViews:
 Imports:
-    ape(>= 5.5), 
-    BAT(>= 2.0),
-    data.table(>= 1.13),
-    dplyr(>= 1.0.1),
-    ggplot2(>= 3.3.2),
-    httr(>= 1.4.2),
-    jsonlite(>= 1.7),
-    maps(>= 3.3),
+    ape (>= 5.5),
+    BAT (>= 2.0),
+    data.table (>= 1.13),
+    dplyr (>= 1.0.1),
+    ggplot2 (>= 3.3.2),
+    httr (>= 1.4.2),
+    jsonlite (>= 1.7),
+    maps (>= 3.3),
     methods,
-    reshape2,
+    rlang,
     rnaturalearth,
-    sf(>= 0.9.4),
-    skimr(>= 2.1.2),
-    tidyr(>= 1.1.1),
+    sf (>= 0.9.4),
+    skimr (>= 2.1.2),
+    tidyr (>= 1.1.1),
     utils,
-    vegan(>= 2.5.7)
+    vegan (>= 2.5.7)
 Suggests:
     Biostrings,
     BiocManager,
+    DT,
     msa,
-    muscle
+    muscle,
+    knitr,
+    rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+VignetteBuilder: knitr

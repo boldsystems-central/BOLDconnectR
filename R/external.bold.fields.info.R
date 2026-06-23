@@ -23,17 +23,11 @@
 #'
 bold.fields.info <- function(print.output = FALSE) {
   # Saving the original options of the user
-
   original_timeout <- getOption("timeout")
-
   # Reset the options on exit
-
   on.exit(options(timeout = original_timeout))
-
   # Setting new options for the function
-
   options(timeout = 350)
-
   bold.fields.data <- suppressMessages(data.table::fread("https://github.com/DNAdiversity/BCDM/raw/main/field_definitions.tsv",
     sep = "\t",
     quote = "",
@@ -63,12 +57,10 @@ bold.fields.info <- function(print.output = FALSE) {
       field == "province/state" ~ "province.state",
       TRUE ~ field
     ))
-
   if (print.output == TRUE) {
     return(bold.fields.data)
   } else {
     # This is so that the whole output is not printed in the console
-
     invisible(bold.fields.data)
   }
 }

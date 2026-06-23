@@ -13,11 +13,8 @@
 
 presets <- function(col_groups) {
   bold_fields <- bold.fields.info()
-
   common_ids <- c("processid", "sampleid")
-
   switch(col_groups,
-
     # for bold export
     "public.data.fields" = {
       preset <- bold_fields %>%
@@ -112,7 +109,6 @@ presets <- function(col_groups) {
           "sampling_protocol"
         ))
     },
-
     # for bold analyze align
     "bold_analyze_align_fields" = {
       preset <- bold_fields %>%
@@ -123,7 +119,6 @@ presets <- function(col_groups) {
           "nuc"
         ))
     },
-
     # for bold analyze tree
     "bold_analyze_tree_fields" = {
       preset <- data.frame(field = c(
@@ -132,7 +127,6 @@ presets <- function(col_groups) {
         "msa.seq.name"
       ))
     },
-
     # for bold analyze map
     "bol_analyze_map_fields" = {
       preset <- bold_fields %>%
@@ -144,7 +138,6 @@ presets <- function(col_groups) {
           "nuc"
         ))
     },
-
     # for bold data summarize
     "bold_concise_summary" = {
       preset <- bold_fields %>%
@@ -163,7 +156,6 @@ presets <- function(col_groups) {
     },
     "bold_barcode_summary" = {
       # processid,bin_uri,country.ocean,inst,marker_code,nuc_basecount
-
       preset <- bold_fields %>%
         dplyr::select(field) %>%
         dplyr::filter(field %in% c(
@@ -195,11 +187,9 @@ presets <- function(col_groups) {
         ))
     }
   )
-
   return(preset)
 }
 # The function to check and return the data with the necessary columns
-
 check_and_return_preset_df <- function(df,
                                        category = c(
                                          "check",
@@ -207,10 +197,8 @@ check_and_return_preset_df <- function(df,
                                        ),
                                        preset) {
   preset <- presets(col_groups = preset)
-
   preset_col <- preset %>%
     dplyr::pull(field)
-
   switch(category,
     "check" = {
       if (!any(preset_col %in% names(df))) stop("Please re-check if column names match with the available field names for BCDM dataframe and that minimum field requirement for the analysis is satisfied. Please read the details section of 'bold.export' help for more information on presets.")

@@ -86,26 +86,19 @@ bold.export <- function(bold_df,
                         cols_for_fas_names = NULL,
                         export) {
   # Check if data is a non empty data frame object
-
   df_checks(bold_df)
-
-
   switch(export_type,
     "preset_df" = {
       if (is.null(presets)) stop("One of the presets must be provided when export_type = preset_df.")
-
       preset_data <- check_and_return_preset_df(bold_df,
         category = "check_return",
         preset = presets
       )
       # If file path is not provided, working directory is taken as default
-
       if (!grepl("[/\\\\]", export)) {
         export <- file.path(getwd(), export)
       }
-
       # Determine file extension
-
       file.type <- if (grepl("\\.csv$", export, ignore.case = TRUE)) {
         "csv"
       } else if (grepl("\\.tsv$", export, ignore.case = TRUE)) {
@@ -113,7 +106,6 @@ bold.export <- function(bold_df,
       } else {
         stop("Unsupported file type. Please provide a valid '.csv' or '.tsv' filename.")
       }
-
       # Write data based on file type
       switch(file.type,
         "csv" = {
@@ -138,9 +130,7 @@ bold.export <- function(bold_df,
     },
     "msa" = {
       if (any(!is.null(cols_for_fas_names), !is.null(presets))) stop("Please remove any presets or field names provided in the 'presets' or 'cols_for_fas_names' arguments.")
-
       stopifnot(any(names(bold_df) == "msa.seq.name"))
-
       seq.data <- bold_df %>%
         dplyr::filter(!is.na(nuc)) %>%
         dplyr::filter(!is.null(nuc)) %>%
@@ -151,51 +141,42 @@ bold.export <- function(bold_df,
           matches("^msa.seq.name$", ignore.case = TRUE)
         ) %>%
         dplyr::rename("seq.name" = "msa.seq.name")
-
-      ## Export the result as a fasta file.
-
+      # Export the result as a fasta file.
       result <- generate_ape_file(
         data = seq.data,
         align_unaligned = "aligned_seq"
       )
-
       ape::write.FASTA(result,
         file = paste0(export, sep = "")
       )
     },
     "fas" = {
       if (is.null(presets) == FALSE) stop("Please remove any presets provided in the 'presets' arguments.")
-
       seq.data <- bold_df %>%
         dplyr::select(
           matches("^nuc$", ignore.case = TRUE),
           all_of(cols_for_fas_names)
         ) %>%
         dplyr::filter(!is.na(nuc)) %>%
-        dplyr::filter(!is.null(nuc)) %>%
-        dplyr::mutate(nuc = gsub("-", "", nuc)) %>%
-        dplyr::filter(nuc != "") %>%
-        dplyr::rowwise() %>%
-        dplyr::mutate(across(
-          all_of(cols_for_fas_names),
-          as.character
-        )) %>%
-        dplyr::select(
-          nuc,
-          all_of(cols_for_fas_names)
+        dplyr::mutate(
+          nuc = gsub("-", "", nuc),
+          dplyr::across(
+            all_of(cols_for_fas_names),
+            as.character
+          )
         ) %>%
-        dplyr::mutate(seq.name = paste0(paste(as.character(c_across(all_of(cols_for_fas_names))),
-          collapse = "|"
-        ))) %>%
-        dplyr::ungroup()
-
+        dplyr::filter(nuc != "") %>%
+        tidyr::unite(
+          "seq.name",
+          all_of(cols_for_fas_names),
+          sep = "|",
+          remove = FALSE
+        )
       # Export the result as a raw fasta file.
-
       result <- generate_ape_file(
         data = seq.data,
         align_unaligned = "nuc"
       )
-
       ape::write.FASTA(result,
         file = paste0(export, sep = "")
       )

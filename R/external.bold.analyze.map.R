@@ -77,23 +77,16 @@ bold.analyze.map <- function(bold_df,
                              country = NULL,
                              bbox = NULL) {
   # Check if data is a non empty data frame object
-
   df_checks(bold_df)
-
   # Output list (empty)
-
   output <- list()
-
   # Select the necessary columns preset for the analysis along with a check to see if the requisite columns are present
-
   geo_df <- check_and_return_preset_df(
     df = bold_df,
     category = "check_return",
     preset = "geography"
   )
-
   # Convert the 'coord' column into lat and lon for mapping and create a 'sf' data frame. All lat lon NA values are removed by default. CRS is 4326
-
   geo_data <- convert_coord_2_lat_lon(geo_df) %>%
     dplyr::filter(
       !is.na(lat),
@@ -105,9 +98,7 @@ bold.analyze.map <- function(bold_df,
       remove = FALSE
     ) %>%
     sf::st_simplify(dTolerance = 0.001)
-
   # Generate a base map with a low resolution. Some map_data country names (ID column) are changed to suit the BCDM country.ocean names
-
   map_data <- sf::st_as_sf(maps::map("world",
     plot = FALSE,
     fill = TRUE
@@ -124,16 +115,12 @@ bold.analyze.map <- function(bold_df,
       ID == "Cote d'Ivoire" ~ "Ivory Coast",
       TRUE ~ ID
     ))
-
   # Convert the data to WGS84
-
   map_data <- st_transform(
     map_data,
     4326
   )
-
-  # IF country is not specified. All points will be mapped by default on a world map
-
+  # If country is not specified. All points will be mapped by default on a world map
   if (is.null(country)) {
     bin.geo.df <- geo_data
   } else
@@ -145,9 +132,7 @@ bold.analyze.map <- function(bold_df,
     map_data <- map_data %>%
       dplyr::filter(ID %in% !!country)
   }
-
   # plot
-
   map_plot <- ggplot() +
     geom_sf(
       data = map_data,
@@ -175,18 +160,12 @@ bold.analyze.map <- function(bold_df,
     ylab("Latitude") +
     coord_sf(expand = FALSE) +
     ggtitle("Distribution map")
-
   # If a specific region is defined by a bbox
-
   if (!is.null(bbox)) {
     # first two elements of the bbox are lon values (xmin and xmax) and the remaining two are lat values (ymin and ymax)
-
     lon_coord <- bbox[1:2]
-
     lat_coord <- bbox[3:4]
-
     # Using the default map created above, a specific part of that map is the plotted
-
     map_plot <- map_plot +
       coord_sf(
         xlim = lon_coord,
@@ -195,16 +174,10 @@ bold.analyze.map <- function(bold_df,
   } else {
     map_plot <- map_plot
   }
-
   output$geo.df <- bin.geo.df
-
   output$plot <- map_plot
-
   # Print the plot
-
   print(map_plot)
-
   # Output is invisible (not printed in the console)
-
   invisible(output)
 }
