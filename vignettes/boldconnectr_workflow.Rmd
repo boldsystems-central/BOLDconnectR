@@ -14,7 +14,7 @@ output:
     fig_height: 5
     self_contained: true
 vignette: >
-  %\VignetteIndexEntry{A simple workflow using BOLDconnectR}
+  %\VignetteIndexEntry{BOLDconnectR Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
