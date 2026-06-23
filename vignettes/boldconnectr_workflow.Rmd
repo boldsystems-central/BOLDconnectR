@@ -14,7 +14,7 @@ output:
     fig_height: 5
     self_contained: true
 vignette: >
-  %\VignetteIndexEntry{Cerambycidae of Canada: A BOLD.NODE + BOLDconnectR Workflow}
+  %\VignetteIndexEntry{A simple workflow using BOLDconnectR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -69,7 +69,6 @@ library(muscle)
 
 ```{r api-key, eval=T,include=FALSE}
 # bold.apikey("00000000-0000-0000-0000-000000000000")
-
 ```
 
 ## 1. Searching and fetching
