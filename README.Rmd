@@ -39,9 +39,9 @@ library(DT)
 ## Installation
 
 The package can be installed either by `install.packages()` for the CRAN version or using the `devtools::install_github` function from the `devtools` package in R (which needs to be installed before installing BOLDConnectR). 
-```{r setup,warning=FALSE,message=F}
+```{r setup,warning=FALSE,message=F,eval=F}
 
-# devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
+devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
 
 ```
 
@@ -87,9 +87,9 @@ library(muscle)
 The function `bold.fetch` requires an `api key` internally in order to access and download all public + private user data. The API key needed to retrieve BOLD records is found in the BOLD 'Workbench' <https://bench.boldsystems.org/index.php/Login/page?destination=MAS_Management_UserConsole>. After logging in, navigate to 'Your Name' (located at the top left-hand side of the window) and click 'Edit User Preferences'. You can find the API key in the 'User Data' section. Please note that to have an API key available in the workbench, a user must have uploaded at least 10,000 records to BOLD.
 API key can be saved in the R session using `bold.apikey()` function.  
 
-```{r api_key setenv}
+```{r api_key setenv,eval=F}
 # Substitute ‘00000000-0000-0000-0000-000000000000’ with your key
-# bold.apikey(‘00000000-0000-0000-0000-000000000000’)
+bold.apikey(‘00000000-0000-0000-0000-000000000000’)
 ```
 
 ### Basic usage of BOLDConnectR functionality
@@ -124,19 +124,19 @@ A concise summary providing a high level overview of the data
 
 Downloaded data can also be exported to the local machine either as a flat file or as a FASTA file for any third party sequence analysis tools.The flat file contents can be modified as per user requirements (entire data or specific presets or individual fields). 
 
-```{r export the data}
+```{r export the data,eval=F}
 # Preset dataframe
-# bold.export(bold_df = BCDM_data,
-#             export_type = "preset_df",
-#             presets = 'taxonomy',
-#             cols_for_fas_names = NULL,
-#             export = "file_path_with_intended_name.csv")
+bold.export(bold_df = BCDM_data,
+            export_type = "preset_df",
+            presets = 'taxonomy',
+            cols_for_fas_names = NULL,
+            export = "file_path_with_intended_name.csv")
 
 # Unaligned fasta file
-# bold.export(bold_df = BCDM_data,
-#             export_type = "fas",
-#             cols_for_fas_names = c("bin_uri","genus","species"),
-#             export = "file_path_with_intended_name.fas")
+bold.export(bold_df = BCDM_data,
+            export_type = "fas",
+            cols_for_fas_names = c("bin_uri","genus","species"),
+            export = "file_path_with_intended_name.fas")
 
 ```
 
@@ -144,23 +144,23 @@ Downloaded data can also be exported to the local machine either as a flat file 
 
 Downloaded data be aligned by either *ClustalOmega* or *muscle* algorithms with custom headers for the aligned sequences. The function uses `msa`, `ape`, `muscle` and `Biostrings` internally for the sequence alignment. The packages `muscle`, `msa` and `Biostrings` must be imported prior to using the align function.
 
-```{r align_sequence,message=F,warning=F}
+```{r align_sequence,message=F,warning=F,eval=F}
 
-# bold.apikey('')
+bold.apikey('')
 
-# fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
-#                                     get_by = "dataset_codes",
-#                                     filt_taxonomy = "Manduca",
-#                                     filt_basecount = c(600,670))
+fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
+                                    get_by = "dataset_codes",
+                                    filt_taxonomy = "Manduca",
+                                    filt_basecount = c(600,670))
 
 # Sequence is aligned using ClustalOmega with default settings
-# align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
-#                                     marker = "COI-5P",
-#                                     cols_for_seq_names = c("species","bin_uri"),
-#                                     align_method = "ClustalOmega")
+align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
+                                    marker = "COI-5P",
+                                    cols_for_seq_names = c("species","bin_uri"),
+                                    align_method = "ClustalOmega")
 
 # Confirm the result
-# head(subset(align.test.data,select = c(aligned_seq,msa.seq.name)),5)
+head(subset(align.test.data,select = c(aligned_seq,msa.seq.name)),5)
 
 ```
 
@@ -168,33 +168,33 @@ Downloaded data be aligned by either *ClustalOmega* or *muscle* algorithms with 
 
 The aligned sequences cane also be visualized as a Neighbour joining tree. The function uses the `ape` `nj` function to help create the visualization. All additional arguments available for the `nj` function can be passed on to this function as well.
 
-```{r visualize_tree,message=F,warning=F}
+```{r visualize_tree,message=F,warning=F,eval=F}
 
-# bold.apikey('')
+bold.apikey('')
 
-# fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
-#                                     get_by = "dataset_codes",
-#                                     filt_taxonomy = "Manduca",
-#                                     filt_basecount = c(600,670))
+fetch.test.data.4.align<-bold.fetch(identifiers = "DS-IBOLR24",
+                                    get_by = "dataset_codes",
+                                    filt_taxonomy = "Manduca",
+                                    filt_basecount = c(600,670))
 
 # Sequence is aligned using ClustalOmega with default settings
-# align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
-#                                     marker = "COI-5P",
-#                                     cols_for_seq_names = c("species","bin_uri"),
-#                                     align_method = "ClustalOmega")
+align.test.data<-bold.analyze.align(bold_df = fetch.test.data.4.align,
+                                    marker = "COI-5P",
+                                    cols_for_seq_names = c("species","bin_uri"),
+                                    align_method = "ClustalOmega")
 
 # NJ tree with basic settings
-# test.tree<-bold.analyze.tree(bold_df=align.test.data,
-#                                 dist_model = "K80",
-#                                 clus_method = "njs",
-#                                 tree_plot = TRUE,
-#                                 tree_plot_type = 'p')
-# 
+test.tree<-bold.analyze.tree(bold_df=align.test.data,
+                                dist_model = "K80",
+                                clus_method = "njs",
+                                tree_plot = TRUE,
+                                tree_plot_type = 'p')
+ 
 # The phylo object which can be used for further customization of the plot
-# test.tree$data_for_plot
-# 
+test.tree$data_for_plot
+ 
 # base frequencies
-# test.tree$base_freq
+test.tree$base_freq
 
 ```
 
@@ -202,33 +202,33 @@ The aligned sequences cane also be visualized as a Neighbour joining tree. The f
 
 Basic biodiversity analyses (preston plots, taxa richness estimation, shannon diversity and beta diversity) of the downloaded data can be carried out at any level of taxonomic hierarchy and geographic category. The function uses `vegan`, `BAT` and `betapart` internally. The result also provides an `occurrence matrix` that can be used for other ecological analyses.
 
-```{r biodiversity_analysis,message=F,warning=F}
+```{r biodiversity_analysis,message=F,warning=F,eval=F}
 
-# bold.apikey('')
-# fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
-#                                get_by = "dataset_codes")
+bold.apikey('')
+fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
+                               get_by = "dataset_codes")
 
 # 1. Generic richness
-# test.richness.diversity<-bold.analyze.diversity(bold_df=fetch.test.data,
-#                                                    taxon_rank = "genus",
-#                                                     site_type = "locations",
-#                                                    location_type = "country.ocean",
-#                                                    diversity_profile = "richness")
+test.richness.diversity<-bold.analyze.diversity(bold_df=fetch.test.data,
+                                                   taxon_rank = "genus",
+                                                    site_type = "locations",
+                                                   location_type = "country.ocean",
+                                                   diversity_profile = "richness")
 
 # View the richness estimator results
-# View(test.richness.diversity$richness)
+View(test.richness.diversity$richness)
 
 # Occurrence matrix (site X species)
-# test.richness.diversity$comm.matrix
+test.richness.diversity$comm.matrix
 
 # 2. Preston plots
-# test.richness.diversity2<-bold.analyze.diversity(bold_df=fetch.test.data,
-#                                                  taxon_rank = "genus",
-#                                                  site_type = "locations",
-#                                                  location_type = "country.ocean",
-#                                                  diversity_profile = "preston")
-# View the preston plot
-# test.richness.diversity2$preston.plot
+test.richness.diversity2<-bold.analyze.diversity(bold_df=fetch.test.data,
+                                                 taxon_rank = "genus",
+                                                 site_type = "locations",
+                                                 location_type = "country.ocean",
+                                                 diversity_profile = "preston")
+View the preston plot
+test.richness.diversity2$preston.plot
 
 ```
 
@@ -237,17 +237,17 @@ Basic biodiversity analyses (preston plots, taxa richness estimation, shannon di
 
 The package also offers functionality to generate occurrence maps of the downloaded data at different scales (Complete geographic extent of the downloaded data, country specific occurrence and a bounding box based occurrenc map). The result also provides an `sf` object that can be used for other spatial analyses.
 
-```{r occurrence_maps,message=F,warning=F}
+```{r occurrence_maps,message=F,warning=F,eval=F}
 
-# bold.apikey('')
-# fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
-#                                get_by = "dataset_codes")
+bold.apikey('')
+fetch.test.data<-bold.fetch(identifiers = "DS-IBOLR24",
+                               get_by = "dataset_codes")
 
 # All occurrences
-# test.map<-bold.analyze.map(fetch.test.data)
+test.map<-bold.analyze.map(fetch.test.data)
 
 # Specific country
-# test.map.brazil=bold.analyze.map(fetch.test.data,country = "Australia")
+test.map.brazil=bold.analyze.map(fetch.test.data,country = "Australia")
 
 ```
 
