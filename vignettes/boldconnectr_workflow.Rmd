@@ -43,8 +43,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r install,message=F,warning=F,echo=FALSE}
 # install.packages("devtools")
-# devtools::install_github("boldsystems-central/BOLDconnectR")
-# install.packages('BOLDconnectR')
+devtools::install_github("boldsystems-central/BOLDconnectR")
 library(BOLDconnectR)
 ```
 
@@ -84,12 +83,12 @@ The example dataset `test.data2` is used here for demonstrating the BOLDconnectR
 # Search
 data_ids <- bold.public.search(taxonomy = list("Streptocephalus"))
 # Fetch
-streptocephalus_data <- bold.fetch(
-  get_by = "processid",
-  identifiers = data_ids$processid,
-  filt_basecount = c(500, 670)
-)
-# streptocephalus_data <- data("test.data2")
+# streptocephalus_data <- bold.fetch(
+#   get_by = "processid",
+#   identifiers = data_ids$processid,
+#   filt_basecount = c(500, 670)
+# )
+streptocephalus_data <- test.data2
 
 DT::datatable((head(streptocephalus_data, 10)))
 ```
