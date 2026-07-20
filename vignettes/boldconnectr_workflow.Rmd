@@ -35,15 +35,15 @@ Specifically, the workflow will show:
 
 **BOLDconnectR** can be installed either by `install.packages` (for a stable CRAN version) or the devtools package (for the development version from GitHub)
 
-```{r setup, include=FALSE}
+```{r setup1, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Installation and Import
 
-```{r install,message=F,warning=F,echo=FALSE}
+```{r setup2,message=F,warning=F,echo=FALSE}
 # install.packages("devtools")
-devtools::install_github("boldsystems-central/BOLDconnectR")
+# devtools::install_github("boldsystems-central/BOLDconnectR")
 library(BOLDconnectR)
 ```
 
