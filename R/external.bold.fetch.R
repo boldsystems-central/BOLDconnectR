@@ -194,7 +194,7 @@ bold.fetch <- function(get_by,
   )
   # If the user wants specific fields from the data.
   if (!is.null(cols)) {
-    if (!all(cols %in% bold_fields$fieldbold_fields$field)) {
+    if (!all(cols %in% bold_fields$field)) {
       stop(
         "Names provided in the 'cols' argument must match with the names in the 'field' column that is available using the bold.fields.info function."
       )
