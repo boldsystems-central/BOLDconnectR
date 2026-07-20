@@ -58,6 +58,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 }
 
 BiocManager::install(c("msa", "Biostrings", "muscle"))
+
 library(msa)
 library(Biostrings)
 library(muscle)
@@ -68,12 +69,16 @@ library(muscle)
 `bold.fetch()` requires an API key to retrieve the BCDM data.
 
 ```{r api-key, eval=T,include=FALSE}
-# bold.apikey("00000000-0000-0000-0000-000000000000")
+# bold.apikey("")
 ```
+
+#### Please note
+
+The example dataset `test.data2` is used here for demonstrating the BOLDconnectR functionality due to the API key requirement for downloading data. The dataset represents a snapshot of public BOLD records obtained from the BOLD public data package released on June 30, 2026 (<https://doi.org/10.5883/DP-BOLD_Public.30-Jun-2026>). When reproducing this workflow at a later date using an API key, the query may return a different number of records because the underlying BOLD database is continuously updated.
 
 ## 1. Searching and fetching
 
-`bold.public.search()` is used to retrieve public record IDs. `bold.full.search` can also be used instead in cases where user has private data stored. The `ids` returned using the `bold.public.search` are used in the `bold.fetch` to get the BCDM data. Here the search is also filtered based on the amplicon basepair number
+`bold.public.search()` is used to retrieve public record IDs. `bold.full.search` can also be used instead in cases where user has private data stored. The `ids` returned using the `bold.public.search` are used in the `bold.fetch` to get the BCDM data. Here the search is also filtered based on the amplicon basepair number (`bold.fetch` *not used here as it requires an API key. A test dataset* `test.data2` *used instead*).
 
 ```{r fetch-data, message=F,warning=F,eval=T}
 # Search
@@ -84,6 +89,7 @@ streptocephalus_data <- bold.fetch(
   identifiers = data_ids$processid,
   filt_basecount = c(500, 670)
 )
+# streptocephalus_data <- data("test.data2")
 
 DT::datatable((head(streptocephalus_data, 10)))
 ```
@@ -124,7 +130,6 @@ DT::datatable(
   seq_align[, c("aligned_seq", "msa.seq.name")],
   options = list(pageLength = 10, scrollX = TRUE)
 )
-
 ```
 
 ### 4b. Neighbor Joining Tree
@@ -188,6 +193,8 @@ bold.export(
 )
 ```
 
+## Additional notes
+
 In addition, several analysis functions return commonly used R data structures as part of their outputs, including an `occurrence matrix`, `sf` object, `DNABin` object containing unaligned sequences, and a `phylo` object generated from aligned sequences. These outputs can be readily integrated into workflows from other R packages for downstream analyses (e.g., using an occurrence matrix for ecological or biodiversity analyses with packages such as `vegan` and `betapart`).
 
-For more/detailed information, please visit (<https://github.com/boldsystems-central/BOLDconnectR/tree/main>) or use the `help` function in R.
+For more/detailed information, please visit (<https://github.com/boldsystems-central/BOLDconnectR>) or use the `help` function in R.
