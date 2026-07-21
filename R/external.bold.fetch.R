@@ -192,7 +192,7 @@ bold.fetch <- function(get_by,
     altitude = filt_altitude,
     depth = filt_depth
   )
-  # If the user wants specific fields from the data.
+  # If the user wants specific columns from the data.
   if (!is.null(cols)) {
     if (!all(cols %in% bold_fields$field)) {
       stop(
