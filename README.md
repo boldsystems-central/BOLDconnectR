@@ -34,6 +34,10 @@ version or using the `devtools::install_github` or `pak::pak` functions from the
 BOLDConnectR).
 
 ``` r
+## CRAN install
+# install.packages('BOLDconnectR')
+
+## GitHub install
 # devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
 # OR
 # pak::pak("boldsystems-central/BOLDconnectR")
