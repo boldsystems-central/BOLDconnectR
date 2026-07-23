@@ -4,7 +4,7 @@
 
 * Added a new BOLDconnectR workflow vignette.
 * Updated `bold.analyze.tree` to include the `ape::DNAbin` object in the returned results.
-* Added another test data in the BCDM format
+* Added another test data in the BCDM format.
 
 ## Improvements
 
