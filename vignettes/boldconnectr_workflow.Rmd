@@ -43,7 +43,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r setup2,message=F,warning=F,echo=FALSE}
 # install.packages("devtools")
-# devtools::install_github("boldsystems-central/BOLDconnectR")
+#devtools::install_github("boldsystems-central/BOLDconnectR")
 library(BOLDconnectR)
 ```
 

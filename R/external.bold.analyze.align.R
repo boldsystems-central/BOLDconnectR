@@ -133,9 +133,10 @@ bold.analyze.align <- function(bold_df,
   )
   # Multiple sequence alignment result joined to the original fetched data
   # #1. DNAStringset object 'msa_dna_string_obj' is converted into a dataframe
-  stringset.2.df <- msa_dna_string_obj %>%
-    data.frame(.) %>%
-    dplyr::rename("aligned_seq" = ".")
+  stringset.2.df <- data.frame(
+    aligned_seq = as.character(msa_dna_string_obj),
+    stringsAsFactors = FALSE
+  )
   # 2. The processid as rownames are converted into a column
   stringset.2.df$msa.seq.name <- names(msa_dna_string_obj)
   # 3. Rownames are deleted
