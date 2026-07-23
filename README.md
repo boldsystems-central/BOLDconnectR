@@ -29,13 +29,14 @@ More details on *Suggested packages* provided below.
 ## Installation
 
 The package can be installed either by `install.packages()` for the CRAN
-version or using the `devtools::install_github` function from the
-`devtools` package in R (which needs to be installed before installing
+version or using the `devtools::install_github` or `pak::pak` functions from the
+`devtools`/ `pak` packages in R (which need to be installed before installing
 BOLDConnectR).
 
 ``` r
-
 # devtools::install_github("https://github.com/boldsystems-central/BOLDconnectR")
+# OR
+# pak::pak("boldsystems-central/BOLDconnectR")
 ```
 
 ``` r
