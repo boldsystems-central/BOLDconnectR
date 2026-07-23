@@ -18,7 +18,8 @@
 
 * Added support for the `taxon.name` argument in `bold.analyze.diversity`.
 * Added error handling for empty data frames in `bold.analyze.diversity`.
-* Updated the start and end date error message in `bold.full.search` 
+* Updated the start and end date error message in `bold.full.search`
+* Fixed sequence alignment output conversion to improve compatibility with updated Bioconductor packages.
 
 ## Miscellaneous
 
