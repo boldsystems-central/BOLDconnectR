@@ -11,6 +11,6 @@
 #' contains specimen, taxonomic, geographic, collection, and sequence metadata.
 #' Fields correspond to the official BCDM field definitions (<https://github.com/boldsystems-central/BCDM>)
 #'
-#' @source \url{https://doi.org/10.5883/DP-BOLD_Public.30-Jun-2026}
+#' @source \doi{10.5883/DP-BOLD_Public.30-Jun-2026}
 #'
 "test.data2"

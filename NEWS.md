@@ -13,6 +13,7 @@
 * Optimized `bold.fetch` by ensuring `bold.bcdm.fields` is called only once per run.
 * Replaced `dcast()` with `pivot_wider()` in `gen.comm.mat`.
 * Reformatted code using `styler`.
+* Added a Barcode Core Data Model (BCDM) test data set named `test.data2` 
 
 ## Bug fixes
 
