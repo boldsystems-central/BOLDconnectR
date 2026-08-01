@@ -154,14 +154,12 @@ counts_query <- function(preprocessed_query) {
   result[["counts_df"]] <- query_search_counts_df
   # For displaying number of specimen records available
   # Check for 0 observations. This is put to check any misspellings or no data availability condition in the multi parameter queries which if not dealt with will return the entire dataset of the correctly spelled/available data query terms. Ex. Panthera leo + India vs Panthera leoss + India; the former will correctly query using 'and' logic while the latter due to a misspelling would retrieve all the data pertaining to India.
-  if (any(result$counts_df[["observations"]] == 0, na.rm = TRUE)) {
-    return(NULL)
-  } else if (any(result$counts_df[["observations"]] > 1000000, na.rm = TRUE)) {
-    stop("Search has more than 1M records", call. = FALSE)
-  } else {
-    return(result)
-  }
+  if (any(result$counts_df[["observations"]] == 0, na.rm = TRUE)) return(NULL)
+
+  return(result)
+
 }
+
 # Query terms validation (correct placement of terms)
 parameter_validation <- function(df_counts, non_null_args) {
   df_counts <- df_counts$counts_df

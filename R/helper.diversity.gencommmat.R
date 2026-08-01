@@ -171,16 +171,21 @@ gen.comm.mat <- function(
   }
   row_var <- all.vars(dcast.formula)[1]
   col_var <- all.vars(dcast.formula)[2]
+
   long.2.wide.coversn <- function(df, dcast.formula) {
+
     row_var <- all.vars(dcast.formula)[1]
     col_var <- all.vars(dcast.formula)[2]
+
     df %>%
+      sf::st_drop_geometry() %>%
       dplyr::count(
         !!rlang::sym(row_var),
         !!rlang::sym(col_var),
         name = "n"
       ) %>%
       tidyr::pivot_wider(
+        id_cols = !!rlang::sym(row_var),
         names_from = !!rlang::sym(col_var),
         values_from = n,
         values_fill = 0
