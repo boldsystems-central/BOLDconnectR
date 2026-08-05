@@ -51,13 +51,7 @@ library(BOLDconnectR)
 
 The sequence alignment and NJ tree functions require additional Bioconductor based packages to be installed and imported.
 
-```{r suggests,message=F,warning=F,echo=FALSE,eval=F}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-
-BiocManager::install(c("msa", "Biostrings", "muscle"))
-
+```{r suggests,message=F,warning=F,echo=FALSE,eval=T}
 library(msa)
 library(Biostrings)
 library(muscle)
@@ -102,7 +96,6 @@ bcdm_summary <- bold.data.summarize(
   bold_df = streptocephalus_data,
   summary_type = "concise_summary"
 )
-
 DT::datatable(bcdm_summary$concise_summary)
 ```
 
