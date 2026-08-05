@@ -51,10 +51,18 @@ library(BOLDconnectR)
 
 The sequence alignment and NJ tree functions require additional Bioconductor based packages to be installed and imported.
 
-```{r suggests,message=F,warning=F,echo=FALSE,eval=T}
-library(msa)
-library(Biostrings)
-library(muscle)
+```{r suggests,message=F,warning=F,echo=FALSE, quietly = TRUE}
+seq_alignment_pkgs <- all(
+  requireNamespace("msa", quietly = TRUE),
+  requireNamespace("Biostrings", quietly = TRUE),
+  requireNamespace("muscle", quietly = TRUE)
+)
+
+if (seq_alignment_pkgs) {
+  library(msa)
+  library(Biostrings)
+  library(muscle)
+}
 ```
 
 ## API key
@@ -111,7 +119,7 @@ map_res <- bold.analyze.map(bold_df = streptocephalus_data)
 
 A `muscle` algorithm is run on the *Streptocephalus* sequence data to get a multiple sequence alignment. The headers for each sequence are customized so as to contain `processid` and `bin_uri` of each sequence. **Please note:** the library `Biostrings`, `muscle` and `msa` need to be imported in the R session prior to sequence alignment.
 
-```{r align-data, message=F,warning=F}
+```{r align-data, message=F,warning=F,eval=seq_alignment_pkgs}
 seq_align <- bold.analyze.align(
   bold_df = streptocephalus_data,
   marker = "COI-5P",
@@ -128,7 +136,7 @@ DT::datatable(
 
 The aligned sequences are then visualized via Neighbor Joining Tree. The output from `bold.analyze.align` is directly used for the visualization. **Please note:** the library `Biostrings`, `muscle` and `msa` need to be imported in the R session prior to sequence alignment
 
-```{r tree-analysis,message=F,warning=F}
+```{r tree-analysis,message=F,warning=F,eval=seq_alignment_pkgs}
 seq_tree <- bold.analyze.tree(
   bold_df = seq_align,
   dist_model = "K80",
