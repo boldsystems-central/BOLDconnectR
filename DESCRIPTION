@@ -1,7 +1,7 @@
 Package: BOLDconnectR
 Title: Retrieve, Transform and Analyze the Barcode of Life Data Systems
     Data
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person("Sameer", "Padhye", , "spadhye@uoguelph.ca", role = c("aut", "cre")),
     person("Liliana", "Ballesteros-Mejia", , "cballest@uoguelph.ca", role = "aut"),
