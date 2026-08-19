@@ -311,6 +311,4 @@ Transformation
 
 #### Citation
 
-Padhye SM, Ballesteros-Mejia CL,Agda TJA, Agda JRA, Ratnasingham S.
-BOLDconnectR: An R package for streamlined retrieval, transformation and
-analysis of BOLD DNA barcode data.(Submitted to *Plos ONE*)
+Padhye, S. M., Ballesteros-Mejia, L., Agda, J., Agda, J., Hebert, P. D., & Ratnasingham, S. (2026). BOLDconnectR: An R package for streamlined retrieval, transformation, and analysis of DNA barcode data on BOLD. PloS one, 21(8), e0355496 (https://doi.org/10.1371/journal.pone.0355496)
