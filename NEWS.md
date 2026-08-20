@@ -28,3 +28,10 @@
 
 
 
+# BOLDconnectR 1.0.2
+
+## Bug fixes
+
+* Fixed a bug that was giving an error for the grids argument in `bold.analyze.diversity`.
+* Fixed a bug that was giving an error for query terms having large number of records in `bold.public.search`
+* Fixed the vignette that was giving issues on some systems
